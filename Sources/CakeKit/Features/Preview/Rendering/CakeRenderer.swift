@@ -5,8 +5,6 @@ public struct CakeRenderer: LogRenderer {
     public init() {}
 
     private let minimumRightMargin = 260.0
-    private let legendOffsetFromLog = 170.0
-    private let legendTextOffset = 36.0
     private let legendTrailingPadding = 24.0
 
     nonisolated(unsafe) private static let grainSizeWidthMapping: [USGSGrainSize: Double] = [
@@ -135,7 +133,7 @@ public struct CakeRenderer: LogRenderer {
             legend: legend,
             ticks: ticks,
             baseFontSize: project.settings.baseFontSize,
-            showsGrid: false,
+            showsGrid: project.settings.showGrid,
             symbolScale: project.settings.symbolScale,
             depthScaleUnit: project.settings.depthScaleUnit
         )
@@ -148,8 +146,8 @@ public struct CakeRenderer: LogRenderer {
             .map { measuredTextWidth($0.label, fontSize: labelFontSize, bold: false) }
             .max() ?? 0
 
-        let titleRequired = legendOffsetFromLog + titleWidth + legendTrailingPadding
-        let labelsRequired = legendOffsetFromLog + legendTextOffset + maxLabelWidth + legendTrailingPadding
+        let titleRequired = SceneLayout.legendOffsetFromLog + titleWidth + legendTrailingPadding
+        let labelsRequired = SceneLayout.legendOffsetFromLog + SceneLayout.legendTextOffset + maxLabelWidth + legendTrailingPadding
         return max(titleRequired, labelsRequired)
     }
 

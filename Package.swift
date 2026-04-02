@@ -21,7 +21,11 @@ let package = Package(
         .executableTarget(
             name: "CakeApp",
             dependencies: ["CakeKit"],
-            path: "Sources/CakeApp"
+            path: "Sources/CakeApp",
+            resources: [
+                .copy("Resources/Assets.xcassets"),
+                .copy("Resources/Cake.icns")
+            ]
         ),
         .testTarget(
             name: "CakeKitTests",

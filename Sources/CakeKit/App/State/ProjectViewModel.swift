@@ -1,7 +1,5 @@
-import AppKit
 import Combine
 import Foundation
-import UniformTypeIdentifiers
 
 @MainActor
 public final class ProjectViewModel: ObservableObject {
@@ -19,6 +17,7 @@ public final class ProjectViewModel: ObservableObject {
     private let openProjectUseCase: OpenProjectUseCase
     private let saveProjectUseCase: SaveProjectUseCase
     private let exportProjectUseCase: ExportProjectUseCase
+    private let fileDialogService: FileDialoging
     private let addUnitUseCase = AddUnitUseCase()
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
     private var cancellables = Set<AnyCancellable>()
@@ -27,13 +26,15 @@ public final class ProjectViewModel: ObservableObject {
         project: Project = .sample,
         renderer: LogRenderer = CakeRenderer(),
         store: ProjectStore = JSONProjectStore(),
-        exporter: Exporter = CompositeExporter()
+        exporter: Exporter = CompositeExporter(),
+        fileDialogService: FileDialoging = AppKitFileDialogService()
     ) {
         self.project = project
         self.renderer = renderer
         self.openProjectUseCase = OpenProjectUseCase(store: store)
         self.saveProjectUseCase = SaveProjectUseCase(store: store)
         self.exportProjectUseCase = ExportProjectUseCase(exporter: exporter)
+        self.fileDialogService = fileDialogService
         self.scene = renderer.makeScene(project: project)
         self.selectedUnitID = project.units.first?.id
 
@@ -86,48 +87,29 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func openProjectViaPanel() {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.json]
-        panel.canChooseDirectories = false
-        panel.canChooseFiles = true
-        panel.allowsMultipleSelection = false
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        openProject(url: url)
+        guard let url = fileDialogService.chooseProjectToOpen() else { return }
+        openProject(at: url)
     }
 
     public func saveProjectViaPanelIfNeeded() {
         if let existingURL = projectURL {
-            saveProject(url: existingURL)
+            saveProject(at: existingURL)
             return
         }
-        let panel = NSSavePanel()
-        panel.allowedContentTypes = [.json]
-        panel.nameFieldStringValue = "cake-project.json"
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        saveProject(url: url)
+        guard let url = fileDialogService.chooseProjectToSave() else { return }
+        saveProject(at: url)
     }
 
     public func exportViaPanel(format: ExportFormat, dpi: Double = 300) {
-        let panel = NSSavePanel()
-        switch format {
-        case .svg:
-            if let svg = UTType(filenameExtension: "svg") {
-                panel.allowedContentTypes = [svg]
-            }
-            panel.nameFieldStringValue = "cake-export.svg"
-        case .jpg:
-            panel.allowedContentTypes = [.jpeg]
-            panel.nameFieldStringValue = "cake-export.jpg"
-        }
-        guard panel.runModal() == .OK, let url = panel.url else { return }
-        export(url: url, format: format, dpi: dpi)
+        guard let url = fileDialogService.chooseExportDestination(format: format) else { return }
+        exportProject(to: url, format: format, dpi: dpi)
     }
 
     public func clearError() {
         errorMessage = nil
     }
 
-    private func openProject(url: URL) {
+    public func openProject(at url: URL) {
         do {
             let loaded = try openProjectUseCase.execute(url: url)
             project = loaded
@@ -140,7 +122,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func saveProject(url: URL) {
+    public func saveProject(at url: URL) {
         do {
             let saved = try saveProjectUseCase.execute(project: project, url: url)
             project = saved
@@ -152,7 +134,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func export(url: URL, format: ExportFormat, dpi: Double) {
+    public func exportProject(to url: URL, format: ExportFormat, dpi: Double = 300) {
         do {
             try exportProjectUseCase.execute(scene: scene, url: url, format: format, dpi: dpi)
             statusMessage = "Exported \(url.lastPathComponent)"

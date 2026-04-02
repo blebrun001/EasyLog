@@ -420,7 +420,7 @@ public struct ProjectSettings: Codable, Hashable {
         self.verticalScale = verticalScale
         self.pageSize = pageSize
         self.baseFontSize = baseFontSize
-        self.showGrid = false
+        self.showGrid = showGrid
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
     }
@@ -439,7 +439,7 @@ public struct ProjectSettings: Codable, Hashable {
         verticalScale = try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25
         pageSize = try container.decodeIfPresent(PageSizePreset.self, forKey: .pageSize) ?? .a4Portrait
         baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
-        showGrid = false
+        showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? false
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
         depthScaleUnit = try container.decodeIfPresent(DepthScaleUnit.self, forKey: .depthScaleUnit) ?? .meter
     }
@@ -449,7 +449,7 @@ public struct ProjectSettings: Codable, Hashable {
         try container.encode(verticalScale, forKey: .verticalScale)
         try container.encode(pageSize, forKey: .pageSize)
         try container.encode(baseFontSize, forKey: .baseFontSize)
-        try container.encode(false, forKey: .showGrid)
+        try container.encode(showGrid, forKey: .showGrid)
         try container.encode(symbolScale, forKey: .symbolScale)
         try container.encode(depthScaleUnit, forKey: .depthScaleUnit)
     }

@@ -42,3 +42,34 @@ func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
     #expect(decoded.symbolScale == 1.0)
     #expect(decoded.depthScaleUnit == .meter)
 }
+
+@Test
+func loadingMissingProjectFileThrowsFileError() {
+    let store = JSONProjectStore()
+    let missing = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "cake-missing-\(UUID().uuidString).json")
+
+    #expect(throws: (any Error).self) {
+        _ = try store.load(url: missing)
+    }
+}
+
+@Test
+func loadingInvalidProjectDataThrowsInvalidDataError() throws {
+    let store = JSONProjectStore()
+    let tempFile = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "cake-invalid-\(UUID().uuidString).json")
+    try Data("not-json".utf8).write(to: tempFile, options: .atomic)
+
+    #expect(throws: ProjectStoreError.self) {
+        _ = try store.load(url: tempFile)
+    }
+}
+
+@Test
+func projectSettingsShowGridRoundTripPersistsValue() throws {
+    let settings = ProjectSettings(showGrid: true)
+    let data = try JSONEncoder().encode(settings)
+    let decoded = try JSONDecoder().decode(ProjectSettings.self, from: data)
+    #expect(decoded.showGrid == true)
+}

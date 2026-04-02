@@ -171,6 +171,18 @@ func sceneCarriesConfiguredDepthScaleUnit() {
 }
 
 @Test
+func sceneCarriesConfiguredGridVisibility() {
+    let project = Project(
+        settings: ProjectSettings(showGrid: true),
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.showsGrid == true)
+}
+
+@Test
 func rendererUsesNaturalCanvasSizeWithoutPresetMinimums() {
     let projectLetter = Project(
         settings: ProjectSettings(verticalScale: 25, pageSize: .letterPortrait),

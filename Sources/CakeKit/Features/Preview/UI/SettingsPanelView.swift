@@ -40,6 +40,8 @@ public struct SettingsPanelView: View {
                     .pickerStyle(.menu)
                     Spacer()
                 }
+
+                Toggle("Show Grid", isOn: $settings.showGrid)
             }
             .padding(.vertical, 4)
         }

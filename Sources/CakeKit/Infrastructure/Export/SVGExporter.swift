@@ -16,6 +16,24 @@ public struct SVGExporter: SVGExporting {
           <rect width="100%" height="100%" fill="#ffffff"/>
         """
 
+        if scene.showsGrid {
+            let startX = scene.logColumnRect.x
+            let endX = scene.logColumnRect.x + scene.logColumnRect.width
+            svg += """
+
+              <g id="grid" stroke="#808080" stroke-opacity="0.12" fill="none" stroke-width="0.6">
+            """
+            for tick in scene.ticks {
+                svg += """
+
+                  <line x1="\(fmt(startX - 30))" y1="\(fmt(tick.y))" x2="\(fmt(endX + 20))" y2="\(fmt(tick.y))"/>
+                """
+            }
+            svg += """
+              </g>
+            """
+        }
+
         svg += "\n  <g id=\"units\">"
         for unit in scene.units {
             let style = SymbologyLibrary.style(forLithology: unit.lithology)
@@ -56,16 +74,23 @@ public struct SVGExporter: SVGExporting {
 
         svg += "\n  <g id=\"labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(scene.baseFontSize))\" fill=\"#111111\">"
         for unit in scene.units {
-            let textY = unit.rect.y + unit.rect.height / 2 + 4
-            let escaped = xmlEscape("\(unit.name) (\(fmt(unit.thickness)) m)")
+            let textY = unit.rect.y + unit.rect.height / 2 + SceneLayout.unitPrimaryLabelYOffset + 10
+            let escaped = xmlEscape(SceneLayout.unitPrimaryLabel(unit))
             svg += """
 
-            <text x="\(fmt(unit.rect.x + unit.rect.width + 14))" y="\(fmt(textY))">\(escaped)</text>
+            <text x="\(fmt(unit.rect.x + unit.rect.width + SceneLayout.unitLabelOffsetX))" y="\(fmt(textY))">\(escaped)</text>
             """
+            if let grainSizeLabel = SceneLayout.unitSecondaryLabel(unit) {
+                let grainY = unit.rect.y + unit.rect.height / 2 + SceneLayout.unitSecondaryLabelYOffset + 10
+                svg += """
+
+                <text x="\(fmt(unit.rect.x + unit.rect.width + SceneLayout.unitLabelOffsetX))" y="\(fmt(grainY))" font-size="\(fmt(scene.baseFontSize - 2))">\(xmlEscape(grainSizeLabel))</text>
+                """
+            }
         }
         svg += "\n  </g>"
 
-        let axisX = scene.logColumnRect.x - 28
+        let axisX = SceneLayout.scaleAxisX(scene: scene)
         svg += """
 
           <g id="scale" stroke="#111111" fill="none" stroke-width="1">
@@ -83,7 +108,7 @@ public struct SVGExporter: SVGExporting {
         for tick in scene.ticks {
             svg += """
 
-            <text x="\(fmt(axisX - 62))" y="\(fmt(tick.y + 4))">\(formattedScaleDepth(tick.depth, unit: scene.depthScaleUnit))</text>
+            <text x="\(fmt(axisX - SceneLayout.scaleLabelOffsetX))" y="\(fmt(tick.y + 4))">\(SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit))</text>
             """
         }
         svg += """
@@ -92,8 +117,9 @@ public struct SVGExporter: SVGExporting {
           </g>
         """
 
-        let legendX = scene.logColumnRect.x + scene.logColumnRect.width + 170
-        var legendY = scene.logColumnRect.y + 10
+        let legendOrigin = SceneLayout.legendOrigin(scene: scene)
+        let legendX = legendOrigin.x
+        var legendY = legendOrigin.y
         svg += """
 
           <g id="legend">
@@ -102,18 +128,18 @@ public struct SVGExporter: SVGExporting {
         for item in scene.legend {
             svg += """
 
-              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="28" height="18" fill="#ffffff"/>
+              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="#ffffff"/>
             """
             if let pointSymbol = item.pointSymbol {
                 svg += "\n\(pointLegendElement(symbol: pointSymbol, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
             } else {
-                svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"28\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSCodes: usgsPatternByCode)))\"/>"
+                svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSCodes: usgsPatternByCode)))\"/>"
             }
             svg += """
-              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="28" height="18" fill="none" stroke="#111111" stroke-width="1"/>
-              <text x="\(fmt(legendX + 36))" y="\(fmt(legendY + 13))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize - 1))">\(xmlEscape(item.label))</text>
+              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="none" stroke="#111111" stroke-width="1"/>
+              <text x="\(fmt(legendX + SceneLayout.legendTextOffset))" y="\(fmt(legendY + 13))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize - 1))">\(xmlEscape(item.label))</text>
             """
-            legendY += 26
+            legendY += SceneLayout.legendRowHeight
         }
         svg += "\n  </g>\n</svg>\n"
 
@@ -250,13 +276,4 @@ public struct SVGExporter: SVGExporting {
         return String(format: "%.3f", value)
     }
 
-    private func formattedScaleDepth(_ depthInMeters: Double, unit: DepthScaleUnit) -> String {
-        let scaled = depthInMeters * unit.multiplierFromMeters
-        switch unit {
-        case .meter:
-            return fmt(scaled)
-        case .centimeter, .millimeter:
-            return String(Int(scaled.rounded()))
-        }
-    }
 }

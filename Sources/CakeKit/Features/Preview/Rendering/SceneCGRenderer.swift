@@ -92,19 +92,24 @@ public enum SceneCGRenderer {
             context.setLineWidth(1.2)
             context.stroke(rect)
 
-            let label = "\(unit.name) (\(format(unit.thickness)) m)"
+            let label = SceneLayout.unitPrimaryLabel(unit)
             drawText(
                 label,
-                at: CGPoint(x: rect.maxX + 14, y: rect.midY - 6),
+                at: CGPoint(
+                    x: rect.maxX + SceneLayout.unitLabelOffsetX,
+                    y: rect.midY + SceneLayout.unitPrimaryLabelYOffset
+                ),
                 size: scene.baseFontSize,
                 context: context
             )
-            
-            // Draw grain size label if available
-            if let grainSizeLabel = unit.grainSize?.label {
+
+            if let grainSizeLabel = SceneLayout.unitSecondaryLabel(unit) {
                 drawText(
                     grainSizeLabel,
-                    at: CGPoint(x: rect.maxX + 14, y: rect.midY + 8), // Positioned just below the main label
+                    at: CGPoint(
+                        x: rect.maxX + SceneLayout.unitLabelOffsetX,
+                        y: rect.midY + SceneLayout.unitSecondaryLabelYOffset
+                    ),
                     size: scene.baseFontSize - 2,
                     context: context,
                     bold: false
@@ -114,7 +119,7 @@ public enum SceneCGRenderer {
     }
 
     private static func drawScale(scene: RenderScene, in context: CGContext) {
-        let axisX = scene.logColumnRect.x - 28
+        let axisX = SceneLayout.scaleAxisX(scene: scene)
         context.setStrokeColor(NSColor.black.cgColor)
         context.setLineWidth(1.0)
         context.move(to: CGPoint(x: axisX, y: scene.logColumnRect.y))
@@ -126,30 +131,39 @@ public enum SceneCGRenderer {
             context.addLine(to: CGPoint(x: axisX + 6, y: tick.y))
             context.strokePath()
             drawText(
-                formatScaleDepth(tick.depth, unit: scene.depthScaleUnit),
-                at: CGPoint(x: axisX - 62, y: tick.y - 5),
+                SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit),
+                at: CGPoint(x: axisX - SceneLayout.scaleLabelOffsetX, y: tick.y - 5),
                 size: scene.baseFontSize - 1,
                 context: context
             )
         }
         drawText(
             "Depth (\(scene.depthScaleUnit.symbol))",
-            at: CGPoint(x: axisX - 66, y: scene.logColumnRect.y - 24),
+            at: CGPoint(
+                x: axisX - SceneLayout.depthLabelOffsetX,
+                y: scene.logColumnRect.y - SceneLayout.depthLabelOffsetY
+            ),
             size: scene.baseFontSize,
             context: context
         )
     }
 
     private static func drawLegend(scene: RenderScene, in context: CGContext) {
-        let originX = scene.logColumnRect.x + scene.logColumnRect.width + 170
-        var originY = scene.logColumnRect.y + 10
+        let legendOrigin = SceneLayout.legendOrigin(scene: scene)
+        let originX = legendOrigin.x
+        var originY = legendOrigin.y
         drawText("Legend", at: CGPoint(x: originX, y: originY - 22), size: scene.baseFontSize + 1, context: context, bold: true)
 
         for item in scene.legend {
-            let swatch = CGRect(x: originX, y: originY, width: 28, height: 18)
+            let swatch = CGRect(x: originX, y: originY, width: SceneLayout.legendSwatchWidth, height: 18)
             drawLegendSwatch(item: item, in: swatch, context: context, symbolScale: scene.symbolScale)
-            drawText(item.label, at: CGPoint(x: originX + 36, y: originY + 3), size: scene.baseFontSize - 1, context: context)
-            originY += 26
+            drawText(
+                item.label,
+                at: CGPoint(x: originX + SceneLayout.legendTextOffset, y: originY + 3),
+                size: scene.baseFontSize - 1,
+                context: context
+            )
+            originY += SceneLayout.legendRowHeight
         }
     }
 
@@ -263,16 +277,6 @@ public enum SceneCGRenderer {
         context.restoreGState()
     }
 
-    private static func formatScaleDepth(_ depthInMeters: Double, unit: DepthScaleUnit) -> String {
-        let scaled = depthInMeters * unit.multiplierFromMeters
-        switch unit {
-        case .meter:
-            return format(scaled)
-        case .centimeter, .millimeter:
-            return String(Int(scaled.rounded()))
-        }
-    }
-
     private static func drawDiagonal(spacing: CGFloat, rect: CGRect, context: CGContext, forward: Bool) {
         context.setLineWidth(0.8)
         let extent = rect.width + rect.height
@@ -362,10 +366,4 @@ public enum SceneCGRenderer {
         context.strokePath()
     }
 
-    private static func format(_ value: Double) -> String {
-        if value.rounded() == value {
-            return String(Int(value))
-        }
-        return String(format: "%.2f", value)
-    }
 }

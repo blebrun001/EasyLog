@@ -88,4 +88,4 @@ Legacy JSON files that include removed custom field structures (for example `cus
 
 ## Example Project
 
-See [Examples/sample-project.json](/Users/brice/Documents/Iphes/Cake/Examples/sample-project.json).
+See [Examples/sample-project.json](Examples/sample-project.json).
