@@ -72,50 +72,69 @@ public struct UnitFormView: View {
             .background(.quaternary.opacity(0.28), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
 
             VStack(alignment: .leading, spacing: 10) {
-                sectionHeader("Point Features")
+                HStack(alignment: .firstTextBaseline) {
+                    sectionHeader("Point Features")
+                    Spacer()
+                    Text("\(unit.pointFeatures.count)")
+                        .font(.caption)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(.quaternary.opacity(0.6), in: Capsule())
+                        .foregroundStyle(.secondary)
+                }
 
                 if !unit.pointFeatures.isEmpty {
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         ForEach(Array(unit.pointFeatures.indices), id: \.self) { index in
                             pointFeatureRow(index: index)
                         }
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 8) {
-                    Picker("", selection: $pendingPointFeatureCategory) {
-                        ForEach(availablePointFeatureCategories, id: \.self) { category in
-                            Text(category.label).tag(category)
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Add Feature")
+                        .font(.subheadline.weight(.semibold))
+
+                    fieldGroup("Category") {
+                        Picker("", selection: $pendingPointFeatureCategory) {
+                            ForEach(availablePointFeatureCategories, id: \.self) { category in
+                                Text(category.label).tag(category)
+                            }
                         }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .disabled(availablePointFeaturesToAdd.isEmpty)
-                    .onChange(of: pendingPointFeatureCategory) { _ in
-                        normalizePendingFeatureSelection()
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .disabled(availablePointFeaturesToAdd.isEmpty)
+                        .onChange(of: pendingPointFeatureCategory) { _ in
+                            normalizePendingFeatureSelection()
+                        }
                     }
 
-                    Picker("", selection: $pendingPointFeatureType) {
-                        ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
-                            Text(featureType.label).tag(featureType)
+                    fieldGroup("Feature Type") {
+                        Picker("", selection: $pendingPointFeatureType) {
+                            ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
+                                Text(featureType.label).tag(featureType)
+                            }
                         }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .disabled(availablePointFeaturesToAdd.isEmpty)
                     }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .disabled(availablePointFeaturesToAdd.isEmpty)
 
                     HStack {
+                        Spacer()
                         Button {
                             addPendingPointFeature()
                         } label: {
-                            Label("Add", systemImage: "plus")
+                            Label("Add Feature", systemImage: "plus")
                         }
+                        .buttonStyle(.borderedProminent)
                         .disabled(availablePointFeaturesToAdd.isEmpty)
-                        Spacer()
                     }
                 }
+                .padding(10)
+                .background(.background.opacity(0.45), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             .padding(12)
             .background(.quaternary.opacity(0.28), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
@@ -193,6 +212,11 @@ public struct UnitFormView: View {
     private func pointFeatureRow(index: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .center, spacing: 8) {
+                Text(unit.pointFeatures[index].type.label)
+                    .font(.subheadline.weight(.semibold))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                Spacer()
                 Picker("", selection: $unit.pointFeatures[index].type) {
                     ForEach(PointFeatureCategory.allCases, id: \.self) { category in
                         let types = PointFeatureType.allCases.filter { $0.category == category }
@@ -208,20 +232,23 @@ public struct UnitFormView: View {
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: 120, alignment: .trailing)
 
-                Button("Delete") {
+                Button {
                     unit.pointFeatures.remove(at: index)
                     normalizePendingFeatureSelection()
+                } label: {
+                    Image(systemName: "trash")
                 }
                 .buttonStyle(.borderless)
                 .foregroundStyle(.red)
             }
 
-            HStack(spacing: 10) {
+            HStack(spacing: 8) {
                 Text("Density")
                     .font(.subheadline)
-                Slider(value: densityBinding(for: index), in: 0...1)
+                    .frame(width: 58, alignment: .leading)
+                Slider(value: densityBinding(for: index), in: 0...1, step: 0.05)
                 Text("\(Int((unit.pointFeatures[index].density * 100).rounded()))%")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
