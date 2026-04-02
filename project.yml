@@ -1,0 +1,56 @@
+name: Cake
+options:
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    MACOSX_DEPLOYMENT_TARGET: 13.0
+targets:
+  CakeKit:
+    type: framework
+    platform: macOS
+    sources:
+      - Sources/CakeKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit
+        GENERATE_INFOPLIST_FILE: YES
+
+  CakeApp:
+    type: application
+    platform: macOS
+    sources:
+      - Sources/CakeApp
+    dependencies:
+      - target: CakeKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakeapp
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_NAME: CakeApp
+        SWIFT_EMIT_LOC_STRINGS: NO
+
+  CakeKitTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/CakeKitTests
+    dependencies:
+      - target: CakeKit
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit.tests
+
+schemes:
+  CakeApp:
+    build:
+      targets:
+        CakeKit: all
+        CakeApp: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - CakeKitTests

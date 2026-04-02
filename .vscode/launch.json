@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Cake}",
+            "name": "Debug CakeApp",
+            "target": "CakeApp",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug CakeApp"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:Cake}",
+            "name": "Release CakeApp",
+            "target": "CakeApp",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release CakeApp"
+        }
+    ]
+}

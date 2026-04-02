@@ -1,0 +1,31 @@
+import SwiftUI
+
+public struct SettingsPanelView: View {
+    @Binding private var settings: ProjectSettings
+
+    public init(settings: Binding<ProjectSettings>) {
+        self._settings = settings
+    }
+
+    public var body: some View {
+        GroupBox("Rendering Settings") {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Vertical Scale")
+                    Slider(value: $settings.verticalScale, in: 8...120, step: 1)
+                    Text("\(settings.verticalScale, specifier: "%.0f") px/m")
+                        .foregroundStyle(.secondary)
+                }
+
+                Picker("Page Size", selection: $settings.pageSize) {
+                    ForEach(PageSizePreset.allCases) { size in
+                        Text(size.label).tag(size)
+                    }
+                }
+
+                Toggle("Show Grid", isOn: $settings.showGrid)
+            }
+            .padding(.vertical, 4)
+        }
+    }
+}

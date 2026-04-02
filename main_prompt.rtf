@@ -1,0 +1,83 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 .SFNS-Regular;}
+{\colortbl;\red255\green255\blue255;\red14\green14\blue14;}
+{\*\expandedcolortbl;;\cssrgb\c6700\c6700\c6700;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sl324\slmult1\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf2 Create a macOS application in Swift designed to help geologists generate high-quality stratigraphic logs for scientific publication.\
+\
+The application targets geologists who are not comfortable with vector drawing tools. The goal is to replace manual drawing workflows with a data-driven system that automatically generates publication-ready stratigraphic logs from structured input.\
+\
+Core concept:\
+The user inputs structured geological data describing stratigraphic units, and the application generates a stratigraphic log in real time. Any modification to the input data must immediately update the visual output.\
+\
+Main features:\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Input system:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The user can define multiple stratigraphic units (layers). For each unit, the user can input relevant geological attributes such as lithology, grain size, color, sedimentary structures, thickness, contacts, fossils, etc.\
+The system must support both predefined fields and fully customizable user-defined fields.\
+The data model must therefore be flexible and extensible.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Real-time visualization:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The interface is split into two main panels:\
+Left panel: structured data input (form-based UI).\
+Right panel: real-time visualization of the stratigraphic log.\
+The visualization must update instantly when data changes.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Rendering:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The log must be generated automatically based on the input data.\
+The user has limited visual control (simple adjustable settings, not full manual drawing).\
+The user must be able to define scale (e.g., thickness of units, vertical scaling).\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Symbology:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The application includes a built-in standard symbology library inspired by USGS/BGS conventions.\
+This symbology is used automatically based on lithology and other attributes.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Legend:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 A legend must be automatically generated based on the units and symbology used.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Output:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The application must export logs as:\
+\pard\tqr\tx500\tx660\li660\fi-660\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	SVG (primary format, fully editable)\
+	\'95	JPG (secondary format)\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Project management:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 Users can save and load projects using a human-readable JSON format.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Quality:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The generated output must be suitable for scientific publication, with consistent layout, proportions, and clean graphics, but implementation can remain simple for MVP.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	Language:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The interface is in English only.\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	External resources:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li260\sl324\slmult1\pardirnatural\partightenfactor0
+\cf2 The application may use free and open external resources (e.g., APIs or datasets) if relevant.\
+\
+Technical constraints:\
+\pard\tqr\tx100\tx260\li260\fi-260\sl324\slmult1\sb240\partightenfactor0
+\cf2 	\'95	The application must be written in Swift for macOS.\
+	\'95	Prefer modern macOS development practices (e.g., SwiftUI if appropriate).\
+	\'95	The architecture should be simple and focused on delivering a working MVP quickly, but remain clean and maintainable.\
+\
+Expected output from the AI:\
+	\'95	A complete high-level architecture\
+	\'95	Data model design (including flexible fields)\
+	\'95	UI structure (SwiftUI views)\
+	\'95	Rendering strategy for stratigraphic logs\
+	\'95	Example code snippets for key components\
+	\'95	Strategy for SVG export\
+	\'95	JSON project structure example\
+\
+The implementation must prioritize clarity, simplicity, and rapid usability over over-engineering.}
