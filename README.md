@@ -89,3 +89,34 @@ Legacy JSON files that include removed custom field structures (for example `cus
 ## Example Project
 
 See [Examples/sample-project.json](Examples/sample-project.json).
+
+## GitHub Release (Unsigned DMG)
+
+The repository includes a GitHub Actions workflow that builds an unsigned macOS app bundle, packages it as a DMG, and publishes a GitHub pre-release with checksum.
+
+- Trigger on pushed tags matching `vX.Y.Z`
+- Manual fallback via `workflow_dispatch` in Actions
+- Generated assets:
+  - `CakeApp-vX.Y.Z-unsigned.dmg`
+  - `CakeApp-vX.Y.Z-unsigned.dmg.sha256`
+
+### Publish a release
+
+Create and push a version tag:
+
+```bash
+git tag v1.2.3
+git push origin v1.2.3
+```
+
+Then open the corresponding GitHub release and download the DMG artifact.
+
+### Verify checksum
+
+```bash
+shasum -a 256 -c CakeApp-v1.2.3-unsigned.dmg.sha256
+```
+
+### Gatekeeper note
+
+The DMG is intentionally unsigned and not notarized, so macOS will show a security warning on first launch.
