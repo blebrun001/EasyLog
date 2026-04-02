@@ -41,8 +41,8 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
 
     public var label: String {
         switch self {
-        case .low: return "Peu"
-        case .high: return "Beaucoup"
+        case .low: return "Low"
+        case .high: return "High"
         }
     }
 }
@@ -95,58 +95,58 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
     public var categoryLabel: String {
         switch self {
         case .paleoMacroFossils, .paleoMicrofossils, .paleoShellFragments, .paleoPlantRemains, .paleoRoots, .paleoBurrowsBioturbation, .paleoIchnofossils, .paleoCharcoalOrganicMatter:
-            return "Biologiques / paleoenvironnementaux"
+            return "Biological / Paleoenvironmental"
         case .diageneticNodules, .diageneticConcretions, .diageneticGeodes, .diageneticLithicInclusions, .diageneticDispersedPebbles, .diageneticReworkedFragments, .diageneticIntraclasts, .diageneticStylolites, .diageneticVeins:
-            return "Sedimentaires / diagenetiques"
+            return "Sedimentary / Diagenetic"
         case .localLaminations, .localCrossBedding, .localIsolatedRipples, .localDesiccationCracks, .localLoadStructures, .localSoftSedimentDeformation:
-            return "Structures locales"
+            return "Local Structures"
         case .pedogenesisOxidationSpots, .pedogenesisMottling, .pedogenesisPedologicalHorizons, .pedogenesisCarbonateAccumulations, .pedogenesisCrusts:
-            return "Alteration / pedogenese"
+            return "Alteration / Pedogenesis"
         case .archaeologicalArtifacts, .archaeologicalBoneFragments, .archaeologicalAnthropicCharcoal, .archaeologicalPunctualStructures:
-            return "Archeologiques"
+            return "Archaeological"
         case .hydroCementedZones, .hydroLocalizedMineralPrecipitation, .hydroDissolutionTraces, .hydroFeMnEnrichedLevels:
-            return "Hydrologiques / chimiques"
+            return "Hydrological / Chemical"
         }
     }
 
     public var label: String {
         switch self {
-        case .paleoMacroFossils: return "fossiles macro"
-        case .paleoMicrofossils: return "microfossiles"
-        case .paleoShellFragments: return "fragments de coquilles"
-        case .paleoPlantRemains: return "restes vegetaux"
-        case .paleoRoots: return "racines actuelles ou fossiles"
-        case .paleoBurrowsBioturbation: return "terriers bioturbation"
-        case .paleoIchnofossils: return "traces biologiques ichnofossiles"
-        case .paleoCharcoalOrganicMatter: return "charbon matiere organique"
-        case .diageneticNodules: return "nodules"
-        case .diageneticConcretions: return "concretions"
-        case .diageneticGeodes: return "geodes"
-        case .diageneticLithicInclusions: return "inclusions lithiques clastes isoles"
-        case .diageneticDispersedPebbles: return "galets disperses"
-        case .diageneticReworkedFragments: return "fragments remanies"
-        case .diageneticIntraclasts: return "intraclastes"
-        case .diageneticStylolites: return "stylolites"
-        case .diageneticVeins: return "veines calcite quartz"
-        case .localLaminations: return "laminations locales"
-        case .localCrossBedding: return "litages entrecroises ponctuels"
-        case .localIsolatedRipples: return "rides isolees"
-        case .localDesiccationCracks: return "fentes de dessiccation"
-        case .localLoadStructures: return "figures de charge"
-        case .localSoftSedimentDeformation: return "structures de deformation molle"
-        case .pedogenesisOxidationSpots: return "taches d'oxydation"
-        case .pedogenesisMottling: return "marbrures"
-        case .pedogenesisPedologicalHorizons: return "horizons pedologiques"
-        case .pedogenesisCarbonateAccumulations: return "accumulations de carbonates"
-        case .pedogenesisCrusts: return "encroutements"
-        case .archaeologicalArtifacts: return "artefacts"
-        case .archaeologicalBoneFragments: return "fragments osseux"
-        case .archaeologicalAnthropicCharcoal: return "charbons anthropiques"
-        case .archaeologicalPunctualStructures: return "structures ponctuelles (foyers, trous de poteau)"
-        case .hydroCementedZones: return "zones cimentees"
-        case .hydroLocalizedMineralPrecipitation: return "precipitations minerales localisees"
-        case .hydroDissolutionTraces: return "traces de dissolution"
-        case .hydroFeMnEnrichedLevels: return "niveaux enrichis fer manganese"
+        case .paleoMacroFossils: return "Macrofossils"
+        case .paleoMicrofossils: return "Microfossils"
+        case .paleoShellFragments: return "Shell Fragments"
+        case .paleoPlantRemains: return "Plant Remains"
+        case .paleoRoots: return "Roots (Modern or Fossil)"
+        case .paleoBurrowsBioturbation: return "Burrows / Bioturbation"
+        case .paleoIchnofossils: return "Ichnofossils"
+        case .paleoCharcoalOrganicMatter: return "Charcoal / Organic Matter"
+        case .diageneticNodules: return "Nodules"
+        case .diageneticConcretions: return "Concretions"
+        case .diageneticGeodes: return "Geodes"
+        case .diageneticLithicInclusions: return "Isolated Lithic Clasts"
+        case .diageneticDispersedPebbles: return "Dispersed Pebbles"
+        case .diageneticReworkedFragments: return "Reworked Fragments"
+        case .diageneticIntraclasts: return "Intraclasts"
+        case .diageneticStylolites: return "Stylolites"
+        case .diageneticVeins: return "Calcite / Quartz Veins"
+        case .localLaminations: return "Local Laminations"
+        case .localCrossBedding: return "Localized Cross-Bedding"
+        case .localIsolatedRipples: return "Isolated Ripples"
+        case .localDesiccationCracks: return "Desiccation Cracks"
+        case .localLoadStructures: return "Load Structures"
+        case .localSoftSedimentDeformation: return "Soft-Sediment Deformation"
+        case .pedogenesisOxidationSpots: return "Oxidation Spots"
+        case .pedogenesisMottling: return "Mottling"
+        case .pedogenesisPedologicalHorizons: return "Pedological Horizons"
+        case .pedogenesisCarbonateAccumulations: return "Carbonate Accumulations"
+        case .pedogenesisCrusts: return "Crusts"
+        case .archaeologicalArtifacts: return "Artifacts"
+        case .archaeologicalBoneFragments: return "Bone Fragments"
+        case .archaeologicalAnthropicCharcoal: return "Anthropic Charcoal"
+        case .archaeologicalPunctualStructures: return "Point Structures (Hearths, Postholes)"
+        case .hydroCementedZones: return "Cemented Zones"
+        case .hydroLocalizedMineralPrecipitation: return "Localized Mineral Precipitation"
+        case .hydroDissolutionTraces: return "Dissolution Traces"
+        case .hydroFeMnEnrichedLevels: return "Fe-Mn Enriched Levels"
         }
     }
 
@@ -301,13 +301,13 @@ public struct ProjectSettings: Codable, Hashable {
         verticalScale: Double = 25,
         pageSize: PageSizePreset = .a4Portrait,
         baseFontSize: Double = 12,
-        showGrid: Bool = true,
+        showGrid: Bool = false,
         symbolScale: Double = 1.0
     ) {
         self.verticalScale = verticalScale
         self.pageSize = pageSize
         self.baseFontSize = baseFontSize
-        self.showGrid = showGrid
+        self.showGrid = false
         self.symbolScale = symbolScale
     }
 
@@ -324,7 +324,7 @@ public struct ProjectSettings: Codable, Hashable {
         verticalScale = try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25
         pageSize = try container.decodeIfPresent(PageSizePreset.self, forKey: .pageSize) ?? .a4Portrait
         baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
-        showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? true
+        showGrid = false
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
     }
 
@@ -333,7 +333,7 @@ public struct ProjectSettings: Codable, Hashable {
         try container.encode(verticalScale, forKey: .verticalScale)
         try container.encode(pageSize, forKey: .pageSize)
         try container.encode(baseFontSize, forKey: .baseFontSize)
-        try container.encode(showGrid, forKey: .showGrid)
+        try container.encode(false, forKey: .showGrid)
         try container.encode(symbolScale, forKey: .symbolScale)
     }
 }

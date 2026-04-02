@@ -36,5 +36,24 @@ struct CakeApp: App {
                 .frame(minWidth: 1320, minHeight: 860)
         }
         .windowResizability(.contentMinSize)
+        .commands {
+            CommandGroup(replacing: .newItem) {
+                Button("New") { viewModel.newProject() }
+                    .keyboardShortcut("n", modifiers: [.command])
+                Button("Open…") { viewModel.openProjectViaPanel() }
+                    .keyboardShortcut("o", modifiers: [.command])
+            }
+
+            CommandGroup(replacing: .saveItem) {
+                Button("Save") { viewModel.saveProjectViaPanelIfNeeded() }
+                    .keyboardShortcut("s", modifiers: [.command])
+            }
+
+            CommandGroup(after: .saveItem) {
+                Divider()
+                Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
+                Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
+            }
+        }
     }
 }

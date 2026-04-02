@@ -141,7 +141,7 @@ public struct RenderScene: Hashable {
             legend: [],
             ticks: [],
             baseFontSize: 12,
-            showsGrid: true,
+            showsGrid: false,
             symbolScale: 1.0
         )
     }

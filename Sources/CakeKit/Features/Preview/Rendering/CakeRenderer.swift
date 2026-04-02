@@ -110,7 +110,7 @@ public struct CakeRenderer: LogRenderer {
             legend: legendOrder + pointLegendOrder,
             ticks: ticks,
             baseFontSize: project.settings.baseFontSize,
-            showsGrid: project.settings.showGrid,
+            showsGrid: false,
             symbolScale: project.settings.symbolScale
         )
     }

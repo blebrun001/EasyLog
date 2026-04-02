@@ -29,8 +29,6 @@ public struct SettingsPanelView: View {
                         Text(size.label).tag(size)
                     }
                 }
-
-                Toggle("Show Grid", isOn: $settings.showGrid)
             }
             .padding(.vertical, 4)
         }

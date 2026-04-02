@@ -82,8 +82,8 @@ func pointFeaturesAppearInLegendOnlyWhenUsed() {
     let pointLegendItems = scene.legend.filter { $0.pointSymbol != nil }
 
     #expect(pointLegendItems.count == 2)
-    #expect(pointLegendItems.contains(where: { $0.label.contains("fragments osseux") }))
-    #expect(pointLegendItems.contains(where: { $0.label.contains("traces de dissolution") }))
+    #expect(pointLegendItems.contains(where: { $0.label.contains("Bone Fragments") }))
+    #expect(pointLegendItems.contains(where: { $0.label.contains("Dissolution Traces") }))
 }
 
 @Test

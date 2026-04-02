@@ -22,11 +22,11 @@ public struct UnitFormView: View {
                 }
             }
             if let usgsCode = SymbologyLibrary.usgsSymbolCode(forLithology: unit.lithology) {
-                Text("USGS symbol \(usgsCode)")
+                Text("USGS Symbol \(usgsCode)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            Picker("Grain size", selection: grainSizeBinding) {
+            Picker("Grain Size", selection: grainSizeBinding) {
                 Text("Unset").tag(nil as USGSGrainSize?)
                 ForEach(USGSGrainSize.allCases, id: \.self) { size in
                     Text(size.label).tag(Optional(size))
@@ -34,11 +34,11 @@ public struct UnitFormView: View {
             }
 
             Divider()
-            Text("Elements ponctuels")
+            Text("Point Features")
                 .font(.headline)
 
             if unit.pointFeatures.isEmpty {
-                Text("Aucun element ponctuel.")
+                Text("No point features.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
@@ -48,7 +48,7 @@ public struct UnitFormView: View {
             }
 
             HStack(alignment: .center, spacing: 8) {
-                Picker("Ajouter", selection: $pendingPointFeatureType) {
+                Picker("Add", selection: $pendingPointFeatureType) {
                     ForEach(availablePointFeaturesToAdd, id: \.self) { featureType in
                         Text("\(featureType.categoryLabel): \(featureType.label)")
                             .tag(featureType)
@@ -57,7 +57,7 @@ public struct UnitFormView: View {
                 .pickerStyle(.menu)
                 .disabled(availablePointFeaturesToAdd.isEmpty)
 
-                Button("Ajouter") {
+                Button("Add") {
                     addPendingPointFeature()
                 }
                 .disabled(availablePointFeaturesToAdd.isEmpty)
@@ -124,7 +124,7 @@ public struct UnitFormView: View {
             .pickerStyle(.segmented)
             .frame(maxWidth: 210)
 
-            Button("Suppr.") {
+            Button("Delete") {
                 unit.pointFeatures.remove(at: index)
                 normalizePendingFeatureSelection()
             }

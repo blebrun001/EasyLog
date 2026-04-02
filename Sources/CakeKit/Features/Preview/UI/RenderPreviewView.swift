@@ -47,18 +47,12 @@ public struct RenderPreviewView: View {
 
     private var toolbar: some View {
         HStack(spacing: 10) {
-            Button("New") { viewModel.newProject() }
-            Button("Open") { viewModel.openProjectViaPanel() }
-            Button("Save") { viewModel.saveProjectViaPanelIfNeeded() }
-            Divider().frame(height: 18)
-            Button("Export SVG") { viewModel.exportViaPanel(format: .svg) }
-            Button("Export JPG") { viewModel.exportViaPanel(format: .jpg) }
-            Spacer()
             Text("Zoom")
             Slider(value: $viewModel.zoom, in: 0.5...2.5, step: 0.05)
                 .frame(width: 140)
             Text("\(Int(viewModel.zoom * 100))%")
                 .frame(width: 42, alignment: .trailing)
+            Spacer()
         }
         .padding(.horizontal)
     }

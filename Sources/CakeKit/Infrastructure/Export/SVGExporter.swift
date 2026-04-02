@@ -8,7 +8,7 @@ public struct SVGExporter: SVGExporting {
         var svg = ""
         svg += """
         <?xml version="1.0" encoding="UTF-8"?>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="\(fmt(canvas.width))" height="\(fmt(canvas.height))" viewBox="0 0 \(fmt(canvas.width)) \(fmt(canvas.height))">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="\(fmt(canvas.width))" height="\(fmt(canvas.height))" viewBox="0 0 \(fmt(canvas.width)) \(fmt(canvas.height))">
           <title>Stratigraphic Log</title>
           <defs>
         \(patternDefinitions(scene: scene, usgsPatternByCode: usgsPatternByCode))
@@ -152,7 +152,7 @@ public struct SVGExporter: SVGExporting {
             let tileHeight = max(tileSize.height, 1)
             map[code] = """
             <pattern id="\(id)" patternUnits="userSpaceOnUse" width="\(fmt(tileWidth))" height="\(fmt(tileHeight))">
-              <image x="0" y="0" width="\(fmt(tileWidth))" height="\(fmt(tileHeight))" preserveAspectRatio="none" href="data:image/png;base64,\(base64)"/>
+              <image x="0" y="0" width="\(fmt(tileWidth))" height="\(fmt(tileHeight))" preserveAspectRatio="none" href="data:image/png;base64,\(base64)" xlink:href="data:image/png;base64,\(base64)"/>
             </pattern>
             """
         }

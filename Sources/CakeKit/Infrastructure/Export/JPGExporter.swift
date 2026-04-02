@@ -21,7 +21,8 @@ public struct JPGExporter: Exporter {
             throw CocoaError(.coderInvalidValue)
         }
 
-        context.scaleBy(x: scale, y: scale)
+        context.translateBy(x: 0, y: CGFloat(height))
+        context.scaleBy(x: scale, y: -scale)
         SceneCGRenderer.draw(scene: scene, in: context)
 
         guard let cgImage = context.makeImage() else {
