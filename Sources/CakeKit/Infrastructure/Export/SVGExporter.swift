@@ -51,8 +51,6 @@ public struct SVGExporter: SVGExporting {
             """
         }
         svg += """
-
-            <rect x="\(fmt(scene.logColumnRect.x))" y="\(fmt(scene.logColumnRect.y))" width="\(fmt(scene.logColumnRect.width))" height="\(fmt(scene.logColumnRect.height))" stroke-width="1.8"/>
           </g>
         """
 

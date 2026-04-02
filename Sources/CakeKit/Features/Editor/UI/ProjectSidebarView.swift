@@ -10,24 +10,10 @@ public struct ProjectSidebarView: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                projectMetadataSection
                 unitsSection
                 selectedUnitEditor
             }
             .padding()
-        }
-    }
-
-    private var projectMetadataSection: some View {
-        GroupBox("Project") {
-            VStack(spacing: 8) {
-                TextField("Title", text: $viewModel.project.metadata.title)
-                TextField("Author", text: $viewModel.project.metadata.author)
-                Text(viewModel.statusMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
         }
     }
 
@@ -44,6 +30,7 @@ public struct ProjectSidebarView: View {
                         }
                         .tag(unit.id)
                     }
+                    .onMove(perform: viewModel.moveUnits)
                 }
                 .frame(minHeight: 200, maxHeight: 240)
 
@@ -52,13 +39,9 @@ public struct ProjectSidebarView: View {
                     Button("Delete") { viewModel.removeSelectedUnit() }
                         .disabled(viewModel.selectedUnitIndex == nil)
                     Spacer()
-                    Button("Up") { viewModel.moveSelectedUnitUp() }
-                        .disabled((viewModel.selectedUnitIndex ?? 0) <= 0)
-                    Button("Down") { viewModel.moveSelectedUnitDown() }
-                        .disabled({
-                            guard let index = viewModel.selectedUnitIndex else { return true }
-                            return index >= viewModel.project.units.count - 1
-                        }())
+                    Text("Drag rows to reorder")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
         }

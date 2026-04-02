@@ -40,6 +40,38 @@ public struct USGSLithologySymbol: Hashable, Sendable {
     }
 }
 
+public enum USGSLithologyCategory: String, CaseIterable, Identifiable, Hashable, Sendable {
+    case coarseClastics
+    case fineClastics
+    case carbonates
+    case siliceousBiogenic
+    case organicChemical
+    case interbedded
+    case unconsolidated
+    case metamorphic
+    case igneousVolcanic
+    case mineralization
+    case other
+
+    public var id: String { rawValue }
+
+    public var label: String {
+        switch self {
+        case .coarseClastics: return "Clastic (Coarse to Sand)"
+        case .fineClastics: return "Clastic (Fine-Grained)"
+        case .carbonates: return "Carbonates"
+        case .siliceousBiogenic: return "Siliceous / Biogenic"
+        case .organicChemical: return "Organic / Chemical"
+        case .interbedded: return "Interbedded"
+        case .unconsolidated: return "Unconsolidated Sediments"
+        case .metamorphic: return "Metamorphic"
+        case .igneousVolcanic: return "Igneous / Volcanic"
+        case .mineralization: return "Mineralization / Ore"
+        case .other: return "Other"
+        }
+    }
+}
+
 public enum SymbologyLibrary {
     public static let usgsSourceURL = URL(string: "https://pubs.usgs.gov/tm/2006/11A02/")!
 
@@ -287,6 +319,38 @@ public enum SymbologyLibrary {
 
     public static var supportedLithologies: [String] {
         fgdcSection37Lithologies
+    }
+
+    public static func lithologies(in category: USGSLithologyCategory) -> [String] {
+        supportedLithologies.filter { lithologyCategory(forLithology: $0) == category }
+    }
+
+    public static func lithologyCategory(forLithology lithology: String) -> USGSLithologyCategory {
+        guard let code = usgsSymbolCode(forLithology: lithology) else { return .other }
+        switch code {
+        case 601...615, 654...656:
+            return .coarseClastics
+        case 616...625:
+            return .fineClastics
+        case 626...648, 672...680:
+            return .carbonates
+        case 649...653:
+            return .siliceousBiogenic
+        case 657...668:
+            return .organicChemical
+        case 669...671:
+            return .interbedded
+        case 681...686:
+            return .unconsolidated
+        case 701...710:
+            return .metamorphic
+        case 711...731:
+            return .igneousVolcanic
+        case 732...733:
+            return .mineralization
+        default:
+            return .other
+        }
     }
 
     public static func usgsSymbolCode(forLithology lithology: String) -> Int? {

@@ -21,7 +21,6 @@ public final class ProjectViewModel: ObservableObject {
     private let exportProjectUseCase: ExportProjectUseCase
     private let addUnitUseCase = AddUnitUseCase()
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
-    private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
     private var cancellables = Set<AnyCancellable>()
 
     public init(
@@ -67,12 +66,15 @@ public final class ProjectViewModel: ObservableObject {
         selectedUnitID = deleteSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID)
     }
 
-    public func moveSelectedUnitUp() {
-        moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .up)
-    }
+    public func moveUnits(fromOffsets source: IndexSet, toOffset destination: Int) {
+        guard !source.isEmpty else { return }
 
-    public func moveSelectedUnitDown() {
-        moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .down)
+        let movedUnits = source.map { project.units[$0] }
+        for index in source.sorted(by: >) {
+            project.units.remove(at: index)
+        }
+        let adjustedDestination = destination - source.filter { $0 < destination }.count
+        project.units.insert(contentsOf: movedUnits, at: adjustedDestination)
     }
 
     public func newProject() {

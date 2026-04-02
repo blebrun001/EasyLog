@@ -48,7 +48,7 @@ public struct RenderPreviewView: View {
     private var toolbar: some View {
         HStack(spacing: 10) {
             Text("Zoom")
-            Slider(value: $viewModel.zoom, in: 0.5...2.5, step: 0.05)
+            Slider(value: $viewModel.zoom, in: 0.5...2.5)
                 .frame(width: 140)
             Text("\(Int(viewModel.zoom * 100))%")
                 .frame(width: 42, alignment: .trailing)

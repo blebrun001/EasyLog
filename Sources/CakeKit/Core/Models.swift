@@ -47,6 +47,28 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
     }
 }
 
+public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, Sendable {
+    case biological
+    case sedimentary
+    case localStructures
+    case alteration
+    case archaeological
+    case hydrological
+
+    public var id: String { rawValue }
+
+    public var label: String {
+        switch self {
+        case .biological: return "Biological / Paleoenvironmental"
+        case .sedimentary: return "Sedimentary / Diagenetic"
+        case .localStructures: return "Local Structures"
+        case .alteration: return "Alteration / Pedogenesis"
+        case .archaeological: return "Archaeological"
+        case .hydrological: return "Hydrological / Chemical"
+        }
+    }
+}
+
 public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
     case paleoMacroFossils
     case paleoMicrofossils
@@ -92,21 +114,25 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
 
     public var id: String { rawValue }
 
-    public var categoryLabel: String {
+    public var category: PointFeatureCategory {
         switch self {
         case .paleoMacroFossils, .paleoMicrofossils, .paleoShellFragments, .paleoPlantRemains, .paleoRoots, .paleoBurrowsBioturbation, .paleoIchnofossils, .paleoCharcoalOrganicMatter:
-            return "Biological / Paleoenvironmental"
+            return .biological
         case .diageneticNodules, .diageneticConcretions, .diageneticGeodes, .diageneticLithicInclusions, .diageneticDispersedPebbles, .diageneticReworkedFragments, .diageneticIntraclasts, .diageneticStylolites, .diageneticVeins:
-            return "Sedimentary / Diagenetic"
+            return .sedimentary
         case .localLaminations, .localCrossBedding, .localIsolatedRipples, .localDesiccationCracks, .localLoadStructures, .localSoftSedimentDeformation:
-            return "Local Structures"
+            return .localStructures
         case .pedogenesisOxidationSpots, .pedogenesisMottling, .pedogenesisPedologicalHorizons, .pedogenesisCarbonateAccumulations, .pedogenesisCrusts:
-            return "Alteration / Pedogenesis"
+            return .alteration
         case .archaeologicalArtifacts, .archaeologicalBoneFragments, .archaeologicalAnthropicCharcoal, .archaeologicalPunctualStructures:
-            return "Archaeological"
+            return .archaeological
         case .hydroCementedZones, .hydroLocalizedMineralPrecipitation, .hydroDissolutionTraces, .hydroFeMnEnrichedLevels:
-            return "Hydrological / Chemical"
+            return .hydrological
         }
+    }
+
+    public var categoryLabel: String {
+        category.label
     }
 
     public var label: String {

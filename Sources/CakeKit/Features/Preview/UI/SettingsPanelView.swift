@@ -12,14 +12,20 @@ public struct SettingsPanelView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Text("Vertical Scale")
-                    Slider(value: $settings.verticalScale, in: 8...120, step: 1)
+                    Slider(value: $settings.verticalScale, in: 8...120)
+                        .onChange(of: settings.verticalScale) { value in
+                            settings.verticalScale = value.rounded()
+                        }
                     Text("\(settings.verticalScale, specifier: "%.0f") px/m")
                         .foregroundStyle(.secondary)
                 }
 
                 HStack {
                     Text("Symbol Scale")
-                    Slider(value: $settings.symbolScale, in: 0.35...3.0, step: 0.05)
+                    Slider(value: $settings.symbolScale, in: 0.35...3.0)
+                        .onChange(of: settings.symbolScale) { value in
+                            settings.symbolScale = (value * 20).rounded() / 20
+                        }
                     Text("\(settings.symbolScale, specifier: "%.2f")x")
                         .foregroundStyle(.secondary)
                 }

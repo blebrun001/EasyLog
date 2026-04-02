@@ -3,11 +3,15 @@ import SwiftUI
 public struct UnitFormView: View {
     @Binding private var unit: StratigraphicUnit
     @State private var thicknessText: String = ""
+    @State private var selectedLithologyCategory: USGSLithologyCategory
+    @State private var pendingPointFeatureCategory: PointFeatureCategory
     @State private var pendingPointFeatureType: PointFeatureType = PointFeatureType.allCases.first ?? .paleoMacroFossils
 
     public init(unit: Binding<StratigraphicUnit>) {
         self._unit = unit
         self._thicknessText = State(initialValue: Self.formatNumber(unit.wrappedValue.thickness))
+        self._selectedLithologyCategory = State(initialValue: SymbologyLibrary.lithologyCategory(forLithology: unit.wrappedValue.lithology))
+        self._pendingPointFeatureCategory = State(initialValue: PointFeatureType.allCases.first?.category ?? .biological)
     }
 
     public var body: some View {
@@ -16,8 +20,16 @@ public struct UnitFormView: View {
                 .font(.headline)
             TextField("Name", text: $unit.name)
             TextField("Thickness (m)", text: thicknessBinding)
+            Picker("Lithology Group", selection: $selectedLithologyCategory) {
+                ForEach(availableLithologyCategories, id: \.self) { category in
+                    Text(category.label).tag(category)
+                }
+            }
+            .onChange(of: selectedLithologyCategory) { _ in
+                normalizeLithologySelection()
+            }
             Picker("Lithology", selection: $unit.lithology) {
-                ForEach(availableLithologies, id: \.self) { lithology in
+                ForEach(lithologiesInSelectedCategory, id: \.self) { lithology in
                     Text(lithology).tag(lithology)
                 }
             }
@@ -48,10 +60,20 @@ public struct UnitFormView: View {
             }
 
             HStack(alignment: .center, spacing: 8) {
-                Picker("Add", selection: $pendingPointFeatureType) {
-                    ForEach(availablePointFeaturesToAdd, id: \.self) { featureType in
-                        Text("\(featureType.categoryLabel): \(featureType.label)")
-                            .tag(featureType)
+                Picker("Category", selection: $pendingPointFeatureCategory) {
+                    ForEach(availablePointFeatureCategories, id: \.self) { category in
+                        Text(category.label).tag(category)
+                    }
+                }
+                .pickerStyle(.menu)
+                .disabled(availablePointFeaturesToAdd.isEmpty)
+                .onChange(of: pendingPointFeatureCategory) { _ in
+                    normalizePendingFeatureSelection()
+                }
+
+                Picker("Feature Type", selection: $pendingPointFeatureType) {
+                    ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
+                        Text(featureType.label).tag(featureType)
                     }
                 }
                 .pickerStyle(.menu)
@@ -66,22 +88,49 @@ public struct UnitFormView: View {
         .onAppear {
             coerceLithologyToSupportedValueIfNeeded()
             thicknessText = Self.formatNumber(unit.thickness)
+            syncLithologyCategoryWithUnit()
+            normalizeLithologySelection()
             normalizePendingFeatureSelection()
         }
         .onChange(of: unit.id) { _ in
             coerceLithologyToSupportedValueIfNeeded()
             thicknessText = Self.formatNumber(unit.thickness)
+            syncLithologyCategoryWithUnit()
+            normalizeLithologySelection()
             normalizePendingFeatureSelection()
         }
     }
 
-    private var availableLithologies: [String] {
-        SymbologyLibrary.supportedLithologies
+    private var availableLithologyCategories: [USGSLithologyCategory] {
+        USGSLithologyCategory.allCases.filter { !SymbologyLibrary.lithologies(in: $0).isEmpty }
+    }
+
+    private var lithologiesInSelectedCategory: [String] {
+        SymbologyLibrary.lithologies(in: selectedLithologyCategory)
+    }
+
+    private func syncLithologyCategoryWithUnit() {
+        selectedLithologyCategory = SymbologyLibrary.lithologyCategory(forLithology: unit.lithology)
+        if !availableLithologyCategories.contains(selectedLithologyCategory) {
+            selectedLithologyCategory = availableLithologyCategories.first ?? .coarseClastics
+        }
+    }
+
+    private func normalizeLithologySelection() {
+        guard !availableLithologyCategories.isEmpty else { return }
+        if !availableLithologyCategories.contains(selectedLithologyCategory) {
+            selectedLithologyCategory = availableLithologyCategories[0]
+        }
+        let choices = lithologiesInSelectedCategory
+        guard let first = choices.first else { return }
+        if !choices.contains(unit.lithology) {
+            unit.lithology = first
+        }
     }
 
     private func coerceLithologyToSupportedValueIfNeeded() {
         guard !SymbologyLibrary.isSupportedLithology(unit.lithology) else { return }
-        unit.lithology = availableLithologies.first ?? unit.lithology
+        unit.lithology = SymbologyLibrary.supportedLithologies.first ?? unit.lithology
     }
 
     private var grainSizeBinding: Binding<USGSGrainSize?> {
@@ -109,9 +158,16 @@ public struct UnitFormView: View {
     private func pointFeatureRow(index: Int) -> some View {
         HStack(alignment: .center, spacing: 8) {
             Picker("Type", selection: $unit.pointFeatures[index].type) {
-                ForEach(PointFeatureType.allCases, id: \.self) { featureType in
-                    Text("\(featureType.categoryLabel): \(featureType.label)")
-                        .tag(featureType)
+                ForEach(PointFeatureCategory.allCases, id: \.self) { category in
+                    let types = PointFeatureType.allCases.filter { $0.category == category }
+                    if !types.isEmpty {
+                        Section(category.label) {
+                            ForEach(types, id: \.self) { featureType in
+                                Text(featureType.label)
+                                    .tag(featureType)
+                            }
+                        }
+                    }
                 }
             }
             .pickerStyle(.menu)
@@ -137,10 +193,27 @@ public struct UnitFormView: View {
         return PointFeatureType.allCases.filter { !used.contains($0) }
     }
 
+    private var availablePointFeatureCategories: [PointFeatureCategory] {
+        PointFeatureCategory.allCases.filter { category in
+            availablePointFeaturesToAdd.contains { $0.category == category }
+        }
+    }
+
+    private var availablePointFeaturesInSelectedCategory: [PointFeatureType] {
+        availablePointFeaturesToAdd.filter { $0.category == pendingPointFeatureCategory }
+    }
+
     private func normalizePendingFeatureSelection() {
-        guard let firstAvailable = availablePointFeaturesToAdd.first else { return }
-        if !availablePointFeaturesToAdd.contains(pendingPointFeatureType) {
-            pendingPointFeatureType = firstAvailable
+        let available = availablePointFeaturesToAdd
+        guard let firstAvailable = available.first else { return }
+
+        if !availablePointFeatureCategories.contains(pendingPointFeatureCategory) {
+            pendingPointFeatureCategory = firstAvailable.category
+        }
+
+        let categoryOptions = availablePointFeaturesInSelectedCategory
+        if !categoryOptions.contains(pendingPointFeatureType) {
+            pendingPointFeatureType = categoryOptions.first ?? firstAvailable
         }
     }
 
