@@ -21,6 +21,10 @@ public struct CakeRenderer: LogRenderer {
 
     public func makeScene(project: Project) -> RenderScene {
         let margins = (top: 70.0, bottom: 60.0, left: 100.0)
+        let logTitle = {
+            let trimmed = project.metadata.title.trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmed.isEmpty ? "Stratigraphic Log" : trimmed
+        }()
         let defaultWidth = CakeRenderer.grainSizeWidthMapping[.sand] ?? 100.0
         let totalThickness = max(project.units.map(\.thickness).reduce(0, +), 0.01)
 
@@ -113,6 +117,7 @@ public struct CakeRenderer: LogRenderer {
         let canvasWidth = logX + logWidth + rightMargin
 
         return RenderScene(
+            title: logTitle,
             canvasSize: CGSizeDTO(width: canvasWidth, height: canvasHeight),
             logColumnRect: RectD(x: logX, y: margins.top, width: logWidth, height: totalThickness * project.settings.verticalScale),
             units: renderedUnits,

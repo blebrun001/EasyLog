@@ -104,6 +104,7 @@ public struct ScaleTick: Hashable {
 }
 
 public struct RenderScene: Hashable {
+    public var title: String
     public var canvasSize: CGSizeDTO
     public var logColumnRect: RectD
     public var units: [RenderedUnit]
@@ -114,6 +115,7 @@ public struct RenderScene: Hashable {
     public var symbolScale: Double
 
     public init(
+        title: String,
         canvasSize: CGSizeDTO,
         logColumnRect: RectD,
         units: [RenderedUnit],
@@ -123,6 +125,7 @@ public struct RenderScene: Hashable {
         showsGrid: Bool,
         symbolScale: Double
     ) {
+        self.title = title
         self.canvasSize = canvasSize
         self.logColumnRect = logColumnRect
         self.units = units
@@ -135,6 +138,7 @@ public struct RenderScene: Hashable {
 
     public static var empty: RenderScene {
         RenderScene(
+            title: "Stratigraphic Log",
             canvasSize: CGSizeDTO(width: 900, height: 1200),
             logColumnRect: RectD(x: 120, y: 80, width: 180, height: 1000),
             units: [],

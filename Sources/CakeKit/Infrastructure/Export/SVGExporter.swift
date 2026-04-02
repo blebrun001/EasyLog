@@ -9,7 +9,7 @@ public struct SVGExporter: SVGExporting {
         svg += """
         <?xml version="1.0" encoding="UTF-8"?>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="\(fmt(canvas.width))" height="\(fmt(canvas.height))" viewBox="0 0 \(fmt(canvas.width)) \(fmt(canvas.height))">
-          <title>Stratigraphic Log</title>
+          <title>\(xmlEscape(scene.title))</title>
           <defs>
         \(patternDefinitions(scene: scene, usgsPatternByCode: usgsPatternByCode))
           </defs>

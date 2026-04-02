@@ -224,7 +224,7 @@ public enum SceneCGRenderer {
     }
 
     private static func drawHeader(scene: RenderScene, in context: CGContext) {
-        drawText("Stratigraphic Log", at: CGPoint(x: scene.logColumnRect.x, y: 34), size: scene.baseFontSize + 4, context: context, bold: true)
+        drawText(scene.title, at: CGPoint(x: scene.logColumnRect.x, y: 34), size: scene.baseFontSize + 4, context: context, bold: true)
     }
 
     private static func drawText(

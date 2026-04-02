@@ -10,10 +10,18 @@ public struct ProjectSidebarView: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
+                metadataSection
                 unitsSection
                 selectedUnitEditor
             }
             .padding()
+        }
+    }
+
+    private var metadataSection: some View {
+        GroupBox("Project") {
+            TextField("Log title", text: $viewModel.project.metadata.title)
+                .textFieldStyle(.roundedBorder)
         }
     }
 
