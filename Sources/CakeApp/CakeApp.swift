@@ -32,6 +32,12 @@ struct CakeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var viewModel = ProjectViewModel()
 
+    private func showAboutPanel() {
+        NSApp.orderFrontStandardAboutPanel(options: [
+            .applicationIcon: NSApp.applicationIconImage
+        ])
+    }
+
     var body: some Scene {
         WindowGroup("Cake") {
             MainContentView(viewModel: viewModel)
@@ -39,6 +45,12 @@ struct CakeApp: App {
         }
         .windowResizability(.contentMinSize)
         .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About Cake") {
+                    showAboutPanel()
+                }
+            }
+
             CommandGroup(replacing: .newItem) {
                 Button("New") { viewModel.newProject() }
                     .keyboardShortcut("n", modifiers: [.command])
