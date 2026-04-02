@@ -1,0 +1,138 @@
+{
+  "": {
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/master.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/App/MainContentView.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/MainContentView.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/MainContentView.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/MainContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/MainContentView.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/MainContentView.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/App/State/ProjectViewModel.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectViewModel.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectViewModel.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectViewModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectViewModel.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectViewModel.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/App/UseCases/ProjectUseCases.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectUseCases.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectUseCases.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectUseCases~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectUseCases.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectUseCases.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Core/Models.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Models.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Models.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Models~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Models.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Models.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Core/Validation.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Validation.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Validation.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Validation~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Validation.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Validation.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Editor/UI/ProjectSidebarView.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectSidebarView.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectSidebarView.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectSidebarView~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectSidebarView.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectSidebarView.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Editor/UI/UnitFormView.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/UnitFormView.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/UnitFormView.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/UnitFormView~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/UnitFormView.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/UnitFormView.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/Rendering/CakeRenderer.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/CakeRenderer.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/CakeRenderer.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/CakeRenderer~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/CakeRenderer.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/CakeRenderer.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/Rendering/RenderScene.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderScene.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderScene.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderScene~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderScene.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderScene.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/Rendering/SceneCGRenderer.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SceneCGRenderer.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SceneCGRenderer.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SceneCGRenderer~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SceneCGRenderer.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SceneCGRenderer.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/Rendering/Symbology.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Symbology.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Symbology.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Symbology~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Symbology.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Symbology.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/UI/LegendView.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/LegendView.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/LegendView.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/LegendView~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/LegendView.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/LegendView.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/UI/RenderPreviewView.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderPreviewView.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderPreviewView.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderPreviewView~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderPreviewView.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/RenderPreviewView.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Features/Preview/UI/SettingsPanelView.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SettingsPanelView.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SettingsPanelView.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SettingsPanelView~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SettingsPanelView.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SettingsPanelView.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Infrastructure/Export/Exporting.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Exporting.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Exporting.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Exporting~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Exporting.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/Exporting.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Infrastructure/Export/JPGExporter.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/JPGExporter.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/JPGExporter.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/JPGExporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/JPGExporter.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/JPGExporter.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Infrastructure/Export/SVGExporter.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SVGExporter.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SVGExporter.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SVGExporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SVGExporter.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/SVGExporter.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Infrastructure/Persistence/ProjectStore.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectStore.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectStore.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectStore.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ProjectStore.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Sources/CakeKit/Infrastructure/Utils/ColorHex.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ColorHex.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ColorHex.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ColorHex~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ColorHex.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKit.build/ColorHex.dia"
+  }
+}

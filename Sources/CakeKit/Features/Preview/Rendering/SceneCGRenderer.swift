@@ -80,6 +80,7 @@ public enum SceneCGRenderer {
             context.setFillColor(fill)
             context.fill(rect)
             drawSymbolPattern(unit.symbol, in: rect, context: context)
+            drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
 
             context.setStrokeColor(NSColor.black.cgColor)
             context.setLineWidth(1.2)
@@ -130,14 +131,86 @@ public enum SceneCGRenderer {
 
         for item in scene.legend {
             let swatch = CGRect(x: originX, y: originY, width: 28, height: 18)
-            context.setFillColor(NSColor.white.cgColor)
-            context.fill(swatch)
-            drawSymbolPattern(item.symbol, in: swatch, context: context)
-            context.setStrokeColor(NSColor.black.cgColor)
-            context.stroke(swatch)
+            drawLegendSwatch(item: item, in: swatch, context: context)
             drawText(item.label, at: CGPoint(x: originX + 36, y: originY + 3), size: scene.baseFontSize - 1, context: context)
             originY += 26
         }
+    }
+
+    private static func drawPointFeatures(_ pointFeatures: [RenderedPointFeature], clippedTo rect: CGRect, context: CGContext) {
+        context.saveGState()
+        context.clip(to: rect)
+        for pointFeature in pointFeatures {
+            drawPointSymbol(
+                pointFeature.symbol,
+                center: CGPoint(x: pointFeature.centerX, y: pointFeature.centerY),
+                size: CGFloat(pointFeature.size),
+                context: context
+            )
+        }
+        context.restoreGState()
+    }
+
+    private static func drawLegendSwatch(item: LegendItem, in rect: CGRect, context: CGContext) {
+        context.setFillColor(NSColor.white.cgColor)
+        context.fill(rect)
+        if let pointSymbol = item.pointSymbol {
+            drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: context)
+        } else {
+            drawSymbolPattern(item.symbol, in: rect, context: context)
+        }
+        context.setStrokeColor(NSColor.black.cgColor)
+        context.stroke(rect)
+    }
+
+    public static func drawPointSymbol(_ symbol: PointFeatureSymbol, center: CGPoint, size: CGFloat, context: CGContext) {
+        let half = size / 2
+        context.saveGState()
+        context.setStrokeColor(NSColor.black.withAlphaComponent(0.88).cgColor)
+        context.setFillColor(NSColor.white.withAlphaComponent(0.95).cgColor)
+        context.setLineWidth(1.1)
+
+        switch symbol {
+        case .diamond:
+            context.beginPath()
+            context.move(to: CGPoint(x: center.x, y: center.y - half))
+            context.addLine(to: CGPoint(x: center.x + half, y: center.y))
+            context.addLine(to: CGPoint(x: center.x, y: center.y + half))
+            context.addLine(to: CGPoint(x: center.x - half, y: center.y))
+            context.closePath()
+            context.drawPath(using: .fillStroke)
+        case .square:
+            let rect = CGRect(x: center.x - half, y: center.y - half, width: size, height: size)
+            context.fill(rect)
+            context.stroke(rect)
+        case .triangle:
+            context.beginPath()
+            context.move(to: CGPoint(x: center.x, y: center.y - half))
+            context.addLine(to: CGPoint(x: center.x + half, y: center.y + half))
+            context.addLine(to: CGPoint(x: center.x - half, y: center.y + half))
+            context.closePath()
+            context.drawPath(using: .fillStroke)
+        case .circle:
+            let rect = CGRect(x: center.x - half, y: center.y - half, width: size, height: size)
+            context.fillEllipse(in: rect)
+            context.strokeEllipse(in: rect)
+        case .cross:
+            context.beginPath()
+            context.move(to: CGPoint(x: center.x - half, y: center.y - half))
+            context.addLine(to: CGPoint(x: center.x + half, y: center.y + half))
+            context.move(to: CGPoint(x: center.x + half, y: center.y - half))
+            context.addLine(to: CGPoint(x: center.x - half, y: center.y + half))
+            context.strokePath()
+        case .plus:
+            context.beginPath()
+            context.move(to: CGPoint(x: center.x - half, y: center.y))
+            context.addLine(to: CGPoint(x: center.x + half, y: center.y))
+            context.move(to: CGPoint(x: center.x, y: center.y - half))
+            context.addLine(to: CGPoint(x: center.x, y: center.y + half))
+            context.strokePath()
+        }
+
+        context.restoreGState()
     }
 
     private static func drawHeader(scene: RenderScene, in context: CGContext) {

@@ -3,6 +3,7 @@ import SwiftUI
 public struct UnitFormView: View {
     @Binding private var unit: StratigraphicUnit
     @State private var thicknessText: String = ""
+    @State private var pendingPointFeatureType: PointFeatureType = PointFeatureType.allCases.first ?? .paleoMacroFossils
 
     public init(unit: Binding<StratigraphicUnit>) {
         self._unit = unit
@@ -20,20 +21,57 @@ public struct UnitFormView: View {
                     Text(lithology).tag(lithology)
                 }
             }
+            if let usgsCode = SymbologyLibrary.usgsSymbolCode(forLithology: unit.lithology) {
+                Text("USGS symbol \(usgsCode)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             Picker("Grain size", selection: grainSizeBinding) {
                 Text("Unset").tag(nil as USGSGrainSize?)
                 ForEach(USGSGrainSize.allCases, id: \.self) { size in
                     Text(size.label).tag(Optional(size))
                 }
             }
+
+            Divider()
+            Text("Elements ponctuels")
+                .font(.headline)
+
+            if unit.pointFeatures.isEmpty {
+                Text("Aucun element ponctuel.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(Array(unit.pointFeatures.indices), id: \.self) { index in
+                    pointFeatureRow(index: index)
+                }
+            }
+
+            HStack(alignment: .center, spacing: 8) {
+                Picker("Ajouter", selection: $pendingPointFeatureType) {
+                    ForEach(availablePointFeaturesToAdd, id: \.self) { featureType in
+                        Text("\(featureType.categoryLabel): \(featureType.label)")
+                            .tag(featureType)
+                    }
+                }
+                .pickerStyle(.menu)
+                .disabled(availablePointFeaturesToAdd.isEmpty)
+
+                Button("Ajouter") {
+                    addPendingPointFeature()
+                }
+                .disabled(availablePointFeaturesToAdd.isEmpty)
+            }
         }
         .onAppear {
             coerceLithologyToSupportedValueIfNeeded()
             thicknessText = Self.formatNumber(unit.thickness)
+            normalizePendingFeatureSelection()
         }
         .onChange(of: unit.id) { _ in
             coerceLithologyToSupportedValueIfNeeded()
             thicknessText = Self.formatNumber(unit.thickness)
+            normalizePendingFeatureSelection()
         }
     }
 
@@ -65,6 +103,53 @@ public struct UnitFormView: View {
                 }
             }
         )
+    }
+
+    @ViewBuilder
+    private func pointFeatureRow(index: Int) -> some View {
+        HStack(alignment: .center, spacing: 8) {
+            Picker("Type", selection: $unit.pointFeatures[index].type) {
+                ForEach(PointFeatureType.allCases, id: \.self) { featureType in
+                    Text("\(featureType.categoryLabel): \(featureType.label)")
+                        .tag(featureType)
+                }
+            }
+            .pickerStyle(.menu)
+
+            Picker("Concentration", selection: $unit.pointFeatures[index].concentration) {
+                ForEach(PointFeatureConcentration.allCases, id: \.self) { concentration in
+                    Text(concentration.label).tag(concentration)
+                }
+            }
+            .pickerStyle(.segmented)
+            .frame(maxWidth: 210)
+
+            Button("Suppr.") {
+                unit.pointFeatures.remove(at: index)
+                normalizePendingFeatureSelection()
+            }
+            .buttonStyle(.borderless)
+        }
+    }
+
+    private var availablePointFeaturesToAdd: [PointFeatureType] {
+        let used = Set(unit.pointFeatures.map(\.type))
+        return PointFeatureType.allCases.filter { !used.contains($0) }
+    }
+
+    private func normalizePendingFeatureSelection() {
+        guard let firstAvailable = availablePointFeaturesToAdd.first else { return }
+        if !availablePointFeaturesToAdd.contains(pendingPointFeatureType) {
+            pendingPointFeatureType = firstAvailable
+        }
+    }
+
+    private func addPendingPointFeature() {
+        guard availablePointFeaturesToAdd.contains(pendingPointFeatureType) else { return }
+        unit.pointFeatures.append(
+            UnitPointFeature(type: pendingPointFeatureType, concentration: .low)
+        )
+        normalizePendingFeatureSelection()
     }
 
     private func parseNumber(_ raw: String) -> Double? {

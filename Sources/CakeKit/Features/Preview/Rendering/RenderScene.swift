@@ -24,8 +24,10 @@ public struct RenderedUnit: Identifiable, Hashable {
     public var thickness: Double
     public var lithology: String
     public var symbol: SymbolPattern
+    public var usgsSymbolCode: Int?
     public var rect: RectD
     public var grainSize: USGSGrainSize?
+    public var pointFeatures: [RenderedPointFeature]
 
     public init(
         id: UUID,
@@ -33,26 +35,61 @@ public struct RenderedUnit: Identifiable, Hashable {
         thickness: Double,
         lithology: String,
         symbol: SymbolPattern,
+        usgsSymbolCode: Int? = nil,
         rect: RectD,
-        grainSize: USGSGrainSize? = nil
+        grainSize: USGSGrainSize? = nil,
+        pointFeatures: [RenderedPointFeature] = []
     ) {
         self.id = id
         self.name = name
         self.thickness = thickness
         self.lithology = lithology
         self.symbol = symbol
+        self.usgsSymbolCode = usgsSymbolCode
         self.rect = rect
         self.grainSize = grainSize
+        self.pointFeatures = pointFeatures
+    }
+}
+
+public struct RenderedPointFeature: Hashable {
+    public var type: PointFeatureType
+    public var symbol: PointFeatureSymbol
+    public var centerX: Double
+    public var centerY: Double
+    public var size: Double
+
+    public init(
+        type: PointFeatureType,
+        symbol: PointFeatureSymbol,
+        centerX: Double,
+        centerY: Double,
+        size: Double
+    ) {
+        self.type = type
+        self.symbol = symbol
+        self.centerX = centerX
+        self.centerY = centerY
+        self.size = size
     }
 }
 
 public struct LegendItem: Hashable {
     public var label: String
     public var symbol: SymbolPattern
+    public var usgsSymbolCode: Int?
+    public var pointSymbol: PointFeatureSymbol?
 
-    public init(label: String, symbol: SymbolPattern) {
+    public init(
+        label: String,
+        symbol: SymbolPattern,
+        usgsSymbolCode: Int? = nil,
+        pointSymbol: PointFeatureSymbol? = nil
+    ) {
         self.label = label
         self.symbol = symbol
+        self.usgsSymbolCode = usgsSymbolCode
+        self.pointSymbol = pointSymbol
     }
 }
 

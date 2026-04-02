@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/master.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Tests/CakeKitTests/ProjectRoundTripTests.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/ProjectRoundTripTests.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/ProjectRoundTripTests.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/ProjectRoundTripTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/ProjectRoundTripTests.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/ProjectRoundTripTests.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Tests/CakeKitTests/RendererTests.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/RendererTests.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/RendererTests.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/RendererTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/RendererTests.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/RendererTests.dia"
+  },
+  "/Users/brice/Documents/Iphes/Cake/Tests/CakeKitTests/SymbologyTests.swift": {
+    "dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/SymbologyTests.d",
+    "object": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/SymbologyTests.swift.o",
+    "swiftmodule": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/SymbologyTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/SymbologyTests.swiftdeps",
+    "diagnostics": "/Users/brice/Documents/Iphes/Cake/.build/arm64-apple-macosx/debug/CakeKitTests.build/SymbologyTests.dia"
+  }
+}

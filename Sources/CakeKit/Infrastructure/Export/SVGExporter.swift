@@ -26,6 +26,19 @@ public struct SVGExporter: SVGExporting {
               <rect x="\(fmt(unit.rect.x))" y="\(fmt(unit.rect.y))" width="\(fmt(unit.rect.width))" height="\(fmt(unit.rect.height))" fill="url(#pattern-\(unit.symbol.rawValue))" class="unit-pattern"/>
             </g>
             """
+            if !unit.pointFeatures.isEmpty {
+                svg += """
+
+                <g id="unit-points-\(unit.id.uuidString)">
+                """
+                for pointFeature in unit.pointFeatures {
+                    svg += "\n\(pointFeatureElement(pointFeature))"
+                }
+                svg += """
+
+                </g>
+                """
+            }
         }
         svg += "\n  </g>"
 
@@ -91,7 +104,13 @@ public struct SVGExporter: SVGExporting {
             svg += """
 
               <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="28" height="18" fill="#ffffff"/>
-              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="28" height="18" fill="url(#pattern-\(item.symbol.rawValue))"/>
+            """
+            if let pointSymbol = item.pointSymbol {
+                svg += "\n\(pointLegendElement(symbol: pointSymbol, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
+            } else {
+                svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"28\" height=\"18\" fill=\"url(#pattern-\(item.symbol.rawValue))\"/>"
+            }
+            svg += """
               <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="28" height="18" fill="none" stroke="#111111" stroke-width="1"/>
               <text x="\(fmt(legendX + 36))" y="\(fmt(legendY + 13))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize - 1))">\(xmlEscape(item.label))</text>
             """
@@ -105,6 +124,45 @@ public struct SVGExporter: SVGExporting {
     private func patternDefinitions() -> String {
         let definitions = SymbolPattern.allCases.map { patternDefinition(for: $0) }
         return definitions.joined(separator: "\n")
+    }
+
+    private func pointFeatureElement(_ pointFeature: RenderedPointFeature) -> String {
+        pointLegendElement(
+            symbol: pointFeature.symbol,
+            centerX: pointFeature.centerX,
+            centerY: pointFeature.centerY,
+            size: pointFeature.size
+        )
+    }
+
+    private func pointLegendElement(symbol: PointFeatureSymbol, centerX: Double, centerY: Double, size: Double) -> String {
+        let half = size / 2
+        switch symbol {
+        case .diamond:
+            return """
+              <path d="M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY)) L \(fmt(centerX)) \(fmt(centerY + half)) L \(fmt(centerX - half)) \(fmt(centerY)) Z" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+            """
+        case .square:
+            return """
+              <rect x="\(fmt(centerX - half))" y="\(fmt(centerY - half))" width="\(fmt(size))" height="\(fmt(size))" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+            """
+        case .triangle:
+            return """
+              <path d="M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY + half)) L \(fmt(centerX - half)) \(fmt(centerY + half)) Z" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+            """
+        case .circle:
+            return """
+              <circle cx="\(fmt(centerX))" cy="\(fmt(centerY))" r="\(fmt(half))" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+            """
+        case .cross:
+            return """
+              <path d="M \(fmt(centerX - half)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY + half)) M \(fmt(centerX + half)) \(fmt(centerY - half)) L \(fmt(centerX - half)) \(fmt(centerY + half))" fill="none" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+            """
+        case .plus:
+            return """
+              <path d="M \(fmt(centerX - half)) \(fmt(centerY)) L \(fmt(centerX + half)) \(fmt(centerY)) M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX)) \(fmt(centerY + half))" fill="none" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+            """
+        }
     }
 
     private func patternDefinition(for symbol: SymbolPattern) -> String {

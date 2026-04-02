@@ -38,15 +38,24 @@ public struct CakeRenderer: LogRenderer {
 
         var renderedUnits: [RenderedUnit] = []
         var legendOrder: [LegendItem] = []
-        var seenSymbols = Set<SymbolPattern>()
+        var pointLegendOrder: [LegendItem] = []
+        var seenUSGSCodes = Set<Int>()
+        var seenPointTypes = Set<PointFeatureType>()
+        var hasFallbackLegend = false
         var yCursor = margins.top
 
         for (index, unit) in project.units.enumerated() {
             let safeThickness = max(unit.thickness, 0.01)
             let height = safeThickness * project.settings.verticalScale
             let style = SymbologyLibrary.style(forLithology: unit.lithology)
+            let usgsCode = SymbologyLibrary.usgsSymbolCode(forLithology: unit.lithology)
             let width = unitWidths[index]
             let rect = RectD(x: logX, y: yCursor, width: width, height: height)
+            let renderedPointFeatures = makeRenderedPointFeatures(
+                for: unit.pointFeatures,
+                in: rect,
+                unitID: unit.id
+            )
             renderedUnits.append(
                 RenderedUnit(
                     id: unit.id,
@@ -54,14 +63,35 @@ public struct CakeRenderer: LogRenderer {
                     thickness: unit.thickness,
                     lithology: unit.lithology,
                     symbol: style.symbol,
+                    usgsSymbolCode: usgsCode,
                     rect: rect,
-                    grainSize: unit.grainSize
+                    grainSize: unit.grainSize,
+                    pointFeatures: renderedPointFeatures
                 )
             )
 
-            if !seenSymbols.contains(style.symbol) {
-                seenSymbols.insert(style.symbol)
-                legendOrder.append(LegendItem(label: unit.lithology.capitalized, symbol: style.symbol))
+            if let usgsCode {
+                if !seenUSGSCodes.contains(usgsCode) {
+                    seenUSGSCodes.insert(usgsCode)
+                    legendOrder.append(LegendItem(label: "\(unit.lithology.capitalized) (\(usgsCode))", symbol: style.symbol, usgsSymbolCode: usgsCode))
+                }
+            } else {
+                if !hasFallbackLegend {
+                    hasFallbackLegend = true
+                    legendOrder.append(LegendItem(label: unit.lithology.capitalized, symbol: style.symbol))
+                }
+            }
+
+            for pointFeature in unit.pointFeatures {
+                if seenPointTypes.insert(pointFeature.type).inserted {
+                    pointLegendOrder.append(
+                        LegendItem(
+                            label: "\(pointFeature.type.categoryLabel): \(pointFeature.type.label)",
+                            symbol: .fallback,
+                            pointSymbol: pointFeature.type.symbol
+                        )
+                    )
+                }
             }
             yCursor += height
         }
@@ -77,11 +107,91 @@ public struct CakeRenderer: LogRenderer {
             canvasSize: CGSizeDTO(width: canvasWidth, height: canvasHeight),
             logColumnRect: RectD(x: logX, y: margins.top, width: logWidth, height: totalThickness * project.settings.verticalScale),
             units: renderedUnits,
-            legend: legendOrder,
+            legend: legendOrder + pointLegendOrder,
             ticks: ticks,
             baseFontSize: project.settings.baseFontSize,
             showsGrid: project.settings.showGrid
         )
+    }
+
+    private func makeRenderedPointFeatures(
+        for pointFeatures: [UnitPointFeature],
+        in rect: RectD,
+        unitID: UUID
+    ) -> [RenderedPointFeature] {
+        var rendered: [RenderedPointFeature] = []
+        let padding = min(8.0, max(2.0, min(rect.width, rect.height) * 0.1))
+        let size = min(7.0, max(4.0, min(rect.width, rect.height) * 0.15))
+        let usableWidth = max(rect.width - 2 * padding, 0)
+        let usableHeight = max(rect.height - 2 * padding, 0)
+
+        for (featureIndex, pointFeature) in pointFeatures.enumerated() {
+            let symbolCount = countForPointFeature(concentration: pointFeature.concentration, rect: rect)
+            for sampleIndex in 0..<symbolCount {
+                let seed = makeSeed(
+                    unitID: unitID,
+                    pointFeatureType: pointFeature.type,
+                    featureIndex: featureIndex,
+                    sampleIndex: sampleIndex
+                )
+                var generator = SplitMix64(state: seed)
+                let xRand = generator.nextUnitDouble()
+                let yRand = generator.nextUnitDouble()
+
+                let x = usableWidth > 0
+                    ? rect.x + padding + xRand * usableWidth
+                    : rect.x + rect.width / 2
+                let y = usableHeight > 0
+                    ? rect.y + padding + yRand * usableHeight
+                    : rect.y + rect.height / 2
+
+                rendered.append(
+                    RenderedPointFeature(
+                        type: pointFeature.type,
+                        symbol: pointFeature.type.symbol,
+                        centerX: x,
+                        centerY: y,
+                        size: size
+                    )
+                )
+            }
+        }
+
+        return rendered
+    }
+
+    private func countForPointFeature(concentration: PointFeatureConcentration, rect: RectD) -> Int {
+        let area = max(rect.width * rect.height, 1)
+        switch concentration {
+        case .low:
+            let scaled = Int((area * 0.00035).rounded())
+            return min(max(scaled, 2), 12)
+        case .high:
+            let scaled = Int((area * 0.0010).rounded())
+            return min(max(scaled, 6), 32)
+        }
+    }
+
+    private func makeSeed(
+        unitID: UUID,
+        pointFeatureType: PointFeatureType,
+        featureIndex: Int,
+        sampleIndex: Int
+    ) -> UInt64 {
+        let unitHash = stableHash(unitID.uuidString)
+        let typeHash = stableHash(pointFeatureType.rawValue)
+        let featureHash = UInt64(featureIndex &* 1_048_573)
+        let sampleHash = UInt64(sampleIndex &* 6_700_417)
+        return unitHash ^ (typeHash &* 0x9E3779B97F4A7C15) ^ featureHash ^ sampleHash
+    }
+
+    private func stableHash(_ value: String) -> UInt64 {
+        var hash: UInt64 = 1_469_598_103_934_665_603
+        for byte in value.utf8 {
+            hash ^= UInt64(byte)
+            hash &*= 1_099_511_628_211
+        }
+        return hash
     }
 
     private func preferredTickStep(for totalThickness: Double) -> Double {
@@ -91,5 +201,22 @@ public struct CakeRenderer: LogRenderer {
         case 30..<80: return 5
         default: return 10
         }
+    }
+}
+
+private struct SplitMix64 {
+    var state: UInt64
+
+    mutating func nextUInt64() -> UInt64 {
+        state &+= 0x9E3779B97F4A7C15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
+        z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+        return z ^ (z >> 31)
+    }
+
+    mutating func nextUnitDouble() -> Double {
+        let value = nextUInt64() >> 11
+        return Double(value) / Double(1 << 53)
     }
 }
