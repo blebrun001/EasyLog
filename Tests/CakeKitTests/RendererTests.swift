@@ -113,3 +113,57 @@ func highConcentrationProducesMorePointSymbolsAndStaysInsideUnit() {
         #expect(point.centerY <= rect.y + rect.height)
     }
 }
+
+@Test
+func rendererUsesNaturalCanvasSizeWithoutPresetMinimums() {
+    let projectLetter = Project(
+        settings: ProjectSettings(verticalScale: 25, pageSize: .letterPortrait),
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Massive sand or sandstone")
+        ]
+    )
+    let projectA4 = Project(
+        settings: ProjectSettings(verticalScale: 25, pageSize: .a4Portrait),
+        units: projectLetter.units
+    )
+    let renderer = CakeRenderer()
+    let sceneLetter = renderer.makeScene(project: projectLetter)
+    let sceneA4 = renderer.makeScene(project: projectA4)
+
+    // Expected natural dimensions from renderer margins and content.
+    #expect(sceneLetter.canvasSize.height == 155)
+    #expect(sceneA4.canvasSize.height == 155)
+    #expect(sceneLetter.canvasSize.width == sceneA4.canvasSize.width)
+    #expect(sceneLetter.canvasSize.width >= 460)
+}
+
+@Test
+func rendererExpandsCanvasWidthForLongLegendLabels() {
+    let baseUnit = StratigraphicUnit(name: "A", thickness: 1, lithology: "Massive sand or sandstone")
+    let shortestType = PointFeatureType.allCases.min {
+        ("\($0.categoryLabel): \($0.label)").count < ("\($1.categoryLabel): \($1.label)").count
+    } ?? .paleoRoots
+    let longestType = PointFeatureType.allCases.max {
+        ("\($0.categoryLabel): \($0.label)").count < ("\($1.categoryLabel): \($1.label)").count
+    } ?? .hydroLocalizedMineralPrecipitation
+    let shortLegendUnit = StratigraphicUnit(
+        name: "A",
+        thickness: 1,
+        lithology: "Massive sand or sandstone",
+        pointFeatures: [UnitPointFeature(type: shortestType, concentration: .low)]
+    )
+    let longLegendUnit = StratigraphicUnit(
+        name: "A",
+        thickness: 1,
+        lithology: "Massive sand or sandstone",
+        pointFeatures: [UnitPointFeature(type: longestType, concentration: .low)]
+    )
+
+    let renderer = CakeRenderer()
+    let baseScene = renderer.makeScene(project: Project(units: [baseUnit]))
+    let shortLegendScene = renderer.makeScene(project: Project(units: [shortLegendUnit]))
+    let longLegendScene = renderer.makeScene(project: Project(units: [longLegendUnit]))
+
+    #expect(shortLegendScene.canvasSize.width >= baseScene.canvasSize.width)
+    #expect(longLegendScene.canvasSize.width >= shortLegendScene.canvasSize.width)
+}

@@ -1,7 +1,13 @@
 import Foundation
+import AppKit
 
 public struct CakeRenderer: LogRenderer {
     public init() {}
+
+    private let minimumRightMargin = 260.0
+    private let legendOffsetFromLog = 170.0
+    private let legendTextOffset = 36.0
+    private let legendTrailingPadding = 24.0
 
     nonisolated(unsafe) private static let grainSizeWidthMapping: [USGSGrainSize: Double] = [
         .clay: 50,
@@ -14,8 +20,7 @@ public struct CakeRenderer: LogRenderer {
     ]
 
     public func makeScene(project: Project) -> RenderScene {
-        let margins = (top: 70.0, right: 260.0, bottom: 60.0, left: 100.0)
-        let basePage = project.settings.pageSize.canvasSize
+        let margins = (top: 70.0, bottom: 60.0, left: 100.0)
         let defaultWidth = CakeRenderer.grainSizeWidthMapping[.sand] ?? 100.0
         let totalThickness = max(project.units.map(\.thickness).reduce(0, +), 0.01)
 
@@ -32,10 +37,6 @@ public struct CakeRenderer: LogRenderer {
         // The widest unit width determines the logWidth
         let logWidth = unitWidths.max() ?? defaultWidth
         let logX = margins.left
-        let naturalHeight = margins.top + (totalThickness * project.settings.verticalScale) + margins.bottom
-        let canvasHeight = max(basePage.height, naturalHeight)
-        let canvasWidth = max(basePage.width, logX + logWidth + margins.right)
-
         var renderedUnits: [RenderedUnit] = []
         var legendOrder: [LegendItem] = []
         var pointLegendOrder: [LegendItem] = []
@@ -102,17 +103,45 @@ public struct CakeRenderer: LogRenderer {
             let depth = Double(index) * tickStep
             return ScaleTick(depth: depth, y: margins.top + depth * project.settings.verticalScale)
         }
+        let legend = legendOrder + pointLegendOrder
+        let naturalHeight = margins.top + (totalThickness * project.settings.verticalScale) + margins.bottom
+        let canvasHeight = naturalHeight
+        let rightMargin = max(
+            minimumRightMargin,
+            requiredRightMarginForLegend(legend: legend, baseFontSize: project.settings.baseFontSize)
+        )
+        let canvasWidth = logX + logWidth + rightMargin
 
         return RenderScene(
             canvasSize: CGSizeDTO(width: canvasWidth, height: canvasHeight),
             logColumnRect: RectD(x: logX, y: margins.top, width: logWidth, height: totalThickness * project.settings.verticalScale),
             units: renderedUnits,
-            legend: legendOrder + pointLegendOrder,
+            legend: legend,
             ticks: ticks,
             baseFontSize: project.settings.baseFontSize,
             showsGrid: false,
             symbolScale: project.settings.symbolScale
         )
+    }
+
+    private func requiredRightMarginForLegend(legend: [LegendItem], baseFontSize: Double) -> Double {
+        let labelFontSize = max(baseFontSize - 1, 1)
+        let titleWidth = measuredTextWidth("Legend", fontSize: baseFontSize + 1, bold: true)
+        let maxLabelWidth = legend
+            .map { measuredTextWidth($0.label, fontSize: labelFontSize, bold: false) }
+            .max() ?? 0
+
+        let titleRequired = legendOffsetFromLog + titleWidth + legendTrailingPadding
+        let labelsRequired = legendOffsetFromLog + legendTextOffset + maxLabelWidth + legendTrailingPadding
+        return max(titleRequired, labelsRequired)
+    }
+
+    private func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let font: NSFont = bold
+            ? .boldSystemFont(ofSize: CGFloat(fontSize))
+            : .systemFont(ofSize: CGFloat(fontSize))
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        return NSString(string: text).size(withAttributes: attributes).width
     }
 
     private func makeRenderedPointFeatures(

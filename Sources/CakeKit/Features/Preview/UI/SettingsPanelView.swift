@@ -29,12 +29,6 @@ public struct SettingsPanelView: View {
                     Text("\(settings.symbolScale, specifier: "%.2f")x")
                         .foregroundStyle(.secondary)
                 }
-
-                Picker("Page Size", selection: $settings.pageSize) {
-                    ForEach(PageSizePreset.allCases) { size in
-                        Text(size.label).tag(size)
-                    }
-                }
             }
             .padding(.vertical, 4)
         }

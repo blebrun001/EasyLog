@@ -283,6 +283,7 @@ public struct ProjectMetadata: Codable, Hashable {
     }
 }
 
+@available(*, deprecated, message: "unused in auto sizing mode")
 public enum PageSizePreset: String, Codable, CaseIterable, Identifiable {
     case a4Portrait
     case letterPortrait
@@ -318,6 +319,7 @@ public struct CGSizeDTO: Codable, Hashable {
 
 public struct ProjectSettings: Codable, Hashable {
     public var verticalScale: Double
+    @available(*, deprecated, message: "unused in auto sizing mode")
     public var pageSize: PageSizePreset
     public var baseFontSize: Double
     public var showGrid: Bool

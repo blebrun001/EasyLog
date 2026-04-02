@@ -21,3 +21,23 @@ func projectJSONRoundTripPreservesMWEFields() throws {
 
     #expect(loaded == project)
 }
+
+@Test
+func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
+    let legacyJSON = """
+    {
+      "verticalScale": 25,
+      "pageSize": "letterPortrait",
+      "baseFontSize": 12,
+      "showGrid": false,
+      "symbolScale": 1.0
+    }
+    """
+
+    let decoded = try JSONDecoder().decode(ProjectSettings.self, from: Data(legacyJSON.utf8))
+
+    #expect(decoded.verticalScale == 25)
+    #expect(decoded.pageSize == .letterPortrait)
+    #expect(decoded.baseFontSize == 12)
+    #expect(decoded.symbolScale == 1.0)
+}
