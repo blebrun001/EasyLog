@@ -3,6 +3,7 @@ import Testing
 @testable import CakeKit
 
 @MainActor
+/// Ensures open flow hydrates the view model and clears previous errors.
 @Test
 func openProjectViaDialogLoadsProjectAndUpdatesState() throws {
     let store = JSONProjectStore()

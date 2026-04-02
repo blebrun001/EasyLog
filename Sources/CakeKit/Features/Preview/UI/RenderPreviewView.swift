@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Right-hand preview panel with toolbar, zoom and live-rendered canvas.
 public struct RenderPreviewView: View {
     @ObservedObject private var viewModel: ProjectViewModel
 

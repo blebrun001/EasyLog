@@ -1,5 +1,6 @@
 import Foundation
 
+/// Validation message surfaced in the sidebar status area.
 public struct ValidationIssue: Identifiable, Hashable {
     public var id: UUID = UUID()
     public var message: String
@@ -9,6 +10,7 @@ public struct ValidationIssue: Identifiable, Hashable {
     }
 }
 
+/// Stateless domain validation rules for editable projects.
 public enum ProjectValidator {
     public static func validate(_ project: Project) -> [ValidationIssue] {
         var issues: [ValidationIssue] = []

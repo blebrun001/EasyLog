@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Downloads FGDC/USGS 11A02 EPS archives, extracts them, and updates the
+# local manifest used by the symbol resolver.
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BASE_URL="https://pubs.usgs.gov/tm/2006/11A02/"
 TARGET_DIR="$ROOT_DIR/Sources/CakeKit/Resources/USGS/11A02"

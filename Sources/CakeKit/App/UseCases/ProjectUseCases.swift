@@ -1,10 +1,12 @@
 import Foundation
 
+/// Relative movement direction for selected units in the ordered stack.
 public enum MoveDirection {
     case up
     case down
 }
 
+/// Appends a new default unit and returns its identifier for selection.
 public struct AddUnitUseCase {
     public init() {}
 
@@ -20,6 +22,7 @@ public struct AddUnitUseCase {
     }
 }
 
+/// Removes the currently selected unit and updates the selection safely.
 public struct DeleteSelectedUnitUseCase {
     public init() {}
 
@@ -37,6 +40,7 @@ public struct DeleteSelectedUnitUseCase {
     }
 }
 
+/// Reorders the selected unit up/down while preserving list integrity.
 public struct MoveSelectedUnitUseCase {
     public init() {}
 
@@ -59,6 +63,7 @@ public struct MoveSelectedUnitUseCase {
     }
 }
 
+/// Loads a project file from a persisted URL.
 public struct OpenProjectUseCase {
     private let store: ProjectStore
 
@@ -71,6 +76,7 @@ public struct OpenProjectUseCase {
     }
 }
 
+/// Saves a project and updates its `updatedAt` timestamp before write.
 public struct SaveProjectUseCase {
     private let store: ProjectStore
     private let now: () -> Date
@@ -88,6 +94,7 @@ public struct SaveProjectUseCase {
     }
 }
 
+/// Exports the current rendered scene to the selected output format.
 public struct ExportProjectUseCase {
     private let exporter: Exporter
 

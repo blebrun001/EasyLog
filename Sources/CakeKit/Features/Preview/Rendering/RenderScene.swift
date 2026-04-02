@@ -1,9 +1,11 @@
 import Foundation
 
+/// Converts domain project data into drawable scene data.
 public protocol LogRenderer {
     func makeScene(project: Project) -> RenderScene
 }
 
+/// Double-precision rectangle used by geometry computations.
 public struct RectD: Hashable {
     public var x: Double
     public var y: Double
@@ -18,6 +20,7 @@ public struct RectD: Hashable {
     }
 }
 
+/// Render-ready unit geometry and style metadata.
 public struct RenderedUnit: Identifiable, Hashable {
     public var id: UUID
     public var name: String
@@ -52,6 +55,7 @@ public struct RenderedUnit: Identifiable, Hashable {
     }
 }
 
+/// Render-ready point feature marker placed inside a unit rectangle.
 public struct RenderedPointFeature: Hashable {
     public var type: PointFeatureType
     public var symbol: PointFeatureSymbol
@@ -74,6 +78,7 @@ public struct RenderedPointFeature: Hashable {
     }
 }
 
+/// One legend line item for lithology or point-feature symbols.
 public struct LegendItem: Hashable {
     public var label: String
     public var symbol: SymbolPattern
@@ -93,6 +98,7 @@ public struct LegendItem: Hashable {
     }
 }
 
+/// Depth axis tick for the current scale unit.
 public struct ScaleTick: Hashable {
     public var depth: Double
     public var y: Double
@@ -103,6 +109,7 @@ public struct ScaleTick: Hashable {
     }
 }
 
+/// Immutable render snapshot consumed by SwiftUI preview and exporters.
 public struct RenderScene: Hashable {
     public var title: String
     public var canvasSize: CGSizeDTO

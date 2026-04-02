@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 
+/// Draws USGS EPS-derived symbols by tiling/cropping cached PDF pages.
 public enum USGSEPSSymbolRenderer {
     private static let resolver = USGSSymbolAssetResolver.shared
     nonisolated(unsafe) private static var croppedImageCache: [String: CGImage] = [:]

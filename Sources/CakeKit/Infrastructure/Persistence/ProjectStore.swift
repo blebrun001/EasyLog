@@ -1,10 +1,12 @@
 import Foundation
 
+/// Persistence contract for loading/saving complete project documents.
 public protocol ProjectStore {
     func load(url: URL) throws -> Project
     func save(_ project: Project, to url: URL) throws
 }
 
+/// Errors raised by project persistence adapters.
 public enum ProjectStoreError: LocalizedError {
     case invalidData
 
@@ -16,6 +18,7 @@ public enum ProjectStoreError: LocalizedError {
     }
 }
 
+/// JSON-backed project store using ISO8601 date encoding.
 public struct JSONProjectStore: ProjectStore {
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder

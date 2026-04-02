@@ -1,5 +1,6 @@
 import Foundation
 
+/// Grain-size classes used to infer log column width.
 public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable {
     case clay = "clay"
     case silt = "silt"
@@ -24,6 +25,7 @@ public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// Primitive shapes used for unit point-feature symbols.
 public enum PointFeatureSymbol: String, Codable, CaseIterable, Hashable {
     case diamond
     case square
@@ -33,6 +35,7 @@ public enum PointFeatureSymbol: String, Codable, CaseIterable, Hashable {
     case plus
 }
 
+/// User-facing qualitative density level for point features.
 public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiable {
     case low
     case high
@@ -47,6 +50,7 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
     }
 }
 
+/// Display unit used for depth labels on the rendered scale.
 public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable {
     case meter
     case centimeter
@@ -79,6 +83,7 @@ public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// Grouping taxonomy for unit point features.
 public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, Sendable {
     case biological
     case sedimentary
@@ -101,6 +106,7 @@ public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, 
     }
 }
 
+/// Typed point annotations that can be attached to a stratigraphic unit.
 public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
     case paleoMacroFossils
     case paleoMicrofossils
@@ -226,6 +232,7 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// Instance of a typed point feature with normalized density.
 public struct UnitPointFeature: Identifiable, Codable, Hashable {
     public var id: UUID
     public var type: PointFeatureType
@@ -293,6 +300,7 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
     }
 }
 
+/// One layer of the stratigraphic log.
 public struct StratigraphicUnit: Identifiable, Codable, Hashable {
     public var id: UUID
     public var name: String
@@ -347,6 +355,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
     }
 }
 
+/// Human/contextual metadata for a project file.
 public struct ProjectMetadata: Codable, Hashable {
     public var title: String
     public var author: String
@@ -367,6 +376,7 @@ public struct ProjectMetadata: Codable, Hashable {
 }
 
 @available(*, deprecated, message: "unused in auto sizing mode")
+/// Export page size presets used by SVG/JPG export workflows.
 public enum PageSizePreset: String, Codable, CaseIterable, Identifiable {
     case a4Portrait
     case letterPortrait
@@ -390,6 +400,7 @@ public enum PageSizePreset: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// Codable bridge for `CGSize` to keep model pure-Foundation.
 public struct CGSizeDTO: Codable, Hashable {
     public var width: Double
     public var height: Double
@@ -400,6 +411,7 @@ public struct CGSizeDTO: Codable, Hashable {
     }
 }
 
+/// Rendering preferences and export defaults persisted with the project.
 public struct ProjectSettings: Codable, Hashable {
     public var verticalScale: Double
     @available(*, deprecated, message: "unused in auto sizing mode")
@@ -456,6 +468,7 @@ public struct ProjectSettings: Codable, Hashable {
 }
 
 // Note: Custom field functionality has been removed from the data model.
+/// Root aggregate persisted to disk and edited in the UI.
 public struct Project: Codable, Hashable {
     public var metadata: ProjectMetadata
     public var settings: ProjectSettings

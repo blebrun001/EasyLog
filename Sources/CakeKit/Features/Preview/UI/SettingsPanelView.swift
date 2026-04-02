@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Controls for renderer scaling, depth unit, grid visibility and export DPI.
 public struct SettingsPanelView: View {
     @Binding private var settings: ProjectSettings
 

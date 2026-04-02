@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Form that edits one `StratigraphicUnit`, including lithology and point features.
 public struct UnitFormView: View {
     @Binding private var unit: StratigraphicUnit
     @State private var thicknessText: String = ""

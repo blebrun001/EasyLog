@@ -1,5 +1,6 @@
 import Foundation
 
+/// Resolves the correct resource bundle in SPM and Xcode contexts.
 public enum CakeKitBundle {
     public static var resources: Bundle {
         #if SWIFT_PACKAGE

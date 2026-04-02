@@ -1,5 +1,6 @@
 import Foundation
 
+/// Supported export formats available from the UI.
 public enum ExportFormat: String, CaseIterable, Identifiable {
     case svg
     case jpg
@@ -7,6 +8,7 @@ public enum ExportFormat: String, CaseIterable, Identifiable {
     public var id: String { rawValue }
 }
 
+/// Export request options shared across exporter implementations.
 public struct ExportOptions {
     public var format: ExportFormat
     public var dpi: Double
@@ -17,14 +19,17 @@ public struct ExportOptions {
     }
 }
 
+/// Generic export facade for scene -> file conversion.
 public protocol Exporter {
     func export(scene: RenderScene, to url: URL, options: ExportOptions) throws
 }
 
+/// Specialized SVG exporter protocol used by tests and composition.
 public protocol SVGExporting {
     func export(scene: RenderScene, to url: URL, canvas: CGSizeDTO) throws
 }
 
+/// Routes export requests to the concrete exporter for each format.
 public struct CompositeExporter: Exporter {
     private let svgExporter: SVGExporting
     private let jpgExporter: JPGExporter

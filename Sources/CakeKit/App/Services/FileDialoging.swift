@@ -3,12 +3,14 @@ import Foundation
 import UniformTypeIdentifiers
 
 @MainActor
+/// Abstraction over macOS file panels to keep the view model testable.
 public protocol FileDialoging {
     func chooseProjectToOpen() -> URL?
     func chooseProjectToSave() -> URL?
     func chooseExportDestination(format: ExportFormat) -> URL?
 }
 
+/// Default `NSOpenPanel`/`NSSavePanel` implementation used by CakeApp.
 public struct AppKitFileDialogService: FileDialoging {
     public init() {}
 

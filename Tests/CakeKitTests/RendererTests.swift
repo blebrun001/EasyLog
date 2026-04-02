@@ -1,6 +1,7 @@
 import Testing
 @testable import CakeKit
 
+/// Validates geometry, legend composition and point-symbol density behavior.
 @Test
 func rendererProducesStackedUnitsWithoutOverlap() {
     let project = Project(

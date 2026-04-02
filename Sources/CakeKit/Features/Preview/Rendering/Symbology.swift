@@ -1,5 +1,6 @@
 import Foundation
 
+/// Internal hatch/pattern identifiers used by fallback vector drawing.
 public enum SymbolPattern: String, Codable, CaseIterable, Identifiable, Hashable, Sendable {
     case sandstone
     case mudstone
@@ -18,6 +19,7 @@ public enum SymbolPattern: String, Codable, CaseIterable, Identifiable, Hashable
     public var id: String { rawValue }
 }
 
+/// Visual style tuple for non-USGS pattern fallback rendering.
 public struct SymbologyStyle: Hashable, Sendable {
     public var symbol: SymbolPattern
     public var fillHex: String
@@ -30,6 +32,7 @@ public struct SymbologyStyle: Hashable, Sendable {
     }
 }
 
+/// Catalog entry from FGDC Section 37 (code + canonical lithology label).
 public struct USGSLithologySymbol: Hashable, Sendable {
     public let code: Int
     public let label: String
@@ -40,6 +43,7 @@ public struct USGSLithologySymbol: Hashable, Sendable {
     }
 }
 
+/// High-level grouping used to organize lithology choices in the UI.
 public enum USGSLithologyCategory: String, CaseIterable, Identifiable, Hashable, Sendable {
     case coarseClastics
     case fineClastics
@@ -72,6 +76,7 @@ public enum USGSLithologyCategory: String, CaseIterable, Identifiable, Hashable,
     }
 }
 
+/// Central lithology/symbol lookup table and USGS metadata registry.
 public enum SymbologyLibrary {
     public static let usgsSourceURL = URL(string: "https://pubs.usgs.gov/tm/2006/11A02/")!
 

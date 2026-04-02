@@ -1,6 +1,8 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
+// Defines the package graph: CakeKit library + CakeApp executable,
+// with bundled USGS resources copied into the CakeKit target.
 let package = Package(
     name: "Cake",
     platforms: [

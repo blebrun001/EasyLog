@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import CakeKit
 
+/// Verifies that SVG exports include expected structural groups and layers.
 @Test
 func svgExportContainsCoreGroupsAndGridWhenEnabled() throws {
     let project = Project(

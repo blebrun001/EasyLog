@@ -3,6 +3,8 @@ import json
 import re
 from pathlib import Path
 
+# Parses EPS files and emits `symbol-index.json` used at runtime to map
+# USGS code -> asset paths + artboard/symbol rectangle metadata.
 ROOT = Path(__file__).resolve().parent.parent
 BASE = ROOT / "Sources/CakeKit/Resources/USGS/11A02"
 OUT = BASE / "symbol-index.json"

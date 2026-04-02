@@ -2,6 +2,7 @@ import AppKit
 import CakeKit
 import SwiftUI
 
+/// App delegate that force-focuses the first app window on launch.
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -26,6 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 @main
+/// SwiftUI application entry point and dependency composition root.
 struct CakeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var viewModel = ProjectViewModel()

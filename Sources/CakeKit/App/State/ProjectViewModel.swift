@@ -2,6 +2,7 @@ import Combine
 import Foundation
 
 @MainActor
+/// UI-facing state holder orchestrating project editing, rendering, I/O and export.
 public final class ProjectViewModel: ObservableObject {
     @Published public var project: Project
     @Published public private(set) var scene: RenderScene

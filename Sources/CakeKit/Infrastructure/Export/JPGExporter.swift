@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 
+/// Raster exporter that renders the scene with CoreGraphics and writes JPEG.
 public struct JPGExporter: Exporter {
     public init() {}
 

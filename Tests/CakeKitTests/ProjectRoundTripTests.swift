@@ -2,6 +2,7 @@ import Foundation
 import Testing
 @testable import CakeKit
 
+/// Guards project persistence compatibility and legacy decoding behavior.
 @Test
 func projectJSONRoundTripPreservesMWEFields() throws {
     var project = Project.sample

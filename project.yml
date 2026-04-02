@@ -1,3 +1,5 @@
+# XcodeGen project definition mirroring the Swift Package modules.
+# Keep this file as the single source of truth for Xcode project regeneration.
 name: Cake
 options:
   createIntermediateGroups: true

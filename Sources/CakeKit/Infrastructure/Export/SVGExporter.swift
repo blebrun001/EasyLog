@@ -1,5 +1,6 @@
 import Foundation
 
+/// Vector exporter that serializes a `RenderScene` into an editable SVG file.
 public struct SVGExporter: SVGExporting {
     public init() {}
 

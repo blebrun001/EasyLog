@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Main split view that hosts the editor sidebar and live render panel.
 public struct MainContentView: View {
     @ObservedObject private var viewModel: ProjectViewModel
 

@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Left-hand editor panel for metadata, unit list, and selected unit form.
 public struct ProjectSidebarView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var hoveredUnitID: UUID?

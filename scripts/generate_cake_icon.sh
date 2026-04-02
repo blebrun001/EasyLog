@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Generates macOS app icon assets from a procedurally built source graphic.
+# Output: `Cake.icns` + `Assets.xcassets/AppIcon.appiconset`.
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="$ROOT_DIR/Sources/CakeApp/Resources"
 ASSETS_DIR="$OUT_DIR/Assets.xcassets"

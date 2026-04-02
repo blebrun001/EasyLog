@@ -1,5 +1,6 @@
 import AppKit
 
+/// CoreGraphics raster renderer for preview canvases and JPG export.
 public enum SceneCGRenderer {
     public static func draw(scene: RenderScene, in context: CGContext) {
         let canvasRect = CGRect(x: 0, y: 0, width: scene.canvasSize.width, height: scene.canvasSize.height)

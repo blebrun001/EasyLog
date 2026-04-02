@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 
+/// Main scene builder that maps `Project` domain data to draw-ready geometry.
 public struct CakeRenderer: LogRenderer {
     public init() {}
 
@@ -173,6 +174,7 @@ public struct CakeRenderer: LogRenderer {
         for (featureIndex, pointFeature) in pointFeatures.enumerated() {
             let symbolCount = countForPointFeature(density: pointFeature.density, rect: rect)
             for sampleIndex in 0..<symbolCount {
+                // Seeded RNG keeps point placement stable across redraws for the same inputs.
                 let seed = makeSeed(
                     unitID: unitID,
                     pointFeatureType: pointFeature.type,
@@ -206,6 +208,7 @@ public struct CakeRenderer: LogRenderer {
     }
 
     private func countForPointFeature(density: Double, rect: RectD) -> Int {
+        // Density maps to an area-proportional count constrained by min/max envelopes.
         let area = max(rect.width * rect.height, 1)
         let clampedDensity = min(max(density, 0), 1)
         let rate = 0.0002 + (0.0014 - 0.0002) * clampedDensity

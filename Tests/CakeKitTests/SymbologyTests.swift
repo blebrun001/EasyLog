@@ -1,6 +1,7 @@
 import Testing
 @testable import CakeKit
 
+/// Covers symbol lookup guarantees and USGS asset resolution quality.
 @Test
 func unknownLithologyFallsBackToDefault() {
     let style = SymbologyLibrary.style(forLithology: "mystery-rock")

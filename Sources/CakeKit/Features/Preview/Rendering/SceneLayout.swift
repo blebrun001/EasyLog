@@ -1,5 +1,6 @@
 import Foundation
 
+/// Shared layout constants and label formatting helpers for renderers/exporters.
 public enum SceneLayout {
     public static let legendOffsetFromLog = 170.0
     public static let legendTextOffset = 36.0

@@ -1,5 +1,6 @@
 import Foundation
 
+/// Crop rectangle (in source asset points) for a single USGS symbol tile.
 public struct USGSSymbolRect: Codable, Hashable {
     public let x: Double
     public let y: Double
@@ -7,6 +8,7 @@ public struct USGSSymbolRect: Codable, Hashable {
     public let height: Double
 }
 
+/// Fully resolved symbol asset references for one USGS code.
 public struct USGSSymbolAsset: Hashable {
     public let code: Int
     public let label: String
@@ -20,6 +22,7 @@ public struct USGSSymbolAsset: Hashable {
     public let imageURL: URL
 }
 
+/// Loads and caches `symbol-index.json`, then resolves runtime asset URLs.
 public final class USGSSymbolAssetResolver: @unchecked Sendable {
     public static let shared = USGSSymbolAssetResolver()
 

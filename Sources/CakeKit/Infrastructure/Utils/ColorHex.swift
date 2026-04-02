@@ -1,5 +1,6 @@
 import AppKit
 
+/// Hex color parsing helpers shared by renderers and exporters.
 public enum ColorHex {
     public static func cgColor(from hex: String?, fallback: CGColor) -> CGColor {
         guard let hex, let color = nsColor(from: hex) else { return fallback }

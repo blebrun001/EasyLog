@@ -1,6 +1,7 @@
 import AppKit
 import SwiftUI
 
+/// Compact legend list used in side panels and export previews.
 public struct LegendView: View {
     private let legend: [LegendItem]
 
