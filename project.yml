@@ -23,6 +23,9 @@ targets:
     platform: macOS
     sources:
       - Sources/CakeApp
+    resources:
+      - Sources/CakeApp/Resources/Assets.xcassets
+      - Sources/CakeApp/Resources/Cake.icns
     dependencies:
       - target: CakeKit
     settings:
