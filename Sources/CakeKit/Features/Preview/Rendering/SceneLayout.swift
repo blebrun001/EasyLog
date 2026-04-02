@@ -13,6 +13,8 @@ public enum SceneLayout {
     public static let scaleLabelOffsetX = 62.0
     public static let depthLabelOffsetX = 66.0
     public static let depthLabelOffsetY = 24.0
+    public static let scaleMinorTickHalfLength = 4.0
+    public static let scaleMajorTickHalfLength = 7.0
 
     public static func scaleAxisX(scene: RenderScene) -> Double {
         scene.logColumnRect.x - scaleAxisOffsetFromLog
@@ -37,6 +39,26 @@ public enum SceneLayout {
             return format(scaled)
         case .centimeter, .millimeter:
             return String(Int(scaled.rounded()))
+        }
+    }
+
+    public static func isMajorScaleTick(_ depthInMeters: Double, unit: DepthScaleUnit) -> Bool {
+        if abs(depthInMeters) < 0.000_001 {
+            return true
+        }
+        let interval = majorTickIntervalMeters(unit: unit)
+        let remainder = depthInMeters.truncatingRemainder(dividingBy: interval)
+        return abs(remainder) < 0.000_001 || abs(remainder - interval) < 0.000_001
+    }
+
+    public static func majorTickIntervalMeters(unit: DepthScaleUnit) -> Double {
+        switch unit {
+        case .meter:
+            return 5.0
+        case .centimeter:
+            return 0.5
+        case .millimeter:
+            return 0.1
         }
     }
 

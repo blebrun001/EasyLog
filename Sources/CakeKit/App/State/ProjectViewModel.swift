@@ -1,14 +1,35 @@
 import Combine
+import CoreGraphics
 import Foundation
 
 @MainActor
 /// UI-facing state holder orchestrating project editing, rendering, I/O and export.
 public final class ProjectViewModel: ObservableObject {
+    public enum ZoomMode: String, CaseIterable, Identifiable {
+        case manual
+        case fitWindow
+        case fitWidth
+        case fitHeight
+
+        public var id: String { rawValue }
+
+        public var label: String {
+            switch self {
+            case .manual: "Manual"
+            case .fitWindow: "Fit Window"
+            case .fitWidth: "Fit Width"
+            case .fitHeight: "Fit Height"
+            }
+        }
+    }
+
     @Published public var project: Project
     @Published public private(set) var scene: RenderScene
     @Published public var selectedUnitID: UUID?
     @Published public private(set) var validationIssues: [ValidationIssue] = []
-    @Published public var zoom: Double = 1.0
+    @Published public var zoom: Double
+    @Published public private(set) var zoomMode: ZoomMode
+    @Published public private(set) var autoAdjustToWindow: Bool
     @Published public private(set) var statusMessage: String = "Ready"
     @Published public private(set) var errorMessage: String?
 
@@ -23,13 +44,26 @@ public final class ProjectViewModel: ObservableObject {
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
     private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
     private var cancellables = Set<AnyCancellable>()
+    private let defaults: UserDefaults
+    private var viewportSize: CGSize = .zero
+    private var isAutoAdjustSuspendedByManualZoom = false
+    private var resizeDebounceTask: Task<Void, Never>?
+
+    private static let minZoom = 0.5
+    private static let maxZoom = 2.5
+    private static let defaultZoom = 1.0
+    private static let resizeDebounceNanoseconds: UInt64 = 120_000_000
+    private static let zoomDefaultsKey = "cake.viewer.zoom"
+    private static let zoomModeDefaultsKey = "cake.viewer.zoomMode"
+    private static let autoAdjustDefaultsKey = "cake.viewer.autoAdjust"
 
     public init(
         project: Project = .sample,
         renderer: LogRenderer = CakeRenderer(),
         store: ProjectStore = JSONProjectStore(),
         exporter: Exporter = CompositeExporter(),
-        fileDialogService: FileDialoging = AppKitFileDialogService()
+        fileDialogService: FileDialoging = AppKitFileDialogService(),
+        defaults: UserDefaults = .standard
     ) {
         self.project = project
         self.renderer = renderer
@@ -37,6 +71,15 @@ public final class ProjectViewModel: ObservableObject {
         self.saveProjectUseCase = SaveProjectUseCase(store: store)
         self.exportProjectUseCase = ExportProjectUseCase(exporter: exporter)
         self.fileDialogService = fileDialogService
+        self.defaults = defaults
+        let savedZoom = defaults.object(forKey: Self.zoomDefaultsKey) as? Double
+        self.zoom = Self.clampedZoom(savedZoom ?? Self.defaultZoom)
+        if let rawMode = defaults.string(forKey: Self.zoomModeDefaultsKey), let parsedMode = ZoomMode(rawValue: rawMode) {
+            self.zoomMode = parsedMode
+        } else {
+            self.zoomMode = .manual
+        }
+        self.autoAdjustToWindow = defaults.bool(forKey: Self.autoAdjustDefaultsKey)
         self.scene = renderer.makeScene(project: project)
         self.selectedUnitID = project.units.first?.id
 
@@ -58,6 +101,7 @@ public final class ProjectViewModel: ObservableObject {
     public func refreshScene() {
         validationIssues = ProjectValidator.validate(project)
         scene = renderer.makeScene(project: project)
+        applyAutoAdjustIfNeeded()
         statusMessage = validationIssues.isEmpty ? "Scene updated" : "Scene updated with validation warnings"
     }
 
@@ -100,24 +144,64 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func zoomIn() {
-        zoom = min(2.5, zoom + 0.1)
+        setManualZoom(zoom + 0.1)
         statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
     }
 
     public func zoomOut() {
-        zoom = max(0.5, zoom - 0.1)
+        setManualZoom(zoom - 0.1)
         statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
     }
 
     public func resetZoom() {
-        zoom = 1.0
+        setManualZoom(1.0)
         statusMessage = "Zoom 100%"
+    }
+
+    public func setManualZoom(_ value: Double) {
+        zoom = Self.clampedZoom(value)
+        persistZoom()
+
+        if autoAdjustToWindow, zoomMode != .manual {
+            isAutoAdjustSuspendedByManualZoom = true
+            return
+        }
+
+        zoomMode = .manual
+        persistZoomMode()
+    }
+
+    public func setZoomMode(_ mode: ZoomMode) {
+        zoomMode = mode
+        persistZoomMode()
+
+        guard mode != .manual else { return }
+        isAutoAdjustSuspendedByManualZoom = false
+        applyFit(mode: mode)
+    }
+
+    public func setAutoAdjustToWindow(_ enabled: Bool) {
+        autoAdjustToWindow = enabled
+        defaults.set(enabled, forKey: Self.autoAdjustDefaultsKey)
+
+        if enabled {
+            isAutoAdjustSuspendedByManualZoom = false
+            applyAutoAdjustIfNeeded()
+        }
+    }
+
+    public func updateViewportSize(_ size: CGSize) {
+        let normalized = CGSize(width: max(0, size.width), height: max(0, size.height))
+        guard normalized != viewportSize else { return }
+        viewportSize = normalized
+        scheduleAutoAdjust()
     }
 
     public func newProject() {
         project = Project()
         selectedUnitID = nil
         projectURL = nil
+        isAutoAdjustSuspendedByManualZoom = false
         statusMessage = "New project"
         errorMessage = nil
     }
@@ -151,6 +235,8 @@ public final class ProjectViewModel: ObservableObject {
             project = loaded
             projectURL = url
             selectedUnitID = loaded.units.first?.id
+            isAutoAdjustSuspendedByManualZoom = false
+            applyAutoAdjustIfNeeded()
             statusMessage = "Opened \(url.lastPathComponent)"
             errorMessage = nil
         } catch {
@@ -178,5 +264,64 @@ public final class ProjectViewModel: ObservableObject {
         } catch {
             errorMessage = "Could not export file: \(error.localizedDescription). Choose a writable location and retry."
         }
+    }
+
+    private func scheduleAutoAdjust() {
+        resizeDebounceTask?.cancel()
+        resizeDebounceTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: Self.resizeDebounceNanoseconds)
+            guard !Task.isCancelled else { return }
+            self?.applyAutoAdjustIfNeeded()
+        }
+    }
+
+    private func applyAutoAdjustIfNeeded() {
+        guard autoAdjustToWindow else { return }
+        guard !isAutoAdjustSuspendedByManualZoom else { return }
+        guard zoomMode != .manual else { return }
+        applyFit(mode: zoomMode)
+    }
+
+    private func applyFit(mode: ZoomMode) {
+        guard viewportSize.width > 0, viewportSize.height > 0 else { return }
+
+        let targetZoom: Double
+        switch mode {
+        case .manual:
+            return
+        case .fitWindow:
+            let widthZoom = fitScaleForWidth()
+            let heightZoom = fitScaleForHeight()
+            targetZoom = min(widthZoom, heightZoom)
+        case .fitWidth:
+            targetZoom = fitScaleForWidth()
+        case .fitHeight:
+            targetZoom = fitScaleForHeight()
+        }
+
+        zoom = Self.clampedZoom(targetZoom)
+        persistZoom()
+    }
+
+    private func fitScaleForWidth() -> Double {
+        guard scene.canvasSize.width > 0 else { return Self.defaultZoom }
+        return viewportSize.width / scene.canvasSize.width
+    }
+
+    private func fitScaleForHeight() -> Double {
+        guard scene.canvasSize.height > 0 else { return Self.defaultZoom }
+        return viewportSize.height / scene.canvasSize.height
+    }
+
+    private func persistZoom() {
+        defaults.set(zoom, forKey: Self.zoomDefaultsKey)
+    }
+
+    private func persistZoomMode() {
+        defaults.set(zoomMode.rawValue, forKey: Self.zoomModeDefaultsKey)
+    }
+
+    private static func clampedZoom(_ value: Double) -> Double {
+        min(max(value, minZoom), maxZoom)
     }
 }

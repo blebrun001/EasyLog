@@ -260,7 +260,7 @@ public struct UnitFormView: View {
                 Text("Density")
                     .font(.subheadline)
                     .frame(width: 58, alignment: .leading)
-                Slider(value: densityBinding(for: index), in: 0...1, step: 0.05)
+                Slider(value: densityBinding(for: index), in: 0...1)
                     .accessibilityLabel("Feature density")
                 Text("\(Int((unit.pointFeatures[index].density * 100).rounded()))%")
                     .font(.caption.monospacedDigit())
@@ -275,8 +275,14 @@ public struct UnitFormView: View {
     private func densityBinding(for index: Int) -> Binding<Double> {
         Binding<Double>(
             get: { unit.pointFeatures[index].density },
-            set: { unit.pointFeatures[index].density = min(max($0, 0), 1) }
+            set: { unit.pointFeatures[index].density = snapped($0, step: 0.05, range: 0...1) }
         )
+    }
+
+    private func snapped(_ value: Double, step: Double, range: ClosedRange<Double>) -> Double {
+        let clamped = min(max(value, range.lowerBound), range.upperBound)
+        let stepped = (clamped / step).rounded() * step
+        return min(max(stepped, range.lowerBound), range.upperBound)
     }
 
     private func sectionHeader(_ title: String) -> some View {

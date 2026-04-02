@@ -10,7 +10,13 @@ public struct SVGExporter: SVGExporting {
         svg += """
         <?xml version="1.0" encoding="UTF-8"?>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="\(fmt(canvas.width))" height="\(fmt(canvas.height))" viewBox="0 0 \(fmt(canvas.width)) \(fmt(canvas.height))">
-          <title>\(xmlEscape(scene.title))</title>
+        """
+        if scene.showsLogTitle {
+            svg += """
+              <title>\(xmlEscape(scene.title))</title>
+            """
+        }
+        svg += """
           <defs>
         \(patternDefinitions(scene: scene, usgsPatternByCode: usgsPatternByCode))
           </defs>
@@ -91,58 +97,69 @@ public struct SVGExporter: SVGExporting {
         }
         svg += "\n  </g>"
 
-        let axisX = SceneLayout.scaleAxisX(scene: scene)
-        svg += """
-
-          <g id="scale" stroke="#111111" fill="none" stroke-width="1">
-            <line x1="\(fmt(axisX))" y1="\(fmt(scene.logColumnRect.y))" x2="\(fmt(axisX))" y2="\(fmt(scene.logColumnRect.y + scene.logColumnRect.height))"/>
-        """
-        for tick in scene.ticks {
+        if scene.showsScale {
+            let axisX = SceneLayout.scaleAxisX(scene: scene)
             svg += """
 
-                <line x1="\(fmt(axisX - 6))" y1="\(fmt(tick.y))" x2="\(fmt(axisX + 6))" y2="\(fmt(tick.y))"/>
+              <g id="scale" stroke="#111111" fill="none" stroke-width="1">
+                <line x1="\(fmt(axisX))" y1="\(fmt(scene.logColumnRect.y))" x2="\(fmt(axisX))" y2="\(fmt(scene.logColumnRect.y + scene.logColumnRect.height))"/>
             """
-        }
-        svg += "\n  </g>"
+            for tick in scene.ticks {
+                let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+                let halfLength = isMajor ? SceneLayout.scaleMajorTickHalfLength : SceneLayout.scaleMinorTickHalfLength
+                let strokeWidth = isMajor ? 1.1 : 0.9
+                svg += """
 
-        svg += "\n  <g id=\"scale-labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(scene.baseFontSize - 1))\" fill=\"#111111\">"
-        for tick in scene.ticks {
-            svg += """
+                    <line x1="\(fmt(axisX - halfLength))" y1="\(fmt(tick.y))" x2="\(fmt(axisX + halfLength))" y2="\(fmt(tick.y))" stroke-width="\(fmt(strokeWidth))"/>
+                """
+            }
+            svg += "\n  </g>"
 
-            <text x="\(fmt(axisX - SceneLayout.scaleLabelOffsetX))" y="\(fmt(tick.y + 4))">\(SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit))</text>
-            """
-        }
-        svg += """
+            svg += "\n  <g id=\"scale-labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(scene.baseFontSize - 1))\" fill=\"#111111\">"
+            for tick in scene.ticks {
+                let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+                let fontWeight = isMajor ? "700" : "400"
+                svg += """
 
-            <text x="\(fmt(axisX - 74))" y="\(fmt(scene.logColumnRect.y - 16))">Depth (\(scene.depthScaleUnit.symbol))</text>
-          </g>
-        """
-
-        let legendOrigin = SceneLayout.legendOrigin(scene: scene)
-        let legendX = legendOrigin.x
-        var legendY = legendOrigin.y
-        svg += """
-
-          <g id="legend">
-            <text x="\(fmt(legendX))" y="\(fmt(legendY - 10))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize + 1))" font-weight="700">Legend</text>
-        """
-        for item in scene.legend {
-            svg += """
-
-              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="#ffffff"/>
-            """
-            if let pointSymbol = item.pointSymbol {
-                svg += "\n\(pointLegendElement(symbol: pointSymbol, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
-            } else {
-                svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSCodes: usgsPatternByCode)))\"/>"
+                <text x="\(fmt(axisX - SceneLayout.scaleLabelOffsetX))" y="\(fmt(tick.y + 4))" font-weight="\(fontWeight)">\(SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit))</text>
+                """
             }
             svg += """
-              <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="none" stroke="#111111" stroke-width="1"/>
-              <text x="\(fmt(legendX + SceneLayout.legendTextOffset))" y="\(fmt(legendY + 13))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize - 1))">\(xmlEscape(item.label))</text>
+
+                <text x="\(fmt(axisX - SceneLayout.depthLabelOffsetX))" y="\(fmt(scene.logColumnRect.y - SceneLayout.depthLabelOffsetY + 8))">Depth (\(scene.depthScaleUnit.symbol))</text>
+              </g>
             """
-            legendY += SceneLayout.legendRowHeight
         }
-        svg += "\n  </g>\n</svg>\n"
+
+        if scene.showsLegend {
+            let legendOrigin = SceneLayout.legendOrigin(scene: scene)
+            let legendX = legendOrigin.x
+            var legendY = legendOrigin.y
+            svg += """
+
+              <g id="legend">
+                <text x="\(fmt(legendX))" y="\(fmt(legendY - 10))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize + 1))" font-weight="700">Legend</text>
+            """
+            for item in scene.legend {
+                svg += """
+
+                  <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="#ffffff"/>
+                """
+                if let pointSymbol = item.pointSymbol {
+                    svg += "\n\(pointLegendElement(symbol: pointSymbol, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
+                } else {
+                    svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSCodes: usgsPatternByCode)))\"/>"
+                }
+                svg += """
+                  <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="none" stroke="#111111" stroke-width="1"/>
+                  <text x="\(fmt(legendX + SceneLayout.legendTextOffset))" y="\(fmt(legendY + 13))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize - 1))">\(xmlEscape(item.label))</text>
+                """
+                legendY += SceneLayout.legendRowHeight
+            }
+            svg += "\n  </g>"
+        }
+
+        svg += "\n</svg>\n"
 
         try svg.write(to: url, atomically: true, encoding: .utf8)
     }

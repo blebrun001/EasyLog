@@ -184,6 +184,20 @@ func sceneCarriesConfiguredGridVisibility() {
 }
 
 @Test
+func sceneCarriesRenderingVisibilityFlags() {
+    let project = Project(
+        settings: ProjectSettings(showLegend: false, showScale: false, showLogTitle: false),
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.showsLegend == false)
+    #expect(scene.showsScale == false)
+    #expect(scene.showsLogTitle == false)
+}
+
+@Test
 func rendererUsesNaturalCanvasSizeWithoutPresetMinimums() {
     let projectLetter = Project(
         settings: ProjectSettings(verticalScale: 25, pageSize: .letterPortrait),

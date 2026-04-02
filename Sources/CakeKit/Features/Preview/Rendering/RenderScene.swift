@@ -119,6 +119,9 @@ public struct RenderScene: Hashable {
     public var ticks: [ScaleTick]
     public var baseFontSize: Double
     public var showsGrid: Bool
+    public var showsLegend: Bool
+    public var showsScale: Bool
+    public var showsLogTitle: Bool
     public var symbolScale: Double
     public var depthScaleUnit: DepthScaleUnit
 
@@ -131,6 +134,9 @@ public struct RenderScene: Hashable {
         ticks: [ScaleTick],
         baseFontSize: Double,
         showsGrid: Bool,
+        showsLegend: Bool,
+        showsScale: Bool,
+        showsLogTitle: Bool,
         symbolScale: Double,
         depthScaleUnit: DepthScaleUnit
     ) {
@@ -142,6 +148,9 @@ public struct RenderScene: Hashable {
         self.ticks = ticks
         self.baseFontSize = baseFontSize
         self.showsGrid = showsGrid
+        self.showsLegend = showsLegend
+        self.showsScale = showsScale
+        self.showsLogTitle = showsLogTitle
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
     }
@@ -156,6 +165,9 @@ public struct RenderScene: Hashable {
             ticks: [],
             baseFontSize: 12,
             showsGrid: false,
+            showsLegend: true,
+            showsScale: true,
+            showsLogTitle: true,
             symbolScale: 1.0,
             depthScaleUnit: .meter
         )

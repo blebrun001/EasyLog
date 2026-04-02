@@ -17,7 +17,7 @@ public struct MainContentView: View {
                 RenderPreviewView(viewModel: viewModel)
                 Divider()
                 HStack(alignment: .top, spacing: 20) {
-                    SettingsPanelView(settings: $viewModel.project.settings)
+                    SettingsPanelView(settings: settingsBinding)
                         .frame(maxWidth: 360, alignment: .leading)
                     Spacer()
                 }
@@ -44,6 +44,17 @@ public struct MainContentView: View {
             },
             message: {
                 Text(viewModel.errorMessage ?? "")
+            }
+        )
+    }
+
+    private var settingsBinding: Binding<ProjectSettings> {
+        Binding(
+            get: { viewModel.project.settings },
+            set: { newSettings in
+                var updatedProject = viewModel.project
+                updatedProject.settings = newSettings
+                viewModel.project = updatedProject
             }
         )
     }

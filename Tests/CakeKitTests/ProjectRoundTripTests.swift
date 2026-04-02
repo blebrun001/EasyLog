@@ -42,6 +42,9 @@ func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
     #expect(decoded.baseFontSize == 12)
     #expect(decoded.symbolScale == 1.0)
     #expect(decoded.depthScaleUnit == .meter)
+    #expect(decoded.showLegend == true)
+    #expect(decoded.showScale == true)
+    #expect(decoded.showLogTitle == true)
 }
 
 @Test
@@ -69,8 +72,16 @@ func loadingInvalidProjectDataThrowsInvalidDataError() throws {
 
 @Test
 func projectSettingsShowGridRoundTripPersistsValue() throws {
-    let settings = ProjectSettings(showGrid: true)
+    let settings = ProjectSettings(
+        showGrid: true,
+        showLegend: false,
+        showScale: false,
+        showLogTitle: false
+    )
     let data = try JSONEncoder().encode(settings)
     let decoded = try JSONDecoder().decode(ProjectSettings.self, from: data)
     #expect(decoded.showGrid == true)
+    #expect(decoded.showLegend == false)
+    #expect(decoded.showScale == false)
+    #expect(decoded.showLogTitle == false)
 }

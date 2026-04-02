@@ -11,49 +11,56 @@ public enum SceneCGRenderer {
             drawGrid(scene: scene, in: context)
         }
         drawUnits(scene: scene, in: context)
-        drawScale(scene: scene, in: context)
-        drawLegend(scene: scene, in: context)
-        drawHeader(scene: scene, in: context)
+        if scene.showsScale {
+            drawScale(scene: scene, in: context)
+        }
+        if scene.showsLegend {
+            drawLegend(scene: scene, in: context)
+        }
+        if scene.showsLogTitle {
+            drawHeader(scene: scene, in: context)
+        }
     }
 
-    public static func drawSymbolPattern(_ symbol: SymbolPattern, in rect: CGRect, context: CGContext) {
+    public static func drawSymbolPattern(_ symbol: SymbolPattern, in rect: CGRect, context: CGContext, symbolScale: Double = 1.0) {
         context.saveGState()
         context.clip(to: rect)
         context.setStrokeColor(NSColor.black.withAlphaComponent(0.45).cgColor)
         context.setFillColor(NSColor.black.withAlphaComponent(0.30).cgColor)
+        let scale = max(CGFloat(symbolScale), 0.05)
 
         switch symbol {
         case .sandstone:
-            drawDiagonal(spacing: 10, rect: rect, context: context, forward: true)
+            drawDiagonal(spacing: 10 * scale, rect: rect, context: context, forward: true)
         case .mudstone:
-            drawHorizontal(spacing: 8, rect: rect, context: context)
+            drawHorizontal(spacing: 8 * scale, rect: rect, context: context)
         case .shale:
-            drawHorizontal(spacing: 5, rect: rect, context: context)
-            drawDiagonal(spacing: 20, rect: rect, context: context, forward: true)
+            drawHorizontal(spacing: 5 * scale, rect: rect, context: context)
+            drawDiagonal(spacing: 20 * scale, rect: rect, context: context, forward: true)
         case .limestone:
-            drawBrick(spacing: 12, rect: rect, context: context)
+            drawBrick(spacing: 12 * scale, rect: rect, context: context)
         case .dolostone:
-            drawBrick(spacing: 10, rect: rect, context: context)
-            drawDiagonal(spacing: 24, rect: rect, context: context, forward: true)
+            drawBrick(spacing: 10 * scale, rect: rect, context: context)
+            drawDiagonal(spacing: 24 * scale, rect: rect, context: context, forward: true)
         case .conglomerate:
-            drawPebbles(rect: rect, context: context)
+            drawPebbles(rect: rect, context: context, symbolScale: scale)
         case .siltstone:
-            drawDots(spacing: 10, rect: rect, context: context)
+            drawDots(spacing: 10 * scale, rect: rect, context: context, symbolScale: scale)
         case .claystone:
-            drawHorizontal(spacing: 4, rect: rect, context: context)
+            drawHorizontal(spacing: 4 * scale, rect: rect, context: context)
         case .marl:
-            drawDots(spacing: 11, rect: rect, context: context)
-            drawHorizontal(spacing: 9, rect: rect, context: context)
+            drawDots(spacing: 11 * scale, rect: rect, context: context, symbolScale: scale)
+            drawHorizontal(spacing: 9 * scale, rect: rect, context: context)
         case .chert:
-            drawCross(spacing: 10, rect: rect, context: context)
+            drawCross(spacing: 10 * scale, rect: rect, context: context)
         case .coal:
-            drawCross(spacing: 6, rect: rect, context: context)
-            drawHorizontal(spacing: 3, rect: rect, context: context)
+            drawCross(spacing: 6 * scale, rect: rect, context: context)
+            drawHorizontal(spacing: 3 * scale, rect: rect, context: context)
         case .evaporite:
-            drawDiagonal(spacing: 12, rect: rect, context: context, forward: true)
-            drawDiagonal(spacing: 12, rect: rect, context: context, forward: false)
+            drawDiagonal(spacing: 12 * scale, rect: rect, context: context, forward: true)
+            drawDiagonal(spacing: 12 * scale, rect: rect, context: context, forward: false)
         case .fallback:
-            drawDiagonal(spacing: 14, rect: rect, context: context, forward: true)
+            drawDiagonal(spacing: 14 * scale, rect: rect, context: context, forward: true)
         }
         context.restoreGState()
     }
@@ -82,10 +89,10 @@ public enum SceneCGRenderer {
             context.fill(rect)
             if let code = unit.usgsSymbolCode {
                 if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: scene.symbolScale) {
-                    drawSymbolPattern(unit.symbol, in: rect, context: context)
+                    drawSymbolPattern(unit.symbol, in: rect, context: context, symbolScale: scene.symbolScale)
                 }
             } else {
-                drawSymbolPattern(unit.symbol, in: rect, context: context)
+                drawSymbolPattern(unit.symbol, in: rect, context: context, symbolScale: scene.symbolScale)
             }
             drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
 
@@ -128,14 +135,18 @@ public enum SceneCGRenderer {
         context.strokePath()
 
         for tick in scene.ticks {
-            context.move(to: CGPoint(x: axisX - 6, y: tick.y))
-            context.addLine(to: CGPoint(x: axisX + 6, y: tick.y))
+            let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+            let halfLength = isMajor ? SceneLayout.scaleMajorTickHalfLength : SceneLayout.scaleMinorTickHalfLength
+            context.setLineWidth(isMajor ? 1.1 : 0.9)
+            context.move(to: CGPoint(x: axisX - halfLength, y: tick.y))
+            context.addLine(to: CGPoint(x: axisX + halfLength, y: tick.y))
             context.strokePath()
             drawText(
                 SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit),
                 at: CGPoint(x: axisX - SceneLayout.scaleLabelOffsetX, y: tick.y - 5),
                 size: scene.baseFontSize - 1,
-                context: context
+                context: context,
+                bold: isMajor
             )
         }
         drawText(
@@ -189,10 +200,10 @@ public enum SceneCGRenderer {
             drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: context)
         } else if let code = item.usgsSymbolCode {
             if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: symbolScale) {
-                drawSymbolPattern(item.symbol, in: rect, context: context)
+                drawSymbolPattern(item.symbol, in: rect, context: context, symbolScale: symbolScale)
             }
         } else {
-            drawSymbolPattern(item.symbol, in: rect, context: context)
+            drawSymbolPattern(item.symbol, in: rect, context: context, symbolScale: symbolScale)
         }
         context.setStrokeColor(NSColor.black.cgColor)
         context.stroke(rect)
@@ -320,8 +331,8 @@ public enum SceneCGRenderer {
         context.strokePath()
     }
 
-    private static func drawDots(spacing: CGFloat, rect: CGRect, context: CGContext) {
-        let radius: CGFloat = 1.2
+    private static func drawDots(spacing: CGFloat, rect: CGRect, context: CGContext, symbolScale: CGFloat = 1.0) {
+        let radius: CGFloat = 1.2 * symbolScale
         var y = rect.minY + spacing / 2
         while y < rect.maxY {
             var x = rect.minX + spacing / 2
@@ -333,12 +344,12 @@ public enum SceneCGRenderer {
         }
     }
 
-    private static func drawPebbles(rect: CGRect, context: CGContext) {
-        let step: CGFloat = 13
-        let radius: CGFloat = 3.2
-        var y = rect.minY + 6
+    private static func drawPebbles(rect: CGRect, context: CGContext, symbolScale: CGFloat = 1.0) {
+        let step: CGFloat = 13 * symbolScale
+        let radius: CGFloat = 3.2 * symbolScale
+        var y = rect.minY + 6 * symbolScale
         while y < rect.maxY {
-            var x = rect.minX + 8
+            var x = rect.minX + 8 * symbolScale
             while x < rect.maxX {
                 context.strokeEllipse(in: CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2))
                 x += step

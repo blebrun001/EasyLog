@@ -94,6 +94,65 @@ func zoomCommandsClampToConfiguredBoundsAndReset() {
 
 @MainActor
 @Test
+func fitToWindowComputesZoomFromViewportSize() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    let viewport = CGSize(width: 540, height: 420)
+    viewModel.updateViewportSize(viewport)
+    viewModel.setZoomMode(.fitWindow)
+
+    let expected = min(
+        viewport.width / viewModel.scene.canvasSize.width,
+        viewport.height / viewModel.scene.canvasSize.height
+    )
+    #expect(abs(viewModel.zoom - expected) < 0.0001)
+}
+
+@MainActor
+@Test
+func autoAdjustResizesUntilManualZoomSuspendsIt() async throws {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    viewModel.setZoomMode(.fitWidth)
+    viewModel.setAutoAdjustToWindow(true)
+    viewModel.updateViewportSize(CGSize(width: 700, height: 500))
+    try await Task.sleep(nanoseconds: 180_000_000)
+
+    let fitZoom = viewModel.zoom
+    #expect(fitZoom == 700 / viewModel.scene.canvasSize.width)
+
+    viewModel.setManualZoom(1.75)
+    viewModel.updateViewportSize(CGSize(width: 300, height: 500))
+    try await Task.sleep(nanoseconds: 180_000_000)
+    #expect(viewModel.zoom == 1.75)
+}
+
+@MainActor
+@Test
 func moveSelectedUnitCommandsReorderUnits() {
     var project = Project.sample
     project.units = [
@@ -115,6 +174,26 @@ func moveSelectedUnitCommandsReorderUnits() {
 
     viewModel.moveSelectedUnitDown()
     #expect(viewModel.project.units.map(\.name) == ["A", "B", "C"])
+}
+
+@MainActor
+@Test
+func updatingNestedProjectSettingsRefreshesScene() async throws {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    let initialScale = viewModel.scene.symbolScale
+    viewModel.project.settings.symbolScale = 1.9
+
+    // Project refresh uses a 33ms debounce.
+    try await Task.sleep(nanoseconds: 120_000_000)
+
+    #expect(initialScale != 1.9)
+    #expect(viewModel.scene.symbolScale == 1.9)
 }
 
 private final class MockProjectStore: ProjectStore {

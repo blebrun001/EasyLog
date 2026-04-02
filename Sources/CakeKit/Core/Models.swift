@@ -422,6 +422,9 @@ public struct ProjectSettings: Codable, Hashable {
     }
     public var baseFontSize: Double
     public var showGrid: Bool
+    public var showLegend: Bool
+    public var showScale: Bool
+    public var showLogTitle: Bool
     public var symbolScale: Double
     public var depthScaleUnit: DepthScaleUnit
 
@@ -429,6 +432,9 @@ public struct ProjectSettings: Codable, Hashable {
         verticalScale: Double = 25,
         baseFontSize: Double = 12,
         showGrid: Bool = false,
+        showLegend: Bool = true,
+        showScale: Bool = true,
+        showLogTitle: Bool = true,
         symbolScale: Double = 1.0,
         depthScaleUnit: DepthScaleUnit = .meter
     ) {
@@ -436,6 +442,9 @@ public struct ProjectSettings: Codable, Hashable {
         self.legacyPageSizeRawValue = "a4Portrait"
         self.baseFontSize = baseFontSize
         self.showGrid = showGrid
+        self.showLegend = showLegend
+        self.showScale = showScale
+        self.showLogTitle = showLogTitle
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
     }
@@ -446,6 +455,9 @@ public struct ProjectSettings: Codable, Hashable {
         pageSize: PageSizePreset = .a4Portrait,
         baseFontSize: Double = 12,
         showGrid: Bool = false,
+        showLegend: Bool = true,
+        showScale: Bool = true,
+        showLogTitle: Bool = true,
         symbolScale: Double = 1.0,
         depthScaleUnit: DepthScaleUnit = .meter
     ) {
@@ -453,6 +465,9 @@ public struct ProjectSettings: Codable, Hashable {
         self.legacyPageSizeRawValue = pageSize.rawValue
         self.baseFontSize = baseFontSize
         self.showGrid = showGrid
+        self.showLegend = showLegend
+        self.showScale = showScale
+        self.showLogTitle = showLogTitle
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
     }
@@ -462,6 +477,9 @@ public struct ProjectSettings: Codable, Hashable {
         case pageSize
         case baseFontSize
         case showGrid
+        case showLegend
+        case showScale
+        case showLogTitle
         case symbolScale
         case depthScaleUnit
     }
@@ -472,6 +490,9 @@ public struct ProjectSettings: Codable, Hashable {
         legacyPageSizeRawValue = try container.decodeIfPresent(String.self, forKey: .pageSize) ?? "a4Portrait"
         baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
         showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? false
+        showLegend = try container.decodeIfPresent(Bool.self, forKey: .showLegend) ?? true
+        showScale = try container.decodeIfPresent(Bool.self, forKey: .showScale) ?? true
+        showLogTitle = try container.decodeIfPresent(Bool.self, forKey: .showLogTitle) ?? true
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
         depthScaleUnit = try container.decodeIfPresent(DepthScaleUnit.self, forKey: .depthScaleUnit) ?? .meter
     }
@@ -482,6 +503,9 @@ public struct ProjectSettings: Codable, Hashable {
         try container.encode(legacyPageSizeRawValue, forKey: .pageSize)
         try container.encode(baseFontSize, forKey: .baseFontSize)
         try container.encode(showGrid, forKey: .showGrid)
+        try container.encode(showLegend, forKey: .showLegend)
+        try container.encode(showScale, forKey: .showScale)
+        try container.encode(showLogTitle, forKey: .showLogTitle)
         try container.encode(symbolScale, forKey: .symbolScale)
         try container.encode(depthScaleUnit, forKey: .depthScaleUnit)
     }

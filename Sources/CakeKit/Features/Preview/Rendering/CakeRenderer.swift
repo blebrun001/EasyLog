@@ -110,7 +110,8 @@ public struct CakeRenderer: LogRenderer {
 
         let tickStep = preferredTickStepMeters(
             for: totalThickness,
-            unit: project.settings.depthScaleUnit
+            unit: project.settings.depthScaleUnit,
+            verticalScale: project.settings.verticalScale
         )
         let tickCount = Int((totalThickness / tickStep).rounded(.down))
         let ticks = (0...tickCount).map { index -> ScaleTick in
@@ -122,7 +123,9 @@ public struct CakeRenderer: LogRenderer {
         let canvasHeight = naturalHeight
         let rightMargin = max(
             minimumRightMargin,
-            requiredRightMarginForLegend(legend: legend, baseFontSize: project.settings.baseFontSize)
+            project.settings.showLegend
+                ? requiredRightMarginForLegend(legend: legend, baseFontSize: project.settings.baseFontSize)
+                : 0
         )
         let canvasWidth = logX + logWidth + rightMargin
 
@@ -135,6 +138,9 @@ public struct CakeRenderer: LogRenderer {
             ticks: ticks,
             baseFontSize: project.settings.baseFontSize,
             showsGrid: project.settings.showGrid,
+            showsLegend: project.settings.showLegend,
+            showsScale: project.settings.showScale,
+            showsLogTitle: project.settings.showLogTitle,
             symbolScale: project.settings.symbolScale,
             depthScaleUnit: project.settings.depthScaleUnit
         )
@@ -240,30 +246,54 @@ public struct CakeRenderer: LogRenderer {
         return hash
     }
 
-    private func preferredTickStepMeters(for totalThickness: Double, unit: DepthScaleUnit) -> Double {
+    private func preferredTickStepMeters(
+        for totalThickness: Double,
+        unit: DepthScaleUnit,
+        verticalScale: Double
+    ) -> Double {
+        let baseStep: Double
         switch unit {
         case .meter:
             switch totalThickness {
-            case 0..<10: return 1
-            case 10..<30: return 2
-            case 30..<80: return 5
-            default: return 10
+            case 0..<10: baseStep = 1
+            case 10..<30: baseStep = 2
+            case 30..<80: baseStep = 5
+            default: baseStep = 10
             }
         case .centimeter:
             switch totalThickness {
-            case 0..<1: return 0.1
-            case 1..<3: return 0.2
-            case 3..<8: return 0.5
-            default: return 1
+            case 0..<1: baseStep = 0.1
+            case 1..<3: baseStep = 0.2
+            case 3..<8: baseStep = 0.5
+            default: baseStep = 1
             }
         case .millimeter:
             switch totalThickness {
-            case 0..<0.5: return 0.02
-            case 0.5..<1.5: return 0.05
-            case 1.5..<4: return 0.1
-            default: return 0.2
+            case 0..<0.5: baseStep = 0.02
+            case 0.5..<1.5: baseStep = 0.05
+            case 1.5..<4: baseStep = 0.1
+            default: baseStep = 0.2
             }
         }
+
+        // Keep labels readable by enforcing a minimum pixel spacing between ticks.
+        let minTickSpacingPixels = 20.0
+        let minStepForSpacing = minTickSpacingPixels / max(verticalScale, 0.001)
+        if baseStep >= minStepForSpacing {
+            return baseStep
+        }
+
+        let candidates: [Double]
+        switch unit {
+        case .meter:
+            candidates = [1, 2, 5, 10, 20, 50]
+        case .centimeter:
+            candidates = [0.1, 0.2, 0.5, 1, 2, 5]
+        case .millimeter:
+            candidates = [0.02, 0.05, 0.1, 0.2, 0.5, 1, 2]
+        }
+
+        return candidates.first(where: { $0 >= minStepForSpacing }) ?? candidates.last ?? baseStep
     }
 }
 
