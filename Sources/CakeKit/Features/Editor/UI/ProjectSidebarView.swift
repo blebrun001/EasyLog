@@ -42,6 +42,7 @@ public struct ProjectSidebarView: View {
             sectionHeader("Project")
             TextField("Log title", text: $viewModel.project.metadata.title)
                 .textFieldStyle(.roundedBorder)
+                .accessibilityLabel("Log title")
         }
     }
 
@@ -109,6 +110,7 @@ public struct ProjectSidebarView: View {
                     Label("Add", systemImage: "plus")
                 }
                 .buttonStyle(.borderedProminent)
+                .accessibilityHint("Adds a new stratigraphic unit to the list")
 
                 Button {
                     viewModel.removeSelectedUnit()
@@ -116,6 +118,7 @@ public struct ProjectSidebarView: View {
                     Label("Delete", systemImage: "trash")
                 }
                 .disabled(viewModel.selectedUnitIndex == nil)
+                .accessibilityHint("Deletes the selected unit")
 
                 Spacer()
             }

@@ -2,46 +2,21 @@ import AppKit
 import CakeKit
 import SwiftUI
 
-/// App delegate that force-focuses the first app window on launch.
-@MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.regular)
-        activateAndFocusWindow()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            self.activateAndFocusWindow()
-        }
-    }
-
-    private func activateAndFocusWindow() {
-        _ = NSRunningApplication.current.activate(options: [.activateIgnoringOtherApps])
-        NSApp.activate(ignoringOtherApps: true)
-        let candidate = NSApp.mainWindow
-            ?? NSApp.keyWindow
-            ?? NSApp.windows.first { $0.canBecomeKey && $0.isVisible }
-            ?? NSApp.windows.first { $0.canBecomeKey }
-        candidate?.orderFrontRegardless()
-        candidate?.makeMain()
-        candidate?.makeKeyAndOrderFront(nil)
-    }
-}
-
 @main
 /// SwiftUI application entry point and dependency composition root.
 struct CakeApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var viewModel = ProjectViewModel()
 
     private func showAboutPanel() {
         NSApp.orderFrontStandardAboutPanel(options: [
-            .applicationIcon: NSApp.applicationIconImage
+            .applicationIcon: NSApp.applicationIconImage as Any
         ])
     }
 
     var body: some Scene {
         WindowGroup("Cake") {
             MainContentView(viewModel: viewModel)
-                .frame(minWidth: 1320, minHeight: 860)
+                .frame(minWidth: 1080, minHeight: 700)
         }
         .windowResizability(.contentMinSize)
         .commands {
@@ -67,6 +42,30 @@ struct CakeApp: App {
                 Divider()
                 Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
                 Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
+            }
+
+            CommandGroup(after: .pasteboard) {
+                Button("Add Unit") { viewModel.addUnit() }
+                    .keyboardShortcut("n", modifiers: [.command, .shift])
+                Button("Delete Selected Unit") { viewModel.removeSelectedUnit() }
+                    .keyboardShortcut(.delete, modifiers: [])
+                    .disabled(viewModel.selectedUnitIndex == nil)
+                Divider()
+                Button("Move Unit Up") { viewModel.moveSelectedUnitUp() }
+                    .keyboardShortcut(.upArrow, modifiers: [.command, .option])
+                    .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == 0)
+                Button("Move Unit Down") { viewModel.moveSelectedUnitDown() }
+                    .keyboardShortcut(.downArrow, modifiers: [.command, .option])
+                    .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == viewModel.project.units.count - 1)
+            }
+
+            CommandMenu("View") {
+                Button("Zoom In") { viewModel.zoomIn() }
+                    .keyboardShortcut("+", modifiers: [.command])
+                Button("Zoom Out") { viewModel.zoomOut() }
+                    .keyboardShortcut("-", modifiers: [.command])
+                Button("Actual Size") { viewModel.resetZoom() }
+                    .keyboardShortcut("0", modifiers: [.command])
             }
         }
     }

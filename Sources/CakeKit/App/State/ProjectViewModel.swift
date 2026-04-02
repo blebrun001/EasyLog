@@ -21,6 +21,7 @@ public final class ProjectViewModel: ObservableObject {
     private let fileDialogService: FileDialoging
     private let addUnitUseCase = AddUnitUseCase()
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
+    private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
     private var cancellables = Set<AnyCancellable>()
 
     public init(
@@ -77,6 +78,40 @@ public final class ProjectViewModel: ObservableObject {
         }
         let adjustedDestination = destination - source.filter { $0 < destination }.count
         project.units.insert(contentsOf: movedUnits, at: adjustedDestination)
+        statusMessage = "Reordered units"
+    }
+
+    public func moveSelectedUnitUp() {
+        let before = selectedUnitID
+        moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .up)
+        guard let current = selectedUnitID else { return }
+        if before == current, project.units.first?.id != current {
+            statusMessage = "Moved selected unit up"
+        }
+    }
+
+    public func moveSelectedUnitDown() {
+        let before = selectedUnitID
+        moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .down)
+        guard let current = selectedUnitID else { return }
+        if before == current, project.units.last?.id != current {
+            statusMessage = "Moved selected unit down"
+        }
+    }
+
+    public func zoomIn() {
+        zoom = min(2.5, zoom + 0.1)
+        statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
+    }
+
+    public func zoomOut() {
+        zoom = max(0.5, zoom - 0.1)
+        statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
+    }
+
+    public func resetZoom() {
+        zoom = 1.0
+        statusMessage = "Zoom 100%"
     }
 
     public func newProject() {
@@ -119,7 +154,7 @@ public final class ProjectViewModel: ObservableObject {
             statusMessage = "Opened \(url.lastPathComponent)"
             errorMessage = nil
         } catch {
-            errorMessage = "Could not open project: \(error.localizedDescription)"
+            errorMessage = "Could not open project: \(error.localizedDescription). Check that the JSON file is valid and try again."
         }
     }
 
@@ -131,7 +166,7 @@ public final class ProjectViewModel: ObservableObject {
             statusMessage = "Saved \(url.lastPathComponent)"
             errorMessage = nil
         } catch {
-            errorMessage = "Could not save project: \(error.localizedDescription)"
+            errorMessage = "Could not save project: \(error.localizedDescription). Verify write permissions and try again."
         }
     }
 
@@ -141,7 +176,7 @@ public final class ProjectViewModel: ObservableObject {
             statusMessage = "Exported \(url.lastPathComponent)"
             errorMessage = nil
         } catch {
-            errorMessage = "Could not export file: \(error.localizedDescription)"
+            errorMessage = "Could not export file: \(error.localizedDescription). Choose a writable location and retry."
         }
     }
 }

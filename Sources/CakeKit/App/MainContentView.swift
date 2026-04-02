@@ -11,7 +11,7 @@ public struct MainContentView: View {
     public var body: some View {
         NavigationSplitView {
             ProjectSidebarView(viewModel: viewModel)
-                .navigationSplitViewColumnWidth(min: 420, ideal: 500, max: 580)
+                .navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 520)
         } detail: {
             VStack(spacing: 0) {
                 RenderPreviewView(viewModel: viewModel)
@@ -22,6 +22,15 @@ public struct MainContentView: View {
                     Spacer()
                 }
                 .padding()
+                Divider()
+                Text(viewModel.statusMessage)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .accessibilityLabel("Status")
+                    .accessibilityValue(viewModel.statusMessage)
             }
         }
         .alert(

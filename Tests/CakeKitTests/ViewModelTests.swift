@@ -66,6 +66,57 @@ func exportProjectPassesRequestedFormatAndDPI() {
     #expect(exporter.lastDPI == 240)
 }
 
+@MainActor
+@Test
+func zoomCommandsClampToConfiguredBoundsAndReset() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.zoom = 2.48
+    viewModel.zoomIn()
+    #expect(viewModel.zoom == 2.5)
+    viewModel.zoomIn()
+    #expect(viewModel.zoom == 2.5)
+
+    viewModel.zoom = 0.52
+    viewModel.zoomOut()
+    #expect(viewModel.zoom == 0.5)
+    viewModel.zoomOut()
+    #expect(viewModel.zoom == 0.5)
+
+    viewModel.resetZoom()
+    #expect(viewModel.zoom == 1.0)
+}
+
+@MainActor
+@Test
+func moveSelectedUnitCommandsReorderUnits() {
+    var project = Project.sample
+    project.units = [
+        StratigraphicUnit(name: "A", thickness: 1, lithology: "Massive sand or sandstone"),
+        StratigraphicUnit(name: "B", thickness: 1, lithology: "Limestone"),
+        StratigraphicUnit(name: "C", thickness: 1, lithology: "Sandy or silty shale")
+    ]
+
+    let viewModel = ProjectViewModel(
+        project: project,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.selectedUnitID = viewModel.project.units[1].id // B
+    viewModel.moveSelectedUnitUp()
+    #expect(viewModel.project.units.map(\.name) == ["B", "A", "C"])
+
+    viewModel.moveSelectedUnitDown()
+    #expect(viewModel.project.units.map(\.name) == ["A", "B", "C"])
+}
+
 private final class MockProjectStore: ProjectStore {
     var loadResult: Project = .sample
     var lastSavedProject: Project?

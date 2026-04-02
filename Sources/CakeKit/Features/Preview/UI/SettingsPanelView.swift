@@ -14,6 +14,7 @@ public struct SettingsPanelView: View {
                 HStack {
                     Text("Vertical Scale")
                     Slider(value: $settings.verticalScale, in: 8...120)
+                        .accessibilityLabel("Vertical Scale")
                         .onChange(of: settings.verticalScale) { value in
                             settings.verticalScale = value.rounded()
                         }
@@ -24,6 +25,7 @@ public struct SettingsPanelView: View {
                 HStack {
                     Text("Symbol Scale")
                     Slider(value: $settings.symbolScale, in: 0.35...3.0)
+                        .accessibilityLabel("Symbol Scale")
                         .onChange(of: settings.symbolScale) { value in
                             settings.symbolScale = (value * 20).rounded() / 20
                         }
@@ -43,6 +45,7 @@ public struct SettingsPanelView: View {
                 }
 
                 Toggle("Show Grid", isOn: $settings.showGrid)
+                    .accessibilityLabel("Show Grid")
             }
             .padding(.vertical, 4)
         }

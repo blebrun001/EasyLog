@@ -51,6 +51,7 @@ public struct RenderPreviewView: View {
             Text("Zoom")
             Slider(value: $viewModel.zoom, in: 0.5...2.5)
                 .frame(width: 140)
+                .accessibilityLabel("Zoom")
             Text("\(Int(viewModel.zoom * 100))%")
                 .frame(width: 42, alignment: .trailing)
             Spacer()

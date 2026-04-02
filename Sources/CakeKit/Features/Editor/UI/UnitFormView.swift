@@ -24,16 +24,18 @@ public struct UnitFormView: View {
                     TextField("Name", text: $unit.name)
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel("Unit name")
                 }
 
                 fieldGroup("Thickness (m)") {
                     TextField("Thickness (m)", text: thicknessBinding)
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel("Thickness in meters")
                 }
 
                 fieldGroup("Lithology Group") {
-                    Picker("", selection: $selectedLithologyCategory) {
+                    Picker("Lithology Group", selection: $selectedLithologyCategory) {
                         ForEach(availableLithologyCategories, id: \.self) { category in
                             Text(category.label).tag(category)
                         }
@@ -41,13 +43,14 @@ public struct UnitFormView: View {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityLabel("Lithology Group")
                     .onChange(of: selectedLithologyCategory) { _ in
                         normalizeLithologySelection()
                     }
                 }
 
                 fieldGroup("Lithology") {
-                    Picker("", selection: $unit.lithology) {
+                    Picker("Lithology", selection: $unit.lithology) {
                         ForEach(lithologiesInSelectedCategory, id: \.self) { lithology in
                             Text(lithology).tag(lithology)
                         }
@@ -55,10 +58,11 @@ public struct UnitFormView: View {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityLabel("Lithology")
                 }
 
                 fieldGroup("Grain Size") {
-                    Picker("", selection: grainSizeBinding) {
+                    Picker("Grain Size", selection: grainSizeBinding) {
                         Text("Unset").tag(nil as USGSGrainSize?)
                         ForEach(USGSGrainSize.allCases, id: \.self) { size in
                             Text(size.label).tag(Optional(size))
@@ -67,6 +71,7 @@ public struct UnitFormView: View {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityLabel("Grain Size")
                 }
             }
             .padding(12)
@@ -97,7 +102,7 @@ public struct UnitFormView: View {
                         .font(.subheadline.weight(.semibold))
 
                     fieldGroup("Category") {
-                        Picker("", selection: $pendingPointFeatureCategory) {
+                        Picker("Category", selection: $pendingPointFeatureCategory) {
                             ForEach(availablePointFeatureCategories, id: \.self) { category in
                                 Text(category.label).tag(category)
                             }
@@ -105,6 +110,7 @@ public struct UnitFormView: View {
                         .pickerStyle(.menu)
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel("Point feature category")
                         .disabled(availablePointFeaturesToAdd.isEmpty)
                         .onChange(of: pendingPointFeatureCategory) { _ in
                             normalizePendingFeatureSelection()
@@ -112,7 +118,7 @@ public struct UnitFormView: View {
                     }
 
                     fieldGroup("Feature Type") {
-                        Picker("", selection: $pendingPointFeatureType) {
+                        Picker("Feature Type", selection: $pendingPointFeatureType) {
                             ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
                                 Text(featureType.label).tag(featureType)
                             }
@@ -120,6 +126,7 @@ public struct UnitFormView: View {
                         .pickerStyle(.menu)
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel("Point feature type")
                         .disabled(availablePointFeaturesToAdd.isEmpty)
                     }
 
@@ -132,6 +139,7 @@ public struct UnitFormView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(availablePointFeaturesToAdd.isEmpty)
+                        .accessibilityHint("Adds the selected point feature to this unit")
                     }
                 }
                 .padding(10)
@@ -218,7 +226,7 @@ public struct UnitFormView: View {
                     .lineLimit(1)
                     .truncationMode(.tail)
                 Spacer()
-                Picker("", selection: $unit.pointFeatures[index].type) {
+                Picker("Feature Type", selection: $unit.pointFeatures[index].type) {
                     ForEach(PointFeatureCategory.allCases, id: \.self) { category in
                         let types = PointFeatureType.allCases.filter { $0.category == category }
                         if !types.isEmpty {
@@ -234,6 +242,7 @@ public struct UnitFormView: View {
                 .pickerStyle(.menu)
                 .labelsHidden()
                 .frame(maxWidth: 120, alignment: .trailing)
+                .accessibilityLabel("Feature Type")
 
                 Button {
                     unit.pointFeatures.remove(at: index)
@@ -243,6 +252,8 @@ public struct UnitFormView: View {
                 }
                 .buttonStyle(.borderless)
                 .foregroundStyle(.red)
+                .accessibilityLabel("Delete feature")
+                .accessibilityHint("Removes this point feature from the unit")
             }
 
             HStack(spacing: 8) {
@@ -250,6 +261,7 @@ public struct UnitFormView: View {
                     .font(.subheadline)
                     .frame(width: 58, alignment: .leading)
                 Slider(value: densityBinding(for: index), in: 0...1, step: 0.05)
+                    .accessibilityLabel("Feature density")
                 Text("\(Int((unit.pointFeatures[index].density * 100).rounded()))%")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
