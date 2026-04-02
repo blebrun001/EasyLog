@@ -87,6 +87,31 @@ func pointFeaturesAppearInLegendOnlyWhenUsed() {
 }
 
 @Test
+func samePointFeatureAcrossUnitsAppearsOnceInLegend() {
+    let sharedType: PointFeatureType = .paleoMicrofossils
+    let project = Project(
+        units: [
+            StratigraphicUnit(
+                name: "A",
+                thickness: 2,
+                lithology: "Massive sand or sandstone",
+                pointFeatures: [UnitPointFeature(type: sharedType, density: 0.2)]
+            ),
+            StratigraphicUnit(
+                name: "B",
+                thickness: 2,
+                lithology: "Limestone",
+                pointFeatures: [UnitPointFeature(type: sharedType, density: 0.8)]
+            )
+        ]
+    )
+
+    let scene = CakeRenderer().makeScene(project: project)
+    let matches = scene.legend.filter { $0.label.contains(sharedType.label) }
+    #expect(matches.count == 1)
+}
+
+@Test
 func highConcentrationProducesMorePointSymbolsAndStaysInsideUnit() {
     let unit = StratigraphicUnit(
         name: "A",
@@ -112,6 +137,37 @@ func highConcentrationProducesMorePointSymbolsAndStaysInsideUnit() {
         #expect(point.centerY >= rect.y)
         #expect(point.centerY <= rect.y + rect.height)
     }
+}
+
+@Test
+func higherDensityProducesMorePointSymbols() {
+    let unit = StratigraphicUnit(
+        name: "A",
+        thickness: 4,
+        lithology: "Massive sand or sandstone",
+        pointFeatures: [
+            UnitPointFeature(type: .archaeologicalBoneFragments, density: 0.2),
+            UnitPointFeature(type: .archaeologicalArtifacts, density: 0.9)
+        ]
+    )
+
+    let scene = CakeRenderer().makeScene(project: Project(units: [unit]))
+    let renderedUnit = scene.units[0]
+    let lowDensityCount = renderedUnit.pointFeatures.filter { $0.type == .archaeologicalBoneFragments }.count
+    let highDensityCount = renderedUnit.pointFeatures.filter { $0.type == .archaeologicalArtifacts }.count
+    #expect(highDensityCount > lowDensityCount)
+}
+
+@Test
+func sceneCarriesConfiguredDepthScaleUnit() {
+    let project = Project(
+        settings: ProjectSettings(depthScaleUnit: .centimeter),
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.depthScaleUnit == .centimeter)
 }
 
 @Test

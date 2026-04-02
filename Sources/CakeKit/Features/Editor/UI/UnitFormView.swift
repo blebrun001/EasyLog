@@ -15,75 +15,110 @@ public struct UnitFormView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Unit Details")
-                .font(.headline)
-            TextField("Name", text: $unit.name)
-            TextField("Thickness (m)", text: thicknessBinding)
-            Picker("Lithology Group", selection: $selectedLithologyCategory) {
-                ForEach(availableLithologyCategories, id: \.self) { category in
-                    Text(category.label).tag(category)
-                }
-            }
-            .onChange(of: selectedLithologyCategory) { _ in
-                normalizeLithologySelection()
-            }
-            Picker("Lithology", selection: $unit.lithology) {
-                ForEach(lithologiesInSelectedCategory, id: \.self) { lithology in
-                    Text(lithology).tag(lithology)
-                }
-            }
-            if let usgsCode = SymbologyLibrary.usgsSymbolCode(forLithology: unit.lithology) {
-                Text("USGS Symbol \(usgsCode)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Picker("Grain Size", selection: grainSizeBinding) {
-                Text("Unset").tag(nil as USGSGrainSize?)
-                ForEach(USGSGrainSize.allCases, id: \.self) { size in
-                    Text(size.label).tag(Optional(size))
-                }
-            }
+        VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 10) {
+                sectionHeader("Unit Details")
 
-            Divider()
-            Text("Point Features")
-                .font(.headline)
-
-            if unit.pointFeatures.isEmpty {
-                Text("No point features.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            } else {
-                ForEach(Array(unit.pointFeatures.indices), id: \.self) { index in
-                    pointFeatureRow(index: index)
+                fieldGroup("Name") {
+                    TextField("Name", text: $unit.name)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-            }
 
-            HStack(alignment: .center, spacing: 8) {
-                Picker("Category", selection: $pendingPointFeatureCategory) {
-                    ForEach(availablePointFeatureCategories, id: \.self) { category in
-                        Text(category.label).tag(category)
+                fieldGroup("Thickness (m)") {
+                    TextField("Thickness (m)", text: thicknessBinding)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
+                fieldGroup("Lithology Group") {
+                    Picker("", selection: $selectedLithologyCategory) {
+                        ForEach(availableLithologyCategories, id: \.self) { category in
+                            Text(category.label).tag(category)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .onChange(of: selectedLithologyCategory) { _ in
+                        normalizeLithologySelection()
                     }
                 }
-                .pickerStyle(.menu)
-                .disabled(availablePointFeaturesToAdd.isEmpty)
-                .onChange(of: pendingPointFeatureCategory) { _ in
-                    normalizePendingFeatureSelection()
+
+                fieldGroup("Lithology") {
+                    Picker("", selection: $unit.lithology) {
+                        ForEach(lithologiesInSelectedCategory, id: \.self) { lithology in
+                            Text(lithology).tag(lithology)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Picker("Feature Type", selection: $pendingPointFeatureType) {
-                    ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
-                        Text(featureType.label).tag(featureType)
+                fieldGroup("Grain Size") {
+                    Picker("", selection: grainSizeBinding) {
+                        Text("Unset").tag(nil as USGSGrainSize?)
+                        ForEach(USGSGrainSize.allCases, id: \.self) { size in
+                            Text(size.label).tag(Optional(size))
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .padding(12)
+            .background(.quaternary.opacity(0.28), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+
+            VStack(alignment: .leading, spacing: 10) {
+                sectionHeader("Point Features")
+
+                if !unit.pointFeatures.isEmpty {
+                    VStack(spacing: 8) {
+                        ForEach(Array(unit.pointFeatures.indices), id: \.self) { index in
+                            pointFeatureRow(index: index)
+                        }
                     }
                 }
-                .pickerStyle(.menu)
-                .disabled(availablePointFeaturesToAdd.isEmpty)
 
-                Button("Add") {
-                    addPendingPointFeature()
+                VStack(alignment: .leading, spacing: 8) {
+                    Picker("", selection: $pendingPointFeatureCategory) {
+                        ForEach(availablePointFeatureCategories, id: \.self) { category in
+                            Text(category.label).tag(category)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .disabled(availablePointFeaturesToAdd.isEmpty)
+                    .onChange(of: pendingPointFeatureCategory) { _ in
+                        normalizePendingFeatureSelection()
+                    }
+
+                    Picker("", selection: $pendingPointFeatureType) {
+                        ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
+                            Text(featureType.label).tag(featureType)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .disabled(availablePointFeaturesToAdd.isEmpty)
+
+                    HStack {
+                        Button {
+                            addPendingPointFeature()
+                        } label: {
+                            Label("Add", systemImage: "plus")
+                        }
+                        .disabled(availablePointFeaturesToAdd.isEmpty)
+                        Spacer()
+                    }
                 }
-                .disabled(availablePointFeaturesToAdd.isEmpty)
             }
+            .padding(12)
+            .background(.quaternary.opacity(0.28), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         }
         .onAppear {
             coerceLithologyToSupportedValueIfNeeded()
@@ -156,36 +191,66 @@ public struct UnitFormView: View {
 
     @ViewBuilder
     private func pointFeatureRow(index: Int) -> some View {
-        HStack(alignment: .center, spacing: 8) {
-            Picker("Type", selection: $unit.pointFeatures[index].type) {
-                ForEach(PointFeatureCategory.allCases, id: \.self) { category in
-                    let types = PointFeatureType.allCases.filter { $0.category == category }
-                    if !types.isEmpty {
-                        Section(category.label) {
-                            ForEach(types, id: \.self) { featureType in
-                                Text(featureType.label)
-                                    .tag(featureType)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .center, spacing: 8) {
+                Picker("", selection: $unit.pointFeatures[index].type) {
+                    ForEach(PointFeatureCategory.allCases, id: \.self) { category in
+                        let types = PointFeatureType.allCases.filter { $0.category == category }
+                        if !types.isEmpty {
+                            Section(category.label) {
+                                ForEach(types, id: \.self) { featureType in
+                                    Text(featureType.label)
+                                        .tag(featureType)
+                                }
                             }
                         }
                     }
                 }
-            }
-            .pickerStyle(.menu)
+                .pickerStyle(.menu)
+                .labelsHidden()
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-            Picker("Concentration", selection: $unit.pointFeatures[index].concentration) {
-                ForEach(PointFeatureConcentration.allCases, id: \.self) { concentration in
-                    Text(concentration.label).tag(concentration)
+                Button("Delete") {
+                    unit.pointFeatures.remove(at: index)
+                    normalizePendingFeatureSelection()
                 }
+                .buttonStyle(.borderless)
+                .foregroundStyle(.red)
             }
-            .pickerStyle(.segmented)
-            .frame(maxWidth: 210)
 
-            Button("Delete") {
-                unit.pointFeatures.remove(at: index)
-                normalizePendingFeatureSelection()
+            HStack(spacing: 10) {
+                Text("Density")
+                    .font(.subheadline)
+                Slider(value: densityBinding(for: index), in: 0...1)
+                Text("\(Int((unit.pointFeatures[index].density * 100).rounded()))%")
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .frame(width: 44, alignment: .trailing)
             }
-            .buttonStyle(.borderless)
         }
+        .padding(8)
+        .background(.background.opacity(0.55), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+    }
+
+    private func densityBinding(for index: Int) -> Binding<Double> {
+        Binding<Double>(
+            get: { unit.pointFeatures[index].density },
+            set: { unit.pointFeatures[index].density = min(max($0, 0), 1) }
+        )
+    }
+
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
+            .font(.headline)
+    }
+
+    private func fieldGroup<Content: View>(_ label: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label)
+                .font(.subheadline.weight(.medium))
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var availablePointFeaturesToAdd: [PointFeatureType] {
@@ -220,7 +285,7 @@ public struct UnitFormView: View {
     private func addPendingPointFeature() {
         guard availablePointFeaturesToAdd.contains(pendingPointFeatureType) else { return }
         unit.pointFeatures.append(
-            UnitPointFeature(type: pendingPointFeatureType, concentration: .low)
+            UnitPointFeature(type: pendingPointFeatureType, density: 0.35)
         )
         normalizePendingFeatureSelection()
     }

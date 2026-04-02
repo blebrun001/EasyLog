@@ -10,7 +10,7 @@ public struct MainContentView: View {
     public var body: some View {
         NavigationSplitView {
             ProjectSidebarView(viewModel: viewModel)
-                .navigationSplitViewColumnWidth(min: 360, ideal: 420, max: 460)
+                .navigationSplitViewColumnWidth(min: 420, ideal: 500, max: 580)
         } detail: {
             VStack(spacing: 0) {
                 RenderPreviewView(viewModel: viewModel)

@@ -125,9 +125,19 @@ public enum SceneCGRenderer {
             context.move(to: CGPoint(x: axisX - 6, y: tick.y))
             context.addLine(to: CGPoint(x: axisX + 6, y: tick.y))
             context.strokePath()
-            drawText(format(tick.depth), at: CGPoint(x: axisX - 50, y: tick.y - 5), size: scene.baseFontSize - 1, context: context)
+            drawText(
+                formatScaleDepth(tick.depth, unit: scene.depthScaleUnit),
+                at: CGPoint(x: axisX - 62, y: tick.y - 5),
+                size: scene.baseFontSize - 1,
+                context: context
+            )
         }
-        drawText("Depth (m)", at: CGPoint(x: axisX - 58, y: scene.logColumnRect.y - 24), size: scene.baseFontSize, context: context)
+        drawText(
+            "Depth (\(scene.depthScaleUnit.symbol))",
+            at: CGPoint(x: axisX - 66, y: scene.logColumnRect.y - 24),
+            size: scene.baseFontSize,
+            context: context
+        )
     }
 
     private static func drawLegend(scene: RenderScene, in context: CGContext) {
@@ -251,6 +261,16 @@ public enum SceneCGRenderer {
 
         NSGraphicsContext.restoreGraphicsState()
         context.restoreGState()
+    }
+
+    private static func formatScaleDepth(_ depthInMeters: Double, unit: DepthScaleUnit) -> String {
+        let scaled = depthInMeters * unit.multiplierFromMeters
+        switch unit {
+        case .meter:
+            return format(scaled)
+        case .centimeter, .millimeter:
+            return String(Int(scaled.rounded()))
+        }
     }
 
     private static func drawDiagonal(spacing: CGFloat, rect: CGRect, context: CGContext, forward: Bool) {

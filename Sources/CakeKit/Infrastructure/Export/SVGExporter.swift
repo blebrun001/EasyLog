@@ -83,12 +83,12 @@ public struct SVGExporter: SVGExporting {
         for tick in scene.ticks {
             svg += """
 
-            <text x="\(fmt(axisX - 50))" y="\(fmt(tick.y + 4))">\(fmt(tick.depth))</text>
+            <text x="\(fmt(axisX - 62))" y="\(fmt(tick.y + 4))">\(formattedScaleDepth(tick.depth, unit: scene.depthScaleUnit))</text>
             """
         }
         svg += """
 
-            <text x="\(fmt(axisX - 60))" y="\(fmt(scene.logColumnRect.y - 16))">Depth (m)</text>
+            <text x="\(fmt(axisX - 74))" y="\(fmt(scene.logColumnRect.y - 16))">Depth (\(scene.depthScaleUnit.symbol))</text>
           </g>
         """
 
@@ -248,5 +248,15 @@ public struct SVGExporter: SVGExporting {
             return String(Int(value))
         }
         return String(format: "%.3f", value)
+    }
+
+    private func formattedScaleDepth(_ depthInMeters: Double, unit: DepthScaleUnit) -> String {
+        let scaled = depthInMeters * unit.multiplierFromMeters
+        switch unit {
+        case .meter:
+            return fmt(scaled)
+        case .centimeter, .millimeter:
+            return String(Int(scaled.rounded()))
+        }
     }
 }

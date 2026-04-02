@@ -113,6 +113,7 @@ public struct RenderScene: Hashable {
     public var baseFontSize: Double
     public var showsGrid: Bool
     public var symbolScale: Double
+    public var depthScaleUnit: DepthScaleUnit
 
     public init(
         title: String,
@@ -123,7 +124,8 @@ public struct RenderScene: Hashable {
         ticks: [ScaleTick],
         baseFontSize: Double,
         showsGrid: Bool,
-        symbolScale: Double
+        symbolScale: Double,
+        depthScaleUnit: DepthScaleUnit
     ) {
         self.title = title
         self.canvasSize = canvasSize
@@ -134,6 +136,7 @@ public struct RenderScene: Hashable {
         self.baseFontSize = baseFontSize
         self.showsGrid = showsGrid
         self.symbolScale = symbolScale
+        self.depthScaleUnit = depthScaleUnit
     }
 
     public static var empty: RenderScene {
@@ -146,7 +149,8 @@ public struct RenderScene: Hashable {
             ticks: [],
             baseFontSize: 12,
             showsGrid: false,
-            symbolScale: 1.0
+            symbolScale: 1.0,
+            depthScaleUnit: .meter
         )
     }
 }

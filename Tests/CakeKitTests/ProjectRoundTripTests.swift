@@ -40,4 +40,5 @@ func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
     #expect(decoded.pageSize == .letterPortrait)
     #expect(decoded.baseFontSize == 12)
     #expect(decoded.symbolScale == 1.0)
+    #expect(decoded.depthScaleUnit == .meter)
 }

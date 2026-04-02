@@ -46,6 +46,7 @@ public struct CakeRenderer: LogRenderer {
         var pointLegendOrder: [LegendItem] = []
         var seenUSGSCodes = Set<Int>()
         var seenPointTypes = Set<PointFeatureType>()
+        var seenLegendLabels = Set<String>()
         var hasFallbackLegend = false
         var yCursor = margins.top
 
@@ -78,30 +79,40 @@ public struct CakeRenderer: LogRenderer {
             if let usgsCode {
                 if !seenUSGSCodes.contains(usgsCode) {
                     seenUSGSCodes.insert(usgsCode)
-                    legendOrder.append(LegendItem(label: "\(unit.lithology.capitalized) (\(usgsCode))", symbol: style.symbol, usgsSymbolCode: usgsCode))
+                    let item = LegendItem(label: "\(unit.lithology.capitalized) (\(usgsCode))", symbol: style.symbol, usgsSymbolCode: usgsCode)
+                    if seenLegendLabels.insert(item.label).inserted {
+                        legendOrder.append(item)
+                    }
                 }
             } else {
                 if !hasFallbackLegend {
                     hasFallbackLegend = true
-                    legendOrder.append(LegendItem(label: unit.lithology.capitalized, symbol: style.symbol))
+                    let item = LegendItem(label: unit.lithology.capitalized, symbol: style.symbol)
+                    if seenLegendLabels.insert(item.label).inserted {
+                        legendOrder.append(item)
+                    }
                 }
             }
 
             for pointFeature in unit.pointFeatures {
                 if seenPointTypes.insert(pointFeature.type).inserted {
-                    pointLegendOrder.append(
-                        LegendItem(
-                            label: "\(pointFeature.type.categoryLabel): \(pointFeature.type.label)",
-                            symbol: .fallback,
-                            pointSymbol: pointFeature.type.symbol
-                        )
+                    let item = LegendItem(
+                        label: "\(pointFeature.type.categoryLabel): \(pointFeature.type.label)",
+                        symbol: .fallback,
+                        pointSymbol: pointFeature.type.symbol
                     )
+                    if seenLegendLabels.insert(item.label).inserted {
+                        pointLegendOrder.append(item)
+                    }
                 }
             }
             yCursor += height
         }
 
-        let tickStep = preferredTickStep(for: totalThickness)
+        let tickStep = preferredTickStepMeters(
+            for: totalThickness,
+            unit: project.settings.depthScaleUnit
+        )
         let tickCount = Int((totalThickness / tickStep).rounded(.down))
         let ticks = (0...tickCount).map { index -> ScaleTick in
             let depth = Double(index) * tickStep
@@ -125,7 +136,8 @@ public struct CakeRenderer: LogRenderer {
             ticks: ticks,
             baseFontSize: project.settings.baseFontSize,
             showsGrid: false,
-            symbolScale: project.settings.symbolScale
+            symbolScale: project.settings.symbolScale,
+            depthScaleUnit: project.settings.depthScaleUnit
         )
     }
 
@@ -161,7 +173,7 @@ public struct CakeRenderer: LogRenderer {
         let usableHeight = max(rect.height - 2 * padding, 0)
 
         for (featureIndex, pointFeature) in pointFeatures.enumerated() {
-            let symbolCount = countForPointFeature(concentration: pointFeature.concentration, rect: rect)
+            let symbolCount = countForPointFeature(density: pointFeature.density, rect: rect)
             for sampleIndex in 0..<symbolCount {
                 let seed = makeSeed(
                     unitID: unitID,
@@ -195,16 +207,14 @@ public struct CakeRenderer: LogRenderer {
         return rendered
     }
 
-    private func countForPointFeature(concentration: PointFeatureConcentration, rect: RectD) -> Int {
+    private func countForPointFeature(density: Double, rect: RectD) -> Int {
         let area = max(rect.width * rect.height, 1)
-        switch concentration {
-        case .low:
-            let scaled = Int((area * 0.00035).rounded())
-            return min(max(scaled, 2), 12)
-        case .high:
-            let scaled = Int((area * 0.0010).rounded())
-            return min(max(scaled, 6), 32)
-        }
+        let clampedDensity = min(max(density, 0), 1)
+        let rate = 0.0002 + (0.0014 - 0.0002) * clampedDensity
+        let scaled = Int((area * rate).rounded())
+        let minCount = Int((1 + 6 * clampedDensity).rounded(.down))
+        let maxCount = Int((8 + 36 * clampedDensity).rounded(.up))
+        return min(max(scaled, max(minCount, 1)), max(maxCount, 1))
     }
 
     private func makeSeed(
@@ -229,12 +239,29 @@ public struct CakeRenderer: LogRenderer {
         return hash
     }
 
-    private func preferredTickStep(for totalThickness: Double) -> Double {
-        switch totalThickness {
-        case 0..<10: return 1
-        case 10..<30: return 2
-        case 30..<80: return 5
-        default: return 10
+    private func preferredTickStepMeters(for totalThickness: Double, unit: DepthScaleUnit) -> Double {
+        switch unit {
+        case .meter:
+            switch totalThickness {
+            case 0..<10: return 1
+            case 10..<30: return 2
+            case 30..<80: return 5
+            default: return 10
+            }
+        case .centimeter:
+            switch totalThickness {
+            case 0..<1: return 0.1
+            case 1..<3: return 0.2
+            case 3..<8: return 0.5
+            default: return 1
+            }
+        case .millimeter:
+            switch totalThickness {
+            case 0..<0.5: return 0.02
+            case 0.5..<1.5: return 0.05
+            case 1.5..<4: return 0.1
+            default: return 0.2
+            }
         }
     }
 }

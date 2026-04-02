@@ -29,6 +29,17 @@ public struct SettingsPanelView: View {
                     Text("\(settings.symbolScale, specifier: "%.2f")x")
                         .foregroundStyle(.secondary)
                 }
+
+                HStack {
+                    Text("Scale Unit")
+                    Picker("Scale Unit", selection: $settings.depthScaleUnit) {
+                        ForEach(DepthScaleUnit.allCases) { unit in
+                            Text(unit.label).tag(unit)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    Spacer()
+                }
             }
             .padding(.vertical, 4)
         }

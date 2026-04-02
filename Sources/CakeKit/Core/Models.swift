@@ -47,6 +47,38 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
     }
 }
 
+public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable {
+    case meter
+    case centimeter
+    case millimeter
+
+    public var id: String { rawValue }
+
+    public var label: String {
+        switch self {
+        case .meter: return "Meters"
+        case .centimeter: return "Centimeters"
+        case .millimeter: return "Millimeters"
+        }
+    }
+
+    public var symbol: String {
+        switch self {
+        case .meter: return "m"
+        case .centimeter: return "cm"
+        case .millimeter: return "mm"
+        }
+    }
+
+    public var multiplierFromMeters: Double {
+        switch self {
+        case .meter: return 1
+        case .centimeter: return 100
+        case .millimeter: return 1000
+        }
+    }
+}
+
 public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, Sendable {
     case biological
     case sedimentary
@@ -197,7 +229,17 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
 public struct UnitPointFeature: Identifiable, Codable, Hashable {
     public var id: UUID
     public var type: PointFeatureType
-    public var concentration: PointFeatureConcentration
+    public var density: Double
+
+    public init(
+        id: UUID = UUID(),
+        type: PointFeatureType,
+        density: Double
+    ) {
+        self.id = id
+        self.type = type
+        self.density = Self.clampDensity(density)
+    }
 
     public init(
         id: UUID = UUID(),
@@ -206,7 +248,48 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
     ) {
         self.id = id
         self.type = type
-        self.concentration = concentration
+        self.density = Self.defaultDensity(for: concentration)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case type
+        case density
+        case concentration
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        type = try container.decode(PointFeatureType.self, forKey: .type)
+
+        if let rawDensity = try container.decodeIfPresent(Double.self, forKey: .density) {
+            density = Self.clampDensity(rawDensity)
+        } else if let legacy = try container.decodeIfPresent(PointFeatureConcentration.self, forKey: .concentration) {
+            density = Self.defaultDensity(for: legacy)
+        } else {
+            density = Self.defaultDensity(for: .low)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(type, forKey: .type)
+        try container.encode(Self.clampDensity(density), forKey: .density)
+    }
+
+    private static func defaultDensity(for concentration: PointFeatureConcentration) -> Double {
+        switch concentration {
+        case .low:
+            return 0.25
+        case .high:
+            return 0.75
+        }
+    }
+
+    private static func clampDensity(_ value: Double) -> Double {
+        min(max(value, 0), 1)
     }
 }
 
@@ -324,19 +407,22 @@ public struct ProjectSettings: Codable, Hashable {
     public var baseFontSize: Double
     public var showGrid: Bool
     public var symbolScale: Double
+    public var depthScaleUnit: DepthScaleUnit
 
     public init(
         verticalScale: Double = 25,
         pageSize: PageSizePreset = .a4Portrait,
         baseFontSize: Double = 12,
         showGrid: Bool = false,
-        symbolScale: Double = 1.0
+        symbolScale: Double = 1.0,
+        depthScaleUnit: DepthScaleUnit = .meter
     ) {
         self.verticalScale = verticalScale
         self.pageSize = pageSize
         self.baseFontSize = baseFontSize
         self.showGrid = false
         self.symbolScale = symbolScale
+        self.depthScaleUnit = depthScaleUnit
     }
 
     enum CodingKeys: String, CodingKey {
@@ -345,6 +431,7 @@ public struct ProjectSettings: Codable, Hashable {
         case baseFontSize
         case showGrid
         case symbolScale
+        case depthScaleUnit
     }
 
     public init(from decoder: Decoder) throws {
@@ -354,6 +441,7 @@ public struct ProjectSettings: Codable, Hashable {
         baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
         showGrid = false
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
+        depthScaleUnit = try container.decodeIfPresent(DepthScaleUnit.self, forKey: .depthScaleUnit) ?? .meter
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -363,6 +451,7 @@ public struct ProjectSettings: Codable, Hashable {
         try container.encode(baseFontSize, forKey: .baseFontSize)
         try container.encode(false, forKey: .showGrid)
         try container.encode(symbolScale, forKey: .symbolScale)
+        try container.encode(depthScaleUnit, forKey: .depthScaleUnit)
     }
 }
 
