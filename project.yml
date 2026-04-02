@@ -11,6 +11,8 @@ targets:
     platform: macOS
     sources:
       - Sources/CakeKit
+    resources:
+      - Sources/CakeKit/Resources/USGS
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit

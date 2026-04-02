@@ -1,0 +1,2816 @@
+{
+  "sourcePage": "https://pubs.usgs.gov/tm/2006/11A02/",
+  "syncedAtUTC": "2026-04-02T06:52:20Z",
+  "archives": [
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Preface_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Preface_ai8.zip",
+      "section": null
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Preface_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Preface_cs2.zip",
+      "section": null
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "Sec01"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "Sec01"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "Sec02"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "Sec02"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "Sec05"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "Sec05"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec06_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec06_ai8.zip",
+      "section": "Sec06"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec06_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec06_cs2.zip",
+      "section": "Sec06"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec07_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec07_ai8.zip",
+      "section": "Sec07"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec07_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec07_cs2.zip",
+      "section": "Sec07"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "section": "Sec08"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "section": "Sec08"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "Sec09"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "Sec09"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec11_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec11_ai8.zip",
+      "section": "Sec11"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec11_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec11_cs2.zip",
+      "section": "Sec11"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "section": "Sec13"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "section": "Sec13"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec15_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec15_ai8.zip",
+      "section": "Sec15"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec15_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec15_cs2.zip",
+      "section": "Sec15"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "section": "Sec17"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "section": "Sec17"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "section": "Sec18"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "section": "Sec18"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "Sec19"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "Sec19"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec21_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec21_ai8.zip",
+      "section": "Sec21"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec21_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec21_cs2.zip",
+      "section": "Sec21"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec22_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec22_ai8.zip",
+      "section": "Sec22"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec22_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec22_cs2.zip",
+      "section": "Sec22"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "Sec25"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "Sec25"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "Sec26"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "Sec26"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "Sec30"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "Sec30"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec32_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec32_ai8.zip",
+      "section": "Sec32"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec32_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec32_cs2.zip",
+      "section": "Sec32"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "section": "Sec34"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "section": "Sec34"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "Sec35"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "Sec35"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "section": "Sec36"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "section": "Sec36"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "section": "Sec37"
+    },
+    {
+      "url": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "section": "Sec37"
+    }
+  ],
+  "files": [
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "SEC01",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-01ai8.eps",
+      "sha256": "eaf516f936d5b2de11e66309c6e2084d0a9941cae6abe2f244d3df3a4ce1c1a9",
+      "sizeBytes": 607767,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-01-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "SEC01",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-02ai8.eps",
+      "sha256": "3f9d0a177d3e3f021b8d7ca5d9cf1ac92d7cb62046814afae9cb91285eaac187",
+      "sizeBytes": 576565,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-01-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "SEC01",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-03ai8.eps",
+      "sha256": "d21d8b67e353561e350f4bdb45ab6918248b8330db69f85a452bdb36471a6a07",
+      "sizeBytes": 675381,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-01-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "SEC01",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-04ai8.eps",
+      "sha256": "4b7ce8d8ecfe1a86ad819bcb5ca33a177686432434d81d8ffd6555e51c478b31",
+      "sizeBytes": 791807,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-01-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "SEC01",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-05ai8.eps",
+      "sha256": "5ca4e2106f90bbc8f9ee9024551ab1fb4aee26eb9f925de2da1b75c9bf4fc25e",
+      "sizeBytes": 674434,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-01-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "section": "SEC01",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-06ai8.eps",
+      "sha256": "421eba24ee4ecdba070263492b284cb343a51d224b38183b5afead7a20695edb",
+      "sizeBytes": 851682,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-01-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-01ai8.eps",
+      "sha256": "380f90d694c95bdf7ee2a75d771175d25ce5dcae3e7e365a03a21f1c95952030",
+      "sizeBytes": 564155,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-02ai8.eps",
+      "sha256": "60a11af79ac54bedc5885fdf132c0e542d836f53297130dc0ba540e93b0e8dbf",
+      "sizeBytes": 651554,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-03ai8.eps",
+      "sha256": "3eb044507234f10493b2f5f808f94b17256578daa7129d2cb7c1f3dc9efe3024",
+      "sizeBytes": 672108,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-04ai8.eps",
+      "sha256": "0969b0e2c7b55e376bff44e5e037dcd01e37423f49c96e843137081639140788",
+      "sizeBytes": 654414,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-05ai8.eps",
+      "sha256": "a182b2b466100e39c77ef637c2ecef3df857a76e34cf1f9bc9c9584553efce85",
+      "sizeBytes": 650110,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-06ai8.eps",
+      "sha256": "c75eb543419704b0f5345170062bf91dce47757dadf4da77974a6077bab2d944",
+      "sizeBytes": 694068,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-07ai8.eps",
+      "sha256": "5316e575f030a6327f43110b0d5852468b2afccb7b673845b16a4308f39497e7",
+      "sizeBytes": 768071,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-07ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-08ai8.eps",
+      "sha256": "5703d220462c465bf6bbecb9ffb6d81e535850f2626af8dea6cb2f0a9ee86182",
+      "sizeBytes": 815202,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-08ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-09ai8.eps",
+      "sha256": "42be986b7174b90dfe454a08dec133f0987b31a4882ebeaf616963a8004495f9",
+      "sizeBytes": 777335,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-09ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-10ai8.eps",
+      "sha256": "9d11fe42063a266b5a301602cb708af754bf561e91886df4d20acec5f9fcd840",
+      "sizeBytes": 681627,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-10ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-11ai8.eps",
+      "sha256": "baaae755fbf48d9bf3a86ce7691b64d132cc16ea7b77f736563798703c0bfb42",
+      "sizeBytes": 911552,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-11ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-12ai8.eps",
+      "sha256": "47e1fab90731c5397f5e71b853a30b937044cf968400051fba1286473292bb25",
+      "sizeBytes": 843089,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-12ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-13ai8.eps",
+      "sha256": "f1dd27ad44d3bea52b2143fd5aa1ffd0b9d1041c6bf1015acafb7a94cedc9312",
+      "sizeBytes": 1005372,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-13ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-14ai8.eps",
+      "sha256": "6cd0c47e2d5ca0a17508f7ce21f77f4c79f5457e9a93ea003b4e3c68c32b4c9a",
+      "sizeBytes": 1025812,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-14ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-15ai8.eps",
+      "sha256": "fead51cd7ef614e15fef23967c49c9fec2f7cc0c767876cc6975db306a8f712c",
+      "sizeBytes": 914714,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-15ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "section": "SEC02",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-16ai8.eps",
+      "sha256": "f91ce7028d4d2b526eb7ba0e25dbc0477fa981c302fd924f49aad1e957d543b7",
+      "sizeBytes": 828479,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-02-16ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-01ai8.eps",
+      "sha256": "7559666203bc2f8c969286f03175e05c902dc0c0c1800fbed70a8a526e061f00",
+      "sizeBytes": 652475,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-02ai8.eps",
+      "sha256": "1602c50214bfecf59d5d32cff98cfde3454ee7cf01f226bffac343e096d62328",
+      "sizeBytes": 666317,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-03ai8.eps",
+      "sha256": "b52d3ff314a51f3cb406395fc397f9c53244b652d3bcce425bac2f3f907998b7",
+      "sizeBytes": 816707,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-04ai8.eps",
+      "sha256": "858eda500cb1118e96f41301f97f73f5331c2a48e61e625eeae9286e5497019a",
+      "sizeBytes": 847896,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-05ai8.eps",
+      "sha256": "d17ee3583b8ef8d96e71092016659693469a135e0935590dfa4ed308497e7bf5",
+      "sizeBytes": 687329,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-06ai8.eps",
+      "sha256": "cfee49e354adf2ce6b2ad97e14f6fa5eff9b2b5ca634d01f4ad0b8b96b417e47",
+      "sizeBytes": 669107,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-07ai8.eps",
+      "sha256": "37cca5c2f0837f7dcd706b18b216c8dbe61dbf6feba24d376a0463cb3320f027",
+      "sizeBytes": 673499,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-07ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-08ai8.eps",
+      "sha256": "bc1a25c3c3214f5c6764ae442d78db0a62a3bdc5c6f675d96d4a67cb1ebc8ad5",
+      "sizeBytes": 801827,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-08ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-09ai8.eps",
+      "sha256": "d74e1c920762a6db324275c77027bc3c5c0b9943c2b4ab6e80351d15cf25418d",
+      "sizeBytes": 831399,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-09ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-10ai8.eps",
+      "sha256": "a6ff31929f5bc8595dad4168f339dc04ec975ec70eb758526339d1a23c5be3da",
+      "sizeBytes": 696918,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-10ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-11ai8.eps",
+      "sha256": "06af636321dcd16e308bc2ca2b3a145b2ba29eb7486d370686e9704a0738376b",
+      "sizeBytes": 776718,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-11ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-12ai8.eps",
+      "sha256": "246f35e1ae57a4623ee860f9698e276ee59e5258c90df2f65d7d508c654b5d91",
+      "sizeBytes": 808584,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-12ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-13ai8.eps",
+      "sha256": "a1d38c2747399d2b5cb201eba3ae0a18bff4b9ba1ce44bfabb1765b116aee17c",
+      "sizeBytes": 824161,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-13ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-14ai8.eps",
+      "sha256": "efdd48ddf7b0358907f5c49e800921eea1d2211007ed17a2e2b6c05c9e53b8c4",
+      "sizeBytes": 1430905,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-14ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "section": "SEC05",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-15ai8.eps",
+      "sha256": "fc788def89caa608eda0aaa0f3516004f3a3366a4723cd443cd560d3b8554ee9",
+      "sizeBytes": 1358671,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-05-15ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec06_ai8.zip",
+      "section": "SEC06",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec06_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-06-01ai8.eps",
+      "sha256": "82dce7b85aa4c7bd4be47ab79a2576328911ded3dd04be2e2de1bad3b01a4c49",
+      "sizeBytes": 766666,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-06-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec06_ai8.zip",
+      "section": "SEC06",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec06_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-06-02ai8.eps",
+      "sha256": "ace8c0517120f1a32ca1cb92610522a7d185e4e559baea0fadb7b3af43d5a034",
+      "sizeBytes": 829296,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-06-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec07_ai8.zip",
+      "section": "SEC07",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec07_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-07-01ai8.eps",
+      "sha256": "d4e342c09ac58f45df052a5b8e12ec57515b63ffc9a28fdbb7864fd4598e5e32",
+      "sizeBytes": 768318,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-07-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec07_ai8.zip",
+      "section": "SEC07",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec07_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-07-02ai8.eps",
+      "sha256": "f13caf909e39d5e91dfe18dbe9d095d0631fa640d0d3afc72af616e797c2a89d",
+      "sizeBytes": 685325,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-07-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "section": "SEC08",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-01ai8.eps",
+      "sha256": "8a791a2c8f2425f01720214ec9fbf4bed08ea981b9f12a0b735bfe32a03176de",
+      "sizeBytes": 862610,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-08-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "section": "SEC08",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-02ai8.eps",
+      "sha256": "bf449d6bbf1a0311553bf1f7fca2934793ac71e9675c8ede78f8b9ba3b2dfe23",
+      "sizeBytes": 673529,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-08-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "section": "SEC08",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-03ai8.eps",
+      "sha256": "7fa837f7ba1d6c5a9c04803e15f94d4dbc75dd42c51bbbdcd13503f036679e00",
+      "sizeBytes": 867711,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-08-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "section": "SEC08",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-04ai8.eps",
+      "sha256": "4729dbdd335db662009ec357d5e93b712b4b613e9037f24ced27ce91eb665463",
+      "sizeBytes": 935341,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-08-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "section": "SEC08",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-05ai8.eps",
+      "sha256": "cc680f5906e862c98223a95b9cd83664ece0a10707eacf9e234167b45ff64046",
+      "sizeBytes": 781429,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-08-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "SEC09",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-01ai8.eps",
+      "sha256": "4b9b395cb6f056cf91706f759aa98f5e09c78b84904877d2dba5bf91b09b2de7",
+      "sizeBytes": 805368,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-09-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "SEC09",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-02ai8.eps",
+      "sha256": "d0dbfb64dbbc08df3884bf236fe3e162931f842e94f9c783eff3c95304d8f5e8",
+      "sizeBytes": 908350,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-09-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "SEC09",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-03ai8.eps",
+      "sha256": "d1d958698d502d2c9e9f6cc83aeebcc215817c9111e1dd7bcd763c2056ae10d4",
+      "sizeBytes": 872297,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-09-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "SEC09",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-04ai8.eps",
+      "sha256": "5baa21cbc679bd9a19597d961e7a0b15576d5ac5c9c58f7de7774f06d508ed3e",
+      "sizeBytes": 842514,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-09-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "SEC09",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-05ai8.eps",
+      "sha256": "5cfeace0327ffd767e380d4e78ece79ecc6f40db9824f4e824f4409d07f3a0a3",
+      "sizeBytes": 1016681,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-09-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "section": "SEC09",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-06ai8.eps",
+      "sha256": "08aab8fcfdbcb008cc8670352c6bac277c1debfc1757386bd89f326a3ae6639e",
+      "sizeBytes": 958798,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-09-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec11_ai8.zip",
+      "section": "SEC11",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec11_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-11-01ai8.eps",
+      "sha256": "da3c95e779590aebbf914f43d89b9574edc606a847181484b57245180e0fce25",
+      "sizeBytes": 820314,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-11-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec11_ai8.zip",
+      "section": "SEC11",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec11_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-11-02ai8.eps",
+      "sha256": "bfbc8832df44082e7e568a2ca348045ad238a05ebac19b76edff242c15ce1130",
+      "sizeBytes": 785513,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-11-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "section": "SEC13",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-13-01ai8.eps",
+      "sha256": "30bd3ceeb553286e08deb60bc766374d1a5de75c102588c24a519f8ba14951ef",
+      "sizeBytes": 1256024,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-13-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "section": "SEC13",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-13-02ai8.eps",
+      "sha256": "637bcfa0a97688b6b8dd0643d17b9be64ff504e023276e7c72dfc4211e1fee90",
+      "sizeBytes": 999410,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-13-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "section": "SEC13",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-13-03ai8.eps",
+      "sha256": "90a0c2cc61ac2ed30ba2f803ddaae32906b2e74209aec4d7457b501374aa14db",
+      "sizeBytes": 676424,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-13-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec15_ai8.zip",
+      "section": "SEC15",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec15_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-15-01ai8.eps",
+      "sha256": "6f983f53f233d516061da4faa514710cbbd3e50d79595d4c38d5b7f3747daeab",
+      "sizeBytes": 702748,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-15-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec15_ai8.zip",
+      "section": "SEC15",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec15_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-15-02ai8.eps",
+      "sha256": "41f9605e827d86aa0c9786c2d8aac4b5196cef54f559c0e9a3ac92a2629bdc2d",
+      "sizeBytes": 521671,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-15-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "section": "SEC17",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-17-01ai8.eps",
+      "sha256": "f13ca82c631b4c869290a88929014b629af9e1bfff92e84ff37d3907a1338e1b",
+      "sizeBytes": 822945,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-17-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "section": "SEC17",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-17-02ai8.eps",
+      "sha256": "ea3862331a0e9dee204b2cf4c73584a200eff72c0344dcf7d71f8905215ad931",
+      "sizeBytes": 928163,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-17-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "section": "SEC17",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-17-03ai8.eps",
+      "sha256": "4c46a68b8efa41f3adf5077357256022a34ed15962874ce9b5dbf9701dd8248f",
+      "sizeBytes": 900628,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-17-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "section": "SEC18",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-18-01ai8.eps",
+      "sha256": "8fbf33fdcffa92d8daf17fb369e4b5d508d61b19ab0e1586eeb15d22442c185a",
+      "sizeBytes": 736716,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-18-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "section": "SEC18",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-18-02ai8.eps",
+      "sha256": "25ac423f3d213d3a560e27a0e2d1c6d55be417df5592e0c38c9ab531f33ef085",
+      "sizeBytes": 822485,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-18-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "section": "SEC18",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-18-03ai8.eps",
+      "sha256": "aff64e875c9936d1166504c9061640ab223b7e7c4bc516e2c4880f4077b4ae3d",
+      "sizeBytes": 1085015,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-18-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-01ai8.eps",
+      "sha256": "238923c2fe02b274143d6e28a1e51acf9b8823090b0f06ff10fff2346c29e41b",
+      "sizeBytes": 1334184,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-02ai8.eps",
+      "sha256": "6c343137210e77bbc64b591d942ad8fe35e5a644c2c93c0ac12246d2c8a6fdb8",
+      "sizeBytes": 916034,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-03ai8.eps",
+      "sha256": "eae60aec511bd3b79dc50792e9d7bcdd619464138529d8301cf1abb95ef0877d",
+      "sizeBytes": 950877,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-04ai8.eps",
+      "sha256": "a10a939d05d78c048eec9b24f568463bb5f6d4b12e88a0dc5aeb29cfe011fba8",
+      "sizeBytes": 676990,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-05ai8.eps",
+      "sha256": "942db18f0780458832e11cc7e7b1f72342975fe23702c8b68827311608744b67",
+      "sizeBytes": 916668,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-06ai8.eps",
+      "sha256": "411796745dd4a48351eb05b9ad91fa1a2f24e72a89be9885386d750e549152f4",
+      "sizeBytes": 843983,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-07ai8.eps",
+      "sha256": "c315850db0edabd5b70a6c434126b36b3dec73875d56471c1a9b346f52f50677",
+      "sizeBytes": 747367,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-07ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-08ai8.eps",
+      "sha256": "f155d1624a366a7019b3337de1802b48348428d0fb9c24026f893edd6358cfdd",
+      "sizeBytes": 822391,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-08ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-09ai8.eps",
+      "sha256": "16c939151292eaebbdd8f4207cc37e00d9f84bd2283e1af985167e7a98ac5c4c",
+      "sizeBytes": 792406,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-09ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "section": "SEC19",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-10ai8.eps",
+      "sha256": "24a6cca30132b97903914d4d4c3cebbdb4a350d55590a9a30a7ee198965add46",
+      "sizeBytes": 784481,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-19-10ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec21_ai8.zip",
+      "section": "SEC21",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec21_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-21-01ai8.eps",
+      "sha256": "6c44942b355fc891d9c7b431b2259259c1f9c959b43bb6418f045c9a88640015",
+      "sizeBytes": 781893,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-21-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec21_ai8.zip",
+      "section": "SEC21",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec21_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-21-02ai8.eps",
+      "sha256": "90066d8003739f1f88a30c3fd51166a39e5d337d4e2150cf7079c3a4a4563c6e",
+      "sizeBytes": 598948,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-21-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec22_ai8.zip",
+      "section": "SEC22",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec22_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-22-01ai8.eps",
+      "sha256": "4e2e1877c04441db0efc3d4391e1794bb33be351c220bcaba3bac311b940f75d",
+      "sizeBytes": 938738,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-22-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec22_ai8.zip",
+      "section": "SEC22",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec22_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-22-02ai8.eps",
+      "sha256": "47a87d143857dbfda4910718bde49818e91569e4eb6b7a723c511b404d7733eb",
+      "sizeBytes": 819398,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-22-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "SEC25",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-01ai8.eps",
+      "sha256": "2b57df668e7469e9590c190fd76fb5eeaa2281d420aac3a59b7ad609c9d273be",
+      "sizeBytes": 697399,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-25-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "SEC25",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-02ai8.eps",
+      "sha256": "9231a4717a544ff9786d8b3ced2bc70db9f8aae9d067703baacfbaefbf156d09",
+      "sizeBytes": 740947,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-25-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "SEC25",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-03ai8.eps",
+      "sha256": "6b09eddf6a88fad470e9ae79de580cfb8b16e118fa22c53988ccbb33edf7b3f4",
+      "sizeBytes": 1003746,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-25-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "SEC25",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-04ai8.eps",
+      "sha256": "e2c549cd5dc952186ec59d526647c1ac924d8706965ee687ad7d0015e757eb07",
+      "sizeBytes": 969262,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-25-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "SEC25",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-05ai8.eps",
+      "sha256": "c227a2568c3ea4cbc78efe0d3b48b09f3f388658f5b81effcdf9ff7876342077",
+      "sizeBytes": 892307,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-25-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "section": "SEC25",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-06ai8.eps",
+      "sha256": "a6b0bc5f3d84b5c34f1a08e7a5bda3b3b6f8f5be603b53e2e157ea2f1bdeacad",
+      "sizeBytes": 1149162,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-25-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-01ai8.eps",
+      "sha256": "2fcb527d8787d06391b33638fe4d39904e35030f7b99417d9176ff48c07603d7",
+      "sizeBytes": 856840,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-02ai8.eps",
+      "sha256": "a713529232a695e40ed1b68d699467472fe47041413445d797cf0950d932e69b",
+      "sizeBytes": 817270,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-03ai8.eps",
+      "sha256": "f71adcc1188596bdf95772df99383744ed268ccb0ccd338c14eb24664c1c9cbe",
+      "sizeBytes": 592208,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-04ai8.eps",
+      "sha256": "b7b5a2b69664b1f24eadd7b5560e79204836d93ccba4ddbdbe520888712054a1",
+      "sizeBytes": 884102,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-05ai8.eps",
+      "sha256": "96e8a50dc6cdffce8e082dda36364cee3558f0a6c836dfc414572c18a377234e",
+      "sizeBytes": 808884,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-06ai8.eps",
+      "sha256": "5f4141d1908a35649ce0be23e2b0dd9f598ba818ff5006cfc0083b65344ff54a",
+      "sizeBytes": 617085,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-07ai8.eps",
+      "sha256": "2efb02415e2820cf2ca72d551b6bf36a45c70982b476ec531226d86acdd2bc2b",
+      "sizeBytes": 818443,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-07ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-08ai8.eps",
+      "sha256": "56e1bc78db1ac83962f5932007f1834117598cd2577956a51a6fa09bc18c42cd",
+      "sizeBytes": 820601,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-08ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "section": "SEC26",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-09ai8.eps",
+      "sha256": "4a9f2cbe965b3c45ec8f7e174def46019b6a1555e76ebab21e81d3901df526ba",
+      "sizeBytes": 737622,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-26-09ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "SEC30",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-01ai8.eps",
+      "sha256": "d0f39caea3c9c4ddfcf3d3f986d9c1944e579eaa7f36a126b0f4ce1acbfdcf0c",
+      "sizeBytes": 1074779,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-30-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "SEC30",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-02ai8.eps",
+      "sha256": "7b2ef7f8f2ee499faf1e7dc3c08e1fab0ef1063cbc7bc923624a236edfbb9391",
+      "sizeBytes": 1022953,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-30-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "SEC30",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-03ai8.eps",
+      "sha256": "e7869bb63b4d76cdcdab16dfcbe608b4116256881b1daef518199418105c0207",
+      "sizeBytes": 580196,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-30-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "SEC30",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-04ai8.eps",
+      "sha256": "3ac99468c0eeb40e1b67f22e50be713ed883902c2e04b9b502386062429ca0af",
+      "sizeBytes": 1236639,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-30-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "SEC30",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-05ai8.eps",
+      "sha256": "f8d761d3dcf2025be9349da6ba68adf1e1dbae77ee39bab5443a4fce9eb0b154",
+      "sizeBytes": 1427041,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-30-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "section": "SEC30",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-06ai8.eps",
+      "sha256": "43053fdddebfb8b3d6aa1c479e5b6a132799157b1b600521a91724eaaa59d074",
+      "sizeBytes": 1008699,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-30-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec32_ai8.zip",
+      "section": "SEC32",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec32_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-32-01ai8.eps",
+      "sha256": "c6d397316d49be7d0586912596110103bb42cdda12ff7d01d868eec2d0d0161c",
+      "sizeBytes": 973715,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-32-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec32_ai8.zip",
+      "section": "SEC32",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec32_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-32-02ai8.eps",
+      "sha256": "5d8a47919cca7a912e494f706d0662692b29dad6038a20a9d48921c8fec00b2b",
+      "sizeBytes": 645310,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-32-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "section": "SEC34",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-34-01ai8.eps",
+      "sha256": "a280be5ac143a9b8c6f5fed6186fc9c149dc3ecb814457c2befd07197f3abf58",
+      "sizeBytes": 1264286,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-34-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "section": "SEC34",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-34-02ai8.eps",
+      "sha256": "225c3e73506cbe6770ca37c192c878fa56017c1ad3a00aff08e3ac8486b84db7",
+      "sizeBytes": 766726,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-34-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "section": "SEC34",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-34-03ai8.eps",
+      "sha256": "d3ec156a93392f5b4632e84d1ef2a8d74309e9d2a0a033ec45c09505e5062a23",
+      "sizeBytes": 722816,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-34-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-01ai8.eps",
+      "sha256": "2946da88bd56f44673d3aa16e1c9c6e05255517586e8f106341fa20362290a7f",
+      "sizeBytes": 660167,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-02ai8.eps",
+      "sha256": "65ee6322a03ac362b5f94b3aed6b2bf38e6dc8aa1c88be441c2e948b20c73fab",
+      "sizeBytes": 544662,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-03ai8.eps",
+      "sha256": "032a85eab20a0291aef0195eee16d2a3137b6a1f54b9d6f978f39f3299d0351d",
+      "sizeBytes": 657612,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-04ai8.eps",
+      "sha256": "b221516ecdce0c0788c29d3e2f75a519a5c7b2adb744cac129ebbab97000d9cf",
+      "sizeBytes": 637559,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-04ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-05ai8.eps",
+      "sha256": "945d54d71da33cc9ac7951967781b55ba42941ca3b4198f1e7164b8ba6a4be84",
+      "sizeBytes": 567587,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-05ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-06ai8.eps",
+      "sha256": "de0a887d9b308cf7db6d1163af7aeb653d74d942e4661c8b8bf7ead36dc8e3cd",
+      "sizeBytes": 1197612,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-06ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-07ai8.eps",
+      "sha256": "b9153aa5bab2195270a471d872d700a7b6d7e92844342141b51d5db4d0602cb6",
+      "sizeBytes": 978787,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-07ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-08ai8.eps",
+      "sha256": "c58ca5be30af7aaa0fd427ac7bbab8caaec1d51d89846466c03871de335ca3fa",
+      "sizeBytes": 1002445,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-08ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-09ai8.eps",
+      "sha256": "5b974eb375a34fa540e4cc4452bd36ca00253ac2984f25b4432f1958f1215c10",
+      "sizeBytes": 1058534,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-09ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "section": "SEC35",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-10ai8.eps",
+      "sha256": "6a661aafb52a9299f794aee34933049146ce3db20faaf94c6ff8a8c71dff3340",
+      "sizeBytes": 932197,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-35-10ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "section": "SEC36",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-36-01ai8.eps",
+      "sha256": "9e9039a4611e789e8a6d65f97b71b671301d257c79b7137942d5c9bb64f0bfa2",
+      "sizeBytes": 882749,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-36-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "section": "SEC36",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-36-02ai8.eps",
+      "sha256": "5e182cc978b95e60432764b54fca71b01096e3fc8d43ed6db41818bcd636a1d0",
+      "sizeBytes": 890231,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-36-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "section": "SEC36",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-36-03ai8.eps",
+      "sha256": "7f279b69acc2149510e7ad2d991987717f3e9c385004e96ef44e5072559415fb",
+      "sizeBytes": 901535,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-36-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "section": "SEC37",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "sha256": "80446ebd53e85eb0cb9cd0d92fe44d85bb6060435060a42ced8fd8ea64a1a58d",
+      "sizeBytes": 1041596,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "section": "SEC37",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "sha256": "5d565b9b820d96de25daeb139cfee33a49be3241e2c83c6b5bc5ead87c22bf01",
+      "sizeBytes": 1107247,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "section": "SEC37",
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "sha256": "55519556b4efb94e7b25e515848f48c3c76b6062d74884f6d129cc1800808788",
+      "sizeBytes": 861997,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Preface_ai8.zip",
+      "section": null,
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Preface_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-i_ai8.eps",
+      "sha256": "48a1c0799619bbb9fbbcb3e21f58e08bfca48b0e2cb1cb006ae42f92beffcbbc",
+      "sizeBytes": 646491,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-i_ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Preface_ai8.zip",
+      "section": null,
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Preface_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-ii_ai8.eps",
+      "sha256": "69879750ab9eb2c74acbac1ee87d01a4dd592468c9d2f38cd8c60b3b2100b92a",
+      "sizeBytes": 3926981,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-ii_ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Preface_ai8.zip",
+      "section": null,
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Preface_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-iii_ai8.eps",
+      "sha256": "f56172ab3730535163f11c415044e23c22bd5de273aedab1a5549ea95fda000d",
+      "sizeBytes": 1587756,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-iii_ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Preface_ai8.zip",
+      "section": null,
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Preface_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-iv_ai8.eps",
+      "sha256": "8f8be864272553f13a9ab4c3ac49a9bd04dd22e758065c51c35dc2b9ae15d7f9",
+      "sizeBytes": 2001303,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-iv_ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/ai8/FGDCgeostdTM11A2_Preface_ai8.zip",
+      "section": null,
+      "format": "ai8",
+      "zipFile": "FGDCgeostdTM11A2_Preface_ai8.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-v_ai8.eps",
+      "sha256": "55168482daeeeabb72d3d9221b466a63a990f893ee4a3e85c696efe7161e9427",
+      "sizeBytes": 1871753,
+      "pngFile": "raster/ai8/FGDCgeostdTM11A2_A-v_ai8.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "SEC01",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-01cs2.eps",
+      "sha256": "0e4ea9821c2937f4eef5f3b0f97813b5c3f9da2025fa93b784813b03431828ee",
+      "sizeBytes": 829845,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-01-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "SEC01",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-02cs2.eps",
+      "sha256": "e63fd4444ece52ac1b3908af0e27c3b2343164084330c5c43dd494e2d589738e",
+      "sizeBytes": 767054,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-01-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "SEC01",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-03cs2.eps",
+      "sha256": "16121437a8e8177fed0a354eb4280423e887a06a04ae1aa58042385a8f2b5fad",
+      "sizeBytes": 852345,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-01-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "SEC01",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-04cs2.eps",
+      "sha256": "fcd1c80c224943468eba6011746aab4bb2331b89b25e8c235857920711df88bc",
+      "sizeBytes": 986175,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-01-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "SEC01",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-05cs2.eps",
+      "sha256": "df36d57e5953f8b9c957c89e4902b5dee1a43f379051fb9c23fa74666eb86740",
+      "sizeBytes": 900686,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-01-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "section": "SEC01",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec01_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-01-06cs2.eps",
+      "sha256": "86cef84bd7d8f8f295b32d83ec675e644dbaa19fa98de6a5079c5539eb82a2dc",
+      "sizeBytes": 1066711,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-01-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-01cs2.eps",
+      "sha256": "585a27f277119cee7753893fc4b5550a66b6f7b087ea1d530118966e3a563915",
+      "sizeBytes": 682190,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-02cs2.eps",
+      "sha256": "5256db1351a4b38d7b37a31f3ba994a652e310b0ecc889639eaa517f2c261796",
+      "sizeBytes": 815984,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-03cs2.eps",
+      "sha256": "1b15ab6e090eec37634cdc1e5f437afa6010292dfe3a62c818fabaaa3944a9be",
+      "sizeBytes": 839484,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-04cs2.eps",
+      "sha256": "3922976c78671eb108ccdf1dceb0d47b22ab221ad6c5182a42e4368bd535f7e9",
+      "sizeBytes": 814608,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-05cs2.eps",
+      "sha256": "a92dd12a11959ef498f804283d01d7fe62b94b366ae2e48ab32bf422d4407bff",
+      "sizeBytes": 808011,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-06cs2.eps",
+      "sha256": "9267f0b8cf6fbe3e49e429bf25d85a44ec536938135c6f386e99a11f4a60bdd1",
+      "sizeBytes": 867581,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-07cs2.eps",
+      "sha256": "ba85c18bf65f3a25d5dd1f3646cf4673add0d7b0a53018dbfaf7b0dc105abc5a",
+      "sizeBytes": 964315,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-07cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-08cs2.eps",
+      "sha256": "110bc9f658bfa17b078468008b1ff5207530e3934ad93cfd315e6bcc6b6204ad",
+      "sizeBytes": 1042192,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-08cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-09cs2.eps",
+      "sha256": "933be214c3afafb182e0de85b3887e1551afd7a82eab56ea165e6dd774c08848",
+      "sizeBytes": 987170,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-09cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-10cs2.eps",
+      "sha256": "95ee67ce946f22304a861f2d7dbb07185754a5c83882246b7928b13036a7e541",
+      "sizeBytes": 853182,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-10cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-11cs2.eps",
+      "sha256": "1a223ada6e73735b606e6d284ed54b6211d82a8602c53f3e18fcad78820511aa",
+      "sizeBytes": 1151113,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-11cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-12cs2.eps",
+      "sha256": "a1f94d1896de76aaf9170dd4048432a038692018336a4523f7798059dc102057",
+      "sizeBytes": 1046730,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-12cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-13cs2.eps",
+      "sha256": "7b9866a6e08a3d6eb1a9adfc8e3bb7adbe6736ab02f542b4331c2b38b725da47",
+      "sizeBytes": 1266028,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-13cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-14cs2.eps",
+      "sha256": "c6efce5f097accbc877c7a329aa7802e3a5aceccaa3706a52223cf1e540575f6",
+      "sizeBytes": 1287189,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-14cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-15cs2.eps",
+      "sha256": "677825daa13b50563c85506b18c0ce3e758dee00da8c31510766fb5bf38907b6",
+      "sizeBytes": 1142259,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-15cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "section": "SEC02",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec02_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-02-16cs2.eps",
+      "sha256": "ee594149e371177b29e6679652adba469b8643588035125d47ae33e22de093b3",
+      "sizeBytes": 1003088,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-02-16cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-01cs2.eps",
+      "sha256": "2442d4a389f745076b9e2158a90072540acb723d378af2270254978cc7e1720f",
+      "sizeBytes": 816254,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-02cs2.eps",
+      "sha256": "cec800925ba28443e9344e69668337372bc1ecbce2a9a9164a3d9fbe33c73241",
+      "sizeBytes": 828618,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-03cs2.eps",
+      "sha256": "105106c65ac3a1c97dc315a1492e09f6bbb5c6bf1cdacedbdb4c552d28a6b053",
+      "sizeBytes": 1025000,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-04cs2.eps",
+      "sha256": "5a1b1d9a1617d84c29adaf119719c9b3fdd9d5a01c09b47303b4e2a15870c02d",
+      "sizeBytes": 1087283,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-05cs2.eps",
+      "sha256": "9525d69b084e9a0539d275a00eb75045c8da7ec95d427182fb681c6e71783883",
+      "sizeBytes": 855366,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-06cs2.eps",
+      "sha256": "03152a3d5349c26c766b171aff31246cf18fa4b50022d981ff39bdc1eb9bea9f",
+      "sizeBytes": 835116,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-07cs2.eps",
+      "sha256": "3ab4b436d4a66d0c1d61726db06b8412d87a712dc8a428d91f8abc5aa8e5da2e",
+      "sizeBytes": 817560,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-07cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-08cs2.eps",
+      "sha256": "7fd0700c2ebeee0fc64aa0f600fdbe87488c86218d6f4e6f8e811e197ea6664e",
+      "sizeBytes": 1026848,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-08cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-09cs2.eps",
+      "sha256": "2310126151cd420cfcb62014576f6f84a53e8c349dcf5d3a703cb7b2130df2ea",
+      "sizeBytes": 1062374,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-09cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-10cs2.eps",
+      "sha256": "d98047f506652d8178dd62086b495bd55c6ab905aaaebbc651bda311cd7495ea",
+      "sizeBytes": 868911,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-10cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-11cs2.eps",
+      "sha256": "87b83b073b45901f1ea44600dfa4d72dd5cba50201a4ac08cb3127423759fefc",
+      "sizeBytes": 1000992,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-11cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-12cs2.eps",
+      "sha256": "292c66698beda2803afacc7db5f4b42b7a95a884f2d662e58a21bec89727c762",
+      "sizeBytes": 1035511,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-12cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-13cs2.eps",
+      "sha256": "052c0a09b11ae47459448f63580a8785e67c35fdd80ba080534e7fe11ad63aee",
+      "sizeBytes": 1015850,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-13cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-14cs2.eps",
+      "sha256": "560f129e330004a7697e3b902586a76a142e30461479727d722e3428122795e2",
+      "sizeBytes": 1793044,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-14cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "section": "SEC05",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec05_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-05-15cs2.eps",
+      "sha256": "61f548c994b00208ad4b6aa3f4eb57caa5b236052e2f626a01cd258118bca04a",
+      "sizeBytes": 1688255,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-05-15cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec06_cs2.zip",
+      "section": "SEC06",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec06_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-06-01cs2.eps",
+      "sha256": "52fa502a14824561d321134d05248cdd9e2d78b38ef9f0a1bb772d8047471e7a",
+      "sizeBytes": 970986,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-06-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec06_cs2.zip",
+      "section": "SEC06",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec06_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-06-02cs2.eps",
+      "sha256": "f6b1c227a83d96f73f2f0727fc90988dae7c004c9467da61ff73d250befd7e5b",
+      "sizeBytes": 1042877,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-06-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec07_cs2.zip",
+      "section": "SEC07",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec07_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-07-01cs2.eps",
+      "sha256": "4de1e57998d3a35504a4642ffc15a7ad4bee8555eb484f6bf66e7d193bf022f1",
+      "sizeBytes": 942563,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-07-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec07_cs2.zip",
+      "section": "SEC07",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec07_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-07-02cs2.eps",
+      "sha256": "204a3a8de0a44809df5157ef75179f89d0ea5ae2d3a6625ef01c8f4281065e5e",
+      "sizeBytes": 828372,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-07-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "section": "SEC08",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-01cs2.eps",
+      "sha256": "08a92379d2fc9b0eb23c8d1d3c32b8999f56b792e0a01bbe1b78a91a3ace954e",
+      "sizeBytes": 1087398,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-08-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "section": "SEC08",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-02cs2.eps",
+      "sha256": "ac34cf6557fb5834a26487408df5794335a0d05b6019671564a4631b076a4a91",
+      "sizeBytes": 806486,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-08-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "section": "SEC08",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-03cs2.eps",
+      "sha256": "dfac0a947b4f01f5103fd519a8813eb64b391010435acad8bb2510c47406c835",
+      "sizeBytes": 1089810,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-08-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "section": "SEC08",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-04cs2.eps",
+      "sha256": "26bdcf1c94057cf0d9fa66c3fc2351e79601d2d8b1e3da6bf710f7c70b5d4d23",
+      "sizeBytes": 1168029,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-08-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "section": "SEC08",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec08_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-08-05cs2.eps",
+      "sha256": "3a8cd7cc0e3642e0754949a099ccb3e6f604b4a2c4aeec0e8c848c5dc1e63792",
+      "sizeBytes": 949784,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-08-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "SEC09",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-01cs2.eps",
+      "sha256": "f82eacab67ec22d4847af23e0d2f0e96dae529e605551badb0f8c3a85a6fb2ce",
+      "sizeBytes": 1010230,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-09-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "SEC09",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-02cs2.eps",
+      "sha256": "2fd17fd429223f485936e84765416932141ad62ac7534a5650d2a8562ec3cf0c",
+      "sizeBytes": 1144984,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-09-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "SEC09",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-03cs2.eps",
+      "sha256": "4db1a5b2113f415334c098ae01be2ba34adb6bcc68c72ac07bf8928c658f85ce",
+      "sizeBytes": 1091847,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-09-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "SEC09",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-04cs2.eps",
+      "sha256": "509779adcd2b859bd721edbb602a31ef3286610232b78de8c29fb25a3fa68794",
+      "sizeBytes": 1044072,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-09-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "SEC09",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-05cs2.eps",
+      "sha256": "69b1b315dbc40da4c08c42ad70fcd9ee2ada675897d919e75b48f4ee22ba139b",
+      "sizeBytes": 1292269,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-09-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "section": "SEC09",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec09_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-09-06cs2.eps",
+      "sha256": "5ae6352c6d33eb8bc94d37abd3a435639c95bdbfedada695f891d56b5a7bd3e1",
+      "sizeBytes": 1206071,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-09-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec11_cs2.zip",
+      "section": "SEC11",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec11_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-11-01cs2.eps",
+      "sha256": "b9b8b639180df2f6d3cdf1af39f8d9fca6a95fec7f237c67b8f307ce0dfb67a0",
+      "sizeBytes": 1021468,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-11-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec11_cs2.zip",
+      "section": "SEC11",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec11_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-11-02cs2.eps",
+      "sha256": "0892eddb05535da77c0d3ddc6f066f156fbdf228793679f8b91dc7250027555d",
+      "sizeBytes": 967549,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-11-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "section": "SEC13",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-13-01cs2.eps",
+      "sha256": "e067d09cf78afc0c17c4699096bfdfa301b8af7611c81d83a29439ac26becb0e",
+      "sizeBytes": 1616482,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-13-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "section": "SEC13",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-13-02cs2.eps",
+      "sha256": "573a874e4e3c772017f172992734777c3a25d55ec28b8cb3a3b35dbbc960b1bd",
+      "sizeBytes": 1346556,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-13-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "section": "SEC13",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec13_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-13-03cs2.eps",
+      "sha256": "0f5c00ac88ed7c61d6224f96af5e284cb8520bf88d893e7d27f0e849bc4d8bd2",
+      "sizeBytes": 924992,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-13-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec15_cs2.zip",
+      "section": "SEC15",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec15_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-15-01cs2.eps",
+      "sha256": "e602dd17f49ff481abd0a7fcf5616585f4b90869e701ef96e91e276764c779ad",
+      "sizeBytes": 933093,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-15-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec15_cs2.zip",
+      "section": "SEC15",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec15_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-15-02cs2.eps",
+      "sha256": "5d569dfca6a876d28dee84c03b0d2fa0f1660ed3eb5753487b712b61e5b81ddc",
+      "sizeBytes": 688564,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-15-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "section": "SEC17",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-17-01cs2.eps",
+      "sha256": "f24d9bf52a6895e22d4c33cae002755b63e090e5bdaef288a621e06dfb8e22be",
+      "sizeBytes": 1013595,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-17-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "section": "SEC17",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-17-02cs2.eps",
+      "sha256": "e8f863df56413f72944ebf699238c7cfaf2c9388e4eff23f531fbbf25ce88434",
+      "sizeBytes": 1165813,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-17-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "section": "SEC17",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec17_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-17-03cs2.eps",
+      "sha256": "e9ac06b39a3dfb8114e86d91a9c77519a206e7251da5b588062606cb273de551",
+      "sizeBytes": 1125242,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-17-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "section": "SEC18",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-18-01cs2.eps",
+      "sha256": "2ec443e986f5c17279cfa5da9113fcb332903bad6007b91f34ad946e64d1c455",
+      "sizeBytes": 921670,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-18-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "section": "SEC18",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-18-02cs2.eps",
+      "sha256": "4232386870c56977003523f161db69d3e6bea8e885dfc104d91ebf7bb58f39f3",
+      "sizeBytes": 1123701,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-18-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "section": "SEC18",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec18_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-18-03cs2.eps",
+      "sha256": "f43323df50745450109a9c94838c7ed7fc2c5ae86cac748040c399fa1e138478",
+      "sizeBytes": 1462870,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-18-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-01cs2.eps",
+      "sha256": "a01ae9216e40b372843d91684647d61ed2e71c8b0ec8f40891c5b9faac81bbf8",
+      "sizeBytes": 1702015,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-02cs2.eps",
+      "sha256": "ea876cd236452697aac58c6077705360aa090f3eb9bdc98957b6a4c6291297a2",
+      "sizeBytes": 1221556,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-03cs2.eps",
+      "sha256": "02b09f0506e928ef859e26145715216e60ce3b6296b26dd9c4b0aeff6ca0d1b4",
+      "sizeBytes": 1193108,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-04cs2.eps",
+      "sha256": "948c6ae3f23bdade861dac4c2cec46e10b89398cd3610019b95ac32bade7a4ec",
+      "sizeBytes": 817097,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-05cs2.eps",
+      "sha256": "df500be78d0327e62d378b201446693888e50c4b2ef19571d3dbcc3ae1e3745a",
+      "sizeBytes": 1120267,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-06cs2.eps",
+      "sha256": "12fa90b930c5ebcb9ef247adc020061046f537cc14aa3ff420e9acd28db8dc46",
+      "sizeBytes": 1032080,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-07cs2.eps",
+      "sha256": "d1e21fe1b00e63ae8f3c1ee1c42e2a2e32888a79fae0bf69e9b26e99c020fd70",
+      "sizeBytes": 1003754,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-07cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-08cs2.eps",
+      "sha256": "fc92ac01698478ec125021ff334c07c0c6f89339c1c070734459b087df60223e",
+      "sizeBytes": 1097023,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-08cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-09cs2.eps",
+      "sha256": "38349b88c147ba2aa801a09e15f890c177882fd6d95c4cd93d60ba8d5cf0a98b",
+      "sizeBytes": 1055420,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-09cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "section": "SEC19",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec19_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-19-10cs2.eps",
+      "sha256": "bb75b7dbac74c9093db96a5f09c70377d7a60d7708f2574b468a092e42b6fb52",
+      "sizeBytes": 1046658,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-19-10cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec21_cs2.zip",
+      "section": "SEC21",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec21_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-21-01cs2.eps",
+      "sha256": "53fa23e486cfe1ebf69fb21fe6d522f424f16d6c09756c0d588b49ab24c2d4cf",
+      "sizeBytes": 1095271,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-21-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec21_cs2.zip",
+      "section": "SEC21",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec21_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-21-02cs2.eps",
+      "sha256": "fe6af1729a5a6552e9b524c4f96a13703d4ee60e760a0b0084818976d230466a",
+      "sizeBytes": 795004,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-21-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec22_cs2.zip",
+      "section": "SEC22",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec22_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-22-01cs2.eps",
+      "sha256": "a35b1c5b8a592be6e46c7ef79bf1004d019bd09265f5c58210318c72f181c16c",
+      "sizeBytes": 1262105,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-22-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec22_cs2.zip",
+      "section": "SEC22",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec22_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-22-02cs2.eps",
+      "sha256": "9302a9c5354555e795befa77bd88e2e1af20c9433f18935bf338a07781fdd352",
+      "sizeBytes": 1086456,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-22-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "SEC25",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-01cs2.eps",
+      "sha256": "c7c762d7c3aca9ef040b46a6260ba83e658e0a325d5dd43c0749fc64c308bb50",
+      "sizeBytes": 915472,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-25-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "SEC25",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-02cs2.eps",
+      "sha256": "485fb216910f6808a488afb7c0bd08bc3777fd2b910500e21c66baa4022961c8",
+      "sizeBytes": 995348,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-25-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "SEC25",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-03cs2.eps",
+      "sha256": "cbf4e941a3f756003d7f2d886842e2c83f933501c2bc7981c0a9416e7589a212",
+      "sizeBytes": 1330637,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-25-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "SEC25",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-04cs2.eps",
+      "sha256": "c4e61ce117ad355743f4684aeb3b73be143f69fd3300e2a5a1eb98812066385c",
+      "sizeBytes": 1307156,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-25-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "SEC25",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-05cs2.eps",
+      "sha256": "5144b7f19282cfc3a0ea6f6d2258b36bf6c97f83062a5438b6c4be0d2c01a2b8",
+      "sizeBytes": 1208735,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-25-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "section": "SEC25",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec25_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-25-06cs2.eps",
+      "sha256": "2b780346d63d38a75baaca0d5c27571476ae9cc1364ca08a3b5bc0d6c271e899",
+      "sizeBytes": 1574196,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-25-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-01cs2.eps",
+      "sha256": "b02212f3d8f8ffc31df278d97935b4ec3c4b5aa17a72c0a2c0261a065d9ac93b",
+      "sizeBytes": 1157010,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-02cs2.eps",
+      "sha256": "bed1d2eaa7c765ec2007a010ba0709e6c38baaabc06576cd1d02827b33866f2b",
+      "sizeBytes": 1094684,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-03cs2.eps",
+      "sha256": "56a60969cfe5f28d545c0e24bf969fa5bb9ba54818083b0ce239e9412b9181a2",
+      "sizeBytes": 786072,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-04cs2.eps",
+      "sha256": "a600697a7f7622cc752d51f664bdf480d5c0ad8607333b0e5cb48e0b21c6df9f",
+      "sizeBytes": 1185236,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-05cs2.eps",
+      "sha256": "6df9794aca81b1d7afb3479b761473a8b48c335de55a616a1f0177a50a353ccb",
+      "sizeBytes": 1085193,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-06cs2.eps",
+      "sha256": "7f73fc764e85eac790ad2140f585c96f8ff5f1b2ebbdccb61a56c8d782f2c38b",
+      "sizeBytes": 816157,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-07cs2.eps",
+      "sha256": "c250c5b5441d9467e04d4719e5232731ea98a2b8b596c3330a6840a511e301be",
+      "sizeBytes": 1049188,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-07cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-08cs2.eps",
+      "sha256": "30407a0e5ad22eaaded272ea3a11e48ce706149bfa1925aad8f71dc9b725392f",
+      "sizeBytes": 1000129,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-08cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "section": "SEC26",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec26_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-26-09cs2.eps",
+      "sha256": "ed9b0f97191511f7541f887500eee074cb4ffc8e77fb8b0460f736c024fccb90",
+      "sizeBytes": 996358,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-26-09cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "SEC30",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-01cs2.eps",
+      "sha256": "5c41e689a1d18fe7db4b9c4d733c6963da47466bc0cff69283b69f8eeefad5be",
+      "sizeBytes": 1337954,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-30-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "SEC30",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-02cs2.eps",
+      "sha256": "160b6bb9e724bfd429207ebf91a003ff3c6702f6c6fdfd097fce16b8a6a03e2b",
+      "sizeBytes": 1262516,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-30-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "SEC30",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-03cs2.eps",
+      "sha256": "23049a4c8a65ca9242296328f831b289a5d7e785effe7c759789c71c9ef15271",
+      "sizeBytes": 766788,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-30-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "SEC30",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-04cs2.eps",
+      "sha256": "ebecfa9c7ca5952c685499b265ff4c4dde826a10db857a8bd8d5716ab2fa9c26",
+      "sizeBytes": 1484628,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-30-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "SEC30",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-05cs2.eps",
+      "sha256": "996e08ffa8dbf9f752abf7043274c5952204ae166203faebcf90a9d74123f467",
+      "sizeBytes": 1738476,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-30-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "section": "SEC30",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec30_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-30-06cs2.eps",
+      "sha256": "66e072cacdb230ddc01bd2557a0ca42cfc3e8ef3c8dd6276dfcb519ca515f573",
+      "sizeBytes": 1440258,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-30-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec32_cs2.zip",
+      "section": "SEC32",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec32_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-32-01cs2.eps",
+      "sha256": "e75f44ae1699d604ac393e2fa3344d2ee549d20bc5458f185e8fd4ad3f1a2ab0",
+      "sizeBytes": 1119031,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-32-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec32_cs2.zip",
+      "section": "SEC32",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec32_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-32-02cs2.eps",
+      "sha256": "312a84602c23728365c0a4f045bfe931fc06e362f663d1d951f1a62f46b9dd6f",
+      "sizeBytes": 840370,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-32-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "section": "SEC34",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-34-01cs2.eps",
+      "sha256": "b4f6d1c2c1e0bfdd467eb07d83b27ba323d2e4d14ef85504b5735f55cfd79340",
+      "sizeBytes": 1757998,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-34-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "section": "SEC34",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-34-02cs2.eps",
+      "sha256": "4f9d1cb40d8a5ac82c6469b767b7ff091a8392861350fbc21d1d739d2eb0d9d5",
+      "sizeBytes": 1094415,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-34-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "section": "SEC34",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec34_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-34-03cs2.eps",
+      "sha256": "3aaaca4d37d9b0a3315969fe67e1e308928dd89e2ffa8c0b64d493d82ffb2f6f",
+      "sizeBytes": 1039446,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-34-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-01cs2.eps",
+      "sha256": "e50925304021899d05bb8de84419d9dcaa0ce0f04a276460398300e88a631228",
+      "sizeBytes": 848301,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-02cs2.eps",
+      "sha256": "3195d8f71fdf1ad276cac0aa20e4b252eee6e6f932d4ce8f12f900218834dac4",
+      "sizeBytes": 788064,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-03cs2.eps",
+      "sha256": "06c27091eeff6fe6e2dca4aa8123d6f523296c5d737a38268e2f45574bb29973",
+      "sizeBytes": 938617,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-04cs2.eps",
+      "sha256": "09c04c944bb7e96e45384d5a84f9f018fc550eec5a0616f782716a4b1d5c700a",
+      "sizeBytes": 912175,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-04cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-05cs2.eps",
+      "sha256": "36076f95122fd349c7f0200b883ae2bccf9d92a434512cda386233ee456fe8d8",
+      "sizeBytes": 814063,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-05cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-06cs2.eps",
+      "sha256": "4d6581d45912e946ef4e89478fa87f799719de045d8c6016f569eaeb8f2a4b55",
+      "sizeBytes": 1462672,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-06cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-07cs2.eps",
+      "sha256": "f1b7d04d89afe54f318aa233e029233c62c9925728168a9caac324588d9ad376",
+      "sizeBytes": 1274368,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-07cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-08cs2.eps",
+      "sha256": "906fedb9d17fa0ee9a0e124b8a976c60c755782d66b85f3d6e0306ae5cb79449",
+      "sizeBytes": 1294673,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-08cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-09cs2.eps",
+      "sha256": "d9db7ba7b023776ef3eb59d024c3d4cae7e5c824b50d701836f5b44af311bf8a",
+      "sizeBytes": 1453925,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-09cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "section": "SEC35",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec35_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-35-10cs2.eps",
+      "sha256": "9649f52239ada8073b4a9fad87791ceeef138e7fcb175abccaf1c8149c2a02aa",
+      "sizeBytes": 1280443,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-35-10cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "section": "SEC36",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-36-01cs2.eps",
+      "sha256": "8ce1de09dbf487cc697434ae82fa9ef3e483cb3334a66f8b5ceedb49b18b7d06",
+      "sizeBytes": 1209191,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-36-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "section": "SEC36",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-36-02cs2.eps",
+      "sha256": "d27f76c90244374918def96ae80dcf74a7cd4f37ad6e805b24db280386a7d5a4",
+      "sizeBytes": 1213561,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-36-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "section": "SEC36",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec36_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-36-03cs2.eps",
+      "sha256": "a9d55d4772757e67d439a46bd164d0ca37f0ffed300c0387abb7f3b529a0fb57",
+      "sizeBytes": 1230872,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-36-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "section": "SEC37",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-37-01cs2.eps",
+      "sha256": "a8f76f465b7c048587ab8c092e8fe4ea908fafc94fe644a3c9b4c8dfcb51f962",
+      "sizeBytes": 1461801,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-37-01cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "section": "SEC37",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-37-02cs2.eps",
+      "sha256": "8312a328785aa4d7099e15c166bb9553cc89e76e86af44a558da08a3a9be678d",
+      "sizeBytes": 1561665,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-37-02cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "section": "SEC37",
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Sec37_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-37-03cs2.eps",
+      "sha256": "aa588dbdeebb9264a57a01f1521c7e8adb3c5c892722127550c84297d1bfce44",
+      "sizeBytes": 1202726,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-37-03cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Preface_cs2.zip",
+      "section": null,
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Preface_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-i_cs2.eps",
+      "sha256": "d88ce802c9a26959b733c6f1f342a5d3be2c0955ccc0136769e08d838ebfa803",
+      "sizeBytes": 801671,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-i_cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Preface_cs2.zip",
+      "section": null,
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Preface_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-ii_cs2.eps",
+      "sha256": "4f1ee65fc7d59f992e65a9982d3509a427446ecbb8a55063b0bc406193fc3d1f",
+      "sizeBytes": 5121086,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-ii_cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Preface_cs2.zip",
+      "section": null,
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Preface_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-iii_cs2.eps",
+      "sha256": "fee4861444876111dcc33acfe6d70264cd858e7fd3b3efc9a2179462735097fa",
+      "sizeBytes": 1934741,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-iii_cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Preface_cs2.zip",
+      "section": null,
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Preface_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-iv_cs2.eps",
+      "sha256": "b283612124395011eb07f677662023a64a50747496c8b1eed9124aabb0f9828f",
+      "sizeBytes": 2633835,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-iv_cs2.png"
+    },
+    {
+      "sourceURL": "https://pubs.usgs.gov/tm/2006/11A02/cs2/FGDCgeostdTM11A2_Preface_cs2.zip",
+      "section": null,
+      "format": "cs2",
+      "zipFile": "FGDCgeostdTM11A2_Preface_cs2.zip",
+      "epsFile": "FGDCgeostdTM11A2_A-v_cs2.eps",
+      "sha256": "115c6e0a999bfc0d5b28c79846a90c8d19f534b6dfbf6cf95d41e39cc3ff7b02",
+      "sizeBytes": 2516867,
+      "pngFile": "raster/cs2/FGDCgeostdTM11A2_A-v_cs2.png"
+    }
+  ]
+}

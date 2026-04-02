@@ -79,7 +79,13 @@ public enum SceneCGRenderer {
 
             context.setFillColor(fill)
             context.fill(rect)
-            drawSymbolPattern(unit.symbol, in: rect, context: context)
+            if let code = unit.usgsSymbolCode {
+                if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context) {
+                    drawSymbolPattern(unit.symbol, in: rect, context: context)
+                }
+            } else {
+                drawSymbolPattern(unit.symbol, in: rect, context: context)
+            }
             drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
 
             context.setStrokeColor(NSColor.black.cgColor)
@@ -156,6 +162,10 @@ public enum SceneCGRenderer {
         context.fill(rect)
         if let pointSymbol = item.pointSymbol {
             drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: context)
+        } else if let code = item.usgsSymbolCode {
+            if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context) {
+                drawSymbolPattern(item.symbol, in: rect, context: context)
+            }
         } else {
             drawSymbolPattern(item.symbol, in: rect, context: context)
         }

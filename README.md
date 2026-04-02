@@ -46,6 +46,12 @@ swift run CakeApp
 swift test
 ```
 
+## USGS EPS Sync
+
+```bash
+./scripts/sync_usgs_11a02_eps.sh && ./scripts/build_usgs_symbol_index.py
+```
+
 ## JSON Project Example
 
 See [Examples/sample-project.json](/Users/brice/Documents/Iphes/Cake/Examples/sample-project.json).

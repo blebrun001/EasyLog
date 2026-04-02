@@ -14,3 +14,30 @@ func everySupportedLithologyHasUSGSCode() {
     }
     #expect(missing.isEmpty)
 }
+
+@Test
+func everySupportedLithologyResolvesToBundledUSGSEPSAsset() {
+    let unresolved = SymbologyLibrary.supportedLithologies.compactMap { lithology -> String? in
+        guard let code = SymbologyLibrary.usgsSymbolCode(forLithology: lithology) else {
+            return lithology
+        }
+        return USGSSymbolAssetResolver.asset(for: code) == nil ? lithology : nil
+    }
+    #expect(unresolved.isEmpty)
+}
+
+@Test
+func section37KnownSymbolLoadsFromUSGSAssetBundle() {
+    let asset = USGSSymbolAssetResolver.asset(for: 607)
+    #expect(asset != nil)
+    #expect(asset?.epsRelativePath.contains("USGS/11A02/") == true)
+}
+
+@Test
+func reportedFallbackCodesNowResolveToUSGSRasterTiles() {
+    let reportedCodes = [619, 607, 627, 601, 602, 603, 605, 606]
+    for code in reportedCodes {
+        #expect(USGSSymbolAssetResolver.asset(for: code) != nil)
+        #expect(USGSEPSSymbolRenderer.pngTileData(for: code) != nil)
+    }
+}

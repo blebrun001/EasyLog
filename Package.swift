@@ -13,7 +13,10 @@ let package = Package(
     targets: [
         .target(
             name: "CakeKit",
-            path: "Sources/CakeKit"
+            path: "Sources/CakeKit",
+            resources: [
+                .copy("Resources/USGS")
+            ]
         ),
         .executableTarget(
             name: "CakeApp",
