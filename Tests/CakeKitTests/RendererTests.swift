@@ -43,6 +43,19 @@ func legendContainsEveryUsedUSGSSymbolCode() {
 }
 
 @Test
+func sceneCarriesConfiguredSymbolScale() {
+    let project = Project(
+        settings: ProjectSettings(symbolScale: 1.8),
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+        ]
+    )
+    let renderer = CakeRenderer()
+    let scene = renderer.makeScene(project: project)
+    #expect(scene.symbolScale == 1.8)
+}
+
+@Test
 func pointFeaturesAppearInLegendOnlyWhenUsed() {
     let project = Project(
         units: [

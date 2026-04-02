@@ -19,6 +19,7 @@
         "label": "Gravel or conglomerate (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -50,6 +51,7 @@
         "label": "Gravel or conglomerate (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -81,6 +83,7 @@
         "label": "Crossbedded gravel or conglomerate",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -112,6 +115,7 @@
         "label": "Breccia (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -143,6 +147,7 @@
         "label": "Breccia (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -174,6 +179,7 @@
         "label": "Massive sand or sandstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -205,6 +211,7 @@
         "label": "Bedded sand or sandstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -236,6 +243,7 @@
         "label": "Crossbedded sand or sandstone (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -267,6 +275,7 @@
         "label": "Crossbedded sand or sandstone (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -298,6 +307,7 @@
         "label": "Ripple-bedded sand or sandstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -329,6 +339,7 @@
         "label": "Argillaceous or shaly sandstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -360,6 +371,7 @@
         "label": "Calcareous sandstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -391,6 +403,7 @@
         "label": "Dolomitic sandstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -422,6 +435,7 @@
         "label": "Silt, siltstone, or shaly silt",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -453,6 +467,7 @@
         "label": "Calcareous siltstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -484,6 +499,7 @@
         "label": "Dolomitic siltstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -515,6 +531,7 @@
         "label": "Sandy or silty shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -546,6 +563,7 @@
         "label": "Clay or clay shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -577,6 +595,7 @@
         "label": "Cherty shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -608,6 +627,7 @@
         "label": "Dolomitic shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -639,6 +659,7 @@
         "label": "Calcareous shale or marl",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -670,6 +691,7 @@
         "label": "Carbonaceous shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -701,6 +723,7 @@
         "label": "Oil shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -732,6 +755,7 @@
         "label": "Chalk",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -763,6 +787,7 @@
         "label": "Limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -794,6 +819,7 @@
         "label": "Clastic limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -825,6 +851,7 @@
         "label": "Fossiliferous clastic limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -856,6 +883,7 @@
         "label": "Nodular or irregularly bedded limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -887,6 +915,7 @@
         "label": "Limestone, irregular (burrow?) fillings of saccharoidal dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -918,6 +947,7 @@
         "label": "Crossbedded limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -949,6 +979,7 @@
         "label": "Cherty crossbedded limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -980,6 +1011,7 @@
         "label": "Cherty and sandy crossbedded clastic limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1011,6 +1043,7 @@
         "label": "Oolitic limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1042,6 +1075,7 @@
         "label": "Sandy limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1073,6 +1107,7 @@
         "label": "Silty limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1104,6 +1139,7 @@
         "label": "Argillaceous or shaly limestone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1135,6 +1171,7 @@
         "label": "Cherty limestone (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1166,6 +1203,7 @@
         "label": "Cherty limestone (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1197,6 +1235,7 @@
         "label": "Dolomitic limestone, limy dolostone, or limy dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1228,6 +1267,7 @@
         "label": "Dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1259,6 +1299,7 @@
         "label": "Crossbedded dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1290,6 +1331,7 @@
         "label": "Oolitic dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1321,6 +1363,7 @@
         "label": "Sandy dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1352,6 +1395,7 @@
         "label": "Silty dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1383,6 +1427,7 @@
         "label": "Argillaceous or shaly dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1414,6 +1459,7 @@
         "label": "Cherty dolostone or dolomite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1445,6 +1491,7 @@
         "label": "Bedded chert (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1476,6 +1523,7 @@
         "label": "Bedded chert (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1507,6 +1555,7 @@
         "label": "Fossiliferous bedded chert",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1538,6 +1587,7 @@
         "label": "Fossiliferous rock",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1569,6 +1619,7 @@
         "label": "Diatomaceous rock",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1600,6 +1651,7 @@
         "label": "Subgraywacke",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1631,6 +1683,7 @@
         "label": "Crossbedded subgraywacke",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1662,6 +1715,7 @@
         "label": "Ripple-bedded subgraywacke",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1693,6 +1747,7 @@
         "label": "Peat",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1724,6 +1779,7 @@
         "label": "Coal",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1755,6 +1811,7 @@
         "label": "Bony coal or impure coal",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1786,6 +1843,7 @@
         "label": "Underclay",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1817,6 +1875,7 @@
         "label": "Flint clay",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1848,6 +1907,7 @@
         "label": "Bentonite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1879,6 +1939,7 @@
         "label": "Glauconite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1910,6 +1971,7 @@
         "label": "Limonite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1941,6 +2003,7 @@
         "label": "Siderite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -1972,6 +2035,7 @@
         "label": "Phosphatic-nodular rock",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2003,6 +2067,7 @@
         "label": "Gypsum",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2034,6 +2099,7 @@
         "label": "Salt",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2065,6 +2131,7 @@
         "label": "Interbedded sandstone and siltstone",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2096,6 +2163,7 @@
         "label": "Interbedded sandstone and shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2127,6 +2195,7 @@
         "label": "Interbedded ripple bedded sandstone and shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2158,6 +2227,7 @@
         "label": "Interbedded shale and silty limestone (shale dominant)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2189,6 +2259,7 @@
         "label": "Interbedded shale and limestone (shale dominant) (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2220,6 +2291,7 @@
         "label": "Interbedded shale and limestone (shale dominant) (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2251,6 +2323,7 @@
         "label": "Interbedded calc areous shale and limestone (shale dominant)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2282,6 +2355,7 @@
         "label": "Interbedded silty limestone and shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2313,6 +2387,7 @@
         "label": "Interbedded limestone and shale (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2344,6 +2419,7 @@
         "label": "Interbedded limestone and shale (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2375,6 +2451,7 @@
         "label": "Interbedded limestone and shale (limestone dominant)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2406,6 +2483,7 @@
         "label": "Interbedded limestone and calcareous shale",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2437,6 +2515,7 @@
         "label": "Till or diamicton (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2468,6 +2547,7 @@
         "label": "Till or diamicton (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2499,6 +2579,7 @@
         "label": "Till or diamicton (3rd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2530,6 +2611,7 @@
         "label": "Loess (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2561,6 +2643,7 @@
         "label": "Loess (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2592,6 +2675,7 @@
         "label": "Loess (3rd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2623,6 +2707,7 @@
         "label": "Metamorphism",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2654,6 +2739,7 @@
         "label": "Quartzite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2685,6 +2771,7 @@
         "label": "Slate",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2716,6 +2803,7 @@
         "label": "Schistose or gneissoid granite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2747,6 +2835,7 @@
         "label": "Schist",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2778,6 +2867,7 @@
         "label": "Contorted schist",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2809,6 +2899,7 @@
         "label": "Schist and gneiss",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2840,6 +2931,7 @@
         "label": "Gneiss",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2871,6 +2963,7 @@
         "label": "Contorted gneiss",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2902,6 +2995,7 @@
         "label": "Soapstone, talc, or serpentinite",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2933,6 +3027,7 @@
         "label": "Tuffaceous rock",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2964,6 +3059,7 @@
         "label": "Crystal tuff",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -2995,6 +3091,7 @@
         "label": "Devitrified\\r tuff",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3026,6 +3123,7 @@
         "label": "Volcanic breccia and tuff",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3057,6 +3155,7 @@
         "label": "Volcanic breccia or agglomerate",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3088,6 +3187,7 @@
         "label": "Zeolitic rock",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3119,6 +3219,7 @@
         "label": "Basaltic flows",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3150,6 +3251,7 @@
         "label": "Granite (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3181,6 +3283,7 @@
         "label": "Banded igneous rock",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3212,6 +3315,7 @@
         "label": "Igneous rock (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3243,6 +3347,7 @@
         "label": "Igneous rock (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3274,6 +3379,7 @@
         "label": "Igneous rock (3rd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3305,6 +3411,7 @@
         "label": "Igneous rock (4th option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3336,6 +3443,7 @@
         "label": "Igneous rock (5th option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3367,6 +3475,7 @@
         "label": "Igneous rock (6th option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3398,6 +3507,7 @@
         "label": "Igneous rock (7th option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3429,6 +3539,7 @@
         "label": "Igneous rock (8th option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3460,6 +3571,7 @@
         "label": "Porphyritic rock (1st option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3491,6 +3603,7 @@
         "label": "Porphyritic rock (2nd option)",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3522,6 +3635,7 @@
         "label": "Vitrophyre",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3553,6 +3667,7 @@
         "label": "Quartz",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0
@@ -3584,6 +3699,7 @@
         "label": "Ore",
         "epsFile": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
         "pngFile": "USGS/11A02/raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "pdfFile": "USGS/11A02/pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
         "pageSizePoints": {
           "width": 612.0,
           "height": 792.0

@@ -13,8 +13,10 @@ public struct USGSSymbolAsset: Hashable {
     public let variant: String
     public let epsRelativePath: String
     public let pngRelativePath: String
+    public let pdfRelativePath: String
     public let pageSizePoints: CGSizeDTO
     public let symbolRect: USGSSymbolRect
+    public let pdfURL: URL
     public let imageURL: URL
 }
 
@@ -49,7 +51,16 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
             .replacingOccurrences(of: "/cs2/", with: "/raster/cs2/")
             .replacingOccurrences(of: ".eps", with: ".png")
         let fallbackURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(fallbackPNG)
-        guard let fallbackURL, FileManager.default.fileExists(atPath: fallbackURL.path) else {
+        let fallbackPDF = entry.epsFile
+            .replacingOccurrences(of: "/ai8/", with: "/pdf/ai8/")
+            .replacingOccurrences(of: "/cs2/", with: "/pdf/cs2/")
+            .replacingOccurrences(of: ".eps", with: ".pdf")
+        let fallbackPDFURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(fallbackPDF)
+        guard let fallbackURL,
+              FileManager.default.fileExists(atPath: fallbackURL.path),
+              let fallbackPDFURL,
+              FileManager.default.fileExists(atPath: fallbackPDFURL.path)
+        else {
             return nil
         }
         return USGSSymbolAsset(
@@ -58,8 +69,10 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
             variant: fallbackVariant,
             epsRelativePath: entry.epsFile,
             pngRelativePath: fallbackPNG,
+            pdfRelativePath: fallbackPDF,
             pageSizePoints: CGSizeDTO(width: 612, height: 792),
             symbolRect: entry.symbolRect,
+            pdfURL: fallbackPDFURL,
             imageURL: fallbackURL
         )
     }
@@ -72,7 +85,9 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
 
     private func makeAsset(code: Int, label: String, variant: String, variantEntry: VariantEntry) -> USGSSymbolAsset? {
         guard let pngURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(variantEntry.pngFile),
-              FileManager.default.fileExists(atPath: pngURL.path)
+              FileManager.default.fileExists(atPath: pngURL.path),
+              let pdfURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(variantEntry.pdfFile),
+              FileManager.default.fileExists(atPath: pdfURL.path)
         else {
             return nil
         }
@@ -83,8 +98,10 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
             variant: variant,
             epsRelativePath: variantEntry.epsFile,
             pngRelativePath: variantEntry.pngFile,
+            pdfRelativePath: variantEntry.pdfFile,
             pageSizePoints: variantEntry.pageSizePoints,
             symbolRect: variantEntry.symbolRect,
+            pdfURL: pdfURL,
             imageURL: pngURL
         )
     }
@@ -127,6 +144,7 @@ private struct VariantEntry: Codable {
     let label: String
     let epsFile: String
     let pngFile: String
+    let pdfFile: String
     let pageSizePoints: CGSizeDTO
     let symbolRect: USGSSymbolRect
     let variant: String

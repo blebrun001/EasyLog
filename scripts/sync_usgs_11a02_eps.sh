@@ -71,6 +71,9 @@ done
 if [[ -x "$ROOT_DIR/scripts/render_usgs_eps_raster.sh" ]]; then
   "$ROOT_DIR/scripts/render_usgs_eps_raster.sh"
 fi
+if [[ -x "$ROOT_DIR/scripts/render_usgs_eps_pdf.sh" ]]; then
+  "$ROOT_DIR/scripts/render_usgs_eps_pdf.sh"
+fi
 
 python3 - <<'PY' "$TARGET_DIR" "$BASE_URL" "$MANIFEST_PATH" "${ZIP_LINKS[@]}"
 import json, re, sys, hashlib, datetime
@@ -109,6 +112,7 @@ for variant in ("ai8", "cs2"):
             "zipFile": Path(archive_rel).name if archive_rel else None,
             "epsFile": eps.name,
             "pngFile": f"raster/{variant}/{eps.stem}.png",
+            "pdfFile": f"pdf/{variant}/{eps.stem}.pdf",
             "sha256": sha,
             "sizeBytes": len(data)
         })

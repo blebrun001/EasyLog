@@ -52,6 +52,18 @@ swift test
 ./scripts/sync_usgs_11a02_eps.sh && ./scripts/build_usgs_symbol_index.py
 ```
 
+Raster quality can be increased (default is `600` DPI):
+
+```bash
+USGS_RASTER_DPI=1200 ./scripts/render_usgs_eps_raster.sh
+```
+
+Vector PDF derivatives (from EPS) can be regenerated with:
+
+```bash
+./scripts/render_usgs_eps_pdf.sh
+```
+
 ## JSON Project Example
 
 See [Examples/sample-project.json](/Users/brice/Documents/Iphes/Cake/Examples/sample-project.json).

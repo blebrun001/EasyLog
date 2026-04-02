@@ -109,6 +109,7 @@ def collect_variant(variant: str) -> dict[int, dict]:
                     "label": label,
                     "epsFile": f"USGS/11A02/{variant}/{eps.name}",
                     "pngFile": f"USGS/11A02/raster/{variant}/{eps.stem}.png",
+                    "pdfFile": f"USGS/11A02/pdf/{variant}/{eps.stem}.pdf",
                     "pageSizePoints": {"width": page_w, "height": page_h},
                     "symbolRect": rect,
                     "variant": variant,

@@ -111,6 +111,7 @@ public struct RenderScene: Hashable {
     public var ticks: [ScaleTick]
     public var baseFontSize: Double
     public var showsGrid: Bool
+    public var symbolScale: Double
 
     public init(
         canvasSize: CGSizeDTO,
@@ -119,7 +120,8 @@ public struct RenderScene: Hashable {
         legend: [LegendItem],
         ticks: [ScaleTick],
         baseFontSize: Double,
-        showsGrid: Bool
+        showsGrid: Bool,
+        symbolScale: Double
     ) {
         self.canvasSize = canvasSize
         self.logColumnRect = logColumnRect
@@ -128,6 +130,7 @@ public struct RenderScene: Hashable {
         self.ticks = ticks
         self.baseFontSize = baseFontSize
         self.showsGrid = showsGrid
+        self.symbolScale = symbolScale
     }
 
     public static var empty: RenderScene {
@@ -138,7 +141,8 @@ public struct RenderScene: Hashable {
             legend: [],
             ticks: [],
             baseFontSize: 12,
-            showsGrid: true
+            showsGrid: true,
+            symbolScale: 1.0
         )
     }
 }

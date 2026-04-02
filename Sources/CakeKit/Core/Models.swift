@@ -295,17 +295,46 @@ public struct ProjectSettings: Codable, Hashable {
     public var pageSize: PageSizePreset
     public var baseFontSize: Double
     public var showGrid: Bool
+    public var symbolScale: Double
 
     public init(
         verticalScale: Double = 25,
         pageSize: PageSizePreset = .a4Portrait,
         baseFontSize: Double = 12,
-        showGrid: Bool = true
+        showGrid: Bool = true,
+        symbolScale: Double = 1.0
     ) {
         self.verticalScale = verticalScale
         self.pageSize = pageSize
         self.baseFontSize = baseFontSize
         self.showGrid = showGrid
+        self.symbolScale = symbolScale
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case verticalScale
+        case pageSize
+        case baseFontSize
+        case showGrid
+        case symbolScale
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        verticalScale = try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25
+        pageSize = try container.decodeIfPresent(PageSizePreset.self, forKey: .pageSize) ?? .a4Portrait
+        baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
+        showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? true
+        symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(verticalScale, forKey: .verticalScale)
+        try container.encode(pageSize, forKey: .pageSize)
+        try container.encode(baseFontSize, forKey: .baseFontSize)
+        try container.encode(showGrid, forKey: .showGrid)
+        try container.encode(symbolScale, forKey: .symbolScale)
     }
 }
 

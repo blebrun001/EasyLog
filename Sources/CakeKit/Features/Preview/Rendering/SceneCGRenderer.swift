@@ -80,7 +80,7 @@ public enum SceneCGRenderer {
             context.setFillColor(fill)
             context.fill(rect)
             if let code = unit.usgsSymbolCode {
-                if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context) {
+                if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: scene.symbolScale) {
                     drawSymbolPattern(unit.symbol, in: rect, context: context)
                 }
             } else {
@@ -137,7 +137,7 @@ public enum SceneCGRenderer {
 
         for item in scene.legend {
             let swatch = CGRect(x: originX, y: originY, width: 28, height: 18)
-            drawLegendSwatch(item: item, in: swatch, context: context)
+            drawLegendSwatch(item: item, in: swatch, context: context, symbolScale: scene.symbolScale)
             drawText(item.label, at: CGPoint(x: originX + 36, y: originY + 3), size: scene.baseFontSize - 1, context: context)
             originY += 26
         }
@@ -157,13 +157,13 @@ public enum SceneCGRenderer {
         context.restoreGState()
     }
 
-    private static func drawLegendSwatch(item: LegendItem, in rect: CGRect, context: CGContext) {
+    private static func drawLegendSwatch(item: LegendItem, in rect: CGRect, context: CGContext, symbolScale: Double) {
         context.setFillColor(NSColor.white.cgColor)
         context.fill(rect)
         if let pointSymbol = item.pointSymbol {
             drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: context)
         } else if let code = item.usgsSymbolCode {
-            if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context) {
+            if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: symbolScale) {
                 drawSymbolPattern(item.symbol, in: rect, context: context)
             }
         } else {

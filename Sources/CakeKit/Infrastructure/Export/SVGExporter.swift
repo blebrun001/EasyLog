@@ -144,12 +144,15 @@ public struct SVGExporter: SVGExporting {
 
         var map: [Int: String] = [:]
         for code in codes.sorted() {
-            guard let tile = USGSEPSSymbolRenderer.pngTileData(for: code, maxDimension: 64) else { continue }
+            guard let tile = USGSEPSSymbolRenderer.pngTileData(for: code, maxDimension: 2048) else { continue }
+            guard let tileSize = USGSEPSSymbolRenderer.tileSizePoints(for: code, symbolScale: scene.symbolScale) else { continue }
             let id = "pattern-usgs-\(code)"
             let base64 = tile.data.base64EncodedString()
+            let tileWidth = max(tileSize.width, 1)
+            let tileHeight = max(tileSize.height, 1)
             map[code] = """
-            <pattern id="\(id)" patternUnits="userSpaceOnUse" width="\(tile.width)" height="\(tile.height)">
-              <image x="0" y="0" width="\(tile.width)" height="\(tile.height)" href="data:image/png;base64,\(base64)"/>
+            <pattern id="\(id)" patternUnits="userSpaceOnUse" width="\(fmt(tileWidth))" height="\(fmt(tileHeight))">
+              <image x="0" y="0" width="\(fmt(tileWidth))" height="\(fmt(tileHeight))" preserveAspectRatio="none" href="data:image/png;base64,\(base64)"/>
             </pattern>
             """
         }
