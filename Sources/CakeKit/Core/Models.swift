@@ -414,13 +414,33 @@ public struct CGSizeDTO: Codable, Hashable {
 /// Rendering preferences and export defaults persisted with the project.
 public struct ProjectSettings: Codable, Hashable {
     public var verticalScale: Double
+    private var legacyPageSizeRawValue: String
     @available(*, deprecated, message: "unused in auto sizing mode")
-    public var pageSize: PageSizePreset
+    public var pageSize: PageSizePreset {
+        get { PageSizePreset(rawValue: legacyPageSizeRawValue) ?? .a4Portrait }
+        set { legacyPageSizeRawValue = newValue.rawValue }
+    }
     public var baseFontSize: Double
     public var showGrid: Bool
     public var symbolScale: Double
     public var depthScaleUnit: DepthScaleUnit
 
+    public init(
+        verticalScale: Double = 25,
+        baseFontSize: Double = 12,
+        showGrid: Bool = false,
+        symbolScale: Double = 1.0,
+        depthScaleUnit: DepthScaleUnit = .meter
+    ) {
+        self.verticalScale = verticalScale
+        self.legacyPageSizeRawValue = "a4Portrait"
+        self.baseFontSize = baseFontSize
+        self.showGrid = showGrid
+        self.symbolScale = symbolScale
+        self.depthScaleUnit = depthScaleUnit
+    }
+
+    @available(*, deprecated, message: "unused in auto sizing mode")
     public init(
         verticalScale: Double = 25,
         pageSize: PageSizePreset = .a4Portrait,
@@ -430,7 +450,7 @@ public struct ProjectSettings: Codable, Hashable {
         depthScaleUnit: DepthScaleUnit = .meter
     ) {
         self.verticalScale = verticalScale
-        self.pageSize = pageSize
+        self.legacyPageSizeRawValue = pageSize.rawValue
         self.baseFontSize = baseFontSize
         self.showGrid = showGrid
         self.symbolScale = symbolScale
@@ -449,7 +469,7 @@ public struct ProjectSettings: Codable, Hashable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         verticalScale = try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25
-        pageSize = try container.decodeIfPresent(PageSizePreset.self, forKey: .pageSize) ?? .a4Portrait
+        legacyPageSizeRawValue = try container.decodeIfPresent(String.self, forKey: .pageSize) ?? "a4Portrait"
         baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
         showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? false
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
@@ -459,7 +479,7 @@ public struct ProjectSettings: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(verticalScale, forKey: .verticalScale)
-        try container.encode(pageSize, forKey: .pageSize)
+        try container.encode(legacyPageSizeRawValue, forKey: .pageSize)
         try container.encode(baseFontSize, forKey: .baseFontSize)
         try container.encode(showGrid, forKey: .showGrid)
         try container.encode(symbolScale, forKey: .symbolScale)
