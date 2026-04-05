@@ -4,9 +4,14 @@ import SwiftUI
 public struct ProjectSidebarView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var hoveredUnitID: UUID?
+    @State private var zeroLevelAltitudeText: String
+    @FocusState private var isZeroLevelAltitudeFieldFocused: Bool
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
+        self._zeroLevelAltitudeText = State(
+            initialValue: Self.formatNumber(viewModel.project.settings.zeroLevelAltitudeMeters ?? 0)
+        )
     }
 
     public var body: some View {
@@ -26,6 +31,13 @@ public struct ProjectSidebarView: View {
             .padding(.bottom, 6)
         }
         .background(Color(nsColor: .windowBackgroundColor))
+        .onAppear {
+            syncZeroLevelAltitudeTextFromModel()
+        }
+        .onChange(of: viewModel.project.settings.zeroLevelAltitudeMeters) { _ in
+            guard !isZeroLevelAltitudeFieldFocused else { return }
+            syncZeroLevelAltitudeTextFromModel()
+        }
     }
 
     private var metadataSection: some View {
@@ -34,6 +46,20 @@ public struct ProjectSidebarView: View {
             TextField("Log title", text: $viewModel.project.metadata.title)
                 .textFieldStyle(.roundedBorder)
                 .accessibilityLabel("Log title")
+
+            HStack {
+                Text("Zero-Level Altitude")
+                TextField(
+                    "0",
+                    text: zeroLevelAltitudeBinding
+                )
+                .textFieldStyle(.roundedBorder)
+                .frame(width: 140)
+                .focused($isZeroLevelAltitudeFieldFocused)
+                Text("m")
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
         }
     }
 
@@ -175,4 +201,43 @@ public struct ProjectSidebarView: View {
             .fill(Color.accentColor.opacity(opacity))
             .padding(.vertical, 2)
     }
+
+    private var zeroLevelAltitudeBinding: Binding<String> {
+        Binding(
+            get: { zeroLevelAltitudeText },
+            set: { raw in
+                zeroLevelAltitudeText = raw
+                let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !trimmed.isEmpty else { return }
+                if let parsed = parseNumber(trimmed) {
+                    viewModel.project.settings.zeroLevelAltitudeMeters = parsed
+                }
+            }
+        )
+    }
+
+    private func syncZeroLevelAltitudeTextFromModel() {
+        zeroLevelAltitudeText = Self.formatNumber(viewModel.project.settings.zeroLevelAltitudeMeters ?? 0)
+    }
+
+    private func parseNumber(_ raw: String) -> Double? {
+        if let value = Self.numberFormatter.number(from: raw)?.doubleValue {
+            return value
+        }
+        return Double(raw.replacingOccurrences(of: ",", with: "."))
+    }
+
+    private static func formatNumber(_ value: Double) -> String {
+        Self.numberFormatter.string(from: NSNumber(value: value)) ?? String(value)
+    }
+
+    private static let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.locale = .current
+        formatter.numberStyle = .decimal
+        formatter.usesGroupingSeparator = false
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 3
+        return formatter
+    }()
 }

@@ -172,6 +172,19 @@ func sceneCarriesConfiguredDepthScaleUnit() {
 }
 
 @Test
+func sceneCarriesConfiguredZeroLevelAltitude() {
+    let project = Project(
+        settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 123),
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.useAbsoluteAltitude == true)
+    #expect(scene.zeroLevelAltitudeMeters == 123)
+}
+
+@Test
 func sceneCarriesConfiguredGridVisibility() {
     let project = Project(
         settings: ProjectSettings(showGrid: true),
@@ -297,4 +310,78 @@ func legendKeepsSeparateLithologyRowsWhenSameLithologyUsesDifferentColors() {
     let limestoneRows = scene.legend.filter { $0.label.contains("Limestone") }
     #expect(limestoneRows.count == 2)
     #expect(Set(limestoneRows.compactMap(\.fillHex)).count == 2)
+}
+
+@Test
+func syntheticComparisonAlignsUnitsInSharedAltitudeReference() {
+    let logA = Project(
+        settings: ProjectSettings(
+            verticalScale: 20,
+            depthScaleUnit: .meter,
+            useAbsoluteAltitude: true,
+            zeroLevelAltitudeMeters: 100
+        ),
+        units: [
+            StratigraphicUnit(name: "A1", thickness: 2, lithology: "Limestone")
+        ]
+    )
+    let logB = Project(
+        settings: ProjectSettings(
+            verticalScale: 35,
+            depthScaleUnit: .millimeter,
+            useAbsoluteAltitude: true,
+            zeroLevelAltitudeMeters: 101
+        ),
+        units: [
+            StratigraphicUnit(name: "B1", thickness: 1, lithology: "Limestone")
+        ]
+    )
+
+    let scene = SyntheticComparisonSceneBuilder.make(logs: [logA, logB], selectedLogIndex: 0, renderer: CakeRenderer())
+    #expect(scene.columns.count == 2)
+
+    let unitA = scene.columns[0].units[0]
+    let unitB = scene.columns[1].units[0]
+    let yAtAltitude100FromA = unitA.rect.y
+    let yAtAltitude100FromB = unitB.rect.y + unitB.rect.height
+    #expect(abs(yAtAltitude100FromA - yAtAltitude100FromB) < 0.0001)
+}
+
+@Test
+func syntheticComparisonMergesLegendAcrossLogs() {
+    let logA = Project(
+        settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 100),
+        units: [
+            StratigraphicUnit(name: "A1", thickness: 1, lithology: "Limestone")
+        ]
+    )
+    let logB = Project(
+        settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 99),
+        units: [
+            StratigraphicUnit(name: "B1", thickness: 1, lithology: "Limestone")
+        ]
+    )
+
+    let scene = SyntheticComparisonSceneBuilder.make(logs: [logA, logB], selectedLogIndex: 0, renderer: CakeRenderer())
+    let limestoneRows = scene.legend.filter { $0.label.contains("Limestone") }
+    #expect(limestoneRows.count == 1)
+}
+
+@Test
+func syntheticComparisonUsesSelectedLogDepthUnit() {
+    let first = Project(
+        settings: ProjectSettings(depthScaleUnit: .meter, zeroLevelAltitudeMeters: 100),
+        units: [StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")]
+    )
+    let second = Project(
+        settings: ProjectSettings(depthScaleUnit: .centimeter, zeroLevelAltitudeMeters: 90),
+        units: [StratigraphicUnit(name: "B", thickness: 1, lithology: "Limestone")]
+    )
+
+    let scene = SyntheticComparisonSceneBuilder.make(
+        logs: [first, second],
+        selectedLogIndex: 1,
+        renderer: CakeRenderer()
+    )
+    #expect(scene.depthScaleUnit == .centimeter)
 }

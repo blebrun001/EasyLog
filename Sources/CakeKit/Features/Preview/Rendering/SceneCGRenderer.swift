@@ -113,18 +113,6 @@ public enum SceneCGRenderer {
                 context: context
             )
 
-            if let grainSizeLabel = SceneLayout.unitSecondaryLabel(unit) {
-                drawText(
-                    grainSizeLabel,
-                    at: CGPoint(
-                        x: rect.maxX + SceneLayout.unitLabelOffsetX,
-                        y: rect.midY + SceneLayout.unitSecondaryLabelYOffset
-                    ),
-                    size: scene.baseFontSize - 2,
-                    context: context,
-                    bold: false
-                )
-            }
         }
     }
 
@@ -143,21 +131,31 @@ public enum SceneCGRenderer {
             context.move(to: CGPoint(x: axisX - halfLength, y: tick.y))
             context.addLine(to: CGPoint(x: axisX + halfLength, y: tick.y))
             context.strokePath()
+            let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
             drawText(
-                SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit),
+                SceneLayout.formatScaleDepth(
+                    tick.depth,
+                    unit: scene.depthScaleUnit,
+                    zeroLevelAltitudeInMeters: scaleReferenceAltitude
+                ),
                 at: CGPoint(x: axisX - SceneLayout.scaleLabelOffsetX, y: tick.y - 5),
-                size: scene.baseFontSize - 1,
+                size: scene.baseFontSize - 2,
                 context: context,
                 bold: isMajor
             )
         }
+        let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
         drawText(
-            "Depth (\(scene.depthScaleUnit.symbol))",
-            at: CGPoint(
-                x: axisX - SceneLayout.depthLabelOffsetX,
-                y: scene.logColumnRect.y - SceneLayout.depthLabelOffsetY
+            SceneLayout.scaleAxisTitle(
+                unit: scene.depthScaleUnit,
+                zeroLevelAltitudeInMeters: scaleReferenceAltitude
             ),
-            size: scene.baseFontSize,
+            centeredAt: CGPoint(
+                x: axisX - SceneLayout.depthLabelOffsetX,
+                y: scene.logColumnRect.y + scene.logColumnRect.height / 2
+            ),
+            size: scene.baseFontSize - 1,
+            angleRadians: -.pi / 2,
             context: context
         )
     }
@@ -286,7 +284,7 @@ public enum SceneCGRenderer {
         let axisY = SceneLayout.grainScaleAxisY(scene: scene)
         let minX = scene.logColumnRect.x
         let maxX = scene.logColumnRect.x + scene.logColumnRect.width
-        let labelFontSize = scene.baseFontSize - 2
+        let labelFontSize = scene.baseFontSize - 3
 
         context.setStrokeColor(NSColor.black.cgColor)
         context.setLineWidth(1.0)
@@ -313,11 +311,10 @@ public enum SceneCGRenderer {
             "Grain Size",
             at: CGPoint(
                 x: minX,
-                y: axisY - scene.baseFontSize - 4
+                y: axisY + SceneLayout.grainScaleLabelOffsetY + (scene.baseFontSize - 1) + 8
             ),
-            size: scene.baseFontSize,
-            context: context,
-            bold: true
+            size: scene.baseFontSize - 1,
+            context: context
         )
     }
 
@@ -439,6 +436,39 @@ public enum SceneCGRenderer {
             .foregroundColor: NSColor.black
         ]
         NSAttributedString(string: text, attributes: attributes).draw(at: point)
+
+        NSGraphicsContext.restoreGraphicsState()
+        context.restoreGState()
+    }
+
+    private static func drawText(
+        _ text: String,
+        centeredAt center: CGPoint,
+        size: Double,
+        angleRadians: Double,
+        context: CGContext,
+        bold: Bool = false
+    ) {
+        context.saveGState()
+        NSGraphicsContext.saveGraphicsState()
+
+        context.translateBy(x: center.x, y: center.y)
+        context.rotate(by: angleRadians)
+
+        let font = bold
+            ? NSFont(name: "Helvetica-Bold", size: size) ?? NSFont.boldSystemFont(ofSize: size)
+            : NSFont(name: "Helvetica", size: size) ?? NSFont.systemFont(ofSize: size)
+
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: NSColor.black
+        ]
+        let measured = NSString(string: text).size(withAttributes: attributes)
+        let drawPoint = CGPoint(x: -measured.width / 2, y: -measured.height / 2)
+
+        let nsContext = NSGraphicsContext(cgContext: context, flipped: true)
+        NSGraphicsContext.current = nsContext
+        NSAttributedString(string: text, attributes: attributes).draw(at: drawPoint)
 
         NSGraphicsContext.restoreGraphicsState()
         context.restoreGState()

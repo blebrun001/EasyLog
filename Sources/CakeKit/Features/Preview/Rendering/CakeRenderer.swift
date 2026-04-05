@@ -124,8 +124,10 @@ public struct CakeRenderer: LogRenderer {
         let naturalHeight = logBottom + margins.bottom
         let grainScaleRequiredHeight: Double = {
             guard project.settings.showGrainSizeScale else { return 0 }
-            // Axis + tick labels must remain visible below the log.
-            return SceneLayout.grainScaleOffsetBelowLog + SceneLayout.grainScaleLabelOffsetY + project.settings.baseFontSize + 12
+            // Axis + tick labels + title under the grain-size scale must remain visible.
+            let titleBaselineBelowAxis = SceneLayout.grainScaleLabelOffsetY + (project.settings.baseFontSize - 1) + 8
+            let titleBottomPadding = project.settings.baseFontSize + 16
+            return SceneLayout.grainScaleOffsetBelowLog + titleBaselineBelowAxis + titleBottomPadding
         }()
         let canvasHeight = max(naturalHeight, logBottom + grainScaleRequiredHeight)
         let rightMargin = max(
@@ -150,7 +152,9 @@ public struct CakeRenderer: LogRenderer {
             showsGrainSizeScale: project.settings.showGrainSizeScale,
             showsLogTitle: project.settings.showLogTitle,
             symbolScale: project.settings.symbolScale,
-            depthScaleUnit: project.settings.depthScaleUnit
+            depthScaleUnit: project.settings.depthScaleUnit,
+            useAbsoluteAltitude: project.settings.useAbsoluteAltitude,
+            zeroLevelAltitudeMeters: project.settings.zeroLevelAltitudeMeters
         )
     }
 

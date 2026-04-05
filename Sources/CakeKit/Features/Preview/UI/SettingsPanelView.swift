@@ -39,6 +39,9 @@ public struct SettingsPanelView: View {
                 Spacer()
             }
 
+            Toggle("Use Absolute Altitude", isOn: useAbsoluteAltitudeBinding)
+                .accessibilityLabel("Use Absolute Altitude")
+
             Toggle("Show Legend", isOn: $settings.showLegend)
                 .accessibilityLabel("Show Legend")
             Toggle("Show Depth Scale", isOn: $settings.showScale)
@@ -68,6 +71,18 @@ public struct SettingsPanelView: View {
         Binding(
             get: { settings.symbolScale },
             set: { settings.symbolScale = snapped($0, step: 0.05, range: 0.35...3.0) }
+        )
+    }
+
+    private var useAbsoluteAltitudeBinding: Binding<Bool> {
+        Binding(
+            get: { settings.useAbsoluteAltitude },
+            set: { isEnabled in
+                settings.useAbsoluteAltitude = isEnabled
+                if isEnabled {
+                    settings.zeroLevelAltitudeMeters = settings.zeroLevelAltitudeMeters ?? 0
+                }
+            }
         )
     }
 

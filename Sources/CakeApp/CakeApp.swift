@@ -14,10 +14,11 @@ struct CakeApp: App {
     }
 
     var body: some Scene {
-        WindowGroup("Cake") {
+        WindowGroup {
             MainContentView(viewModel: viewModel)
                 .frame(minWidth: 1080, minHeight: 700)
         }
+        .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentMinSize)
         .commands {
             CommandGroup(replacing: .appInfo) {

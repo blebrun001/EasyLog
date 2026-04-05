@@ -66,6 +66,8 @@ func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
     #expect(decoded.baseFontSize == 12)
     #expect(decoded.symbolScale == 1.0)
     #expect(decoded.depthScaleUnit == .meter)
+    #expect(decoded.useAbsoluteAltitude == false)
+    #expect(decoded.zeroLevelAltitudeMeters == nil)
     #expect(decoded.showLegend == true)
     #expect(decoded.showScale == true)
     #expect(decoded.showLogTitle == true)
@@ -100,7 +102,9 @@ func projectSettingsShowGridRoundTripPersistsValue() throws {
         showGrid: true,
         showLegend: false,
         showScale: false,
-        showLogTitle: false
+        showLogTitle: false,
+        useAbsoluteAltitude: true,
+        zeroLevelAltitudeMeters: 123.0
     )
     let data = try JSONEncoder().encode(settings)
     let decoded = try JSONDecoder().decode(ProjectSettings.self, from: data)
@@ -108,6 +112,8 @@ func projectSettingsShowGridRoundTripPersistsValue() throws {
     #expect(decoded.showLegend == false)
     #expect(decoded.showScale == false)
     #expect(decoded.showLogTitle == false)
+    #expect(decoded.useAbsoluteAltitude == true)
+    #expect(decoded.zeroLevelAltitudeMeters == 123.0)
 }
 
 @Test

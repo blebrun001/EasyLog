@@ -137,6 +137,8 @@ public struct RenderScene: Hashable {
     public var showsLogTitle: Bool
     public var symbolScale: Double
     public var depthScaleUnit: DepthScaleUnit
+    public var useAbsoluteAltitude: Bool
+    public var zeroLevelAltitudeMeters: Double?
 
     public init(
         title: String,
@@ -152,7 +154,9 @@ public struct RenderScene: Hashable {
         showsGrainSizeScale: Bool,
         showsLogTitle: Bool,
         symbolScale: Double,
-        depthScaleUnit: DepthScaleUnit
+        depthScaleUnit: DepthScaleUnit,
+        useAbsoluteAltitude: Bool,
+        zeroLevelAltitudeMeters: Double?
     ) {
         self.title = title
         self.canvasSize = canvasSize
@@ -168,6 +172,8 @@ public struct RenderScene: Hashable {
         self.showsLogTitle = showsLogTitle
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
+        self.useAbsoluteAltitude = useAbsoluteAltitude
+        self.zeroLevelAltitudeMeters = zeroLevelAltitudeMeters
     }
 
     public static var empty: RenderScene {
@@ -185,7 +191,9 @@ public struct RenderScene: Hashable {
             showsGrainSizeScale: true,
             showsLogTitle: true,
             symbolScale: 1.0,
-            depthScaleUnit: .meter
+            depthScaleUnit: .meter,
+            useAbsoluteAltitude: false,
+            zeroLevelAltitudeMeters: nil
         )
     }
 }

@@ -10,8 +10,8 @@ public enum SceneLayout {
     public static let unitPrimaryLabelYOffset = -6.0
     public static let unitSecondaryLabelYOffset = 8.0
     public static let scaleAxisOffsetFromLog = 28.0
-    public static let scaleLabelOffsetX = 62.0
-    public static let depthLabelOffsetX = 66.0
+    public static let scaleLabelOffsetX = 20.0
+    public static let depthLabelOffsetX = 30.0
     public static let depthLabelOffsetY = 24.0
     public static let scaleMinorTickHalfLength = 4.0
     public static let scaleMajorTickHalfLength = 7.0
@@ -72,21 +72,39 @@ public enum SceneLayout {
     }
 
     public static func unitPrimaryLabel(_ unit: RenderedUnit) -> String {
-        "\(unit.name) (\(format(unit.thickness)) m)"
+        let trimmed = unit.name.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? "Untitled Unit" : trimmed
     }
 
     public static func unitSecondaryLabel(_ unit: RenderedUnit) -> String? {
         unit.grainSize?.label
     }
 
-    public static func formatScaleDepth(_ depthInMeters: Double, unit: DepthScaleUnit) -> String {
-        let scaled = depthInMeters * unit.multiplierFromMeters
+    public static func formatScaleDepth(
+        _ depthInMeters: Double,
+        unit: DepthScaleUnit,
+        zeroLevelAltitudeInMeters: Double? = nil
+    ) -> String {
+        let valueInMeters: Double
+        if let zeroLevelAltitudeInMeters {
+            valueInMeters = zeroLevelAltitudeInMeters - depthInMeters
+        } else {
+            valueInMeters = depthInMeters
+        }
+        let scaled = valueInMeters * unit.multiplierFromMeters
         switch unit {
         case .meter:
             return format(scaled)
         case .centimeter, .millimeter:
             return String(Int(scaled.rounded()))
         }
+    }
+
+    public static func scaleAxisTitle(unit: DepthScaleUnit, zeroLevelAltitudeInMeters: Double?) -> String {
+        if zeroLevelAltitudeInMeters != nil {
+            return "Altitude (\(unit.symbol))"
+        }
+        return "Depth (\(unit.symbol))"
     }
 
     public static func isMajorScaleTick(_ depthInMeters: Double, unit: DepthScaleUnit) -> Bool {

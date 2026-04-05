@@ -94,6 +94,84 @@ func addAndDuplicateLogSelectNewTabsAndKeepIndependentData() {
 
 @MainActor
 @Test
+func removeLogKeepsAtLeastOneAndAdjustsSelection() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.addLog()
+    viewModel.project.metadata.title = "Second"
+    viewModel.addLog()
+    viewModel.project.metadata.title = "Third"
+    #expect(viewModel.logs.count == 3)
+    #expect(viewModel.selectedLogIndex == 2)
+
+    viewModel.removeLog(at: 1)
+    #expect(viewModel.logs.count == 2)
+    #expect(viewModel.selectedLogIndex == 1)
+    #expect(viewModel.project.metadata.title == "Third")
+
+    viewModel.removeLog(at: 0)
+    #expect(viewModel.logs.count == 1)
+    #expect(viewModel.selectedLogIndex == 0)
+
+    viewModel.removeLog(at: 0)
+    #expect(viewModel.logs.count == 1)
+    #expect(viewModel.selectedLogIndex == 0)
+}
+
+@MainActor
+@Test
+func syntheticViewRequiresAtLeastTwoLogs() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.project.settings.zeroLevelAltitudeMeters = 100
+    #expect(viewModel.logs.count == 1)
+    #expect(viewModel.canOpenSyntheticView == false)
+}
+
+@MainActor
+@Test
+func syntheticViewRequiresZeroLevelOnEveryLog() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.project.settings.zeroLevelAltitudeMeters = 100
+    viewModel.addLog()
+    viewModel.project.settings.zeroLevelAltitudeMeters = nil
+    #expect(viewModel.canOpenSyntheticView == false)
+}
+
+@MainActor
+@Test
+func syntheticViewIsEnabledWithTwoLogsAndAllZeroLevelsSet() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.project.settings.zeroLevelAltitudeMeters = 100
+    viewModel.addLog()
+    viewModel.project.settings.zeroLevelAltitudeMeters = 96
+    #expect(viewModel.canOpenSyntheticView == true)
+}
+
+@MainActor
+@Test
 func exportAllProjectsEmitsOneFilePerLogAndResolvesFilenameCollisions() {
     let exporter = MockExporter()
     let viewModel = ProjectViewModel(

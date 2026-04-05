@@ -87,13 +87,6 @@ public struct SVGExporter: SVGExporting {
 
             <text x="\(fmt(unit.rect.x + unit.rect.width + SceneLayout.unitLabelOffsetX))" y="\(fmt(textY))">\(escaped)</text>
             """
-            if let grainSizeLabel = SceneLayout.unitSecondaryLabel(unit) {
-                let grainY = unit.rect.y + unit.rect.height / 2 + SceneLayout.unitSecondaryLabelYOffset + 10
-                svg += """
-
-                <text x="\(fmt(unit.rect.x + unit.rect.width + SceneLayout.unitLabelOffsetX))" y="\(fmt(grainY))" font-size="\(fmt(scene.baseFontSize - 2))">\(xmlEscape(grainSizeLabel))</text>
-                """
-            }
         }
         svg += "\n  </g>"
 
@@ -115,18 +108,21 @@ public struct SVGExporter: SVGExporting {
             }
             svg += "\n  </g>"
 
-            svg += "\n  <g id=\"scale-labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(scene.baseFontSize - 1))\" fill=\"#111111\">"
+            svg += "\n  <g id=\"scale-labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(scene.baseFontSize - 2))\" fill=\"#111111\">"
+            let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
             for tick in scene.ticks {
                 let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
                 let fontWeight = isMajor ? "700" : "400"
                 svg += """
 
-                <text x="\(fmt(axisX - SceneLayout.scaleLabelOffsetX))" y="\(fmt(tick.y + 4))" font-weight="\(fontWeight)">\(SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit))</text>
+                <text x="\(fmt(axisX - SceneLayout.scaleLabelOffsetX))" y="\(fmt(tick.y + 4))" font-weight="\(fontWeight)">\(SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit, zeroLevelAltitudeInMeters: scaleReferenceAltitude))</text>
                 """
             }
+            let depthLabelX = axisX - SceneLayout.depthLabelOffsetX
+            let depthLabelY = scene.logColumnRect.y + scene.logColumnRect.height / 2
             svg += """
 
-                <text x="\(fmt(axisX - SceneLayout.depthLabelOffsetX))" y="\(fmt(scene.logColumnRect.y - SceneLayout.depthLabelOffsetY + 8))">Depth (\(scene.depthScaleUnit.symbol))</text>
+                <text x="\(fmt(depthLabelX))" y="\(fmt(depthLabelY))" font-size="\(fmt(scene.baseFontSize - 1))" text-anchor="middle" dominant-baseline="middle" transform="rotate(90 \(fmt(depthLabelX)) \(fmt(depthLabelY)))">\(SceneLayout.scaleAxisTitle(unit: scene.depthScaleUnit, zeroLevelAltitudeInMeters: scaleReferenceAltitude))</text>
               </g>
             """
         }
@@ -135,7 +131,7 @@ public struct SVGExporter: SVGExporting {
             let axisY = SceneLayout.grainScaleAxisY(scene: scene)
             let minX = scene.logColumnRect.x
             let maxX = scene.logColumnRect.x + scene.logColumnRect.width
-            let labelFontSize = scene.baseFontSize - 2
+            let labelFontSize = scene.baseFontSize - 3
             svg += """
 
               <g id="grain-size-scale" stroke="#111111" fill="none" stroke-width="1">
@@ -151,7 +147,7 @@ public struct SVGExporter: SVGExporting {
             svg += """
 
               <g id="grain-size-labels" font-family="Helvetica, Arial, sans-serif" fill="#111111">
-                <text x="\(fmt(minX))" y="\(fmt(axisY - scene.baseFontSize - 4))" font-size="\(fmt(scene.baseFontSize))" font-weight="700">Grain Size</text>
+                <text x="\(fmt(minX))" y="\(fmt(axisY + SceneLayout.grainScaleLabelOffsetY + (scene.baseFontSize - 1) + 8))" font-size="\(fmt(scene.baseFontSize - 1))">Grain Size</text>
             """
             for label in grainScaleLabelPlacements(scene: scene, minX: minX, maxX: maxX, fontSize: labelFontSize) {
                 svg += """

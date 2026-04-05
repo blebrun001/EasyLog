@@ -38,6 +38,10 @@ public final class ProjectViewModel: ObservableObject {
     public private(set) var projectURL: URL?
 
     public var logs: [Project] { document.logs }
+    public var canOpenSyntheticView: Bool {
+        let effectiveLogs = logsApplyingCurrentEdits()
+        return effectiveLogs.count >= 2 && effectiveLogs.allSatisfy { $0.settings.zeroLevelAltitudeMeters != nil }
+    }
 
     private let renderer: LogRenderer
     private let openProjectUseCase: OpenProjectUseCase
@@ -113,6 +117,18 @@ public final class ProjectViewModel: ObservableObject {
         statusMessage = validationIssues.isEmpty ? "Scene updated" : "Scene updated with validation warnings"
     }
 
+    public func makeSyntheticComparisonScene() -> SyntheticComparisonScene {
+        let effectiveLogs = logsApplyingCurrentEdits()
+        guard effectiveLogs.count >= 2 else { return .empty }
+        guard effectiveLogs.allSatisfy({ $0.settings.zeroLevelAltitudeMeters != nil }) else { return .empty }
+        guard canOpenSyntheticView else { return .empty }
+        return SyntheticComparisonSceneBuilder.make(
+            logs: effectiveLogs,
+            selectedLogIndex: selectedLogIndex,
+            renderer: renderer
+        )
+    }
+
     public func selectLog(at index: Int) {
         commitCurrentProjectChanges()
         setSelectedLog(index)
@@ -138,6 +154,26 @@ public final class ProjectViewModel: ObservableObject {
         document.logs.insert(duplicated, at: insertIndex)
         setSelectedLog(insertIndex)
         statusMessage = "Duplicated current log"
+    }
+
+    public func removeLog(at index: Int) {
+        guard document.logs.indices.contains(index) else { return }
+        guard document.logs.count > 1 else { return }
+        commitCurrentProjectChanges()
+
+        document.logs.remove(at: index)
+
+        let nextIndex: Int
+        if selectedLogIndex > index {
+            nextIndex = selectedLogIndex - 1
+        } else if selectedLogIndex == index {
+            nextIndex = min(index, document.logs.count - 1)
+        } else {
+            nextIndex = selectedLogIndex
+        }
+
+        setSelectedLog(nextIndex)
+        statusMessage = "Removed log \(index + 1)"
     }
 
     public func addUnit() {
@@ -363,6 +399,14 @@ public final class ProjectViewModel: ObservableObject {
     private func commitCurrentProjectChanges(using updatedProject: Project) {
         guard document.logs.indices.contains(selectedLogIndex) else { return }
         document.logs[selectedLogIndex] = updatedProject
+    }
+
+    private func logsApplyingCurrentEdits() -> [Project] {
+        var effectiveLogs = document.logs
+        if effectiveLogs.indices.contains(selectedLogIndex) {
+            effectiveLogs[selectedLogIndex] = project
+        }
+        return effectiveLogs
     }
 
     private func duplicatedLogTitle(for sourceTitle: String, existingTitles: [String]) -> String {
