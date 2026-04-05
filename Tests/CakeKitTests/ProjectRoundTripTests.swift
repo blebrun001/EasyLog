@@ -11,6 +11,7 @@ func projectJSONRoundTripPreservesMWEFields() throws {
     project.units[0].name = "Floodplain Mud"
     project.units[0].thickness = 1.45
     project.units[0].lithology = "Sandy or silty shale"
+    project.units[0].lithologyColorHex = "#1A2B3C"
     project.units[0].grainSize = .silt
 
     let store = JSONProjectStore()
@@ -84,4 +85,20 @@ func projectSettingsShowGridRoundTripPersistsValue() throws {
     #expect(decoded.showLegend == false)
     #expect(decoded.showScale == false)
     #expect(decoded.showLogTitle == false)
+}
+
+@Test
+func stratigraphicUnitLegacyJSONWithoutLithologyColorDecodesWithNilCustomColor() throws {
+    let legacyJSON = """
+    {
+      "id": "\(UUID().uuidString)",
+      "name": "Layer",
+      "thickness": 1.2,
+      "lithology": "Limestone",
+      "pointFeatures": []
+    }
+    """
+
+    let decoded = try JSONDecoder().decode(StratigraphicUnit.self, from: Data(legacyJSON.utf8))
+    #expect(decoded.lithologyColorHex == nil)
 }

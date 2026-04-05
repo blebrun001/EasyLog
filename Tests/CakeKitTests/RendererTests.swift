@@ -250,3 +250,51 @@ func rendererExpandsCanvasWidthForLongLegendLabels() {
     #expect(shortLegendScene.canvasSize.width >= baseScene.canvasSize.width)
     #expect(longLegendScene.canvasSize.width >= shortLegendScene.canvasSize.width)
 }
+
+@Test
+func rendererUsesCustomLithologyColorWhenProvided() {
+    let project = Project(
+        units: [
+            StratigraphicUnit(
+                name: "A",
+                thickness: 1,
+                lithology: "Limestone",
+                lithologyColorHex: "#abc123"
+            )
+        ]
+    )
+
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.units[0].fillHex == "#ABC123")
+    #expect(scene.legend[0].fillHex == "#ABC123")
+}
+
+@Test
+func rendererFallsBackToUSGSColorWhenNoCustomColor() {
+    let lithology = "Limestone"
+    let project = Project(
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: lithology)
+        ]
+    )
+
+    let scene = CakeRenderer().makeScene(project: project)
+    let expected = SymbologyLibrary.style(forLithology: lithology).fillHex
+    #expect(scene.units[0].fillHex == expected)
+    #expect(scene.legend[0].fillHex == expected)
+}
+
+@Test
+func legendKeepsSeparateLithologyRowsWhenSameLithologyUsesDifferentColors() {
+    let project = Project(
+        units: [
+            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone", lithologyColorHex: "#FF0000"),
+            StratigraphicUnit(name: "B", thickness: 1, lithology: "Limestone", lithologyColorHex: "#00FF00")
+        ]
+    )
+
+    let scene = CakeRenderer().makeScene(project: project)
+    let limestoneRows = scene.legend.filter { $0.label.contains("Limestone") }
+    #expect(limestoneRows.count == 2)
+    #expect(Set(limestoneRows.compactMap(\.fillHex)).count == 2)
+}

@@ -44,8 +44,7 @@ public struct SVGExporter: SVGExporting {
 
         svg += "\n  <g id=\"units\">"
         for unit in scene.units {
-            let style = SymbologyLibrary.style(forLithology: unit.lithology)
-            let fill = style.fillHex
+            let fill = unit.fillHex
             svg += """
 
             <g id="unit-\(unit.id.uuidString)">
@@ -175,9 +174,10 @@ public struct SVGExporter: SVGExporting {
                 <text x="\(fmt(legendX))" y="\(fmt(legendY - 10))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize + 1))" font-weight="700">Legend</text>
             """
             for item in scene.legend {
+                let swatchFill = xmlEscape(item.fillHex ?? "#ffffff")
                 svg += """
 
-                  <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="#ffffff"/>
+                  <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="\(swatchFill)"/>
                 """
                 if let pointSymbol = item.pointSymbol {
                     svg += "\n\(pointLegendElement(symbol: pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: 8))"

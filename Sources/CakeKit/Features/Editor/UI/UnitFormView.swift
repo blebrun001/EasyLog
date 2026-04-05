@@ -1,10 +1,16 @@
 import SwiftUI
+import AppKit
 
 /// Form that edits one `StratigraphicUnit`, including lithology and point features.
 public struct UnitFormView: View {
     @Binding private var unit: StratigraphicUnit
     @State private var thicknessText: String = ""
     @State private var selectedLithologyCategory: USGSLithologyCategory
+    @State private var selectedLithology: String
+    @State private var showLithologyColorChangeDialog = false
+    @State private var pendingLithologySelection: String?
+    @State private var colorPickerSelection: Color = .clear
+    @State private var lithologyHexText: String = ""
     @State private var pendingPointFeatureCategory: PointFeatureCategory
     @State private var pendingPointFeatureType: PointFeatureType = PointFeatureType.allCases.first ?? .paleoMacroFossils
 
@@ -12,6 +18,7 @@ public struct UnitFormView: View {
         self._unit = unit
         self._thicknessText = State(initialValue: Self.formatNumber(unit.wrappedValue.thickness))
         self._selectedLithologyCategory = State(initialValue: SymbologyLibrary.lithologyCategory(forLithology: unit.wrappedValue.lithology))
+        self._selectedLithology = State(initialValue: unit.wrappedValue.lithology)
         self._pendingPointFeatureCategory = State(initialValue: PointFeatureType.allCases.first?.category ?? .biological)
     }
 
@@ -50,7 +57,7 @@ public struct UnitFormView: View {
                 }
 
                 fieldGroup("Lithology") {
-                    Picker("Lithology", selection: $unit.lithology) {
+                    Picker("Lithology", selection: lithologyBinding) {
                         ForEach(lithologiesInSelectedCategory, id: \.self) { lithology in
                             Text(lithology).tag(lithology)
                         }
@@ -59,6 +66,28 @@ public struct UnitFormView: View {
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityLabel("Lithology")
+                }
+
+                fieldGroup("Lithology Color") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ColorPicker("Custom Color", selection: lithologyColorBinding, supportsOpacity: false)
+                            .accessibilityLabel("Lithology custom color")
+
+                        HStack(spacing: 8) {
+                            TextField("#RRGGBB", text: lithologyHexBinding)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.system(.body, design: .monospaced))
+                                .accessibilityLabel("Lithology color hex")
+
+                            Button("Reset to USGS") {
+                                unit.lithologyColorHex = nil
+                                syncColorControlsFromUnit()
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(unit.lithologyColorHex == nil)
+                            .accessibilityHint("Removes custom color and restores default USGS color")
+                        }
+                    }
                 }
 
                 fieldGroup("Grain Size") {
@@ -153,6 +182,7 @@ public struct UnitFormView: View {
             thicknessText = Self.formatNumber(unit.thickness)
             syncLithologyCategoryWithUnit()
             normalizeLithologySelection()
+            syncColorControlsFromUnit()
             normalizePendingFeatureSelection()
         }
         .onChange(of: unit.id) { _ in
@@ -160,7 +190,26 @@ public struct UnitFormView: View {
             thicknessText = Self.formatNumber(unit.thickness)
             syncLithologyCategoryWithUnit()
             normalizeLithologySelection()
+            syncColorControlsFromUnit()
             normalizePendingFeatureSelection()
+        }
+        .confirmationDialog(
+            "Keep custom color?",
+            isPresented: $showLithologyColorChangeDialog,
+            titleVisibility: .visible
+        ) {
+            Button("Keep custom color") {
+                applyPendingLithologySelection(resetColor: false)
+            }
+            Button("Reset to USGS color", role: .destructive) {
+                applyPendingLithologySelection(resetColor: true)
+            }
+            Button("Cancel", role: .cancel) {
+                pendingLithologySelection = nil
+                selectedLithology = unit.lithology
+            }
+        } message: {
+            Text("Changing lithology while a custom color is set can either keep your custom color or restore the default USGS fill.")
         }
     }
 
@@ -173,6 +222,7 @@ public struct UnitFormView: View {
     }
 
     private func syncLithologyCategoryWithUnit() {
+        selectedLithology = unit.lithology
         selectedLithologyCategory = SymbologyLibrary.lithologyCategory(forLithology: unit.lithology)
         if !availableLithologyCategories.contains(selectedLithologyCategory) {
             selectedLithologyCategory = availableLithologyCategories.first ?? .coarseClastics
@@ -186,14 +236,104 @@ public struct UnitFormView: View {
         }
         let choices = lithologiesInSelectedCategory
         guard let first = choices.first else { return }
+        if !choices.contains(selectedLithology) {
+            selectedLithology = first
+        }
         if !choices.contains(unit.lithology) {
-            unit.lithology = first
+            requestLithologyChange(to: selectedLithology)
         }
     }
 
     private func coerceLithologyToSupportedValueIfNeeded() {
         guard !SymbologyLibrary.isSupportedLithology(unit.lithology) else { return }
         unit.lithology = SymbologyLibrary.supportedLithologies.first ?? unit.lithology
+        selectedLithology = unit.lithology
+    }
+
+    private var lithologyBinding: Binding<String> {
+        Binding(
+            get: { selectedLithology },
+            set: { candidate in
+                guard candidate != selectedLithology else { return }
+                requestLithologyChange(to: candidate)
+            }
+        )
+    }
+
+    private var lithologyColorBinding: Binding<Color> {
+        Binding(
+            get: { colorPickerSelection },
+            set: { newColor in
+                colorPickerSelection = newColor
+                let nsColor = NSColor(newColor)
+                guard let hex = ColorHex.hex(from: nsColor) else { return }
+                unit.lithologyColorHex = hex
+                lithologyHexText = hex
+            }
+        )
+    }
+
+    private var lithologyHexBinding: Binding<String> {
+        Binding(
+            get: { lithologyHexText },
+            set: { raw in
+                lithologyHexText = raw
+                guard let normalized = ColorHex.normalizedHex(raw) else { return }
+                unit.lithologyColorHex = normalized
+                if let nsColor = ColorHex.nsColor(from: normalized) {
+                    colorPickerSelection = Color(nsColor: nsColor)
+                }
+                lithologyHexText = normalized
+            }
+        )
+    }
+
+    private func applyPendingLithologySelection(resetColor: Bool) {
+        guard let pending = pendingLithologySelection else { return }
+        pendingLithologySelection = nil
+        unit.lithology = pending
+        selectedLithology = pending
+        if resetColor {
+            unit.lithologyColorHex = nil
+        }
+        syncColorControlsFromUnit()
+    }
+
+    private func requestLithologyChange(to candidate: String) {
+        guard candidate != unit.lithology else {
+            selectedLithology = unit.lithology
+            return
+        }
+        if unit.lithologyColorHex != nil {
+            pendingLithologySelection = candidate
+            showLithologyColorChangeDialog = true
+            selectedLithology = unit.lithology
+            return
+        }
+
+        unit.lithology = candidate
+        selectedLithology = candidate
+        syncColorControlsFromUnit()
+    }
+
+    private func syncColorControlsFromUnit() {
+        selectedLithology = unit.lithology
+        if let custom = ColorHex.normalizedHex(unit.lithologyColorHex),
+           let nsColor = ColorHex.nsColor(from: custom) {
+            unit.lithologyColorHex = custom
+            colorPickerSelection = Color(nsColor: nsColor)
+            lithologyHexText = custom
+            return
+        }
+
+        unit.lithologyColorHex = nil
+        let fallbackHex = SymbologyLibrary.style(forLithology: unit.lithology).fillHex
+        if let fallbackColor = ColorHex.nsColor(from: fallbackHex) {
+            colorPickerSelection = Color(nsColor: fallbackColor)
+        } else {
+            colorPickerSelection = .clear
+        }
+        lithologyHexText = ""
     }
 
     private var grainSizeBinding: Binding<USGSGrainSize?> {

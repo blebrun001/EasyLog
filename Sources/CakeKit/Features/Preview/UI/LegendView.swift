@@ -19,7 +19,7 @@ public struct LegendView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(Array(legend.enumerated()), id: \.offset) { _, item in
                         HStack {
-                            SymbolSwatch(symbol: item.symbol, pointSymbol: item.pointSymbol)
+                            SymbolSwatch(symbol: item.symbol, pointSymbol: item.pointSymbol, fillHex: item.fillHex)
                             Text(item.label)
                             Spacer()
                         }
@@ -33,12 +33,17 @@ public struct LegendView: View {
 private struct SymbolSwatch: View {
     let symbol: SymbolPattern
     let pointSymbol: PointFeatureSymbol?
+    let fillHex: String?
 
     var body: some View {
         Canvas { context, size in
             context.withCGContext { cgContext in
                 let rect = CGRect(origin: .zero, size: size)
-                cgContext.setFillColor(NSColor.white.cgColor)
+                let fallback = NSColor.white.cgColor
+                let fill = pointSymbol == nil
+                    ? ColorHex.cgColor(from: fillHex, fallback: fallback)
+                    : fallback
+                cgContext.setFillColor(fill)
                 cgContext.fill(rect)
                 if let pointSymbol {
                     SceneCGRenderer.drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: cgContext)

@@ -84,9 +84,8 @@ public enum SceneCGRenderer {
 
     private static func drawUnits(scene: RenderScene, in context: CGContext) {
         for unit in scene.units {
-            let style = SymbologyLibrary.style(forLithology: unit.lithology)
             let rect = CGRect(x: unit.rect.x, y: unit.rect.y, width: unit.rect.width, height: unit.rect.height)
-            let fill = ColorHex.cgColor(from: style.fillHex, fallback: NSColor.lightGray.cgColor)
+            let fill = ColorHex.cgColor(from: unit.fillHex, fallback: NSColor.lightGray.cgColor)
 
             context.setFillColor(fill)
             context.fill(rect)
@@ -201,7 +200,8 @@ public enum SceneCGRenderer {
     }
 
     private static func drawLegendSwatch(item: LegendItem, in rect: CGRect, context: CGContext, symbolScale: Double) {
-        context.setFillColor(NSColor.white.cgColor)
+        let swatchFillHex = item.pointSymbol == nil ? item.fillHex : nil
+        context.setFillColor(ColorHex.cgColor(from: swatchFillHex, fallback: NSColor.white.cgColor))
         context.fill(rect)
         if let pointSymbol = item.pointSymbol {
             let strokeColor = ColorHex.cgColor(from: item.pointColorHex, fallback: NSColor.black.cgColor)

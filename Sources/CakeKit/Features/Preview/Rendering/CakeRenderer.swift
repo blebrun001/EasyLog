@@ -8,6 +8,12 @@ public struct CakeRenderer: LogRenderer {
     private let minimumRightMargin = 260.0
     private let legendTrailingPadding = 24.0
 
+    private struct LithologyLegendKey: Hashable {
+        let label: String
+        let usgsSymbolCode: Int?
+        let fillHex: String
+    }
+
     public func makeScene(project: Project) -> RenderScene {
         let margins = (top: 70.0, bottom: 60.0, left: 100.0)
         let logTitle = {
@@ -33,10 +39,9 @@ public struct CakeRenderer: LogRenderer {
         var renderedUnits: [RenderedUnit] = []
         var legendOrder: [LegendItem] = []
         var pointLegendOrder: [LegendItem] = []
-        var seenUSGSCodes = Set<Int>()
         var seenPointTypes = Set<PointFeatureType>()
-        var seenLegendLabels = Set<String>()
-        var hasFallbackLegend = false
+        var seenLithologyLegendKeys = Set<LithologyLegendKey>()
+        var seenPointLegendLabels = Set<String>()
         var yCursor = margins.top
 
         for (index, unit) in project.units.enumerated() {
@@ -44,6 +49,7 @@ public struct CakeRenderer: LogRenderer {
             let height = safeThickness * project.settings.verticalScale
             let style = SymbologyLibrary.style(forLithology: unit.lithology)
             let usgsCode = SymbologyLibrary.usgsSymbolCode(forLithology: unit.lithology)
+            let resolvedFill = ColorHex.normalizedHex(unit.lithologyColorHex) ?? style.fillHex
             let width = unitWidths[index]
             let rect = RectD(x: logX, y: yCursor, width: width, height: height)
             let renderedPointFeatures = makeRenderedPointFeatures(
@@ -59,6 +65,7 @@ public struct CakeRenderer: LogRenderer {
                     lithology: unit.lithology,
                     symbol: style.symbol,
                     usgsSymbolCode: usgsCode,
+                    fillHex: resolvedFill,
                     rect: rect,
                     grainSize: unit.grainSize,
                     pointFeatures: renderedPointFeatures
@@ -66,26 +73,23 @@ public struct CakeRenderer: LogRenderer {
             )
 
             if let usgsCode {
-                if !seenUSGSCodes.contains(usgsCode) {
-                    seenUSGSCodes.insert(usgsCode)
-                    let label: String
-                    if project.settings.showUSGSCodesInLithologyLabels {
-                        label = "\(unit.lithology.capitalized) (\(usgsCode))"
-                    } else {
-                        label = unit.lithology.capitalized
-                    }
-                    let item = LegendItem(label: label, symbol: style.symbol, usgsSymbolCode: usgsCode)
-                    if seenLegendLabels.insert(item.label).inserted {
-                        legendOrder.append(item)
-                    }
+                let label: String
+                if project.settings.showUSGSCodesInLithologyLabels {
+                    label = "\(unit.lithology.capitalized) (\(usgsCode))"
+                } else {
+                    label = unit.lithology.capitalized
+                }
+                let key = LithologyLegendKey(label: label, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
+                let item = LegendItem(label: label, symbol: style.symbol, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
+                if seenLithologyLegendKeys.insert(key).inserted {
+                    legendOrder.append(item)
                 }
             } else {
-                if !hasFallbackLegend {
-                    hasFallbackLegend = true
-                    let item = LegendItem(label: unit.lithology.capitalized, symbol: style.symbol)
-                    if seenLegendLabels.insert(item.label).inserted {
-                        legendOrder.append(item)
-                    }
+                let label = unit.lithology.capitalized
+                let key = LithologyLegendKey(label: label, usgsSymbolCode: nil, fillHex: resolvedFill)
+                let item = LegendItem(label: label, symbol: style.symbol, fillHex: resolvedFill)
+                if seenLithologyLegendKeys.insert(key).inserted {
+                    legendOrder.append(item)
                 }
             }
 
@@ -97,7 +101,7 @@ public struct CakeRenderer: LogRenderer {
                         pointSymbol: pointFeature.type.symbol,
                         pointColorHex: pointFeature.type.symbolColorHex
                     )
-                    if seenLegendLabels.insert(item.label).inserted {
+                    if seenPointLegendLabels.insert(item.label).inserted {
                         pointLegendOrder.append(item)
                     }
                 }

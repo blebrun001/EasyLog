@@ -321,6 +321,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
     public var name: String
     public var thickness: Double
     public var lithology: String
+    public var lithologyColorHex: String?
     public var grainSize: USGSGrainSize?
     public var pointFeatures: [UnitPointFeature]
 
@@ -329,6 +330,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         name: String,
         thickness: Double,
         lithology: String,
+        lithologyColorHex: String? = nil,
         grainSize: USGSGrainSize? = nil,
         pointFeatures: [UnitPointFeature] = []
     ) {
@@ -336,6 +338,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         self.name = name
         self.thickness = thickness
         self.lithology = lithology
+        self.lithologyColorHex = Self.normalizedHexColor(lithologyColorHex)
         self.grainSize = grainSize
         self.pointFeatures = pointFeatures
     }
@@ -345,6 +348,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         case name
         case thickness
         case lithology
+        case lithologyColorHex
         case grainSize
         case pointFeatures
     }
@@ -355,6 +359,8 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         name = try container.decode(String.self, forKey: .name)
         thickness = try container.decode(Double.self, forKey: .thickness)
         lithology = try container.decode(String.self, forKey: .lithology)
+        let rawColorHex = try container.decodeIfPresent(String.self, forKey: .lithologyColorHex)
+        lithologyColorHex = Self.normalizedHexColor(rawColorHex)
         grainSize = try container.decodeIfPresent(USGSGrainSize.self, forKey: .grainSize)
         pointFeatures = try container.decodeIfPresent([UnitPointFeature].self, forKey: .pointFeatures) ?? []
     }
@@ -365,8 +371,22 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encode(thickness, forKey: .thickness)
         try container.encode(lithology, forKey: .lithology)
+        try container.encodeIfPresent(Self.normalizedHexColor(lithologyColorHex), forKey: .lithologyColorHex)
         try container.encodeIfPresent(grainSize, forKey: .grainSize)
         try container.encode(pointFeatures, forKey: .pointFeatures)
+    }
+
+    private static func normalizedHexColor(_ raw: String?) -> String? {
+        guard let raw else { return nil }
+        var value = raw.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if value.hasPrefix("#") {
+            value.removeFirst()
+        }
+        let allowed = CharacterSet(charactersIn: "0123456789ABCDEF")
+        guard value.count == 6, value.unicodeScalars.allSatisfy({ allowed.contains($0) }) else {
+            return nil
+        }
+        return "#\(value)"
     }
 }
 

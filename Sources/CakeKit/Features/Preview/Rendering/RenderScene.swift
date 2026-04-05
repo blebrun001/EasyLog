@@ -28,6 +28,7 @@ public struct RenderedUnit: Identifiable, Hashable {
     public var lithology: String
     public var symbol: SymbolPattern
     public var usgsSymbolCode: Int?
+    public var fillHex: String
     public var rect: RectD
     public var grainSize: USGSGrainSize?
     public var pointFeatures: [RenderedPointFeature]
@@ -39,6 +40,7 @@ public struct RenderedUnit: Identifiable, Hashable {
         lithology: String,
         symbol: SymbolPattern,
         usgsSymbolCode: Int? = nil,
+        fillHex: String,
         rect: RectD,
         grainSize: USGSGrainSize? = nil,
         pointFeatures: [RenderedPointFeature] = []
@@ -49,6 +51,7 @@ public struct RenderedUnit: Identifiable, Hashable {
         self.lithology = lithology
         self.symbol = symbol
         self.usgsSymbolCode = usgsSymbolCode
+        self.fillHex = fillHex
         self.rect = rect
         self.grainSize = grainSize
         self.pointFeatures = pointFeatures
@@ -86,6 +89,7 @@ public struct LegendItem: Hashable {
     public var label: String
     public var symbol: SymbolPattern
     public var usgsSymbolCode: Int?
+    public var fillHex: String?
     public var pointSymbol: PointFeatureSymbol?
     public var pointColorHex: String?
 
@@ -93,12 +97,14 @@ public struct LegendItem: Hashable {
         label: String,
         symbol: SymbolPattern,
         usgsSymbolCode: Int? = nil,
+        fillHex: String? = nil,
         pointSymbol: PointFeatureSymbol? = nil,
         pointColorHex: String? = nil
     ) {
         self.label = label
         self.symbol = symbol
         self.usgsSymbolCode = usgsSymbolCode
+        self.fillHex = fillHex
         self.pointSymbol = pointSymbol
         self.pointColorHex = pointColorHex
     }

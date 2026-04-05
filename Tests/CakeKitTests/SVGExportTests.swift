@@ -26,3 +26,27 @@ func svgExportContainsCoreGroupsAndGridWhenEnabled() throws {
     #expect(content.contains("<g id=\"grid\""))
     #expect(content.contains("Depth (m)"))
 }
+
+@Test
+func svgExportUsesCustomLithologyFillForUnitsAndLegend() throws {
+    let project = Project(
+        units: [
+            StratigraphicUnit(
+                name: "A",
+                thickness: 2,
+                lithology: "Limestone",
+                lithologyColorHex: "#12ab34"
+            )
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    let exporter = SVGExporter()
+    let outputURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "cake-svg-color-\(UUID().uuidString).svg")
+
+    try exporter.export(scene: scene, to: outputURL, canvas: scene.canvasSize)
+    let content = try String(contentsOf: outputURL, encoding: .utf8)
+
+    #expect(content.contains("fill=\"#12AB34\" class=\"unit-fill\""))
+    #expect(content.contains("width=\"28\" height=\"18\" fill=\"#12AB34\""))
+}
