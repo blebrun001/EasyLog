@@ -23,6 +23,9 @@ Cake is a macOS SwiftUI application for building a minimal, data-driven stratigr
 - Two-panel UI:
   - Left: project metadata, unit list, and unit form
   - Right: live preview, toolbar, rendering settings
+- Multi-log projects with tabs:
+  - One JSON document can contain multiple logs
+  - Create or duplicate logs from the UI
 - Unit fields:
   - `name`
   - `thickness`
@@ -33,6 +36,7 @@ Cake is a macOS SwiftUI application for building a minimal, data-driven stratigr
 - Export:
   - `SVG` (editable vector)
   - `JPG` (DPI-aware raster)
+  - `Export All` to batch-export all logs in a project
 
 ## Run
 

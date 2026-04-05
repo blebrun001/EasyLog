@@ -1,30 +1,34 @@
 {
-  "metadata" : {
-    "author" : "Geologist",
-    "createdAt" : "2026-03-31T11:00:00Z",
-    "title" : "Example Core Log",
-    "updatedAt" : "2026-03-31T11:00:00Z"
-  },
-  "settings" : {
-    "baseFontSize" : 12,
-    "pageSize" : "a4Portrait",
-    "showGrid" : true,
-    "verticalScale" : 25
-  },
-  "units" : [
+  "logs" : [
     {
-      "grainSize" : "silt",
-      "id" : "58BB7024-6322-431D-AD11-2139F8E806EC",
-      "lithology" : "Sandy or silty shale",
-      "name" : "Floodplain Mud",
-      "thickness" : 1.4
-    },
-    {
-      "grainSize" : "sand",
-      "id" : "10C67D54-1F7D-4A34-8F11-067D5D3B9116",
-      "lithology" : "Massive sand or sandstone",
-      "name" : "Channel Sandstone",
-      "thickness" : 3.2
+      "metadata" : {
+        "author" : "Geologist",
+        "createdAt" : "2026-03-31T11:00:00Z",
+        "title" : "Example Core Log",
+        "updatedAt" : "2026-03-31T11:00:00Z"
+      },
+      "settings" : {
+        "baseFontSize" : 12,
+        "pageSize" : "a4Portrait",
+        "showGrid" : true,
+        "verticalScale" : 25
+      },
+      "units" : [
+        {
+          "grainSize" : "silt",
+          "id" : "58BB7024-6322-431D-AD11-2139F8E806EC",
+          "lithology" : "Sandy or silty shale",
+          "name" : "Floodplain Mud",
+          "thickness" : 1.4
+        },
+        {
+          "grainSize" : "sand",
+          "id" : "10C67D54-1F7D-4A34-8F11-067D5D3B9116",
+          "lithology" : "Massive sand or sandstone",
+          "name" : "Channel Sandstone",
+          "thickness" : 3.2
+        }
+      ]
     }
   ]
 }

@@ -10,7 +10,7 @@ func openProjectViaDialogLoadsProjectAndUpdatesState() throws {
     let source = Project.sample
     let tempURL = URL(fileURLWithPath: NSTemporaryDirectory())
         .appending(path: "cake-open-\(UUID().uuidString).json")
-    try store.save(source, to: tempURL)
+    try store.save(ProjectDocument(logs: [source]), to: tempURL)
     let expected = try store.load(url: tempURL)
 
     let dialogs = MockFileDialogService(openURL: tempURL)
@@ -23,7 +23,8 @@ func openProjectViaDialogLoadsProjectAndUpdatesState() throws {
 
     viewModel.openProjectViaPanel()
 
-    #expect(viewModel.project == expected)
+    #expect(viewModel.project == expected.logs[0])
+    #expect(viewModel.logs.count == 1)
     #expect(viewModel.projectURL == tempURL)
 }
 
@@ -43,6 +44,7 @@ func saveProjectWritesToStoreAndTracksURL() {
     viewModel.saveProject(at: saveURL)
 
     #expect(store.lastSavedURL == saveURL)
+    #expect(store.lastSavedDocument?.logs.count == 1)
     #expect(viewModel.projectURL == saveURL)
 }
 
@@ -64,6 +66,56 @@ func exportProjectPassesRequestedFormatAndDPI() {
     #expect(exporter.lastURL == exportURL)
     #expect(exporter.lastFormat == .jpg)
     #expect(exporter.lastDPI == 240)
+}
+
+@MainActor
+@Test
+func addAndDuplicateLogSelectNewTabsAndKeepIndependentData() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.addLog()
+    #expect(viewModel.logs.count == 2)
+    #expect(viewModel.selectedLogIndex == 1)
+
+    viewModel.project.metadata.title = "Secondary"
+    viewModel.selectLog(at: 0)
+    #expect(viewModel.project.metadata.title == "Example Core Log")
+
+    viewModel.duplicateCurrentLog()
+    #expect(viewModel.logs.count == 3)
+    #expect(viewModel.selectedLogIndex == 1)
+    #expect(viewModel.project.metadata.title == "Example Core Log Copy")
+}
+
+@MainActor
+@Test
+func exportAllProjectsEmitsOneFilePerLogAndResolvesFilenameCollisions() {
+    let exporter = MockExporter()
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: exporter,
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.project.metadata.title = "Same Name"
+    viewModel.addLog()
+    viewModel.project.metadata.title = "Same Name"
+
+    let folder = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "cake-export-all-\(UUID().uuidString)")
+    try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+
+    viewModel.exportAllProjects(to: folder, format: .svg, dpi: 300)
+
+    #expect(exporter.requests.count == 2)
+    #expect(Set(exporter.requests.map(\.url.lastPathComponent)).count == 2)
+    #expect(exporter.requests.allSatisfy { $0.url.pathExtension == "svg" })
 }
 
 @MainActor
@@ -197,31 +249,37 @@ func updatingNestedProjectSettingsRefreshesScene() async throws {
 }
 
 private final class MockProjectStore: ProjectStore {
-    var loadResult: Project = .sample
-    var lastSavedProject: Project?
+    var loadResult: ProjectDocument = ProjectDocument(logs: [.sample])
+    var lastSavedDocument: ProjectDocument?
     var lastSavedURL: URL?
 
-    func load(url: URL) throws -> Project {
+    func load(url: URL) throws -> ProjectDocument {
         loadResult
     }
 
-    func save(_ project: Project, to url: URL) throws {
-        lastSavedProject = project
+    func save(_ document: ProjectDocument, to url: URL) throws {
+        lastSavedDocument = document
         lastSavedURL = url
     }
 }
 
 private final class MockExporter: Exporter {
-    var lastScene: RenderScene?
-    var lastURL: URL?
-    var lastFormat: ExportFormat?
-    var lastDPI: Double?
+    struct Request {
+        let scene: RenderScene
+        let url: URL
+        let format: ExportFormat
+        let dpi: Double
+    }
+
+    var requests: [Request] = []
+
+    var lastScene: RenderScene? { requests.last?.scene }
+    var lastURL: URL? { requests.last?.url }
+    var lastFormat: ExportFormat? { requests.last?.format }
+    var lastDPI: Double? { requests.last?.dpi }
 
     func export(scene: RenderScene, to url: URL, options: ExportOptions) throws {
-        lastScene = scene
-        lastURL = url
-        lastFormat = options.format
-        lastDPI = options.dpi
+        requests.append(Request(scene: scene, url: url, format: options.format, dpi: options.dpi))
     }
 }
 
@@ -229,6 +287,7 @@ private struct MockFileDialogService: FileDialoging {
     var openURL: URL? = nil
     var saveURL: URL? = nil
     var exportURL: URL? = nil
+    var exportDirectoryURL: URL? = nil
 
     func chooseProjectToOpen() -> URL? {
         openURL
@@ -240,5 +299,9 @@ private struct MockFileDialogService: FileDialoging {
 
     func chooseExportDestination(format: ExportFormat) -> URL? {
         exportURL
+    }
+
+    func chooseExportDirectory() -> URL? {
+        exportDirectoryURL
     }
 }

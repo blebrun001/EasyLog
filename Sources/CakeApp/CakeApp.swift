@@ -31,6 +31,11 @@ struct CakeApp: App {
                     .keyboardShortcut("n", modifiers: [.command])
                 Button("Open…") { viewModel.openProjectViaPanel() }
                     .keyboardShortcut("o", modifiers: [.command])
+                Divider()
+                Button("New Log") { viewModel.addLog() }
+                    .keyboardShortcut("n", modifiers: [.command, .shift])
+                Button("Duplicate Log") { viewModel.duplicateCurrentLog() }
+                    .keyboardShortcut("d", modifiers: [.command, .shift])
             }
 
             CommandGroup(replacing: .saveItem) {
@@ -42,11 +47,14 @@ struct CakeApp: App {
                 Divider()
                 Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
                 Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
+                Divider()
+                Button("Export All SVG…") { viewModel.exportAllViaPanel(format: .svg) }
+                Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
             }
 
             CommandGroup(after: .pasteboard) {
                 Button("Add Unit") { viewModel.addUnit() }
-                    .keyboardShortcut("n", modifiers: [.command, .shift])
+                    .keyboardShortcut("u", modifiers: [.command, .shift])
                 Button("Delete Selected Unit") { viewModel.removeSelectedUnit() }
                     .keyboardShortcut(.delete, modifiers: [])
                     .disabled(viewModel.selectedUnitIndex == nil)

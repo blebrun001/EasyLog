@@ -18,10 +18,33 @@ func projectJSONRoundTripPreservesMWEFields() throws {
     let tempFile = URL(fileURLWithPath: NSTemporaryDirectory())
         .appending(path: "cake-roundtrip-\(UUID().uuidString).json")
 
-    try store.save(project, to: tempFile)
+    let document = ProjectDocument(logs: [project])
+    try store.save(document, to: tempFile)
     let loaded = try store.load(url: tempFile)
 
-    #expect(loaded == project)
+    #expect(loaded.logs.count == 1)
+    #expect(loaded.logs[0] == project)
+}
+
+@Test
+func loadingLegacySingleProjectJSONBuildsSingleLogDocument() throws {
+    let legacy = Project.sample
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    let data = try encoder.encode(legacy)
+
+    let tempFile = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "cake-legacy-\(UUID().uuidString).json")
+    try data.write(to: tempFile, options: .atomic)
+
+    let store = JSONProjectStore()
+    let loaded = try store.load(url: tempFile)
+
+    #expect(loaded.logs.count == 1)
+    #expect(loaded.logs[0].metadata.title == legacy.metadata.title)
+    #expect(loaded.logs[0].metadata.author == legacy.metadata.author)
+    #expect(loaded.logs[0].settings == legacy.settings)
+    #expect(loaded.logs[0].units == legacy.units)
 }
 
 @Test

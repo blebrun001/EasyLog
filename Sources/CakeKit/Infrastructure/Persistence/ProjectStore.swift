@@ -2,8 +2,8 @@ import Foundation
 
 /// Persistence contract for loading/saving complete project documents.
 public protocol ProjectStore {
-    func load(url: URL) throws -> Project
-    func save(_ project: Project, to url: URL) throws
+    func load(url: URL) throws -> ProjectDocument
+    func save(_ document: ProjectDocument, to url: URL) throws
 }
 
 /// Errors raised by project persistence adapters.
@@ -35,17 +35,22 @@ public struct JSONProjectStore: ProjectStore {
         self.decoder = decoder
     }
 
-    public func load(url: URL) throws -> Project {
+    public func load(url: URL) throws -> ProjectDocument {
         let data = try Data(contentsOf: url)
         do {
-            return try decoder.decode(Project.self, from: data)
+            return try decoder.decode(ProjectDocument.self, from: data)
         } catch {
-            throw ProjectStoreError.invalidData
+            do {
+                let legacyProject = try decoder.decode(Project.self, from: data)
+                return ProjectDocument(logs: [legacyProject])
+            } catch {
+                throw ProjectStoreError.invalidData
+            }
         }
     }
 
-    public func save(_ project: Project, to url: URL) throws {
-        let data = try encoder.encode(project)
+    public func save(_ document: ProjectDocument, to url: URL) throws {
+        let data = try encoder.encode(document)
         try data.write(to: url, options: .atomic)
     }
 }

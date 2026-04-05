@@ -4,6 +4,7 @@ import SwiftUI
 public struct RenderPreviewView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var pinchBaseZoom: Double?
+    @State private var isRenderingSettingsPresented = false
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
@@ -108,6 +109,16 @@ public struct RenderPreviewView: View {
             .frame(maxWidth: 420)
             .help("Choose the fitting mode")
 
+            Button("Rendering Settings") {
+                isRenderingSettingsPresented = true
+            }
+            .buttonStyle(.bordered)
+            .popover(isPresented: $isRenderingSettingsPresented) {
+                SettingsPanelView(settings: settingsBinding)
+                    .padding()
+                    .frame(minWidth: 420)
+            }
+
             Spacer()
         }
         .padding(.horizontal, 12)
@@ -130,6 +141,17 @@ public struct RenderPreviewView: View {
         Binding(
             get: { viewModel.zoomMode },
             set: { viewModel.setZoomMode($0) }
+        )
+    }
+
+    private var settingsBinding: Binding<ProjectSettings> {
+        Binding(
+            get: { viewModel.project.settings },
+            set: { newSettings in
+                var updatedProject = viewModel.project
+                updatedProject.settings = newSettings
+                viewModel.project = updatedProject
+            }
         )
     }
 

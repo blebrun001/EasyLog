@@ -71,7 +71,7 @@ public struct OpenProjectUseCase {
         self.store = store
     }
 
-    public func execute(url: URL) throws -> Project {
+    public func execute(url: URL) throws -> ProjectDocument {
         try store.load(url: url)
     }
 }
@@ -86,9 +86,13 @@ public struct SaveProjectUseCase {
         self.now = now
     }
 
-    public func execute(project: Project, url: URL) throws -> Project {
-        var updated = project
-        updated.metadata.updatedAt = now()
+    public func execute(document: ProjectDocument, url: URL) throws -> ProjectDocument {
+        var updated = document
+        updated.logs = updated.logs.map { log in
+            var mutableLog = log
+            mutableLog.metadata.updatedAt = now()
+            return mutableLog
+        }
         try store.save(updated, to: url)
         return updated
     }

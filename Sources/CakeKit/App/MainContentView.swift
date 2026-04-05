@@ -9,28 +9,32 @@ public struct MainContentView: View {
     }
 
     public var body: some View {
-        NavigationSplitView {
-            ProjectSidebarView(viewModel: viewModel)
-                .navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 520)
-        } detail: {
-            VStack(spacing: 0) {
-                RenderPreviewView(viewModel: viewModel)
-                Divider()
-                HStack(alignment: .top, spacing: 20) {
-                    SettingsPanelView(settings: settingsBinding)
-                        .frame(maxWidth: 360, alignment: .leading)
-                    Spacer()
+        VStack(spacing: 0) {
+            logTabsBar
+            Divider()
+            NavigationSplitView {
+                ProjectSidebarView(viewModel: viewModel)
+                    .navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 520)
+            } detail: {
+                VStack(spacing: 0) {
+                    RenderPreviewView(viewModel: viewModel)
+                    Divider()
+                    HStack(alignment: .top, spacing: 20) {
+                        SettingsPanelView(settings: settingsBinding)
+                            .frame(maxWidth: 360, alignment: .leading)
+                        Spacer()
+                    }
+                    .padding()
+                    Divider()
+                    Text(viewModel.statusMessage)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .accessibilityLabel("Status")
+                        .accessibilityValue(viewModel.statusMessage)
                 }
-                .padding()
-                Divider()
-                Text(viewModel.statusMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .accessibilityLabel("Status")
-                    .accessibilityValue(viewModel.statusMessage)
             }
         }
         .alert(
@@ -48,6 +52,48 @@ public struct MainContentView: View {
         )
     }
 
+    private var logTabsBar: some View {
+        HStack(spacing: 8) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(Array(viewModel.logs.enumerated()), id: \.offset) { index, log in
+                        Button {
+                            viewModel.selectLog(at: index)
+                        } label: {
+                            Text(tabTitle(for: log, index: index))
+                                .lineLimit(1)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                        }
+                        .buttonStyle(.plain)
+                        .background(
+                            Capsule()
+                                .fill(index == viewModel.selectedLogIndex ? Color.accentColor.opacity(0.20) : Color.secondary.opacity(0.12))
+                        )
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+            }
+
+            Button {
+                viewModel.addLog()
+            } label: {
+                Label("New Log", systemImage: "plus")
+            }
+            .buttonStyle(.bordered)
+
+            Button {
+                viewModel.duplicateCurrentLog()
+            } label: {
+                Label("Duplicate Log", systemImage: "square.on.square")
+            }
+            .buttonStyle(.bordered)
+            .disabled(viewModel.logs.isEmpty)
+            .padding(.trailing, 12)
+        }
+    }
+
     private var settingsBinding: Binding<ProjectSettings> {
         Binding(
             get: { viewModel.project.settings },
@@ -57,5 +103,13 @@ public struct MainContentView: View {
                 viewModel.project = updatedProject
             }
         )
+    }
+
+    private func tabTitle(for log: Project, index: Int) -> String {
+        let title = log.metadata.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        if title.isEmpty {
+            return "Log \(index + 1)"
+        }
+        return title
     }
 }

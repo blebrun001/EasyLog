@@ -563,6 +563,15 @@ public struct ProjectSettings: Codable, Hashable {
 }
 
 // Note: Custom field functionality has been removed from the data model.
+/// Root document persisted to disk. Contains one or more logs.
+public struct ProjectDocument: Codable, Hashable {
+    public var logs: [Project]
+
+    public init(logs: [Project] = [Project()]) {
+        self.logs = logs.isEmpty ? [Project()] : logs
+    }
+}
+
 /// Root aggregate persisted to disk and edited in the UI.
 public struct Project: Codable, Hashable {
     public var metadata: ProjectMetadata

@@ -23,7 +23,9 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
+    @Published public private(set) var document: ProjectDocument
     @Published public var project: Project
+    @Published public private(set) var selectedLogIndex: Int
     @Published public private(set) var scene: RenderScene
     @Published public var selectedUnitID: UUID?
     @Published public private(set) var validationIssues: [ValidationIssue] = []
@@ -34,6 +36,8 @@ public final class ProjectViewModel: ObservableObject {
     @Published public private(set) var errorMessage: String?
 
     public private(set) var projectURL: URL?
+
+    public var logs: [Project] { document.logs }
 
     private let renderer: LogRenderer
     private let openProjectUseCase: OpenProjectUseCase
@@ -66,6 +70,8 @@ public final class ProjectViewModel: ObservableObject {
         defaults: UserDefaults = .standard
     ) {
         self.project = project
+        self.document = ProjectDocument(logs: [project])
+        self.selectedLogIndex = 0
         self.renderer = renderer
         self.openProjectUseCase = OpenProjectUseCase(store: store)
         self.saveProjectUseCase = SaveProjectUseCase(store: store)
@@ -85,8 +91,10 @@ public final class ProjectViewModel: ObservableObject {
 
         $project
             .debounce(for: .milliseconds(33), scheduler: RunLoop.main)
-            .sink { [weak self] _ in
-                self?.refreshScene()
+            .sink { [weak self] updatedProject in
+                guard let self else { return }
+                self.commitCurrentProjectChanges(using: updatedProject)
+                self.refreshScene()
             }
             .store(in: &cancellables)
 
@@ -103,6 +111,33 @@ public final class ProjectViewModel: ObservableObject {
         scene = renderer.makeScene(project: project)
         applyAutoAdjustIfNeeded()
         statusMessage = validationIssues.isEmpty ? "Scene updated" : "Scene updated with validation warnings"
+    }
+
+    public func selectLog(at index: Int) {
+        commitCurrentProjectChanges()
+        setSelectedLog(index)
+        statusMessage = "Selected log \(index + 1)"
+    }
+
+    public func addLog() {
+        commitCurrentProjectChanges()
+        document.logs.append(Project())
+        setSelectedLog(document.logs.count - 1)
+        statusMessage = "Added new log"
+    }
+
+    public func duplicateCurrentLog() {
+        guard document.logs.indices.contains(selectedLogIndex) else { return }
+        commitCurrentProjectChanges()
+
+        var duplicated = document.logs[selectedLogIndex]
+        let existingTitles = document.logs.map { $0.metadata.title }
+        duplicated.metadata.title = duplicatedLogTitle(for: duplicated.metadata.title, existingTitles: existingTitles)
+
+        let insertIndex = selectedLogIndex + 1
+        document.logs.insert(duplicated, at: insertIndex)
+        setSelectedLog(insertIndex)
+        statusMessage = "Duplicated current log"
     }
 
     public func addUnit() {
@@ -198,8 +233,9 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func newProject() {
-        project = Project()
-        selectedUnitID = nil
+        let newDocument = ProjectDocument(logs: [Project()])
+        document = newDocument
+        setSelectedLog(0)
         projectURL = nil
         isAutoAdjustSuspendedByManualZoom = false
         statusMessage = "New project"
@@ -225,6 +261,11 @@ public final class ProjectViewModel: ObservableObject {
         exportProject(to: url, format: format, dpi: dpi)
     }
 
+    public func exportAllViaPanel(format: ExportFormat, dpi: Double = 300) {
+        guard let directoryURL = fileDialogService.chooseExportDirectory() else { return }
+        exportAllProjects(to: directoryURL, format: format, dpi: dpi)
+    }
+
     public func clearError() {
         errorMessage = nil
     }
@@ -232,9 +273,9 @@ public final class ProjectViewModel: ObservableObject {
     public func openProject(at url: URL) {
         do {
             let loaded = try openProjectUseCase.execute(url: url)
-            project = loaded
+            document = ProjectDocument(logs: loaded.logs)
             projectURL = url
-            selectedUnitID = loaded.units.first?.id
+            setSelectedLog(0)
             isAutoAdjustSuspendedByManualZoom = false
             applyAutoAdjustIfNeeded()
             statusMessage = "Opened \(url.lastPathComponent)"
@@ -246,8 +287,10 @@ public final class ProjectViewModel: ObservableObject {
 
     public func saveProject(at url: URL) {
         do {
-            let saved = try saveProjectUseCase.execute(project: project, url: url)
-            project = saved
+            commitCurrentProjectChanges()
+            let saved = try saveProjectUseCase.execute(document: document, url: url)
+            document = saved
+            setSelectedLog(min(selectedLogIndex, max(saved.logs.count - 1, 0)))
             projectURL = url
             statusMessage = "Saved \(url.lastPathComponent)"
             errorMessage = nil
@@ -263,6 +306,132 @@ public final class ProjectViewModel: ObservableObject {
             errorMessage = nil
         } catch {
             errorMessage = "Could not export file: \(error.localizedDescription). Choose a writable location and retry."
+        }
+    }
+
+    public func exportAllProjects(to directoryURL: URL, format: ExportFormat, dpi: Double = 300) {
+        commitCurrentProjectChanges()
+
+        var successCount = 0
+        var failureDetails: [String] = []
+        var reservedFilenames = Set<String>()
+
+        for (index, log) in document.logs.enumerated() {
+            let scene = renderer.makeScene(project: log)
+            let basename = preferredExportBaseName(for: log.metadata.title, index: index)
+            let destinationURL = uniqueExportURL(
+                in: directoryURL,
+                basename: basename,
+                format: format,
+                reservedNames: &reservedFilenames
+            )
+
+            do {
+                try exportProjectUseCase.execute(scene: scene, url: destinationURL, format: format, dpi: dpi)
+                successCount += 1
+            } catch {
+                failureDetails.append("\(destinationURL.lastPathComponent): \(error.localizedDescription)")
+            }
+        }
+
+        let total = document.logs.count
+        if successCount == 0 {
+            errorMessage = "Could not export any logs. \(failureDetails.first ?? "Choose a writable location and retry.")"
+            return
+        }
+
+        if failureDetails.isEmpty {
+            statusMessage = "Exported \(successCount) logs to \(directoryURL.lastPathComponent)"
+        } else {
+            statusMessage = "Exported \(successCount)/\(total) logs to \(directoryURL.lastPathComponent)"
+        }
+        errorMessage = nil
+    }
+
+    private func setSelectedLog(_ index: Int) {
+        guard document.logs.indices.contains(index) else { return }
+        selectedLogIndex = index
+        project = document.logs[index]
+        selectedUnitID = project.units.first?.id
+        refreshScene()
+    }
+
+    private func commitCurrentProjectChanges() {
+        commitCurrentProjectChanges(using: project)
+    }
+
+    private func commitCurrentProjectChanges(using updatedProject: Project) {
+        guard document.logs.indices.contains(selectedLogIndex) else { return }
+        document.logs[selectedLogIndex] = updatedProject
+    }
+
+    private func duplicatedLogTitle(for sourceTitle: String, existingTitles: [String]) -> String {
+        let trimmed = sourceTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        let base = trimmed.isEmpty ? "Untitled Stratigraphic Log" : trimmed
+        let preferred = "\(base) Copy"
+
+        let existing = Set(existingTitles.map { $0.lowercased() })
+        if !existing.contains(preferred.lowercased()) {
+            return preferred
+        }
+
+        var suffix = 2
+        while true {
+            let candidate = "\(preferred) \(suffix)"
+            if !existing.contains(candidate.lowercased()) {
+                return candidate
+            }
+            suffix += 1
+        }
+    }
+
+    private func preferredExportBaseName(for title: String, index: Int) -> String {
+        let slug = slugified(title)
+        if slug.isEmpty {
+            return "log-\(index + 1)"
+        }
+        return slug
+    }
+
+    private func slugified(_ value: String) -> String {
+        let lowercase = value.lowercased()
+        var scalars: [UnicodeScalar] = []
+        var previousWasHyphen = false
+
+        for scalar in lowercase.unicodeScalars {
+            if CharacterSet.alphanumerics.contains(scalar) {
+                scalars.append(scalar)
+                previousWasHyphen = false
+            } else if !previousWasHyphen {
+                scalars.append("-")
+                previousWasHyphen = true
+            }
+        }
+
+        var slug = String(String.UnicodeScalarView(scalars))
+        slug = slug.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
+        return slug
+    }
+
+    private func uniqueExportURL(
+        in directoryURL: URL,
+        basename: String,
+        format: ExportFormat,
+        reservedNames: inout Set<String>
+    ) -> URL {
+        let fileExtension = format.rawValue
+        var suffix = 1
+
+        while true {
+            let name = suffix == 1 ? "\(basename).\(fileExtension)" : "\(basename)-\(suffix).\(fileExtension)"
+            let key = name.lowercased()
+            let candidate = directoryURL.appendingPathComponent(name)
+            let alreadyExists = FileManager.default.fileExists(atPath: candidate.path)
+            if !reservedNames.contains(key), !alreadyExists {
+                reservedNames.insert(key)
+                return candidate
+            }
+            suffix += 1
         }
     }
 

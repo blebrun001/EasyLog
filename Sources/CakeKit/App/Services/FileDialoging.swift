@@ -6,6 +6,7 @@ public protocol FileDialoging {
     func chooseProjectToOpen() -> URL?
     func chooseProjectToSave() -> URL?
     func chooseExportDestination(format: ExportFormat) -> URL?
+    func chooseExportDirectory() -> URL?
 }
 
 #if canImport(AppKit)
@@ -49,6 +50,15 @@ public struct AppKitFileDialogService: FileDialoging {
         guard panel.runModal() == .OK else { return nil }
         return panel.url
     }
+
+    public func chooseExportDirectory() -> URL? {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        guard panel.runModal() == .OK else { return nil }
+        return panel.url
+    }
 }
 #else
 /// Fallback no-op implementation for non-AppKit targets.
@@ -58,5 +68,6 @@ public struct AppKitFileDialogService: FileDialoging {
     public func chooseProjectToOpen() -> URL? { nil }
     public func chooseProjectToSave() -> URL? { nil }
     public func chooseExportDestination(format _: ExportFormat) -> URL? { nil }
+    public func chooseExportDirectory() -> URL? { nil }
 }
 #endif
