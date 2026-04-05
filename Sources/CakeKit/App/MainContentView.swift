@@ -19,13 +19,6 @@ public struct MainContentView: View {
                 VStack(spacing: 0) {
                     RenderPreviewView(viewModel: viewModel)
                     Divider()
-                    HStack(alignment: .top, spacing: 20) {
-                        SettingsPanelView(settings: settingsBinding)
-                            .frame(maxWidth: 360, alignment: .leading)
-                        Spacer()
-                    }
-                    .padding()
-                    Divider()
                     Text(viewModel.statusMessage)
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -92,17 +85,6 @@ public struct MainContentView: View {
             .disabled(viewModel.logs.isEmpty)
             .padding(.trailing, 12)
         }
-    }
-
-    private var settingsBinding: Binding<ProjectSettings> {
-        Binding(
-            get: { viewModel.project.settings },
-            set: { newSettings in
-                var updatedProject = viewModel.project
-                updatedProject.settings = newSettings
-                viewModel.project = updatedProject
-            }
-        )
     }
 
     private func tabTitle(for log: Project, index: Int) -> String {
