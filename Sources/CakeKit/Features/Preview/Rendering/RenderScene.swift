@@ -59,6 +59,7 @@ public struct RenderedUnit: Identifiable, Hashable {
 public struct RenderedPointFeature: Hashable {
     public var type: PointFeatureType
     public var symbol: PointFeatureSymbol
+    public var colorHex: String
     public var centerX: Double
     public var centerY: Double
     public var size: Double
@@ -66,12 +67,14 @@ public struct RenderedPointFeature: Hashable {
     public init(
         type: PointFeatureType,
         symbol: PointFeatureSymbol,
+        colorHex: String,
         centerX: Double,
         centerY: Double,
         size: Double
     ) {
         self.type = type
         self.symbol = symbol
+        self.colorHex = colorHex
         self.centerX = centerX
         self.centerY = centerY
         self.size = size
@@ -84,17 +87,20 @@ public struct LegendItem: Hashable {
     public var symbol: SymbolPattern
     public var usgsSymbolCode: Int?
     public var pointSymbol: PointFeatureSymbol?
+    public var pointColorHex: String?
 
     public init(
         label: String,
         symbol: SymbolPattern,
         usgsSymbolCode: Int? = nil,
-        pointSymbol: PointFeatureSymbol? = nil
+        pointSymbol: PointFeatureSymbol? = nil,
+        pointColorHex: String? = nil
     ) {
         self.label = label
         self.symbol = symbol
         self.usgsSymbolCode = usgsSymbolCode
         self.pointSymbol = pointSymbol
+        self.pointColorHex = pointColorHex
     }
 }
 
@@ -121,6 +127,7 @@ public struct RenderScene: Hashable {
     public var showsGrid: Bool
     public var showsLegend: Bool
     public var showsScale: Bool
+    public var showsGrainSizeScale: Bool
     public var showsLogTitle: Bool
     public var symbolScale: Double
     public var depthScaleUnit: DepthScaleUnit
@@ -136,6 +143,7 @@ public struct RenderScene: Hashable {
         showsGrid: Bool,
         showsLegend: Bool,
         showsScale: Bool,
+        showsGrainSizeScale: Bool,
         showsLogTitle: Bool,
         symbolScale: Double,
         depthScaleUnit: DepthScaleUnit
@@ -150,6 +158,7 @@ public struct RenderScene: Hashable {
         self.showsGrid = showsGrid
         self.showsLegend = showsLegend
         self.showsScale = showsScale
+        self.showsGrainSizeScale = showsGrainSizeScale
         self.showsLogTitle = showsLogTitle
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
@@ -167,6 +176,7 @@ public struct RenderScene: Hashable {
             showsGrid: false,
             showsLegend: true,
             showsScale: true,
+            showsGrainSizeScale: true,
             showsLogTitle: true,
             symbolScale: 1.0,
             depthScaleUnit: .meter

@@ -12,7 +12,6 @@ public struct ProjectSidebarView: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                headerSection
                 card {
                     metadataSection
                 }
@@ -29,17 +28,9 @@ public struct ProjectSidebarView: View {
         .background(Color(nsColor: .windowBackgroundColor))
     }
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Project Editor")
-                .font(.title3)
-                .fontWeight(.semibold)
-        }
-    }
-
     private var metadataSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            sectionHeader("Project")
+            sectionHeader("Log name")
             TextField("Log title", text: $viewModel.project.metadata.title)
                 .textFieldStyle(.roundedBorder)
                 .accessibilityLabel("Log title")

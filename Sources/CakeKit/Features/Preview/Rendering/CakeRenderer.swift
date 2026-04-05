@@ -8,30 +8,20 @@ public struct CakeRenderer: LogRenderer {
     private let minimumRightMargin = 260.0
     private let legendTrailingPadding = 24.0
 
-    nonisolated(unsafe) private static let grainSizeWidthMapping: [USGSGrainSize: Double] = [
-        .clay: 50,
-        .silt: 70,
-        .sand: 100,
-        .granule: 120,
-        .pebble: 140,
-        .cobble: 160,
-        .boulder: 180
-    ]
-
     public func makeScene(project: Project) -> RenderScene {
         let margins = (top: 70.0, bottom: 60.0, left: 100.0)
         let logTitle = {
             let trimmed = project.metadata.title.trimmingCharacters(in: .whitespacesAndNewlines)
             return trimmed.isEmpty ? "Stratigraphic Log" : trimmed
         }()
-        let defaultWidth = CakeRenderer.grainSizeWidthMapping[.sand] ?? 100.0
+        let defaultWidth = SceneLayout.grainSizeWidth(for: .sand)
         let totalThickness = max(project.units.map(\.thickness).reduce(0, +), 0.01)
 
         // Determine widths per unit based on grainSize or default
         var unitWidths: [Double] = []
         for unit in project.units {
-            if let grainSize = unit.grainSize, let width = CakeRenderer.grainSizeWidthMapping[grainSize] {
-                unitWidths.append(width)
+            if let grainSize = unit.grainSize {
+                unitWidths.append(SceneLayout.grainSizeWidth(for: grainSize))
             } else {
                 unitWidths.append(defaultWidth)
             }
@@ -78,7 +68,13 @@ public struct CakeRenderer: LogRenderer {
             if let usgsCode {
                 if !seenUSGSCodes.contains(usgsCode) {
                     seenUSGSCodes.insert(usgsCode)
-                    let item = LegendItem(label: "\(unit.lithology.capitalized) (\(usgsCode))", symbol: style.symbol, usgsSymbolCode: usgsCode)
+                    let label: String
+                    if project.settings.showUSGSCodesInLithologyLabels {
+                        label = "\(unit.lithology.capitalized) (\(usgsCode))"
+                    } else {
+                        label = unit.lithology.capitalized
+                    }
+                    let item = LegendItem(label: label, symbol: style.symbol, usgsSymbolCode: usgsCode)
                     if seenLegendLabels.insert(item.label).inserted {
                         legendOrder.append(item)
                     }
@@ -98,7 +94,8 @@ public struct CakeRenderer: LogRenderer {
                     let item = LegendItem(
                         label: "\(pointFeature.type.categoryLabel): \(pointFeature.type.label)",
                         symbol: .fallback,
-                        pointSymbol: pointFeature.type.symbol
+                        pointSymbol: pointFeature.type.symbol,
+                        pointColorHex: pointFeature.type.symbolColorHex
                     )
                     if seenLegendLabels.insert(item.label).inserted {
                         pointLegendOrder.append(item)
@@ -119,8 +116,14 @@ public struct CakeRenderer: LogRenderer {
             return ScaleTick(depth: depth, y: margins.top + depth * project.settings.verticalScale)
         }
         let legend = legendOrder + pointLegendOrder
-        let naturalHeight = margins.top + (totalThickness * project.settings.verticalScale) + margins.bottom
-        let canvasHeight = naturalHeight
+        let logBottom = margins.top + (totalThickness * project.settings.verticalScale)
+        let naturalHeight = logBottom + margins.bottom
+        let grainScaleRequiredHeight: Double = {
+            guard project.settings.showGrainSizeScale else { return 0 }
+            // Axis + tick labels must remain visible below the log.
+            return SceneLayout.grainScaleOffsetBelowLog + SceneLayout.grainScaleLabelOffsetY + project.settings.baseFontSize + 12
+        }()
+        let canvasHeight = max(naturalHeight, logBottom + grainScaleRequiredHeight)
         let rightMargin = max(
             minimumRightMargin,
             project.settings.showLegend
@@ -140,6 +143,7 @@ public struct CakeRenderer: LogRenderer {
             showsGrid: project.settings.showGrid,
             showsLegend: project.settings.showLegend,
             showsScale: project.settings.showScale,
+            showsGrainSizeScale: project.settings.showGrainSizeScale,
             showsLogTitle: project.settings.showLogTitle,
             symbolScale: project.settings.symbolScale,
             depthScaleUnit: project.settings.depthScaleUnit
@@ -202,6 +206,7 @@ public struct CakeRenderer: LogRenderer {
                     RenderedPointFeature(
                         type: pointFeature.type,
                         symbol: pointFeature.type.symbol,
+                        colorHex: pointFeature.type.symbolColorHex,
                         centerX: x,
                         centerY: y,
                         size: size

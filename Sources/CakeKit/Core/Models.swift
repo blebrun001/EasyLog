@@ -215,20 +215,35 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
     }
 
     public var symbol: PointFeatureSymbol {
-        switch self {
-        case .paleoMacroFossils, .paleoMicrofossils, .paleoShellFragments, .paleoPlantRemains, .paleoRoots, .paleoBurrowsBioturbation, .paleoIchnofossils, .paleoCharcoalOrganicMatter:
-            return .diamond
-        case .diageneticNodules, .diageneticConcretions, .diageneticGeodes, .diageneticLithicInclusions, .diageneticDispersedPebbles, .diageneticReworkedFragments, .diageneticIntraclasts, .diageneticStylolites, .diageneticVeins:
-            return .square
-        case .localLaminations, .localCrossBedding, .localIsolatedRipples, .localDesiccationCracks, .localLoadStructures, .localSoftSedimentDeformation:
-            return .triangle
-        case .pedogenesisOxidationSpots, .pedogenesisMottling, .pedogenesisPedologicalHorizons, .pedogenesisCarbonateAccumulations, .pedogenesisCrusts:
-            return .circle
-        case .archaeologicalArtifacts, .archaeologicalBoneFragments, .archaeologicalAnthropicCharcoal, .archaeologicalPunctualStructures:
-            return .cross
-        case .hydroCementedZones, .hydroLocalizedMineralPrecipitation, .hydroDissolutionTraces, .hydroFeMnEnrichedLevels:
-            return .plus
+        let symbols = PointFeatureSymbol.allCases
+        let index = stableHash(rawValue) % UInt64(symbols.count)
+        return symbols[Int(index)]
+    }
+
+    public var symbolColorHex: String {
+        let palette = [
+            "#115D8C",
+            "#9A3D1F",
+            "#3F6F20",
+            "#6C3F99",
+            "#8B5A2B",
+            "#0A7A73",
+            "#A12D6F",
+            "#596B7A",
+            "#7A4B1D",
+            "#2C5D3F"
+        ]
+        let index = stableHash(rawValue) % UInt64(palette.count)
+        return palette[Int(index)]
+    }
+
+    private func stableHash(_ value: String) -> UInt64 {
+        var hash: UInt64 = 1_469_598_103_934_665_603
+        for byte in value.utf8 {
+            hash ^= UInt64(byte)
+            hash &*= 1_099_511_628_211
         }
+        return hash
     }
 }
 
@@ -424,7 +439,9 @@ public struct ProjectSettings: Codable, Hashable {
     public var showGrid: Bool
     public var showLegend: Bool
     public var showScale: Bool
+    public var showGrainSizeScale: Bool
     public var showLogTitle: Bool
+    public var showUSGSCodesInLithologyLabels: Bool
     public var symbolScale: Double
     public var depthScaleUnit: DepthScaleUnit
 
@@ -434,7 +451,9 @@ public struct ProjectSettings: Codable, Hashable {
         showGrid: Bool = false,
         showLegend: Bool = true,
         showScale: Bool = true,
+        showGrainSizeScale: Bool = true,
         showLogTitle: Bool = true,
+        showUSGSCodesInLithologyLabels: Bool = true,
         symbolScale: Double = 1.0,
         depthScaleUnit: DepthScaleUnit = .meter
     ) {
@@ -444,7 +463,9 @@ public struct ProjectSettings: Codable, Hashable {
         self.showGrid = showGrid
         self.showLegend = showLegend
         self.showScale = showScale
+        self.showGrainSizeScale = showGrainSizeScale
         self.showLogTitle = showLogTitle
+        self.showUSGSCodesInLithologyLabels = showUSGSCodesInLithologyLabels
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
     }
@@ -457,7 +478,9 @@ public struct ProjectSettings: Codable, Hashable {
         showGrid: Bool = false,
         showLegend: Bool = true,
         showScale: Bool = true,
+        showGrainSizeScale: Bool = true,
         showLogTitle: Bool = true,
+        showUSGSCodesInLithologyLabels: Bool = true,
         symbolScale: Double = 1.0,
         depthScaleUnit: DepthScaleUnit = .meter
     ) {
@@ -467,7 +490,9 @@ public struct ProjectSettings: Codable, Hashable {
         self.showGrid = showGrid
         self.showLegend = showLegend
         self.showScale = showScale
+        self.showGrainSizeScale = showGrainSizeScale
         self.showLogTitle = showLogTitle
+        self.showUSGSCodesInLithologyLabels = showUSGSCodesInLithologyLabels
         self.symbolScale = symbolScale
         self.depthScaleUnit = depthScaleUnit
     }
@@ -479,7 +504,9 @@ public struct ProjectSettings: Codable, Hashable {
         case showGrid
         case showLegend
         case showScale
+        case showGrainSizeScale
         case showLogTitle
+        case showUSGSCodesInLithologyLabels
         case symbolScale
         case depthScaleUnit
     }
@@ -492,7 +519,9 @@ public struct ProjectSettings: Codable, Hashable {
         showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? false
         showLegend = try container.decodeIfPresent(Bool.self, forKey: .showLegend) ?? true
         showScale = try container.decodeIfPresent(Bool.self, forKey: .showScale) ?? true
+        showGrainSizeScale = try container.decodeIfPresent(Bool.self, forKey: .showGrainSizeScale) ?? true
         showLogTitle = try container.decodeIfPresent(Bool.self, forKey: .showLogTitle) ?? true
+        showUSGSCodesInLithologyLabels = try container.decodeIfPresent(Bool.self, forKey: .showUSGSCodesInLithologyLabels) ?? true
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
         depthScaleUnit = try container.decodeIfPresent(DepthScaleUnit.self, forKey: .depthScaleUnit) ?? .meter
     }
@@ -505,7 +534,9 @@ public struct ProjectSettings: Codable, Hashable {
         try container.encode(showGrid, forKey: .showGrid)
         try container.encode(showLegend, forKey: .showLegend)
         try container.encode(showScale, forKey: .showScale)
+        try container.encode(showGrainSizeScale, forKey: .showGrainSizeScale)
         try container.encode(showLogTitle, forKey: .showLogTitle)
+        try container.encode(showUSGSCodesInLithologyLabels, forKey: .showUSGSCodesInLithologyLabels)
         try container.encode(symbolScale, forKey: .symbolScale)
         try container.encode(depthScaleUnit, forKey: .depthScaleUnit)
     }

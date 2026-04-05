@@ -14,6 +14,9 @@ public enum SceneCGRenderer {
         if scene.showsScale {
             drawScale(scene: scene, in: context)
         }
+        if scene.showsGrainSizeScale {
+            drawGrainSizeScale(scene: scene, in: context)
+        }
         if scene.showsLegend {
             drawLegend(scene: scene, in: context)
         }
@@ -183,10 +186,14 @@ public enum SceneCGRenderer {
         context.saveGState()
         context.clip(to: rect)
         for pointFeature in pointFeatures {
+            let strokeColor = ColorHex.cgColor(from: pointFeature.colorHex, fallback: NSColor.black.cgColor)
+            let fillColor = ColorHex.cgColor(from: pointFeature.colorHex, fallback: NSColor.white.cgColor)
             drawPointSymbol(
                 pointFeature.symbol,
                 center: CGPoint(x: pointFeature.centerX, y: pointFeature.centerY),
                 size: CGFloat(pointFeature.size),
+                strokeColor: strokeColor,
+                fillColor: fillColor,
                 context: context
             )
         }
@@ -197,7 +204,16 @@ public enum SceneCGRenderer {
         context.setFillColor(NSColor.white.cgColor)
         context.fill(rect)
         if let pointSymbol = item.pointSymbol {
-            drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: context)
+            let strokeColor = ColorHex.cgColor(from: item.pointColorHex, fallback: NSColor.black.cgColor)
+            let fillColor = ColorHex.cgColor(from: item.pointColorHex, fallback: NSColor.white.cgColor)
+            drawPointSymbol(
+                pointSymbol,
+                center: CGPoint(x: rect.midX, y: rect.midY),
+                size: 8,
+                strokeColor: strokeColor,
+                fillColor: fillColor,
+                context: context
+            )
         } else if let code = item.usgsSymbolCode {
             if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: symbolScale) {
                 drawSymbolPattern(item.symbol, in: rect, context: context, symbolScale: symbolScale)
@@ -209,11 +225,18 @@ public enum SceneCGRenderer {
         context.stroke(rect)
     }
 
-    public static func drawPointSymbol(_ symbol: PointFeatureSymbol, center: CGPoint, size: CGFloat, context: CGContext) {
+    public static func drawPointSymbol(
+        _ symbol: PointFeatureSymbol,
+        center: CGPoint,
+        size: CGFloat,
+        strokeColor: CGColor = NSColor.black.withAlphaComponent(0.88).cgColor,
+        fillColor: CGColor = NSColor.white.withAlphaComponent(0.95).cgColor,
+        context: CGContext
+    ) {
         let half = size / 2
         context.saveGState()
-        context.setStrokeColor(NSColor.black.withAlphaComponent(0.88).cgColor)
-        context.setFillColor(NSColor.white.withAlphaComponent(0.95).cgColor)
+        context.setStrokeColor(strokeColor)
+        context.setFillColor(fillColor)
         context.setLineWidth(1.1)
 
         switch symbol {
@@ -259,8 +282,140 @@ public enum SceneCGRenderer {
         context.restoreGState()
     }
 
+    private static func drawGrainSizeScale(scene: RenderScene, in context: CGContext) {
+        let axisY = SceneLayout.grainScaleAxisY(scene: scene)
+        let minX = scene.logColumnRect.x
+        let maxX = scene.logColumnRect.x + scene.logColumnRect.width
+        let labelFontSize = scene.baseFontSize - 2
+
+        context.setStrokeColor(NSColor.black.cgColor)
+        context.setLineWidth(1.0)
+        context.move(to: CGPoint(x: minX, y: axisY))
+        context.addLine(to: CGPoint(x: maxX, y: axisY))
+        context.strokePath()
+
+        for mark in SceneLayout.representativeGrainScaleMarks(scene: scene) {
+            context.move(to: CGPoint(x: mark.x, y: axisY))
+            context.addLine(to: CGPoint(x: mark.x, y: axisY + SceneLayout.grainScaleTickLength))
+            context.strokePath()
+        }
+
+        for label in grainScaleLabelPlacements(scene: scene, minX: minX, maxX: maxX, fontSize: labelFontSize) {
+            drawText(
+                label.label,
+                at: CGPoint(x: label.drawX, y: axisY + SceneLayout.grainScaleLabelOffsetY),
+                size: labelFontSize,
+                context: context
+            )
+        }
+
+        drawText(
+            "Grain Size",
+            at: CGPoint(
+                x: minX,
+                y: axisY - scene.baseFontSize - 4
+            ),
+            size: scene.baseFontSize,
+            context: context,
+            bold: true
+        )
+    }
+
+    private struct GrainLabelPlacement {
+        let label: String
+        var left: Double
+        let width: Double
+        let priority: Int
+        var visible: Bool = true
+
+        var right: Double { left + width }
+        var drawX: Double { left }
+    }
+
+    private static func grainScaleLabelPlacements(
+        scene: RenderScene,
+        minX: Double,
+        maxX: Double,
+        fontSize: Double
+    ) -> [GrainLabelPlacement] {
+        let marks = SceneLayout.representativeGrainScaleMarks(scene: scene)
+        guard !marks.isEmpty else { return [] }
+        let minGap = 8.0
+
+        var placements: [GrainLabelPlacement] = marks.enumerated().map { index, mark in
+            let width = measuredTextWidth(mark.label, fontSize: fontSize, bold: false)
+            let left: Double
+            if index == 0 {
+                left = minX
+            } else if index == marks.count - 1 {
+                left = maxX - width
+            } else {
+                left = mark.x - width / 2
+            }
+            let clampedLeft = min(max(left, minX), maxX - width)
+            return GrainLabelPlacement(
+                label: mark.label,
+                left: clampedLeft,
+                width: width,
+                priority: grainLabelPriority(mark.label)
+            )
+        }
+
+        var safety = 0
+        while safety < 12 {
+            safety += 1
+            let visibleIndices = placements.indices.filter { placements[$0].visible }
+            var overlapFound = false
+            for pair in zip(visibleIndices, visibleIndices.dropFirst()) {
+                let lhs = placements[pair.0]
+                let rhs = placements[pair.1]
+                if lhs.right + minGap > rhs.left {
+                    overlapFound = true
+                    if lhs.priority < rhs.priority {
+                        placements[pair.0].visible = false
+                    } else if rhs.priority < lhs.priority {
+                        placements[pair.1].visible = false
+                    } else {
+                        placements[pair.1].visible = false
+                    }
+                    break
+                }
+            }
+            if !overlapFound { break }
+        }
+
+        return placements.filter(\.visible)
+    }
+
+    private static func grainLabelPriority(_ label: String) -> Int {
+        switch label {
+        case "Fine", "Coarse":
+            return 3
+        case "Silt":
+            return 2
+        case "Sand":
+            return 1
+        default:
+            return 1
+        }
+    }
+
+    private static func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let font: NSFont = bold
+            ? .boldSystemFont(ofSize: CGFloat(fontSize))
+            : .systemFont(ofSize: CGFloat(fontSize))
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        return NSString(string: text).size(withAttributes: attributes).width
+    }
+
     private static func drawHeader(scene: RenderScene, in context: CGContext) {
-        drawText(scene.title, at: CGPoint(x: scene.logColumnRect.x, y: 34), size: scene.baseFontSize + 4, context: context, bold: true)
+        drawText(
+            scene.title,
+            at: CGPoint(x: scene.logColumnRect.x, y: SceneLayout.logTitleY(scene: scene)),
+            size: scene.baseFontSize + 4,
+            context: context,
+            bold: true
+        )
     }
 
     private static func drawText(

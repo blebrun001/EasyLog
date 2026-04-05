@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 
 /// Vector exporter that serializes a `RenderScene` into an editable SVG file.
 public struct SVGExporter: SVGExporting {
@@ -131,6 +132,39 @@ public struct SVGExporter: SVGExporting {
             """
         }
 
+        if scene.showsGrainSizeScale {
+            let axisY = SceneLayout.grainScaleAxisY(scene: scene)
+            let minX = scene.logColumnRect.x
+            let maxX = scene.logColumnRect.x + scene.logColumnRect.width
+            let labelFontSize = scene.baseFontSize - 2
+            svg += """
+
+              <g id="grain-size-scale" stroke="#111111" fill="none" stroke-width="1">
+                <line x1="\(fmt(minX))" y1="\(fmt(axisY))" x2="\(fmt(maxX))" y2="\(fmt(axisY))"/>
+            """
+            for mark in SceneLayout.representativeGrainScaleMarks(scene: scene) {
+                svg += """
+
+                  <line x1="\(fmt(mark.x))" y1="\(fmt(axisY))" x2="\(fmt(mark.x))" y2="\(fmt(axisY + SceneLayout.grainScaleTickLength))"/>
+                """
+            }
+            svg += "\n  </g>"
+            svg += """
+
+              <g id="grain-size-labels" font-family="Helvetica, Arial, sans-serif" fill="#111111">
+                <text x="\(fmt(minX))" y="\(fmt(axisY - scene.baseFontSize - 4))" font-size="\(fmt(scene.baseFontSize))" font-weight="700">Grain Size</text>
+            """
+            for label in grainScaleLabelPlacements(scene: scene, minX: minX, maxX: maxX, fontSize: labelFontSize) {
+                svg += """
+
+                <text x="\(fmt(label.drawX))" y="\(fmt(axisY + SceneLayout.grainScaleLabelOffsetY))" font-size="\(fmt(labelFontSize))">\(xmlEscape(label.label))</text>
+                """
+            }
+            svg += """
+              </g>
+            """
+        }
+
         if scene.showsLegend {
             let legendOrigin = SceneLayout.legendOrigin(scene: scene)
             let legendX = legendOrigin.x
@@ -146,7 +180,7 @@ public struct SVGExporter: SVGExporting {
                   <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="#ffffff"/>
                 """
                 if let pointSymbol = item.pointSymbol {
-                    svg += "\n\(pointLegendElement(symbol: pointSymbol, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
+                    svg += "\n\(pointLegendElement(symbol: pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
                 } else {
                     svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSCodes: usgsPatternByCode)))\"/>"
                 }
@@ -211,38 +245,40 @@ public struct SVGExporter: SVGExporting {
     private func pointFeatureElement(_ pointFeature: RenderedPointFeature) -> String {
         pointLegendElement(
             symbol: pointFeature.symbol,
+            colorHex: pointFeature.colorHex,
             centerX: pointFeature.centerX,
             centerY: pointFeature.centerY,
             size: pointFeature.size
         )
     }
 
-    private func pointLegendElement(symbol: PointFeatureSymbol, centerX: Double, centerY: Double, size: Double) -> String {
+    private func pointLegendElement(symbol: PointFeatureSymbol, colorHex: String?, centerX: Double, centerY: Double, size: Double) -> String {
         let half = size / 2
+        let color = colorHex ?? "#111111"
         switch symbol {
         case .diamond:
             return """
-              <path d="M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY)) L \(fmt(centerX)) \(fmt(centerY + half)) L \(fmt(centerX - half)) \(fmt(centerY)) Z" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+              <path d="M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY)) L \(fmt(centerX)) \(fmt(centerY + half)) L \(fmt(centerX - half)) \(fmt(centerY)) Z" fill="\(color)" fill-opacity="0.18" stroke="\(color)" stroke-opacity="0.95" stroke-width="1.1"/>
             """
         case .square:
             return """
-              <rect x="\(fmt(centerX - half))" y="\(fmt(centerY - half))" width="\(fmt(size))" height="\(fmt(size))" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+              <rect x="\(fmt(centerX - half))" y="\(fmt(centerY - half))" width="\(fmt(size))" height="\(fmt(size))" fill="\(color)" fill-opacity="0.18" stroke="\(color)" stroke-opacity="0.95" stroke-width="1.1"/>
             """
         case .triangle:
             return """
-              <path d="M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY + half)) L \(fmt(centerX - half)) \(fmt(centerY + half)) Z" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+              <path d="M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY + half)) L \(fmt(centerX - half)) \(fmt(centerY + half)) Z" fill="\(color)" fill-opacity="0.18" stroke="\(color)" stroke-opacity="0.95" stroke-width="1.1"/>
             """
         case .circle:
             return """
-              <circle cx="\(fmt(centerX))" cy="\(fmt(centerY))" r="\(fmt(half))" fill="#ffffff" fill-opacity="0.95" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+              <circle cx="\(fmt(centerX))" cy="\(fmt(centerY))" r="\(fmt(half))" fill="\(color)" fill-opacity="0.18" stroke="\(color)" stroke-opacity="0.95" stroke-width="1.1"/>
             """
         case .cross:
             return """
-              <path d="M \(fmt(centerX - half)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY + half)) M \(fmt(centerX + half)) \(fmt(centerY - half)) L \(fmt(centerX - half)) \(fmt(centerY + half))" fill="none" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+              <path d="M \(fmt(centerX - half)) \(fmt(centerY - half)) L \(fmt(centerX + half)) \(fmt(centerY + half)) M \(fmt(centerX + half)) \(fmt(centerY - half)) L \(fmt(centerX - half)) \(fmt(centerY + half))" fill="none" stroke="\(color)" stroke-opacity="0.95" stroke-width="1.1"/>
             """
         case .plus:
             return """
-              <path d="M \(fmt(centerX - half)) \(fmt(centerY)) L \(fmt(centerX + half)) \(fmt(centerY)) M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX)) \(fmt(centerY + half))" fill="none" stroke="#111111" stroke-opacity="0.88" stroke-width="1.1"/>
+              <path d="M \(fmt(centerX - half)) \(fmt(centerY)) L \(fmt(centerX + half)) \(fmt(centerY)) M \(fmt(centerX)) \(fmt(centerY - half)) L \(fmt(centerX)) \(fmt(centerY + half))" fill="none" stroke="\(color)" stroke-opacity="0.95" stroke-width="1.1"/>
             """
         }
     }
@@ -292,6 +328,93 @@ public struct SVGExporter: SVGExporting {
             return String(Int(value))
         }
         return String(format: "%.3f", value)
+    }
+
+    private struct GrainLabelPlacement {
+        let label: String
+        var left: Double
+        let width: Double
+        let priority: Int
+        var visible: Bool = true
+
+        var right: Double { left + width }
+        var drawX: Double { left }
+    }
+
+    private func grainScaleLabelPlacements(
+        scene: RenderScene,
+        minX: Double,
+        maxX: Double,
+        fontSize: Double
+    ) -> [GrainLabelPlacement] {
+        let marks = SceneLayout.representativeGrainScaleMarks(scene: scene)
+        guard !marks.isEmpty else { return [] }
+        let minGap = 8.0
+
+        var placements: [GrainLabelPlacement] = marks.enumerated().map { index, mark in
+            let width = measuredTextWidth(mark.label, fontSize: fontSize, bold: false)
+            let left: Double
+            if index == 0 {
+                left = minX
+            } else if index == marks.count - 1 {
+                left = maxX - width
+            } else {
+                left = mark.x - width / 2
+            }
+            let clampedLeft = min(max(left, minX), maxX - width)
+            return GrainLabelPlacement(
+                label: mark.label,
+                left: clampedLeft,
+                width: width,
+                priority: grainLabelPriority(mark.label)
+            )
+        }
+
+        var safety = 0
+        while safety < 12 {
+            safety += 1
+            let visibleIndices = placements.indices.filter { placements[$0].visible }
+            var overlapFound = false
+            for pair in zip(visibleIndices, visibleIndices.dropFirst()) {
+                let lhs = placements[pair.0]
+                let rhs = placements[pair.1]
+                if lhs.right + minGap > rhs.left {
+                    overlapFound = true
+                    if lhs.priority < rhs.priority {
+                        placements[pair.0].visible = false
+                    } else if rhs.priority < lhs.priority {
+                        placements[pair.1].visible = false
+                    } else {
+                        placements[pair.1].visible = false
+                    }
+                    break
+                }
+            }
+            if !overlapFound { break }
+        }
+
+        return placements.filter(\.visible)
+    }
+
+    private func grainLabelPriority(_ label: String) -> Int {
+        switch label {
+        case "Fine", "Coarse":
+            return 3
+        case "Silt":
+            return 2
+        case "Sand":
+            return 1
+        default:
+            return 1
+        }
+    }
+
+    private func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let font: NSFont = bold
+            ? .boldSystemFont(ofSize: CGFloat(fontSize))
+            : .systemFont(ofSize: CGFloat(fontSize))
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        return NSString(string: text).size(withAttributes: attributes).width
     }
 
 }

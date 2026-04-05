@@ -41,8 +41,12 @@ public struct SettingsPanelView: View {
 
             Toggle("Show Legend", isOn: $settings.showLegend)
                 .accessibilityLabel("Show Legend")
-            Toggle("Show Scale", isOn: $settings.showScale)
-                .accessibilityLabel("Show Scale")
+            Toggle("Show Depth Scale", isOn: $settings.showScale)
+                .accessibilityLabel("Show Depth Scale")
+            Toggle("Show Grain Size Scale", isOn: $settings.showGrainSizeScale)
+                .accessibilityLabel("Show Grain Size Scale")
+            Toggle("Show USGS Codes In Lithology Labels", isOn: $settings.showUSGSCodesInLithologyLabels)
+                .accessibilityLabel("Show USGS Codes In Lithology Labels")
             Toggle("Show Log Title", isOn: $settings.showLogTitle)
                 .accessibilityLabel("Show Log Title")
         }

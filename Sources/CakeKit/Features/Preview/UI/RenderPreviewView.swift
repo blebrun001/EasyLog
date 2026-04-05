@@ -3,6 +3,7 @@ import SwiftUI
 /// Right-hand preview panel with toolbar, zoom and live-rendered canvas.
 public struct RenderPreviewView: View {
     @ObservedObject private var viewModel: ProjectViewModel
+    @State private var pinchBaseZoom: Double?
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
@@ -30,6 +31,19 @@ public struct RenderPreviewView: View {
                     )
                     .background(Color.white)
                 }
+                .simultaneousGesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            if pinchBaseZoom == nil {
+                                pinchBaseZoom = viewModel.zoom
+                            }
+                            let base = pinchBaseZoom ?? viewModel.zoom
+                            viewModel.setManualZoom(base * value)
+                        }
+                        .onEnded { _ in
+                            pinchBaseZoom = nil
+                        }
+                )
                 .onAppear {
                     viewModel.updateViewportSize(usableViewport(from: proxy.size))
                 }
