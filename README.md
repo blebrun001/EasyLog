@@ -148,6 +148,9 @@ If duplicate refs appear locally (for example `main 2`), inspect/fix with:
 
 Legacy JSON files that include removed custom field structures (for example `customFieldDefinitions` or `customFields`) are not supported.
 
+Minimum deployment target is configured to `macOS 26.0` in the Xcode project (`project.yml` / `.pbxproj`).
+SwiftPM uses `.macOS(.v15)` as its highest explicit named platform constant.
+
 ## Example Project
 
 See [Examples/sample-project.json](Examples/sample-project.json).

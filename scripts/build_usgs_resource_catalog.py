@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -20,12 +21,28 @@ ROOT = Path(__file__).resolve().parent.parent
 USGS_BASE = ROOT / "Sources/CakeKit/Resources/USGS/11A02"
 INDEX_PATH = USGS_BASE / "symbol-index.json"
 OUT_BASE = ROOT / "Sources/CakeKit/Resources/USGSRuntime"
+SYMBOLOGY_PATH = ROOT / "Sources/CakeKit/Features/Preview/Rendering/Symbology.swift"
 
 DEV_SEED_CODES = [
     607, 609, 619, 627, 601, 602, 603, 605, 606,
     611, 615, 620, 621, 622, 625, 633, 634,
 ]
 DEV_MIN_CODE_COUNT = 36
+
+
+def parse_official_codes_and_aliases() -> tuple[set[int], dict[int, int]]:
+    content = SYMBOLOGY_PATH.read_text(encoding="utf-8")
+    symbol_re = re.compile(r'USGSLithologySymbol\(code:\s*(\d+),\s*label:\s*"([^"]+)"\)')
+    alias_block_re = re.compile(r"usgsLithologyAliases:\s*\[Int:\s*Int\]\s*=\s*\[(.*?)\]", re.S)
+    alias_pair_re = re.compile(r"(\d+)\s*:\s*(\d+)")
+
+    official_codes = {int(code) for code, _ in symbol_re.findall(content)}
+    aliases: dict[int, int] = {}
+    alias_block = alias_block_re.search(content)
+    if alias_block:
+        for src, dst in alias_pair_re.findall(alias_block.group(1)):
+            aliases[int(src)] = int(dst)
+    return official_codes, aliases
 
 
 def sha256_file(path: Path) -> str:
@@ -137,6 +154,33 @@ def build_catalog(profile: str, entries: list[dict[str, Any]]) -> dict[str, Any]
     }
 
 
+def assert_catalog_consistency(profile: str, payload: dict[str, Any]) -> None:
+    official_codes, aliases = parse_official_codes_and_aliases()
+    runtime_codes = {entry["code"] for entry in payload["entries"]}
+
+    if profile == "release":
+        allowed_missing = set(aliases.keys())
+        missing = official_codes - runtime_codes
+        extra = runtime_codes - official_codes
+        if missing != allowed_missing:
+            raise RuntimeError(
+                "Section 37 catalog mismatch: "
+                f"missing={sorted(missing)} expected_allowed_missing={sorted(allowed_missing)}"
+            )
+        if extra:
+            raise RuntimeError(f"Section 37 catalog mismatch: extra runtime codes={sorted(extra)}")
+        for alias_source, alias_target in aliases.items():
+            if alias_source not in official_codes:
+                raise RuntimeError(f"Alias source code {alias_source} is not in official Section 37 list")
+            if alias_target not in runtime_codes:
+                raise RuntimeError(f"Alias target code {alias_target} is missing from runtime catalog")
+    else:
+        if not runtime_codes.issubset(official_codes):
+            raise RuntimeError(
+                f"Dev catalog must stay a subset of official Section 37 codes. extra={sorted(runtime_codes - official_codes)}"
+            )
+
+
 def write_catalog(profile: str, payload: dict[str, Any]) -> None:
     OUT_BASE.mkdir(parents=True, exist_ok=True)
     out_path = OUT_BASE / f"ResourceCatalog.{profile}.json"
@@ -155,6 +199,7 @@ def main() -> None:
     profiles = ["dev", "release"] if args.profile == "all" else [args.profile]
     for profile in profiles:
         payload = build_catalog(profile=profile, entries=entries)
+        assert_catalog_consistency(profile=profile, payload=payload)
         write_catalog(profile=profile, payload=payload)
 
 

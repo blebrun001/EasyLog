@@ -26,10 +26,19 @@ public struct USGSSymbolAsset: Hashable {
 public final class USGSSymbolAssetResolver: @unchecked Sendable {
     public static let shared = USGSSymbolAssetResolver()
 
-    private let catalog: USGSResourceCatalog?
+    private let primaryCatalog: USGSResourceCatalog?
+    private let fallbackCatalog: USGSResourceCatalog?
 
-    public init(bundle: Bundle = CakeKitBundle.resources) {
-        self.catalog = try? USGSResourceCatalog(bundle: bundle)
+    public init(
+        bundle: Bundle = CakeKitBundle.resources,
+        profile: USGSResourceProfile = CakeKitBundle.resourceProfile
+    ) {
+        self.primaryCatalog = try? USGSResourceCatalog(bundle: bundle, profile: profile)
+        if profile == .release {
+            self.fallbackCatalog = nil
+        } else {
+            self.fallbackCatalog = try? USGSResourceCatalog(bundle: bundle, profile: .release)
+        }
     }
 
     public static func asset(for code: Int) -> USGSSymbolAsset? {
@@ -37,34 +46,28 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
     }
 
     public func asset(for code: Int) -> USGSSymbolAsset? {
-        let resolvedCode = Self.aliasCode[code] ?? code
-        guard let catalog else {
-            return nil
-        }
+        let resolvedCode = SymbologyLibrary.renderableUSGSCode(forSelectionCode: code)
 
-        guard let entry = try? catalog.preferredEntry(for: resolvedCode),
-              let urls = try? catalog.resolvedURLs(for: entry)
-        else {
-            return nil
-        }
+        for catalog in [primaryCatalog, fallbackCatalog].compactMap({ $0 }) {
+            guard let entry = try? catalog.preferredEntry(for: resolvedCode),
+                  let urls = try? catalog.resolvedURLs(for: entry) else {
+                continue
+            }
 
-        return USGSSymbolAsset(
-            code: code,
-            label: entry.label,
-            variant: entry.variant,
-            epsRelativePath: entry.epsRelativePath,
-            pngRelativePath: entry.png.path,
-            pdfRelativePath: entry.pdf.path,
-            pageSizePoints: entry.pageSizePoints,
-            symbolRect: entry.symbolRect,
-            pdfURL: urls.pdfURL,
-            imageURL: urls.pngURL
-        )
+            return USGSSymbolAsset(
+                code: code,
+                label: entry.label,
+                variant: entry.variant,
+                epsRelativePath: entry.epsRelativePath,
+                pngRelativePath: entry.png.path,
+                pdfRelativePath: entry.pdf.path,
+                pageSizePoints: entry.pageSizePoints,
+                symbolRect: entry.symbolRect,
+                pdfURL: urls.pdfURL,
+                imageURL: urls.pngURL
+            )
+        }
+        return nil
     }
 
-    // Some officially listed codes have no separate EPS swatch in the published sheet.
-    // In these cases we intentionally map to the closest paired option that exists.
-    private static let aliasCode: [Int: Int] = [
-        718: 719
-    ]
 }

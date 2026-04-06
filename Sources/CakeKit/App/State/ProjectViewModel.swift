@@ -2,6 +2,34 @@ import Combine
 import CoreGraphics
 import Foundation
 
+/// UI-only state shared across menus, toolbar and top-level content views.
+public struct EditorPresentationState: Equatable {
+    public enum DetailPane: String, CaseIterable, Identifiable {
+        case preview
+        case synthetic
+
+        public var id: String { rawValue }
+
+        public var label: String {
+            switch self {
+            case .preview: "Preview"
+            case .synthetic: "Synthetic"
+            }
+        }
+    }
+
+    public var selectedDetailPane: DetailPane
+    public var isInspectorPresented: Bool
+
+    public init(
+        selectedDetailPane: DetailPane = .preview,
+        isInspectorPresented: Bool = false
+    ) {
+        self.selectedDetailPane = selectedDetailPane
+        self.isInspectorPresented = isInspectorPresented
+    }
+}
+
 @MainActor
 /// UI-facing state holder orchestrating project editing, rendering, I/O and export.
 public final class ProjectViewModel: ObservableObject {
@@ -32,15 +60,28 @@ public final class ProjectViewModel: ObservableObject {
     @Published public var zoom: Double
     @Published public private(set) var zoomMode: ZoomMode
     @Published public private(set) var autoAdjustToWindow: Bool
+    @Published public private(set) var presentationState = EditorPresentationState()
     @Published public private(set) var statusMessage: String = "Ready"
     @Published public private(set) var errorMessage: String?
 
     public private(set) var projectURL: URL?
 
     public var logs: [Project] { document.logs }
+    public var selectedDetailPane: EditorPresentationState.DetailPane {
+        presentationState.selectedDetailPane
+    }
+    public var isInspectorPresented: Bool {
+        presentationState.isInspectorPresented
+    }
+    public var availableDetailPanes: [EditorPresentationState.DetailPane] {
+        canOpenSyntheticView ? [.preview, .synthetic] : [.preview]
+    }
     public var canOpenSyntheticView: Bool {
         let effectiveLogs = logsApplyingCurrentEdits()
         return effectiveLogs.count >= 2 && effectiveLogs.allSatisfy { $0.settings.zeroLevelAltitudeMeters != nil }
+    }
+    public var canRemoveCurrentLog: Bool {
+        document.logs.count > 1
     }
 
     private let renderer: LogRenderer
@@ -139,6 +180,7 @@ public final class ProjectViewModel: ObservableObject {
         commitCurrentProjectChanges()
         document.logs.append(Project())
         setSelectedLog(document.logs.count - 1)
+        presentationState.selectedDetailPane = .preview
         statusMessage = "Added new log"
     }
 
@@ -153,6 +195,7 @@ public final class ProjectViewModel: ObservableObject {
         let insertIndex = selectedLogIndex + 1
         document.logs.insert(duplicated, at: insertIndex)
         setSelectedLog(insertIndex)
+        presentationState.selectedDetailPane = .preview
         statusMessage = "Duplicated current log"
     }
 
@@ -173,7 +216,14 @@ public final class ProjectViewModel: ObservableObject {
         }
 
         setSelectedLog(nextIndex)
+        if !canOpenSyntheticView {
+            presentationState.selectedDetailPane = .preview
+        }
         statusMessage = "Removed log \(index + 1)"
+    }
+
+    public func removeCurrentLog() {
+        removeLog(at: selectedLogIndex)
     }
 
     public func addUnit() {
@@ -251,6 +301,24 @@ public final class ProjectViewModel: ObservableObject {
         applyFit(mode: mode)
     }
 
+    public func selectDetailPane(_ pane: EditorPresentationState.DetailPane) {
+        if pane == .synthetic, !canOpenSyntheticView {
+            guard presentationState.selectedDetailPane != .preview else { return }
+            presentationState.selectedDetailPane = .preview
+            return
+        }
+        guard presentationState.selectedDetailPane != pane else { return }
+        presentationState.selectedDetailPane = pane
+    }
+
+    public func toggleInspector() {
+        presentationState.isInspectorPresented.toggle()
+    }
+
+    public func setInspectorPresented(_ isPresented: Bool) {
+        presentationState.isInspectorPresented = isPresented
+    }
+
     public func setAutoAdjustToWindow(_ enabled: Bool) {
         autoAdjustToWindow = enabled
         defaults.set(enabled, forKey: Self.autoAdjustDefaultsKey)
@@ -273,6 +341,7 @@ public final class ProjectViewModel: ObservableObject {
         document = newDocument
         setSelectedLog(0)
         projectURL = nil
+        presentationState = EditorPresentationState()
         isAutoAdjustSuspendedByManualZoom = false
         statusMessage = "New project"
         errorMessage = nil
@@ -312,6 +381,7 @@ public final class ProjectViewModel: ObservableObject {
             document = ProjectDocument(logs: loaded.logs)
             projectURL = url
             setSelectedLog(0)
+            presentationState.selectedDetailPane = .preview
             isAutoAdjustSuspendedByManualZoom = false
             applyAutoAdjustIfNeeded()
             statusMessage = "Opened \(url.lastPathComponent)"
@@ -389,6 +459,9 @@ public final class ProjectViewModel: ObservableObject {
         selectedLogIndex = index
         project = document.logs[index]
         selectedUnitID = project.units.first?.id
+        if presentationState.selectedDetailPane == .synthetic, !canOpenSyntheticView {
+            presentationState.selectedDetailPane = .preview
+        }
         refreshScene()
     }
 

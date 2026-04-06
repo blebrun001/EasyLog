@@ -321,17 +321,49 @@ public enum SymbologyLibrary {
     ]
 
     public static let fallbackStyle = SymbologyStyle(symbol: .fallback, fillHex: "#F2F2F2", strokeHex: "#333333")
+    public static let usgsLithologyAliases: [Int: Int] = [
+        // 718 has no dedicated swatch in the shipped USGS assets; use 719 rendering.
+        718: 719
+    ]
 
     public static var supportedLithologies: [String] {
         fgdcSection37Lithologies
+    }
+
+    public static var supportedUSGSCodes: [Int] {
+        usgsSection37OfficialSymbols.map(\.code)
+    }
+
+    public static func symbol(for code: Int) -> USGSLithologySymbol? {
+        symbolByCode[code]
+    }
+
+    public static func label(forUSGSCode code: Int) -> String {
+        symbolByCode[code]?.label ?? "USGS \(code)"
+    }
+
+    public static func isSupportedUSGSLithologyCode(_ code: Int) -> Bool {
+        symbolByCode[code] != nil
+    }
+
+    public static func renderableUSGSCode(forSelectionCode code: Int) -> Int {
+        usgsLithologyAliases[code] ?? code
     }
 
     public static func lithologies(in category: USGSLithologyCategory) -> [String] {
         supportedLithologies.filter { lithologyCategory(forLithology: $0) == category }
     }
 
+    public static func symbols(in category: USGSLithologyCategory) -> [USGSLithologySymbol] {
+        usgsSection37OfficialSymbols.filter { lithologyCategory(forUSGSCode: $0.code) == category }
+    }
+
     public static func lithologyCategory(forLithology lithology: String) -> USGSLithologyCategory {
         guard let code = usgsSymbolCode(forLithology: lithology) else { return .other }
+        return lithologyCategory(forUSGSCode: code)
+    }
+
+    public static func lithologyCategory(forUSGSCode code: Int) -> USGSLithologyCategory {
         switch code {
         case 601...615, 654...656:
             return .coarseClastics
@@ -369,6 +401,12 @@ public enum SymbologyLibrary {
         return style(forUSGSCode: code)
     }
 
+    public static func style(forUSGSCode code: Int) -> SymbologyStyle {
+        let symbol = symbolPattern(forUSGSCode: renderableUSGSCode(forSelectionCode: code))
+        let fillHex = fillByPattern[symbol] ?? fallbackStyle.fillHex
+        return SymbologyStyle(symbol: symbol, fillHex: fillHex)
+    }
+
     public static func isSupportedLithology(_ lithology: String) -> Bool {
         supportedLithologySet.contains(normalizedLookupKey(lithology))
     }
@@ -395,13 +433,10 @@ public enum SymbologyLibrary {
         }
     )
 
+    private static let symbolByCode: [Int: USGSLithologySymbol] = Dictionary(
+        uniqueKeysWithValues: usgsSection37OfficialSymbols.map { ($0.code, $0) }
+    )
     private static let supportedLithologySet: Set<String> = Set(fgdcSection37Lithologies.map(normalizedLookupKey))
-
-    private static func style(forUSGSCode code: Int) -> SymbologyStyle {
-        let symbol = symbolPattern(forUSGSCode: code)
-        let fillHex = fillByPattern[symbol] ?? fallbackStyle.fillHex
-        return SymbologyStyle(symbol: symbol, fillHex: fillHex)
-    }
 
     private static func symbolPattern(forUSGSCode code: Int) -> SymbolPattern {
         switch code {

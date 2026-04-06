@@ -320,11 +320,44 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
     public var id: UUID
     public var name: String
     public var thickness: Double
-    public var lithology: String
+    public var usgsLithologyCode: Int
     public var lithologyColorHex: String?
     public var grainSize: USGSGrainSize?
     public var pointFeatures: [UnitPointFeature]
 
+    public var lithologyLabel: String {
+        SymbologyLibrary.label(forUSGSCode: usgsLithologyCode)
+    }
+
+    @available(*, deprecated, message: "Use usgsLithologyCode")
+    public var lithology: String {
+        get { lithologyLabel }
+        set {
+            if let code = SymbologyLibrary.usgsSymbolCode(forLithology: newValue) {
+                usgsLithologyCode = code
+            }
+        }
+    }
+
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        thickness: Double,
+        usgsLithologyCode: Int,
+        lithologyColorHex: String? = nil,
+        grainSize: USGSGrainSize? = nil,
+        pointFeatures: [UnitPointFeature] = []
+    ) {
+        self.id = id
+        self.name = name
+        self.thickness = thickness
+        self.usgsLithologyCode = usgsLithologyCode
+        self.lithologyColorHex = Self.normalizedHexColor(lithologyColorHex)
+        self.grainSize = grainSize
+        self.pointFeatures = pointFeatures
+    }
+
+    @available(*, deprecated, message: "Use init(... usgsLithologyCode: ...)")
     public init(
         id: UUID = UUID(),
         name: String,
@@ -334,19 +367,22 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         grainSize: USGSGrainSize? = nil,
         pointFeatures: [UnitPointFeature] = []
     ) {
-        self.id = id
-        self.name = name
-        self.thickness = thickness
-        self.lithology = lithology
-        self.lithologyColorHex = Self.normalizedHexColor(lithologyColorHex)
-        self.grainSize = grainSize
-        self.pointFeatures = pointFeatures
+        self.init(
+            id: id,
+            name: name,
+            thickness: thickness,
+            usgsLithologyCode: SymbologyLibrary.usgsSymbolCode(forLithology: lithology) ?? 607,
+            lithologyColorHex: lithologyColorHex,
+            grainSize: grainSize,
+            pointFeatures: pointFeatures
+        )
     }
 
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case thickness
+        case usgsLithologyCode
         case lithology
         case lithologyColorHex
         case grainSize
@@ -358,7 +394,14 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
         name = try container.decode(String.self, forKey: .name)
         thickness = try container.decode(Double.self, forKey: .thickness)
-        lithology = try container.decode(String.self, forKey: .lithology)
+        if let code = try container.decodeIfPresent(Int.self, forKey: .usgsLithologyCode) {
+            usgsLithologyCode = code
+        } else if let legacyLithology = try container.decodeIfPresent(String.self, forKey: .lithology),
+                  let legacyCode = SymbologyLibrary.usgsSymbolCode(forLithology: legacyLithology) {
+            usgsLithologyCode = legacyCode
+        } else {
+            usgsLithologyCode = 607
+        }
         let rawColorHex = try container.decodeIfPresent(String.self, forKey: .lithologyColorHex)
         lithologyColorHex = Self.normalizedHexColor(rawColorHex)
         grainSize = try container.decodeIfPresent(USGSGrainSize.self, forKey: .grainSize)
@@ -370,7 +413,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(thickness, forKey: .thickness)
-        try container.encode(lithology, forKey: .lithology)
+        try container.encode(usgsLithologyCode, forKey: .usgsLithologyCode)
         try container.encodeIfPresent(Self.normalizedHexColor(lithologyColorHex), forKey: .lithologyColorHex)
         try container.encodeIfPresent(grainSize, forKey: .grainSize)
         try container.encode(pointFeatures, forKey: .pointFeatures)
@@ -609,9 +652,9 @@ public struct Project: Codable, Hashable {
             metadata: ProjectMetadata(title: "Example Core Log", author: "Geologist"),
             settings: ProjectSettings(),
             units: [
-                StratigraphicUnit(name: "Topsoil", thickness: 0.8, lithology: "Sandy or silty shale", grainSize: .silt),
-                StratigraphicUnit(name: "Channel Sand", thickness: 3.2, lithology: "Massive sand or sandstone", grainSize: .sand),
-                StratigraphicUnit(name: "Limestone Bed", thickness: 1.4, lithology: "Limestone", grainSize: .granule)
+                StratigraphicUnit(name: "Topsoil", thickness: 0.8, usgsLithologyCode: 619, grainSize: .silt),
+                StratigraphicUnit(name: "Channel Sand", thickness: 3.2, usgsLithologyCode: 607, grainSize: .sand),
+                StratigraphicUnit(name: "Limestone Bed", thickness: 1.4, usgsLithologyCode: 627, grainSize: .granule)
             ]
         )
     }

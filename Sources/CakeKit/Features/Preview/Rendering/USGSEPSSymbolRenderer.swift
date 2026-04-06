@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import ImageIO
 
 /// Draws USGS EPS-derived symbols by tiling/cropping cached PDF pages.
 public enum USGSEPSSymbolRenderer {
@@ -13,12 +14,12 @@ public enum USGSEPSSymbolRenderer {
 
     @discardableResult
     public static func drawSymbol(code: Int, in rect: CGRect, context: CGContext, symbolScale: Double = 1.0) -> Bool {
-        guard let asset = resolver.asset(for: code),
-              let page = pdfPage(for: asset)
-        else {
+        guard let asset = resolver.asset(for: code) else {
             return false
         }
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
+        let page = pdfPage(for: asset)
+        let rasterTile = page == nil ? rasterTileImage(for: asset, symbolRect: tiledRect) : nil
 
         context.saveGState()
         context.clip(to: rect)
@@ -37,7 +38,14 @@ public enum USGSEPSSymbolRenderer {
             var x = rect.minX
             while x < rect.maxX {
                 let drawRect = CGRect(x: x, y: y, width: tileW, height: tileH)
-                drawCroppedPDF(page: page, symbolRect: tiledRect, pageSizePoints: asset.pageSizePoints, in: drawRect, context: context)
+                if let page {
+                    drawCroppedPDF(page: page, symbolRect: tiledRect, pageSizePoints: asset.pageSizePoints, in: drawRect, context: context)
+                } else if let rasterTile {
+                    context.draw(rasterTile, in: drawRect)
+                } else {
+                    context.restoreGState()
+                    return false
+                }
                 x += tileW
             }
             y += tileH
@@ -103,12 +111,29 @@ public enum USGSEPSSymbolRenderer {
             logMissingAssetOnce(code: code, reason: "No symbol asset entry")
             return nil
         }
-        guard let page = pdfPage(for: asset) else {
-            logMissingAssetOnce(code: code, reason: "Cannot open PDF \(asset.pdfRelativePath)")
-            return nil
-        }
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
 
+        if let page = pdfPage(for: asset) {
+            return rasterizedPDFTile(
+                code: code,
+                asset: asset,
+                page: page,
+                tiledRect: tiledRect
+            )
+        }
+        if let raster = rasterTileImage(for: asset, symbolRect: tiledRect) {
+            return raster
+        }
+        logMissingAssetOnce(code: code, reason: "Cannot open PDF \(asset.pdfRelativePath) or PNG \(asset.pngRelativePath)")
+        return nil
+    }
+
+    private static func rasterizedPDFTile(
+        code: Int,
+        asset: USGSSymbolAsset,
+        page: CGPDFPage,
+        tiledRect: USGSSymbolRect
+    ) -> CGImage? {
         let cacheKey = "\(asset.pdfURL.path)#\(asset.symbolRect.x)-\(asset.symbolRect.y)-\(asset.symbolRect.width)-\(asset.symbolRect.height)"
         lock.lock()
         if let cached = croppedImageCache[cacheKey] {
@@ -147,6 +172,31 @@ public enum USGSEPSSymbolRenderer {
 
         guard let cropped = bitmap.makeImage() else {
             logMissingAssetOnce(code: code, reason: "Cannot rasterize PDF tile for \(asset.pdfRelativePath)")
+            return nil
+        }
+
+        lock.lock()
+        croppedImageCache[cacheKey] = cropped
+        lock.unlock()
+        return cropped
+    }
+
+    private static func rasterTileImage(for asset: USGSSymbolAsset, symbolRect: USGSSymbolRect) -> CGImage? {
+        let cacheKey = "png:\(asset.imageURL.path)#\(symbolRect.x)-\(symbolRect.y)-\(symbolRect.width)-\(symbolRect.height)"
+        lock.lock()
+        if let cached = croppedImageCache[cacheKey] {
+            lock.unlock()
+            return cached
+        }
+        lock.unlock()
+
+        guard let source = CGImageSourceCreateWithURL(asset.imageURL as CFURL, nil),
+              let fullImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
+            return nil
+        }
+        let cropRect = normalizedCropRect(symbolRect: symbolRect, pageSizePoints: asset.pageSizePoints, image: fullImage)
+        guard cropRect.width > 0, cropRect.height > 0,
+              let cropped = fullImage.cropping(to: cropRect) else {
             return nil
         }
 

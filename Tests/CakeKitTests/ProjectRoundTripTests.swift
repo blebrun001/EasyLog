@@ -131,3 +131,12 @@ func stratigraphicUnitLegacyJSONWithoutLithologyColorDecodesWithNilCustomColor()
     let decoded = try JSONDecoder().decode(StratigraphicUnit.self, from: Data(legacyJSON.utf8))
     #expect(decoded.lithologyColorHex == nil)
 }
+
+@Test
+func stratigraphicUnitEncodesCanonicalUSGSLithologyCode() throws {
+    let unit = StratigraphicUnit(name: "Layer", thickness: 1.2, usgsLithologyCode: 627)
+    let data = try JSONEncoder().encode(unit)
+    let json = String(decoding: data, as: UTF8.self)
+    #expect(json.contains("\"usgsLithologyCode\":627"))
+    #expect(!json.contains("\"lithology\""))
+}

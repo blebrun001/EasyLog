@@ -94,6 +94,27 @@ func addAndDuplicateLogSelectNewTabsAndKeepIndependentData() {
 
 @MainActor
 @Test
+func zeroLevelAltitudeRemainsIndependentPerLog() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.project.settings.zeroLevelAltitudeMeters = 123
+    viewModel.addLog()
+    viewModel.project.settings.zeroLevelAltitudeMeters = 456
+
+    viewModel.selectLog(at: 0)
+    #expect(viewModel.project.settings.zeroLevelAltitudeMeters == 123)
+
+    viewModel.selectLog(at: 1)
+    #expect(viewModel.project.settings.zeroLevelAltitudeMeters == 456)
+}
+
+@MainActor
+@Test
 func removeLogKeepsAtLeastOneAndAdjustsSelection() {
     let viewModel = ProjectViewModel(
         project: Project.sample,
@@ -168,6 +189,101 @@ func syntheticViewIsEnabledWithTwoLogsAndAllZeroLevelsSet() {
     viewModel.addLog()
     viewModel.project.settings.zeroLevelAltitudeMeters = 96
     #expect(viewModel.canOpenSyntheticView == true)
+}
+
+@MainActor
+@Test
+func availableDetailPanesTracksSyntheticAvailability() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    #expect(viewModel.availableDetailPanes == [.preview])
+
+    viewModel.project.settings.zeroLevelAltitudeMeters = 100
+    viewModel.addLog()
+    viewModel.project.settings.zeroLevelAltitudeMeters = 104
+    #expect(viewModel.availableDetailPanes == [.preview, .synthetic])
+}
+
+@MainActor
+@Test
+func selectingSyntheticPaneFallsBackToPreviewWhenUnavailable() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    #expect(viewModel.selectedDetailPane == .preview)
+    viewModel.selectDetailPane(.synthetic)
+    #expect(viewModel.selectedDetailPane == .preview)
+
+    viewModel.project.settings.zeroLevelAltitudeMeters = 100
+    viewModel.addLog()
+    viewModel.project.settings.zeroLevelAltitudeMeters = 110
+    viewModel.selectDetailPane(.synthetic)
+    #expect(viewModel.selectedDetailPane == .synthetic)
+
+    viewModel.removeCurrentLog()
+    #expect(viewModel.selectedDetailPane == .preview)
+}
+
+@MainActor
+@Test
+func canRemoveCurrentLogIsEnabledOnlyForMultiLogDocuments() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    #expect(viewModel.canRemoveCurrentLog == false)
+    viewModel.addLog()
+    #expect(viewModel.canRemoveCurrentLog == true)
+    viewModel.removeCurrentLog()
+    #expect(viewModel.canRemoveCurrentLog == false)
+}
+
+@MainActor
+@Test
+func togglingInspectorUpdatesPresentationState() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    #expect(viewModel.isInspectorPresented == false)
+    viewModel.toggleInspector()
+    #expect(viewModel.isInspectorPresented == true)
+
+    viewModel.setInspectorPresented(false)
+    #expect(viewModel.isInspectorPresented == false)
+}
+
+@MainActor
+@Test
+func selectingLogUpdatesStatusMessageWithOneBasedIndex() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.addLog()
+    viewModel.selectLog(at: 0)
+    #expect(viewModel.statusMessage == "Selected log 1")
+
+    viewModel.selectLog(at: 1)
+    #expect(viewModel.statusMessage == "Selected log 2")
 }
 
 @MainActor
@@ -247,6 +363,31 @@ func fitToWindowComputesZoomFromViewportSize() {
         viewport.width / viewModel.scene.canvasSize.width,
         viewport.height / viewModel.scene.canvasSize.height
     )
+    #expect(abs(viewModel.zoom - expected) < 0.0001)
+}
+
+@MainActor
+@Test
+func fitHeightComputesZoomFromViewportHeight() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    let viewport = CGSize(width: 560, height: 330)
+    viewModel.updateViewportSize(viewport)
+    viewModel.setZoomMode(.fitHeight)
+
+    let expected = viewport.height / viewModel.scene.canvasSize.height
     #expect(abs(viewModel.zoom - expected) < 0.0001)
 }
 

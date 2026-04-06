@@ -3,203 +3,139 @@ import SwiftUI
 /// Left-hand editor panel for metadata, unit list, and selected unit form.
 public struct ProjectSidebarView: View {
     @ObservedObject private var viewModel: ProjectViewModel
-    @State private var hoveredUnitID: UUID?
     @State private var zeroLevelAltitudeText: String
+    @State private var isDeleteUnitConfirmationPresented = false
     @FocusState private var isZeroLevelAltitudeFieldFocused: Bool
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
         self._zeroLevelAltitudeText = State(
-            initialValue: Self.formatNumber(viewModel.project.settings.zeroLevelAltitudeMeters ?? 0)
+            initialValue: Self.altitudeText(from: viewModel.project.settings.zeroLevelAltitudeMeters)
         )
     }
 
     public var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                card {
-                    metadataSection
+            VStack(alignment: .leading, spacing: 12) {
+                ProPanelSection("Log Context", subtitle: "Metadata and reference altitude") {
+                    ProField("Log title") {
+                        TextField("Untitled Stratigraphic Log", text: $viewModel.project.metadata.title)
+                            .textFieldStyle(.roundedBorder)
+                            .accessibilityLabel("Log title")
+                    }
+
+                    ProField("Zero-level altitude") {
+                        HStack(spacing: 8) {
+                            TextField("0", text: zeroLevelAltitudeBinding)
+                                .textFieldStyle(.roundedBorder)
+                                .multilineTextAlignment(.trailing)
+                                .frame(width: 150)
+                                .focused($isZeroLevelAltitudeFieldFocused)
+                                .accessibilityLabel("Zero-level altitude")
+                            Text("m")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
-                card {
-                    unitsSection
-                }
-                card {
-                    selectedUnitEditor
-                }
-            }
-            .padding()
-            .padding(.bottom, 6)
-        }
-        .background(Color(nsColor: .windowBackgroundColor))
-        .onAppear {
-            syncZeroLevelAltitudeTextFromModel()
-        }
-        .onChange(of: viewModel.project.settings.zeroLevelAltitudeMeters) { _ in
-            guard !isZeroLevelAltitudeFieldFocused else { return }
-            syncZeroLevelAltitudeTextFromModel()
-        }
-    }
 
-    private var metadataSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionHeader("Log name")
-            TextField("Log title", text: $viewModel.project.metadata.title)
-                .textFieldStyle(.roundedBorder)
-                .accessibilityLabel("Log title")
-
-            HStack {
-                Text("Zero-Level Altitude")
-                TextField(
-                    "0",
-                    text: zeroLevelAltitudeBinding
-                )
-                .textFieldStyle(.roundedBorder)
-                .frame(width: 140)
-                .focused($isZeroLevelAltitudeFieldFocused)
-                Text("m")
-                    .foregroundStyle(.secondary)
-                Spacer()
-            }
-        }
-    }
-
-    private var unitsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .firstTextBaseline) {
-                sectionHeader("Units")
-                Spacer()
-                Text("\(viewModel.project.units.count)")
-                    .font(.caption)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(.quaternary.opacity(0.6), in: Capsule())
-                    .foregroundStyle(.secondary)
-            }
-
-            if viewModel.project.units.isEmpty {
-                emptyState(
-                    title: "No units yet",
-                    systemImage: "square.stack.3d.up.slash"
-                )
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-            } else {
-                List(selection: $viewModel.selectedUnitID) {
-                    ForEach(viewModel.project.units) { unit in
-                        HStack(alignment: .center, spacing: 10) {
+                ProPanelSection("Units", subtitle: "Ordered stratigraphic sequence") {
+                    ProBadge("\(viewModel.project.units.count)")
+                } content: {
+                    List(selection: $viewModel.selectedUnitID) {
+                        ForEach(viewModel.project.units) { unit in
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(unit.name.isEmpty ? "Untitled Unit" : unit.name)
-                                    .fontWeight(.medium)
                                     .lineLimit(1)
                                 Text("\(unit.thickness, specifier: "%.2f") m")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
-                            Spacer()
-                            Image(systemName: "line.3.horizontal")
-                                .font(.caption2)
-                                .foregroundStyle(.tertiary)
+                            .tag(unit.id)
                         }
-                        .padding(.vertical, 4)
-                        .tag(unit.id)
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(rowBackground(for: unit.id))
-                        .onHover { isHovering in
-                            hoveredUnitID = isHovering ? unit.id : nil
-                        }
+                        .onMove(perform: viewModel.moveUnits)
                     }
-                    .onMove(perform: viewModel.moveUnits)
+                    .frame(minHeight: 210, maxHeight: 260)
+                    .listStyle(.inset)
+                    .accessibilityLabel("Units list")
+
+                    HStack(spacing: 8) {
+                        Button {
+                            viewModel.addUnit()
+                        } label: {
+                            Label("Add Unit", systemImage: "plus")
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        Button {
+                            viewModel.moveSelectedUnitUp()
+                        } label: {
+                            Label("Move Up", systemImage: "arrow.up")
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == 0)
+
+                        Button {
+                            viewModel.moveSelectedUnitDown()
+                        } label: {
+                            Label("Move Down", systemImage: "arrow.down")
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(
+                            viewModel.selectedUnitIndex == nil
+                                || viewModel.selectedUnitIndex == viewModel.project.units.count - 1
+                        )
+
+                        Spacer(minLength: 8)
+
+                        Button(role: .destructive) {
+                            isDeleteUnitConfirmationPresented = true
+                        } label: {
+                            Label("Delete Unit", systemImage: "trash")
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(viewModel.selectedUnitIndex == nil)
+                    }
                 }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .frame(minHeight: 200, maxHeight: 240)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .stroke(Color.secondary.opacity(0.12), lineWidth: 1)
+
+                ProPanelSection("Selected Unit", subtitle: "Edit lithology, grain size and point features") {
+                    if let index = viewModel.selectedUnitIndex {
+                        UnitFormView(unit: $viewModel.project.units[index])
+                            .id(viewModel.project.units[index].id)
+                    } else {
+                        ProEmptyState(
+                            title: "No Unit Selected",
+                            message: "Select a unit in the list to edit its properties.",
+                            systemImage: "square.and.pencil"
+                        )
+                    }
                 }
             }
-
-            HStack(spacing: 8) {
-                Button {
-                    viewModel.addUnit()
-                } label: {
-                    Label("Add", systemImage: "plus")
-                }
-                .buttonStyle(.borderedProminent)
-                .accessibilityHint("Adds a new stratigraphic unit to the list")
-
-                Button {
-                    viewModel.removeSelectedUnit()
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .disabled(viewModel.selectedUnitIndex == nil)
-                .accessibilityHint("Deletes the selected unit")
-
-                Spacer()
+            .padding(12)
+        }
+        .background(Color(nsColor: .windowBackgroundColor))
+        .onAppear {
+            syncZeroLevelAltitudeTextFromModel()
+        }
+        .onChange(of: viewModel.project.settings.zeroLevelAltitudeMeters) { _, _ in
+            guard !isZeroLevelAltitudeFieldFocused else { return }
+            syncZeroLevelAltitudeTextFromModel()
+        }
+        .onChange(of: viewModel.selectedLogIndex) { _, _ in
+            isZeroLevelAltitudeFieldFocused = false
+            syncZeroLevelAltitudeTextFromModel()
+        }
+        .confirmationDialog(
+            "Delete selected unit?",
+            isPresented: $isDeleteUnitConfirmationPresented,
+            titleVisibility: .visible
+        ) {
+            Button("Delete Unit", role: .destructive) {
+                viewModel.removeSelectedUnit()
             }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This action removes the selected unit from the current log.")
         }
-    }
-
-    @ViewBuilder
-    private var selectedUnitEditor: some View {
-        if let index = viewModel.selectedUnitIndex {
-            UnitFormView(unit: $viewModel.project.units[index])
-                .id(viewModel.project.units[index].id)
-        } else {
-            emptyState(
-                title: "No unit selected",
-                systemImage: "slider.horizontal.below.square.and.square.filled"
-            )
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-        }
-    }
-
-    private func card<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            content()
-        }
-        .padding(14)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .stroke(Color.secondary.opacity(0.12), lineWidth: 1)
-        }
-    }
-
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.headline)
-    }
-
-    private func emptyState(title: String, systemImage: String) -> some View {
-        VStack(spacing: 8) {
-            Image(systemName: systemImage)
-                .font(.title3)
-                .foregroundStyle(.secondary)
-            Text(title)
-                .font(.subheadline.weight(.semibold))
-        }
-        .padding(.horizontal, 16)
-    }
-
-    private func rowBackground(for unitID: UUID) -> some View {
-        let isSelected = viewModel.selectedUnitID == unitID
-        let isHovered = hoveredUnitID == unitID
-        let opacity: Double
-        if isSelected {
-            opacity = 0.22
-        } else if isHovered {
-            opacity = 0.10
-        } else {
-            opacity = 0.0
-        }
-
-        return RoundedRectangle(cornerRadius: 8, style: .continuous)
-            .fill(Color.accentColor.opacity(opacity))
-            .padding(.vertical, 2)
     }
 
     private var zeroLevelAltitudeBinding: Binding<String> {
@@ -208,7 +144,10 @@ public struct ProjectSidebarView: View {
             set: { raw in
                 zeroLevelAltitudeText = raw
                 let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !trimmed.isEmpty else { return }
+                guard !trimmed.isEmpty else {
+                    viewModel.project.settings.zeroLevelAltitudeMeters = nil
+                    return
+                }
                 if let parsed = parseNumber(trimmed) {
                     viewModel.project.settings.zeroLevelAltitudeMeters = parsed
                 }
@@ -217,7 +156,7 @@ public struct ProjectSidebarView: View {
     }
 
     private func syncZeroLevelAltitudeTextFromModel() {
-        zeroLevelAltitudeText = Self.formatNumber(viewModel.project.settings.zeroLevelAltitudeMeters ?? 0)
+        zeroLevelAltitudeText = Self.altitudeText(from: viewModel.project.settings.zeroLevelAltitudeMeters)
     }
 
     private func parseNumber(_ raw: String) -> Double? {
@@ -229,6 +168,11 @@ public struct ProjectSidebarView: View {
 
     private static func formatNumber(_ value: Double) -> String {
         Self.numberFormatter.string(from: NSNumber(value: value)) ?? String(value)
+    }
+
+    private static func altitudeText(from value: Double?) -> String {
+        guard let value else { return "" }
+        return formatNumber(value)
     }
 
     private static let numberFormatter: NumberFormatter = {

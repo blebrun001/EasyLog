@@ -6,9 +6,9 @@ public struct UnitFormView: View {
     @Binding private var unit: StratigraphicUnit
     @State private var thicknessText: String = ""
     @State private var selectedLithologyCategory: USGSLithologyCategory
-    @State private var selectedLithology: String
+    @State private var selectedLithologyCode: Int
     @State private var showLithologyColorChangeDialog = false
-    @State private var pendingLithologySelection: String?
+    @State private var pendingLithologySelectionCode: Int?
     @State private var colorPickerSelection: Color = .clear
     @State private var lithologyHexText: String = ""
     @State private var pendingPointFeatureCategory: PointFeatureCategory
@@ -17,25 +17,24 @@ public struct UnitFormView: View {
     public init(unit: Binding<StratigraphicUnit>) {
         self._unit = unit
         self._thicknessText = State(initialValue: Self.formatNumber(unit.wrappedValue.thickness))
-        self._selectedLithologyCategory = State(initialValue: SymbologyLibrary.lithologyCategory(forLithology: unit.wrappedValue.lithology))
-        self._selectedLithology = State(initialValue: unit.wrappedValue.lithology)
+        self._selectedLithologyCategory = State(initialValue: SymbologyLibrary.lithologyCategory(forUSGSCode: unit.wrappedValue.usgsLithologyCode))
+        self._selectedLithologyCode = State(initialValue: unit.wrappedValue.usgsLithologyCode)
         self._pendingPointFeatureCategory = State(initialValue: PointFeatureType.allCases.first?.category ?? .biological)
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 10) {
-                sectionHeader("Unit Details")
+        VStack(alignment: .leading, spacing: 12) {
+            ProPanelSection("Unit Details", subtitle: "Core stratigraphic attributes") {
 
                 fieldGroup("Name") {
-                    TextField("Name", text: $unit.name)
+                    TextField("", text: $unit.name)
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Unit name")
                 }
 
                 fieldGroup("Thickness (m)") {
-                    TextField("Thickness (m)", text: thicknessBinding)
+                    TextField("", text: thicknessBinding)
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Thickness in meters")
@@ -51,21 +50,26 @@ public struct UnitFormView: View {
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityLabel("Lithology Group")
-                    .onChange(of: selectedLithologyCategory) { _ in
+                    .onChange(of: selectedLithologyCategory) { _, _ in
                         normalizeLithologySelection()
                     }
                 }
 
                 fieldGroup("Lithology") {
                     Picker("Lithology", selection: lithologyBinding) {
-                        ForEach(lithologiesInSelectedCategory, id: \.self) { lithology in
-                            Text(lithology).tag(lithology)
+                        ForEach(lithologySymbolsInSelectedCategory, id: \.code) { symbol in
+                            Text("\(symbol.label) (\(symbol.code))").tag(symbol.code)
                         }
                     }
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityLabel("Lithology")
+                }
+                if let aliased = SymbologyLibrary.usgsLithologyAliases[unit.usgsLithologyCode] {
+                    Text("Code \(unit.usgsLithologyCode) uses rendered swatch \(aliased).")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 fieldGroup("Lithology Color") {
@@ -103,32 +107,22 @@ public struct UnitFormView: View {
                     .accessibilityLabel("Grain Size")
                 }
             }
-            .padding(12)
-            .background(.quaternary.opacity(0.28), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
 
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(alignment: .firstTextBaseline) {
-                    sectionHeader("Point Features")
-                    Spacer()
-                    Text("\(unit.pointFeatures.count)")
-                        .font(.caption)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(.quaternary.opacity(0.6), in: Capsule())
-                        .foregroundStyle(.secondary)
-                }
+            ProPanelSection("Point Features", subtitle: "Additional symbols and density") {
+                ProBadge("\(unit.pointFeatures.count)")
+            } content: {
 
-                if !unit.pointFeatures.isEmpty {
-                    VStack(spacing: 10) {
-                        ForEach(Array(unit.pointFeatures.indices), id: \.self) { index in
-                            pointFeatureRow(index: index)
+                    if !unit.pointFeatures.isEmpty {
+                        VStack(spacing: 10) {
+                            ForEach(Array(unit.pointFeatures.indices), id: \.self) { index in
+                                pointFeatureRow(index: index)
+                            }
                         }
                     }
-                }
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Add Feature")
-                        .font(.subheadline.weight(.semibold))
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Add Feature")
+                            .font(.subheadline.weight(.semibold))
 
                     fieldGroup("Category") {
                         Picker("Category", selection: $pendingPointFeatureCategory) {
@@ -141,7 +135,7 @@ public struct UnitFormView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Point feature category")
                         .disabled(availablePointFeaturesToAdd.isEmpty)
-                        .onChange(of: pendingPointFeatureCategory) { _ in
+                        .onChange(of: pendingPointFeatureCategory) { _, _ in
                             normalizePendingFeatureSelection()
                         }
                     }
@@ -166,16 +160,14 @@ public struct UnitFormView: View {
                         } label: {
                             Label("Add Feature", systemImage: "plus")
                         }
-                        .buttonStyle(.borderedProminent)
+                        .buttonStyle(.bordered)
                         .disabled(availablePointFeaturesToAdd.isEmpty)
                         .accessibilityHint("Adds the selected point feature to this unit")
                     }
-                }
-                .padding(10)
-                .background(.background.opacity(0.45), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    }
+                    .padding(10)
+                    .background(.quaternary.opacity(0.3), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
-            .padding(12)
-            .background(.quaternary.opacity(0.28), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         }
         .onAppear {
             coerceLithologyToSupportedValueIfNeeded()
@@ -185,7 +177,7 @@ public struct UnitFormView: View {
             syncColorControlsFromUnit()
             normalizePendingFeatureSelection()
         }
-        .onChange(of: unit.id) { _ in
+        .onChange(of: unit.id) { _, _ in
             coerceLithologyToSupportedValueIfNeeded()
             thicknessText = Self.formatNumber(unit.thickness)
             syncLithologyCategoryWithUnit()
@@ -205,8 +197,8 @@ public struct UnitFormView: View {
                 applyPendingLithologySelection(resetColor: true)
             }
             Button("Cancel", role: .cancel) {
-                pendingLithologySelection = nil
-                selectedLithology = unit.lithology
+                pendingLithologySelectionCode = nil
+                selectedLithologyCode = unit.usgsLithologyCode
             }
         } message: {
             Text("Changing lithology while a custom color is set can either keep your custom color or restore the default USGS fill.")
@@ -214,16 +206,16 @@ public struct UnitFormView: View {
     }
 
     private var availableLithologyCategories: [USGSLithologyCategory] {
-        USGSLithologyCategory.allCases.filter { !SymbologyLibrary.lithologies(in: $0).isEmpty }
+        USGSLithologyCategory.allCases.filter { !SymbologyLibrary.symbols(in: $0).isEmpty }
     }
 
-    private var lithologiesInSelectedCategory: [String] {
-        SymbologyLibrary.lithologies(in: selectedLithologyCategory)
+    private var lithologySymbolsInSelectedCategory: [USGSLithologySymbol] {
+        SymbologyLibrary.symbols(in: selectedLithologyCategory)
     }
 
     private func syncLithologyCategoryWithUnit() {
-        selectedLithology = unit.lithology
-        selectedLithologyCategory = SymbologyLibrary.lithologyCategory(forLithology: unit.lithology)
+        selectedLithologyCode = unit.usgsLithologyCode
+        selectedLithologyCategory = SymbologyLibrary.lithologyCategory(forUSGSCode: unit.usgsLithologyCode)
         if !availableLithologyCategories.contains(selectedLithologyCategory) {
             selectedLithologyCategory = availableLithologyCategories.first ?? .coarseClastics
         }
@@ -234,27 +226,27 @@ public struct UnitFormView: View {
         if !availableLithologyCategories.contains(selectedLithologyCategory) {
             selectedLithologyCategory = availableLithologyCategories[0]
         }
-        let choices = lithologiesInSelectedCategory
+        let choices = lithologySymbolsInSelectedCategory.map(\.code)
         guard let first = choices.first else { return }
-        if !choices.contains(selectedLithology) {
-            selectedLithology = first
+        if !choices.contains(selectedLithologyCode) {
+            selectedLithologyCode = first
         }
-        if !choices.contains(unit.lithology) {
-            requestLithologyChange(to: selectedLithology)
+        if !choices.contains(unit.usgsLithologyCode) {
+            requestLithologyChange(to: selectedLithologyCode)
         }
     }
 
     private func coerceLithologyToSupportedValueIfNeeded() {
-        guard !SymbologyLibrary.isSupportedLithology(unit.lithology) else { return }
-        unit.lithology = SymbologyLibrary.supportedLithologies.first ?? unit.lithology
-        selectedLithology = unit.lithology
+        guard !SymbologyLibrary.isSupportedUSGSLithologyCode(unit.usgsLithologyCode) else { return }
+        unit.usgsLithologyCode = SymbologyLibrary.supportedUSGSCodes.first ?? unit.usgsLithologyCode
+        selectedLithologyCode = unit.usgsLithologyCode
     }
 
-    private var lithologyBinding: Binding<String> {
+    private var lithologyBinding: Binding<Int> {
         Binding(
-            get: { selectedLithology },
+            get: { selectedLithologyCode },
             set: { candidate in
-                guard candidate != selectedLithology else { return }
+                guard candidate != selectedLithologyCode else { return }
                 requestLithologyChange(to: candidate)
             }
         )
@@ -289,35 +281,35 @@ public struct UnitFormView: View {
     }
 
     private func applyPendingLithologySelection(resetColor: Bool) {
-        guard let pending = pendingLithologySelection else { return }
-        pendingLithologySelection = nil
-        unit.lithology = pending
-        selectedLithology = pending
+        guard let pending = pendingLithologySelectionCode else { return }
+        pendingLithologySelectionCode = nil
+        unit.usgsLithologyCode = pending
+        selectedLithologyCode = pending
         if resetColor {
             unit.lithologyColorHex = nil
         }
         syncColorControlsFromUnit()
     }
 
-    private func requestLithologyChange(to candidate: String) {
-        guard candidate != unit.lithology else {
-            selectedLithology = unit.lithology
+    private func requestLithologyChange(to candidate: Int) {
+        guard candidate != unit.usgsLithologyCode else {
+            selectedLithologyCode = unit.usgsLithologyCode
             return
         }
         if unit.lithologyColorHex != nil {
-            pendingLithologySelection = candidate
+            pendingLithologySelectionCode = candidate
             showLithologyColorChangeDialog = true
-            selectedLithology = unit.lithology
+            selectedLithologyCode = unit.usgsLithologyCode
             return
         }
 
-        unit.lithology = candidate
-        selectedLithology = candidate
+        unit.usgsLithologyCode = candidate
+        selectedLithologyCode = candidate
         syncColorControlsFromUnit()
     }
 
     private func syncColorControlsFromUnit() {
-        selectedLithology = unit.lithology
+        selectedLithologyCode = unit.usgsLithologyCode
         if let custom = ColorHex.normalizedHex(unit.lithologyColorHex),
            let nsColor = ColorHex.nsColor(from: custom) {
             unit.lithologyColorHex = custom
@@ -327,7 +319,7 @@ public struct UnitFormView: View {
         }
 
         unit.lithologyColorHex = nil
-        let fallbackHex = SymbologyLibrary.style(forLithology: unit.lithology).fillHex
+        let fallbackHex = SymbologyLibrary.style(forUSGSCode: unit.usgsLithologyCode).fillHex
         if let fallbackColor = ColorHex.nsColor(from: fallbackHex) {
             colorPickerSelection = Color(nsColor: fallbackColor)
         } else {
@@ -425,15 +417,8 @@ public struct UnitFormView: View {
         return min(max(stepped, range.lowerBound), range.upperBound)
     }
 
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.headline)
-    }
-
     private func fieldGroup<Content: View>(_ label: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(label)
-                .font(.subheadline.weight(.medium))
+        ProField(label) {
             content()
         }
         .frame(maxWidth: .infinity, alignment: .leading)

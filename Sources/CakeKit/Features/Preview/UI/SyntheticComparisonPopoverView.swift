@@ -4,71 +4,57 @@ import SwiftUI
 public struct SyntheticComparisonPopoverView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var pinchBaseZoom: Double?
-    @State private var zoom: Double = 1.0
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
     }
 
     public var body: some View {
-        let scene = viewModel.makeSyntheticComparisonScene()
-        VStack(spacing: 10) {
-            HStack(spacing: 10) {
-                Button {
-                    zoom = max(0.5, zoom - 0.1)
-                } label: {
-                    Image(systemName: "minus.magnifyingglass")
-                }
-                .help("Zoom out")
-
-                Slider(value: $zoom, in: 0.5...2.5)
-                    .frame(width: 180)
-
-                Button {
-                    zoom = min(2.5, zoom + 0.1)
-                } label: {
-                    Image(systemName: "plus.magnifyingglass")
-                }
-                .help("Zoom in")
-
-                Button("100%") {
-                    zoom = 1.0
-                }
-                .buttonStyle(.bordered)
-
-                Spacer()
-            }
-
-            ScrollView([.horizontal, .vertical]) {
-                Canvas { context, _ in
-                    context.withCGContext { cgContext in
-                        SyntheticSceneCGRenderer.draw(scene: scene, in: cgContext)
-                    }
-                }
-                .frame(width: scene.canvasSize.width, height: scene.canvasSize.height)
-                .scaleEffect(zoom, anchor: .topLeading)
-                .frame(
-                    width: scene.canvasSize.width * zoom,
-                    height: scene.canvasSize.height * zoom,
-                    alignment: .topLeading
+        Group {
+            if !viewModel.canOpenSyntheticView {
+                ProEmptyState(
+                    title: "Synthetic comparison is unavailable",
+                    message: "Create at least two logs and set a zero-level altitude for each log.",
+                    systemImage: "rectangle.split.2x1"
                 )
-                .background(Color.white)
-            }
-            .simultaneousGesture(
-                MagnificationGesture()
-                    .onChanged { value in
-                        if pinchBaseZoom == nil {
-                            pinchBaseZoom = zoom
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .padding(20)
+                .accessibilityLabel("Synthetic comparison unavailable")
+            } else {
+                let scene = viewModel.makeSyntheticComparisonScene()
+                VStack(spacing: 0) {
+                    ScrollView([.horizontal, .vertical]) {
+                        Canvas { context, _ in
+                            context.withCGContext { cgContext in
+                                SyntheticSceneCGRenderer.draw(scene: scene, in: cgContext)
+                            }
                         }
-                        let base = pinchBaseZoom ?? zoom
-                        zoom = min(max(base * value, 0.5), 2.5)
+                        .frame(width: scene.canvasSize.width, height: scene.canvasSize.height)
+                        .scaleEffect(viewModel.zoom, anchor: .topLeading)
+                        .frame(
+                            width: scene.canvasSize.width * viewModel.zoom,
+                            height: scene.canvasSize.height * viewModel.zoom,
+                            alignment: .topLeading
+                        )
+                        .background(Color.white, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
                     }
-                    .onEnded { _ in
-                        pinchBaseZoom = nil
-                    }
-            )
+                    .padding(14)
+                    .simultaneousGesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                if pinchBaseZoom == nil {
+                                    pinchBaseZoom = viewModel.zoom
+                                }
+                                let base = pinchBaseZoom ?? viewModel.zoom
+                                viewModel.setManualZoom(base * value)
+                            }
+                            .onEnded { _ in
+                                pinchBaseZoom = nil
+                            }
+                    )
+                }
+                .accessibilityLabel("Synthetic comparison canvas")
+            }
         }
-        .padding(14)
-        .frame(minWidth: 900, minHeight: 580)
     }
 }

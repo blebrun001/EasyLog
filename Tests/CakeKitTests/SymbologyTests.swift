@@ -47,3 +47,51 @@ func reportedFallbackCodesNowResolveToUSGSRasterTiles() {
         #expect(USGSEPSSymbolRenderer.pngTileData(for: code) != nil)
     }
 }
+
+@Test
+func devProfileFallsBackToReleaseCatalogForMissingDevEntries() {
+    let resolver = USGSSymbolAssetResolver(bundle: CakeKitBundle.resources, profile: .dev)
+    #expect(resolver.asset(for: 733) != nil)
+}
+
+@Test
+func section37CatalogContainsAllOfficialCodesIncludingAliasSource() {
+    #expect(SymbologyLibrary.supportedUSGSCodes.count == 117)
+    #expect(SymbologyLibrary.supportedUSGSCodes.contains(718))
+    #expect(SymbologyLibrary.supportedUSGSCodes.contains(719))
+}
+
+@Test
+func alias718Uses719RenderableSwatchExplicitly() {
+    #expect(SymbologyLibrary.usgsLithologyAliases[718] == 719)
+    #expect(SymbologyLibrary.renderableUSGSCode(forSelectionCode: 718) == 719)
+    #expect(USGSSymbolAssetResolver.asset(for: 718) != nil)
+}
+
+@Test
+func everySupportedUSGSCodeProducesRenderableTile() {
+    for code in SymbologyLibrary.supportedUSGSCodes {
+        #expect(USGSSymbolAssetResolver.asset(for: code) != nil)
+        #expect(USGSEPSSymbolRenderer.pngTileData(for: code) != nil)
+    }
+}
+
+@Test
+func closeLithologyAlternativesUseDistinctTiles() {
+    let pairs: [(Int, Int)] = [
+        (601, 602),
+        (605, 606),
+        (609, 610),
+        (649, 650),
+        (677, 678),
+        (681, 682)
+    ]
+
+    for (lhs, rhs) in pairs {
+        let lTile = USGSEPSSymbolRenderer.pngTileData(for: lhs)
+        let rTile = USGSEPSSymbolRenderer.pngTileData(for: rhs)
+        #expect(lTile != nil)
+        #expect(rTile != nil)
+        #expect(lTile?.data != rTile?.data)
+    }
+}

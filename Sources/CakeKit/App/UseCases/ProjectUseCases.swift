@@ -14,7 +14,7 @@ public struct AddUnitUseCase {
         let unit = StratigraphicUnit(
             name: "New Unit",
             thickness: 1.0,
-            lithology: "Massive sand or sandstone",
+            usgsLithologyCode: 607,
             grainSize: .sand
         )
         project.units.append(unit)

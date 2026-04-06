@@ -3,7 +3,7 @@ import SwiftUI
 /// Main split view that hosts the editor sidebar and live render panel.
 public struct MainContentView: View {
     @ObservedObject private var viewModel: ProjectViewModel
-    @State private var isSyntheticTabSelected = false
+    @State private var isDeleteLogConfirmationPresented = false
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
@@ -12,26 +12,116 @@ public struct MainContentView: View {
     public var body: some View {
         NavigationSplitView {
             ProjectSidebarView(viewModel: viewModel)
-                .navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 520)
+                .navigationSplitViewColumnWidth(min: 340, ideal: 420, max: 560)
         } detail: {
             VStack(spacing: 0) {
-                logTabsBar
-                Divider()
-                if isSyntheticTabSelected {
-                    SyntheticComparisonPopoverView(viewModel: viewModel)
-                } else {
-                    RenderPreviewView(viewModel: viewModel)
+                DetailHeaderBar(
+                    selectedDetailPane: selectedDetailPaneBinding,
+                    canOpenSyntheticView: viewModel.canOpenSyntheticView,
+                    zoomMode: zoomModeBinding,
+                    onZoomIn: viewModel.zoomIn,
+                    onZoomOut: viewModel.zoomOut,
+                    onResetZoom: viewModel.resetZoom
+                )
+
+                Group {
+                    if viewModel.selectedDetailPane == .synthetic {
+                        SyntheticComparisonPopoverView(viewModel: viewModel)
+                    } else {
+                        RenderPreviewView(viewModel: viewModel)
+                    }
                 }
-                Divider()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .accessibilityElement(children: .contain)
+            }
+            .background(Color(nsColor: .underPageBackgroundColor))
+        }
+        .modifier(RenderingInspectorModifier(isPresented: inspectorBinding, settings: settingsBinding))
+        .toolbar {
+            ToolbarItemGroup(placement: .navigation) {
+                Picker("Log", selection: selectedLogIndexBinding) {
+                    ForEach(Array(viewModel.logs.enumerated()), id: \.offset) { index, log in
+                        Text(tabTitle(for: log, index: index)).tag(index)
+                    }
+                }
+                .pickerStyle(.menu)
+                .frame(minWidth: 240)
+                .accessibilityLabel("Selected log")
+
+                Button {
+                    viewModel.addLog()
+                } label: {
+                    Label("New Log", systemImage: "plus")
+                }
+                .help("Create a new log")
+
+                Button {
+                    viewModel.duplicateCurrentLog()
+                } label: {
+                    Label("Duplicate Log", systemImage: "square.on.square")
+                }
+                .disabled(viewModel.logs.isEmpty)
+                .help("Duplicate selected log")
+
+                Button(role: .destructive) {
+                    isDeleteLogConfirmationPresented = true
+                } label: {
+                    Label("Delete Log", systemImage: "trash")
+                }
+                .disabled(!viewModel.canRemoveCurrentLog)
+                .help("Delete selected log")
+            }
+
+            ToolbarItemGroup {
+                Menu {
+                    Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
+                    Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
+                    Divider()
+                    Button("Export All SVG…") { viewModel.exportAllViaPanel(format: .svg) }
+                    Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
+                } label: {
+                    Label("Export", systemImage: "square.and.arrow.up")
+                }
+
+                Button {
+                    viewModel.toggleInspector()
+                } label: {
+                    Label("Inspector", systemImage: "sidebar.right")
+                }
+                .help("Show rendering inspector")
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            HStack(spacing: 10) {
+                Image(systemName: viewModel.validationIssues.isEmpty ? "checkmark.circle" : "exclamationmark.triangle")
+                    .foregroundColor(viewModel.validationIssues.isEmpty ? .secondary : .orange)
                 Text(viewModel.statusMessage)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .accessibilityLabel("Status")
-                    .accessibilityValue(viewModel.statusMessage)
+                    .lineLimit(1)
+                Spacer(minLength: 8)
+                Text("Zoom \(Int((viewModel.zoom * 100).rounded()))%")
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(.bar)
+            .accessibilityLabel("Status")
+            .accessibilityValue(viewModel.statusMessage)
+        }
+        .confirmationDialog(
+            "Delete selected log?",
+            isPresented: $isDeleteLogConfirmationPresented,
+            titleVisibility: .visible
+        ) {
+            Button("Delete Log", role: .destructive) {
+                viewModel.removeCurrentLog()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This action removes the selected log from the current project.")
         }
         .alert(
             "Error",
@@ -46,85 +136,45 @@ public struct MainContentView: View {
                 Text(viewModel.errorMessage ?? "")
             }
         )
-        .onChange(of: viewModel.canOpenSyntheticView) { canOpen in
-            if !canOpen {
-                isSyntheticTabSelected = false
-            }
-        }
     }
 
-    private var logTabsBar: some View {
-        HStack(spacing: 8) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(Array(viewModel.logs.enumerated()), id: \.offset) { index, log in
-                        HStack(spacing: 6) {
-                            Button {
-                                isSyntheticTabSelected = false
-                                viewModel.selectLog(at: index)
-                            } label: {
-                                Text(tabTitle(for: log, index: index))
-                                    .lineLimit(1)
-                            }
-                            .buttonStyle(.plain)
+    private var selectedLogIndexBinding: Binding<Int> {
+        Binding(
+            get: { viewModel.selectedLogIndex },
+            set: { viewModel.selectLog(at: $0) }
+        )
+    }
 
-                            if viewModel.logs.count > 1 {
-                                Button {
-                                    isSyntheticTabSelected = false
-                                    viewModel.removeLog(at: index)
-                                } label: {
-                                    Image(systemName: "xmark")
-                                        .font(.system(size: 10, weight: .semibold))
-                                }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel("Remove log \(index + 1)")
-                            }
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(
-                            Capsule()
-                                .fill(index == viewModel.selectedLogIndex ? Color.accentColor.opacity(0.20) : Color.secondary.opacity(0.12))
-                        )
-                    }
+    private var selectedDetailPaneBinding: Binding<EditorPresentationState.DetailPane> {
+        Binding(
+            get: { viewModel.selectedDetailPane },
+            set: { viewModel.selectDetailPane($0) }
+        )
+    }
 
-                    Button {
-                        guard viewModel.canOpenSyntheticView else { return }
-                        isSyntheticTabSelected = true
-                    } label: {
-                        Text("Synthetic View")
-                            .lineLimit(1)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(!viewModel.canOpenSyntheticView)
-                    .background(
-                        Capsule()
-                            .fill(isSyntheticTabSelected ? Color.accentColor.opacity(0.20) : Color.secondary.opacity(0.12))
-                    )
-                    .opacity(viewModel.canOpenSyntheticView ? 1 : 0.5)
-                }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
+    private var zoomModeBinding: Binding<ProjectViewModel.ZoomMode> {
+        Binding(
+            get: { viewModel.zoomMode },
+            set: { viewModel.setZoomMode($0) }
+        )
+    }
+
+    private var inspectorBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.isInspectorPresented },
+            set: { viewModel.setInspectorPresented($0) }
+        )
+    }
+
+    private var settingsBinding: Binding<ProjectSettings> {
+        Binding(
+            get: { viewModel.project.settings },
+            set: { newSettings in
+                var updatedProject = viewModel.project
+                updatedProject.settings = newSettings
+                viewModel.project = updatedProject
             }
-
-            Button {
-                viewModel.addLog()
-            } label: {
-                Label("New Log", systemImage: "plus")
-            }
-            .buttonStyle(.bordered)
-
-            Button {
-                viewModel.duplicateCurrentLog()
-            } label: {
-                Label("Duplicate Log", systemImage: "square.on.square")
-            }
-            .buttonStyle(.bordered)
-            .disabled(viewModel.logs.isEmpty)
-            .padding(.trailing, 12)
-        }
+        )
     }
 
     private func tabTitle(for log: Project, index: Int) -> String {
@@ -133,5 +183,88 @@ public struct MainContentView: View {
             return "Log \(index + 1)"
         }
         return title
+    }
+}
+
+private struct DetailHeaderBar: View {
+    @Binding var selectedDetailPane: EditorPresentationState.DetailPane
+    let canOpenSyntheticView: Bool
+    @Binding var zoomMode: ProjectViewModel.ZoomMode
+    let onZoomIn: () -> Void
+    let onZoomOut: () -> Void
+    let onResetZoom: () -> Void
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Picker("View", selection: $selectedDetailPane) {
+                ForEach(EditorPresentationState.DetailPane.allCases) { pane in
+                    Text(pane.label)
+                        .tag(pane)
+                        .disabled(pane == .synthetic && !canOpenSyntheticView)
+                }
+            }
+            .pickerStyle(.segmented)
+            .frame(width: 190)
+            .accessibilityLabel("Detail view mode")
+
+            Divider()
+                .frame(height: 18)
+
+            Picker("Zoom", selection: $zoomMode) {
+                ForEach(ProjectViewModel.ZoomMode.allCases) { mode in
+                    Text(mode.label).tag(mode)
+                }
+            }
+            .pickerStyle(.menu)
+            .frame(width: 150)
+            .accessibilityLabel("Zoom mode")
+
+            Button(action: onZoomOut) {
+                Label("Zoom Out", systemImage: "minus.magnifyingglass")
+            }
+            .labelStyle(.iconOnly)
+
+            Button(action: onZoomIn) {
+                Label("Zoom In", systemImage: "plus.magnifyingglass")
+            }
+            .labelStyle(.iconOnly)
+
+            Button(action: onResetZoom) {
+                Label("Reset Zoom", systemImage: "arrow.counterclockwise")
+            }
+            .labelStyle(.iconOnly)
+
+            Spacer(minLength: 8)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .background(.bar)
+    }
+}
+
+private struct RenderingInspectorModifier: ViewModifier {
+    @Binding var isPresented: Bool
+    @Binding var settings: ProjectSettings
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(macOS 14.0, *) {
+            content
+                .inspector(isPresented: $isPresented) {
+                    inspectorBody
+                }
+        } else {
+            content
+                .sheet(isPresented: $isPresented) {
+                    inspectorBody
+                        .frame(minWidth: 420, minHeight: 420)
+                }
+        }
+    }
+
+    private var inspectorBody: some View {
+        SettingsPanelView(settings: $settings)
+            .padding()
+            .accessibilityLabel("Rendering Inspector")
     }
 }

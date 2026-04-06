@@ -23,12 +23,11 @@ public enum ProjectValidator {
                 let label = unit.name.isEmpty ? "<unnamed>" : unit.name
                 issues.append(ValidationIssue(message: "Unit \(label) must have thickness > 0."))
             }
-            if unit.lithology.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if !SymbologyLibrary.isSupportedUSGSLithologyCode(unit.usgsLithologyCode) {
                 let label = unit.name.isEmpty ? "<unnamed>" : unit.name
-                issues.append(ValidationIssue(message: "Unit \(label) must define lithology."))
-            } else if !SymbologyLibrary.isSupportedLithology(unit.lithology) {
-                let label = unit.name.isEmpty ? "<unnamed>" : unit.name
-                issues.append(ValidationIssue(message: "Unit \(label) uses unsupported lithology '\(unit.lithology)'."))
+                issues.append(
+                    ValidationIssue(message: "Unit \(label) uses unsupported USGS lithology code '\(unit.usgsLithologyCode)'.")
+                )
             }
         }
 

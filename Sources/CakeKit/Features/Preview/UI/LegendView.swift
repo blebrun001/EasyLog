@@ -10,11 +10,13 @@ public struct LegendView: View {
     }
 
     public var body: some View {
-        GroupBox("Legend") {
+        ProPanelSection("Legend", subtitle: "Symbols visible in current log") {
             if legend.isEmpty {
-                Text("No symbols in current log.")
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                ProEmptyState(
+                    title: "No symbols in current log",
+                    message: "Add units or features to populate the legend.",
+                    systemImage: "list.bullet.rectangle"
+                )
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(Array(legend.enumerated()), id: \.offset) { _, item in

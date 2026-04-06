@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "Cake",
     platforms: [
-        .macOS(.v13)
+        // Keep SwiftPM on the highest named API constant while Xcode target is set to 26.0.
+        .macOS(.v15)
     ],
     products: [
         .library(name: "CakeKit", targets: ["CakeKit"]),

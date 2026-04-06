@@ -9,55 +9,40 @@ public struct SettingsPanelView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionHeader("Rendering Settings")
-
-            HStack {
-                Text("Vertical Scale")
+        Form {
+            Section("Scale") {
+                LabeledContent("Vertical scale") {
+                    Text("\(settings.verticalScale, specifier: "%.0f") px/m")
+                        .foregroundStyle(.secondary)
+                }
                 Slider(value: verticalScaleBinding, in: 8...120)
-                    .accessibilityLabel("Vertical Scale")
-                Text("\(settings.verticalScale, specifier: "%.0f") px/m")
-                    .foregroundStyle(.secondary)
-            }
+                    .accessibilityLabel("Vertical scale")
 
-            HStack {
-                Text("Symbol Scale")
+                LabeledContent("Symbol scale") {
+                    Text("\(settings.symbolScale, specifier: "%.2f")x")
+                        .foregroundStyle(.secondary)
+                }
                 Slider(value: symbolScaleBinding, in: 0.35...3.0)
-                    .accessibilityLabel("Symbol Scale")
-                Text("\(settings.symbolScale, specifier: "%.2f")x")
-                    .foregroundStyle(.secondary)
-            }
+                    .accessibilityLabel("Symbol scale")
 
-            HStack {
-                Text("Scale Unit")
-                Picker("Scale Unit", selection: $settings.depthScaleUnit) {
+                Picker("Scale unit", selection: $settings.depthScaleUnit) {
                     ForEach(DepthScaleUnit.allCases) { unit in
                         Text(unit.label).tag(unit)
                     }
                 }
-                .pickerStyle(.menu)
-                Spacer()
             }
 
-            Toggle("Use Absolute Altitude", isOn: useAbsoluteAltitudeBinding)
-                .accessibilityLabel("Use Absolute Altitude")
-
-            Toggle("Show Legend", isOn: $settings.showLegend)
-                .accessibilityLabel("Show Legend")
-            Toggle("Show Depth Scale", isOn: $settings.showScale)
-                .accessibilityLabel("Show Depth Scale")
-            Toggle("Show Grain Size Scale", isOn: $settings.showGrainSizeScale)
-                .accessibilityLabel("Show Grain Size Scale")
-            Toggle("Show USGS Codes In Lithology Labels", isOn: $settings.showUSGSCodesInLithologyLabels)
-                .accessibilityLabel("Show USGS Codes In Lithology Labels")
-            Toggle("Show Log Title", isOn: $settings.showLogTitle)
-                .accessibilityLabel("Show Log Title")
+            Section("Visibility") {
+                Toggle("Use absolute altitude", isOn: useAbsoluteAltitudeBinding)
+                    .accessibilityLabel("Use absolute altitude")
+                Toggle("Show legend", isOn: $settings.showLegend)
+                Toggle("Show depth scale", isOn: $settings.showScale)
+                Toggle("Show grain size scale", isOn: $settings.showGrainSizeScale)
+                Toggle("Show USGS codes in labels", isOn: $settings.showUSGSCodesInLithologyLabels)
+                Toggle("Show log title", isOn: $settings.showLogTitle)
+            }
         }
-    }
-
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.headline)
+        .formStyle(.grouped)
     }
 
     private var verticalScaleBinding: Binding<Double> {

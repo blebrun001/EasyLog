@@ -1,18 +1,16 @@
 import SwiftUI
 
-/// Right-hand preview panel with toolbar, zoom and live-rendered canvas.
+/// Right-hand preview panel with live-rendered canvas.
 public struct RenderPreviewView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var pinchBaseZoom: Double?
-    @State private var isRenderingSettingsPresented = false
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
     }
 
     public var body: some View {
-        VStack(spacing: 12) {
-            displayToolbar
+        VStack(spacing: 0) {
             GeometryReader { proxy in
                 ScrollView([.horizontal, .vertical]) {
                     Canvas { context, _ in
@@ -30,8 +28,9 @@ public struct RenderPreviewView: View {
                         height: viewModel.scene.canvasSize.height * viewModel.zoom,
                         alignment: .topLeading
                     )
-                    .background(Color.white)
+                    .background(Color.white, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
+                .padding(14)
                 .simultaneousGesture(
                     MagnificationGesture()
                         .onChanged { value in
@@ -48,125 +47,32 @@ public struct RenderPreviewView: View {
                 .onAppear {
                     viewModel.updateViewportSize(usableViewport(from: proxy.size))
                 }
-                .onChange(of: proxy.size) { newSize in
+                .onChange(of: proxy.size) { _, newSize in
                     viewModel.updateViewportSize(usableViewport(from: newSize))
                 }
             }
-            .padding(.horizontal)
+            .accessibilityLabel("Log preview canvas")
 
             if !viewModel.validationIssues.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
-                    ForEach(viewModel.validationIssues) { issue in
-                        Text("• \(issue.message)")
-                            .font(.caption)
-                            .foregroundStyle(.orange)
+                ProPanelSection("Validation Warnings", subtitle: "Review before export") {
+                    VStack(alignment: .leading, spacing: 4) {
+                        ForEach(viewModel.validationIssues) { issue in
+                            Label(issue.message, systemImage: "exclamationmark.triangle.fill")
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
+                .padding(.horizontal, 14)
+                .padding(.bottom, 14)
+                .accessibilityLabel("Validation warnings")
             }
         }
-        .padding(.vertical)
     }
-
-    private var displayToolbar: some View {
-        HStack(spacing: 12) {
-            HStack(spacing: 8) {
-                Button {
-                    viewModel.zoomOut()
-                } label: {
-                    Image(systemName: "minus.magnifyingglass")
-                }
-                .help("Zoom out")
-
-                Slider(value: zoomBinding, in: 0.5...2.5)
-                    .frame(width: 170)
-                    .accessibilityLabel("Zoom")
-
-                Button {
-                    viewModel.zoomIn()
-                } label: {
-                    Image(systemName: "plus.magnifyingglass")
-                }
-                .help("Zoom in")
-
-                Button("100%") {
-                    viewModel.resetZoom()
-                }
-                .buttonStyle(.bordered)
-                .help("Reset to native scale")
-            }
-
-            Divider()
-                .frame(height: 22)
-
-            Picker("Fit Mode", selection: fitModeBinding) {
-                ForEach(displayedZoomModes) { mode in
-                    Text(modePickerLabel(for: mode)).tag(mode)
-                }
-            }
-            .pickerStyle(.segmented)
-            .frame(maxWidth: 420)
-            .help("Choose the fitting mode")
-
-            Button("Rendering Settings") {
-                isRenderingSettingsPresented = true
-            }
-            .buttonStyle(.bordered)
-            .popover(isPresented: $isRenderingSettingsPresented) {
-                SettingsPanelView(settings: settingsBinding)
-                    .padding()
-                    .frame(minWidth: 420)
-            }
-
-            Spacer()
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(nsColor: .controlBackgroundColor))
-        )
-        .padding(.horizontal)
-    }
-
-    private var zoomBinding: Binding<Double> {
-        Binding(
-            get: { viewModel.zoom },
-            set: { viewModel.setManualZoom($0) }
-        )
-    }
-
-    private var fitModeBinding: Binding<ProjectViewModel.ZoomMode> {
-        Binding(
-            get: { viewModel.zoomMode },
-            set: { viewModel.setZoomMode($0) }
-        )
-    }
-
-    private var settingsBinding: Binding<ProjectSettings> {
-        Binding(
-            get: { viewModel.project.settings },
-            set: { newSettings in
-                var updatedProject = viewModel.project
-                updatedProject.settings = newSettings
-                viewModel.project = updatedProject
-            }
-        )
-    }
-
-    private var displayedZoomModes: [ProjectViewModel.ZoomMode] { [.manual, .fitWindow] }
 
     private func usableViewport(from size: CGSize) -> CGSize {
         CGSize(width: max(0, size.width - 32), height: max(0, size.height))
     }
 
-    private func modePickerLabel(for mode: ProjectViewModel.ZoomMode) -> String {
-        switch mode {
-        case .manual: "Manual"
-        case .fitWindow: "Window"
-        case .fitWidth: "Width"
-        case .fitHeight: "Height"
-        }
-    }
 }

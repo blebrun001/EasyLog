@@ -18,7 +18,7 @@ struct CakeApp: App {
             MainContentView(viewModel: viewModel)
                 .frame(minWidth: 1080, minHeight: 700)
         }
-        .windowStyle(.hiddenTitleBar)
+        .windowToolbarStyle(.unifiedCompact(showsTitle: false))
         .windowResizability(.contentMinSize)
         .commands {
             CommandGroup(replacing: .appInfo) {
@@ -32,11 +32,6 @@ struct CakeApp: App {
                     .keyboardShortcut("n", modifiers: [.command])
                 Button("Open…") { viewModel.openProjectViaPanel() }
                     .keyboardShortcut("o", modifiers: [.command])
-                Divider()
-                Button("New Log") { viewModel.addLog() }
-                    .keyboardShortcut("n", modifiers: [.command, .shift])
-                Button("Duplicate Log") { viewModel.duplicateCurrentLog() }
-                    .keyboardShortcut("d", modifiers: [.command, .shift])
             }
 
             CommandGroup(replacing: .saveItem) {
@@ -53,7 +48,29 @@ struct CakeApp: App {
                 Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
             }
 
+            CommandGroup(replacing: .toolbar) {
+                Button("Show Inspector") { viewModel.toggleInspector() }
+                    .keyboardShortcut("i", modifiers: [.command, .option])
+            }
+
+            CommandGroup(after: .toolbar) {
+                Button("Zoom In") { viewModel.zoomIn() }
+                    .keyboardShortcut("+", modifiers: [.command])
+                Button("Zoom Out") { viewModel.zoomOut() }
+                    .keyboardShortcut("-", modifiers: [.command])
+                Button("Actual Size") { viewModel.resetZoom() }
+                    .keyboardShortcut("0", modifiers: [.command])
+            }
+
             CommandGroup(after: .pasteboard) {
+                Button("New Log") { viewModel.addLog() }
+                    .keyboardShortcut("n", modifiers: [.command, .shift])
+                Button("Duplicate Log") { viewModel.duplicateCurrentLog() }
+                    .keyboardShortcut("d", modifiers: [.command, .shift])
+                Button("Delete Log") { viewModel.removeCurrentLog() }
+                    .keyboardShortcut(.delete, modifiers: [.command])
+                    .disabled(!viewModel.canRemoveCurrentLog)
+                Divider()
                 Button("Add Unit") { viewModel.addUnit() }
                     .keyboardShortcut("u", modifiers: [.command, .shift])
                 Button("Delete Selected Unit") { viewModel.removeSelectedUnit() }
@@ -69,13 +86,36 @@ struct CakeApp: App {
             }
 
             CommandMenu("View") {
-                Button("Zoom In") { viewModel.zoomIn() }
-                    .keyboardShortcut("+", modifiers: [.command])
-                Button("Zoom Out") { viewModel.zoomOut() }
-                    .keyboardShortcut("-", modifiers: [.command])
-                Button("Actual Size") { viewModel.resetZoom() }
-                    .keyboardShortcut("0", modifiers: [.command])
+                Picker("Detail View", selection: detailPaneBinding) {
+                    ForEach(EditorPresentationState.DetailPane.allCases) { pane in
+                        Text(pane.label)
+                            .tag(pane)
+                            .disabled(pane == .synthetic && !viewModel.canOpenSyntheticView)
+                    }
+                }
+
+                Divider()
+
+                Picker("Zoom Mode", selection: zoomModeBinding) {
+                    ForEach(ProjectViewModel.ZoomMode.allCases) { mode in
+                        Text(mode.label).tag(mode)
+                    }
+                }
             }
         }
+    }
+
+    private var detailPaneBinding: Binding<EditorPresentationState.DetailPane> {
+        Binding(
+            get: { viewModel.selectedDetailPane },
+            set: { viewModel.selectDetailPane($0) }
+        )
+    }
+
+    private var zoomModeBinding: Binding<ProjectViewModel.ZoomMode> {
+        Binding(
+            get: { viewModel.zoomMode },
+            set: { viewModel.setZoomMode($0) }
+        )
     }
 }

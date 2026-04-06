@@ -525,6 +525,7 @@
 		9DCB9E636C9ABD8AF3C99566 /* FGDCgeostdTM11A2_A-01-05ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2F6819EDF30ACE13F1F2308 /* FGDCgeostdTM11A2_A-01-05ai8.pdf */; };
 		9E7BFFBAFE75931819E72D7B /* FGDCgeostdTM11A2_A-13-03cs2.eps in Resources */ = {isa = PBXBuildFile; fileRef = E35E3AD43EF74EC293A01236 /* FGDCgeostdTM11A2_A-13-03cs2.eps */; };
 		9E7F2B07652B7147049F4BF9 /* FGDCgeostdTM11A2_A-09-03ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AFDC5345735432B4CFE4F266 /* FGDCgeostdTM11A2_A-09-03ai8.pdf */; };
+		9E9F1C076D86052E4018EBEC /* ProUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96D597AA47015689568B569 /* ProUIComponents.swift */; };
 		9F5336E690C043D581F40CDB /* FGDCgeostdTM11A2_A-08-01ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = EC6C57756301787E342DD83A /* FGDCgeostdTM11A2_A-08-01ai8.pdf */; };
 		9F80CF50ABD2FB9C08394379 /* FGDCgeostdTM11A2_A-26-09cs2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = BAA57587B75CDC8292913EF3 /* FGDCgeostdTM11A2_A-26-09cs2.pdf */; };
 		A021D4DBEFCBE6736832BCCE /* FGDCgeostdTM11A2_A-35-06ai8.eps in Resources */ = {isa = PBXBuildFile; fileRef = 2B6856A9B323C81A801821E2 /* FGDCgeostdTM11A2_A-35-06ai8.eps */; };
@@ -1670,6 +1671,7 @@
 		F73EFE9784AF88B7CD386651 /* FGDCgeostdTM11A2_A-35-06cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-35-06cs2.pdf"; sourceTree = "<group>"; };
 		F7981E8B23D8793BFF11DB55 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		F94CF5021C8F805028DF1385 /* FGDCgeostdTM11A2_A-25-04ai8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-25-04ai8.png"; sourceTree = "<group>"; };
+		F96D597AA47015689568B569 /* ProUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUIComponents.swift; sourceTree = "<group>"; };
 		F9F8B04905218DB45D2348AD /* FGDCgeostdTM11A2_A-18-03cs2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-18-03cs2.png"; sourceTree = "<group>"; };
 		FA3BFA5BBFFCD92F234E3CB0 /* FGDCgeostdTM11A2_A-35-04ai8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-35-04ai8.png"; sourceTree = "<group>"; };
 		FAB843F1956B7D7AD8D37914 /* FGDCgeostdTM11A2_A-06-01ai8.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-06-01ai8.pdf"; sourceTree = "<group>"; };
@@ -1925,6 +1927,14 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		45A614DAF974BF7B3255AF75 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F96D597AA47015689568B569 /* ProUIComponents.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		461178974177AAB83F36EBE4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -2137,6 +2147,7 @@
 				5E9B771B0A5F6C652381C559 /* MainContentView.swift */,
 				AD3565DC8867DB3715A6EEDB /* Services */,
 				E8960DCA309FE21B2742F586 /* State */,
+				45A614DAF974BF7B3255AF75 /* UI */,
 				99256E09217D58296C26E275 /* UseCases */,
 			);
 			path = App;
@@ -3749,6 +3760,7 @@
 				EDF9836FC80BA53866811C2A /* LegendView.swift in Sources */,
 				F02303DF3E9CDE627A201773 /* MainContentView.swift in Sources */,
 				6891AA40A00BF6FA9CE9CA20 /* Models.swift in Sources */,
+				9E9F1C076D86052E4018EBEC /* ProUIComponents.swift in Sources */,
 				C1B5E9DC571AF6067CBAE1D3 /* ProjectSidebarView.swift in Sources */,
 				CA94EBE02FFD245F850C2751 /* ProjectStore.swift in Sources */,
 				221FD5A53B53D550F8E6BABC /* ProjectUseCases.swift in Sources */,
@@ -3943,7 +3955,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4025,7 +4037,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

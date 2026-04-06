@@ -47,8 +47,8 @@ public struct CakeRenderer: LogRenderer {
         for (index, unit) in project.units.enumerated() {
             let safeThickness = max(unit.thickness, 0.01)
             let height = safeThickness * project.settings.verticalScale
-            let style = SymbologyLibrary.style(forLithology: unit.lithology)
-            let usgsCode = SymbologyLibrary.usgsSymbolCode(forLithology: unit.lithology)
+            let usgsCode = unit.usgsLithologyCode
+            let style = SymbologyLibrary.style(forUSGSCode: usgsCode)
             let resolvedFill = ColorHex.normalizedHex(unit.lithologyColorHex) ?? style.fillHex
             let width = unitWidths[index]
             let rect = RectD(x: logX, y: yCursor, width: width, height: height)
@@ -62,7 +62,7 @@ public struct CakeRenderer: LogRenderer {
                     id: unit.id,
                     name: unit.name,
                     thickness: unit.thickness,
-                    lithology: unit.lithology,
+                    lithology: unit.lithologyLabel,
                     symbol: style.symbol,
                     usgsSymbolCode: usgsCode,
                     fillHex: resolvedFill,
@@ -72,25 +72,17 @@ public struct CakeRenderer: LogRenderer {
                 )
             )
 
-            if let usgsCode {
-                let label: String
-                if project.settings.showUSGSCodesInLithologyLabels {
-                    label = "\(unit.lithology.capitalized) (\(usgsCode))"
-                } else {
-                    label = unit.lithology.capitalized
-                }
-                let key = LithologyLegendKey(label: label, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
-                let item = LegendItem(label: label, symbol: style.symbol, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
-                if seenLithologyLegendKeys.insert(key).inserted {
-                    legendOrder.append(item)
-                }
+            let legendBaseLabel = SymbologyLibrary.label(forUSGSCode: usgsCode)
+            let label: String
+            if project.settings.showUSGSCodesInLithologyLabels {
+                label = "\(legendBaseLabel) (\(usgsCode))"
             } else {
-                let label = unit.lithology.capitalized
-                let key = LithologyLegendKey(label: label, usgsSymbolCode: nil, fillHex: resolvedFill)
-                let item = LegendItem(label: label, symbol: style.symbol, fillHex: resolvedFill)
-                if seenLithologyLegendKeys.insert(key).inserted {
-                    legendOrder.append(item)
-                }
+                label = legendBaseLabel
+            }
+            let key = LithologyLegendKey(label: label, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
+            let item = LegendItem(label: label, symbol: style.symbol, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
+            if seenLithologyLegendKeys.insert(key).inserted {
+                legendOrder.append(item)
             }
 
             for pointFeature in unit.pointFeatures {
