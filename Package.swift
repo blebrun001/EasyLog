@@ -20,15 +20,14 @@ let package = Package(
             exclude: [
                 "Resources/USGS/11A02/ai8",
                 "Resources/USGS/11A02/cs2",
-                "Resources/USGS/11A02/raster/cs2",
-                "Resources/USGS/11A02/pdf/cs2",
+                "Resources/USGS/11A02/raster",
                 "Resources/USGS/11A02/work",
                 "Resources/USGS/11A02/manifest.json",
                 "Resources/USGS/11A02/symbol-index.json"
             ],
             resources: [
-                .copy("Resources/USGS/11A02/raster"),
                 .copy("Resources/USGS/11A02/pdf"),
+                .copy("Resources/USGS/isolated"),
                 .copy("Resources/USGSRuntime")
             ]
         ),

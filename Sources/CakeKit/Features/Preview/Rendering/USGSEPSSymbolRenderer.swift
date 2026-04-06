@@ -1,6 +1,5 @@
 import AppKit
 import Foundation
-import ImageIO
 
 /// Draws USGS EPS-derived symbols by tiling/cropping cached PDF pages.
 public enum USGSEPSSymbolRenderer {
@@ -17,9 +16,20 @@ public enum USGSEPSSymbolRenderer {
         guard let asset = resolver.asset(for: code) else {
             return false
         }
+        return draw(asset: asset, in: rect, context: context, symbolScale: symbolScale)
+    }
+
+    @discardableResult
+    public static func drawSymbol(symbolID: String, in rect: CGRect, context: CGContext, symbolScale: Double = 1.0) -> Bool {
+        guard let asset = resolver.asset(forSymbolID: symbolID) else {
+            return false
+        }
+        return draw(asset: asset, in: rect, context: context, symbolScale: symbolScale)
+    }
+
+    private static func draw(asset: USGSSymbolAsset, in rect: CGRect, context: CGContext, symbolScale: Double) -> Bool {
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
         let page = pdfPage(for: asset)
-        let rasterTile = page == nil ? rasterTileImage(for: asset, symbolRect: tiledRect) : nil
 
         context.saveGState()
         context.clip(to: rect)
@@ -40,8 +50,6 @@ public enum USGSEPSSymbolRenderer {
                 let drawRect = CGRect(x: x, y: y, width: tileW, height: tileH)
                 if let page {
                     drawCroppedPDF(page: page, symbolRect: tiledRect, pageSizePoints: asset.pageSizePoints, in: drawRect, context: context)
-                } else if let rasterTile {
-                    context.draw(rasterTile, in: drawRect)
                 } else {
                     context.restoreGState()
                     return false
@@ -56,7 +64,21 @@ public enum USGSEPSSymbolRenderer {
     }
 
     public static func pngTileData(for code: Int, maxDimension: Int = 1024) -> (data: Data, width: Int, height: Int)? {
-        guard let tileImage = tileImage(for: code) else {
+        guard let asset = resolver.asset(for: code) else {
+            return nil
+        }
+        return pngTileData(asset: asset, maxDimension: maxDimension)
+    }
+
+    public static func pngTileData(forSymbolID symbolID: String, maxDimension: Int = 1024) -> (data: Data, width: Int, height: Int)? {
+        guard let asset = resolver.asset(forSymbolID: symbolID) else {
+            return nil
+        }
+        return pngTileData(asset: asset, maxDimension: maxDimension)
+    }
+
+    private static func pngTileData(asset: USGSSymbolAsset, maxDimension: Int) -> (data: Data, width: Int, height: Int)? {
+        guard let tileImage = tileImage(asset: asset) else {
             return nil
         }
 
@@ -68,19 +90,19 @@ public enum USGSEPSSymbolRenderer {
         let targetH = max(Int(Double(sourceH) * scale), 8)
 
         guard let rep = NSBitmapImageRep(
-                bitmapDataPlanes: nil,
-                pixelsWide: targetW,
-                pixelsHigh: targetH,
-                bitsPerSample: 8,
-                samplesPerPixel: 4,
-                hasAlpha: true,
-                isPlanar: false,
-                colorSpaceName: .deviceRGB,
-                bitmapFormat: [],
-                bytesPerRow: 0,
-                bitsPerPixel: 0
-              ),
-              let cgContext = NSGraphicsContext(bitmapImageRep: rep)?.cgContext
+            bitmapDataPlanes: nil,
+            pixelsWide: targetW,
+            pixelsHigh: targetH,
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .deviceRGB,
+            bitmapFormat: [],
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        ),
+            let cgContext = NSGraphicsContext(bitmapImageRep: rep)?.cgContext
         else {
             return nil
         }
@@ -94,6 +116,13 @@ public enum USGSEPSSymbolRenderer {
         }
 
         return (data: data, width: targetW, height: targetH)
+    }
+
+    public static func tileSizePoints(forSymbolID symbolID: String, symbolScale: Double = 1.0) -> CGSizeDTO? {
+        guard let asset = resolver.asset(forSymbolID: symbolID) else { return nil }
+        let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
+        let scale = max(0.05, symbolScale)
+        return CGSizeDTO(width: tiledRect.width * scale, height: tiledRect.height * scale)
     }
 
     public static func tileSizePoints(for code: Int, symbolScale: Double = 1.0) -> CGSizeDTO? {
@@ -111,20 +140,21 @@ public enum USGSEPSSymbolRenderer {
             logMissingAssetOnce(code: code, reason: "No symbol asset entry")
             return nil
         }
+        return tileImage(asset: asset)
+    }
+
+    private static func tileImage(asset: USGSSymbolAsset) -> CGImage? {
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
 
         if let page = pdfPage(for: asset) {
             return rasterizedPDFTile(
-                code: code,
+                code: asset.code ?? -1,
                 asset: asset,
                 page: page,
                 tiledRect: tiledRect
             )
         }
-        if let raster = rasterTileImage(for: asset, symbolRect: tiledRect) {
-            return raster
-        }
-        logMissingAssetOnce(code: code, reason: "Cannot open PDF \(asset.pdfRelativePath) or PNG \(asset.pngRelativePath)")
+        logMissingAssetOnce(code: asset.code ?? -1, reason: "Cannot open PDF \(asset.pdfRelativePath)")
         return nil
     }
 
@@ -172,31 +202,6 @@ public enum USGSEPSSymbolRenderer {
 
         guard let cropped = bitmap.makeImage() else {
             logMissingAssetOnce(code: code, reason: "Cannot rasterize PDF tile for \(asset.pdfRelativePath)")
-            return nil
-        }
-
-        lock.lock()
-        croppedImageCache[cacheKey] = cropped
-        lock.unlock()
-        return cropped
-    }
-
-    private static func rasterTileImage(for asset: USGSSymbolAsset, symbolRect: USGSSymbolRect) -> CGImage? {
-        let cacheKey = "png:\(asset.imageURL.path)#\(symbolRect.x)-\(symbolRect.y)-\(symbolRect.width)-\(symbolRect.height)"
-        lock.lock()
-        if let cached = croppedImageCache[cacheKey] {
-            lock.unlock()
-            return cached
-        }
-        lock.unlock()
-
-        guard let source = CGImageSourceCreateWithURL(asset.imageURL as CFURL, nil),
-              let fullImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
-            return nil
-        }
-        let cropRect = normalizedCropRect(symbolRect: symbolRect, pageSizePoints: asset.pageSizePoints, image: fullImage)
-        guard cropRect.width > 0, cropRect.height > 0,
-              let cropped = fullImage.cropping(to: cropRect) else {
             return nil
         }
 
@@ -269,26 +274,6 @@ public enum USGSEPSSymbolRenderer {
             width: Double(width),
             height: Double(height)
         )
-    }
-
-    private static func normalizedCropRect(symbolRect: USGSSymbolRect, pageSizePoints: CGSizeDTO, image: CGImage) -> CGRect {
-        let imageW = CGFloat(image.width)
-        let imageH = CGFloat(image.height)
-        let pageW = CGFloat(max(pageSizePoints.width, 1))
-        let pageH = CGFloat(max(pageSizePoints.height, 1))
-        let scaleX = imageW / pageW
-        let scaleY = imageH / pageH
-
-        let x = CGFloat(symbolRect.x) * scaleX
-        let yBottomBased = CGFloat(symbolRect.y) * scaleY
-        let width = CGFloat(symbolRect.width) * scaleX
-        let height = CGFloat(symbolRect.height) * scaleY
-
-        // EPS geometry in the index is bottom-based, CGImage crop rect is top-based.
-        let yTopBased = imageH - yBottomBased - height
-        let raw = CGRect(x: x, y: yTopBased, width: width, height: height)
-        let bounds = CGRect(x: 0, y: 0, width: imageW, height: imageH)
-        return raw.intersection(bounds).integral
     }
 
     private static func logMissingAssetOnce(code: Int, reason: String) {

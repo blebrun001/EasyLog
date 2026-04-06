@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Build profile-specific USGS runtime catalogs.
+"""Build a unified runtime USGS 11A02 symbol catalog (PDF-only).
 
-The catalog is the runtime contract used by CakeKit to resolve symbol assets
-without scanning authoring sources. It supports:
-- release profile: all symbols available in symbol-index
-- dev profile: deterministic subset for faster local iteration
+Outputs:
+- Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.<profile>.json
+- Sources/CakeKit/Resources/USGS/isolated/*.pdf (one cropped symbol per PDF)
 """
 
 from __future__ import annotations
@@ -14,6 +13,8 @@ import hashlib
 import json
 import os
 import re
+import subprocess
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -21,13 +22,20 @@ ROOT = Path(__file__).resolve().parent.parent
 USGS_BASE = ROOT / "Sources/CakeKit/Resources/USGS/11A02"
 INDEX_PATH = USGS_BASE / "symbol-index.json"
 OUT_BASE = ROOT / "Sources/CakeKit/Resources/USGSRuntime"
+ISOLATED_BASE = ROOT / "Sources/CakeKit/Resources/USGS/isolated"
 SYMBOLOGY_PATH = ROOT / "Sources/CakeKit/Features/Preview/Rendering/Symbology.swift"
+SWIFT_CROP_SOURCE = ROOT / "scripts/crop_pdf_symbol.swift"
+SWIFT_CROP_BINARY = ROOT / ".cache/usgs_11a02/bin/crop_pdf_symbol"
 
-DEV_SEED_CODES = [
-    607, 609, 619, 627, 601, 602, 603, 605, 606,
-    611, 615, 620, 621, 622, 625, 633, 634,
-]
-DEV_MIN_CODE_COUNT = 36
+DEV_MIN_ENTRY_COUNT = 120
+
+
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def parse_official_codes_and_aliases() -> tuple[set[int], dict[int, int]]:
@@ -45,140 +53,273 @@ def parse_official_codes_and_aliases() -> tuple[set[int], dict[int, int]]:
     return official_codes, aliases
 
 
-def sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def relative_source_path(path: Path) -> str:
+    return path.relative_to(ROOT).as_posix().replace("Sources/CakeKit/Resources/", "")
 
 
-def normalize_id(code: int, variant: str, label: str) -> str:
-    label_slug = "".join(ch.lower() if ch.isalnum() else "-" for ch in label).strip("-")
-    while "--" in label_slug:
-        label_slug = label_slug.replace("--", "-")
-    return f"usgs-{code}-{variant}-{label_slug}"
+def build_entries_from_index() -> list[dict[str, Any]]:
+    if not INDEX_PATH.exists():
+        raise FileNotFoundError(f"Missing symbol index: {INDEX_PATH}")
 
+    index = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
+    entries: list[dict[str, Any]] = []
+    pdf_meta_cache: dict[Path, tuple[str, int]] = {}
 
-def relative_source_path(p: Path) -> str:
-    return p.relative_to(ROOT).as_posix().replace("Sources/CakeKit/Resources/", "")
+    for item in index["entries"]:
+        symbol_id = item["symbolId"]
+        code = item.get("code")
+        label = item.get("label") or item.get("symbolTag") or symbol_id
+        section = item.get("section", "Unknown")
+        source_file = item.get("sourceFileNameUSGS", "unknown.pdf")
 
+        variant_entry = item.get("ai8") or item.get("cs2")
+        if not variant_entry:
+            continue
+        variant = "ai8" if item.get("ai8") else "cs2"
 
-def build_entry(code: int, label: str, variant: str, variant_entry: dict[str, Any]) -> dict[str, Any]:
-    png_source_rel = variant_entry["pngFile"]
-    pdf_source_rel = variant_entry["pdfFile"]
-    eps_rel = variant_entry["epsFile"]
-
-    prefix = "USGS/11A02/"
-    if not png_source_rel.startswith(prefix) or not pdf_source_rel.startswith(prefix):
-        raise ValueError("Unexpected source paths in symbol-index; expected USGS/11A02 prefix.")
-
-    png_rel = png_source_rel[len(prefix):]
-    pdf_rel = pdf_source_rel[len(prefix):]
-
-    png_abs = ROOT / "Sources/CakeKit/Resources" / png_source_rel
-    pdf_abs = ROOT / "Sources/CakeKit/Resources" / pdf_source_rel
-
-    if not png_abs.exists() or not pdf_abs.exists():
-        missing = []
-        if not png_abs.exists():
-            missing.append(str(png_abs))
+        pdf_abs = ROOT / "Sources/CakeKit/Resources" / variant_entry["pdfFile"]
         if not pdf_abs.exists():
-            missing.append(str(pdf_abs))
-        raise FileNotFoundError(f"Missing runtime asset(s): {', '.join(missing)}")
+            continue
+        cached = pdf_meta_cache.get(pdf_abs)
+        if cached is None:
+            cached = (sha256_file(pdf_abs), pdf_abs.stat().st_size)
+            pdf_meta_cache[pdf_abs] = cached
+        pdf_sha, pdf_bytes = cached
 
-    entry_id = normalize_id(code=code, variant=variant, label=label)
-    return {
-        "id": entry_id,
-        "code": code,
-        "label": label,
-        "variant": variant,
-        "epsRelativePath": eps_rel,
-        "pageSizePoints": variant_entry["pageSizePoints"],
-        "symbolRect": variant_entry["symbolRect"],
-        "png": {
-            "path": png_rel,
-            "sha256": sha256_file(png_abs),
-            "bytes": png_abs.stat().st_size,
-        },
-        "pdf": {
-            "path": pdf_rel,
-            "sha256": sha256_file(pdf_abs),
-            "bytes": pdf_abs.stat().st_size,
-        },
-    }
+        entries.append(
+            {
+                "id": f"usgs-{symbol_id}-{variant}".replace("#", "-"),
+                "symbolId": symbol_id,
+                "code": code,
+                "label": label,
+                "section": section,
+                "sourceFileNameUSGS": source_file,
+                "variant": variant,
+                "epsRelativePath": variant_entry["epsFile"],
+                "pageSizePoints": variant_entry["pageSizePoints"],
+                "symbolRect": variant_entry["symbolRect"],
+                "pdf": {
+                    "path": f"pdf/{variant}/{Path(variant_entry['pdfFile']).name}",
+                    "sha256": pdf_sha,
+                    "bytes": pdf_bytes,
+                },
+            }
+        )
+
+    entries.sort(key=lambda item: (item["section"], item["symbolId"], item["variant"]))
+    return entries
 
 
-def selected_codes_for_dev(all_codes: list[int]) -> set[int]:
-    selected = [code for code in DEV_SEED_CODES if code in all_codes]
-    for code in all_codes:
-        if len(selected) >= DEV_MIN_CODE_COUNT:
+def select_dev_entries(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    section37 = [entry for entry in entries if entry["section"] == "Sec37"]
+    by_section: dict[str, list[dict[str, Any]]] = {}
+    for entry in entries:
+        by_section.setdefault(entry["section"], []).append(entry)
+
+    selected = list(section37)
+    seen = {entry["id"] for entry in selected}
+
+    for section in sorted(by_section):
+        for entry in by_section[section][:4]:
+            if entry["id"] not in seen:
+                selected.append(entry)
+                seen.add(entry["id"])
+        if len(selected) >= DEV_MIN_ENTRY_COUNT:
             break
-        if code not in selected:
-            selected.append(code)
-    return set(selected)
+
+    if len(selected) < DEV_MIN_ENTRY_COUNT:
+        for entry in entries:
+            if entry["id"] in seen:
+                continue
+            selected.append(entry)
+            seen.add(entry["id"])
+            if len(selected) >= DEV_MIN_ENTRY_COUNT:
+                break
+
+    selected.sort(key=lambda item: (item["section"], item["symbolId"], item["variant"]))
+    return selected
+
+
+def assert_release_consistency(entries: list[dict[str, Any]]) -> None:
+    official_codes, aliases = parse_official_codes_and_aliases()
+    code_entries = {int(entry["code"]) for entry in entries if entry["code"] is not None}
+    allowed_missing = set(aliases.keys())
+    missing = official_codes - code_entries
+    extra = code_entries - official_codes
+    if missing != allowed_missing:
+        raise RuntimeError(
+            "Section 37 coverage mismatch in unified catalog: "
+            f"missing={sorted(missing)} expected_allowed_missing={sorted(allowed_missing)}"
+        )
+    if extra:
+        raise RuntimeError(f"Section 37 coverage mismatch in unified catalog: extra={sorted(extra)}")
+    for src, dst in aliases.items():
+        if dst not in code_entries:
+            raise RuntimeError(f"Alias target {dst} missing in unified catalog")
+
+
+def ensure_crop_binary() -> Path:
+    SWIFT_CROP_BINARY.parent.mkdir(parents=True, exist_ok=True)
+    needs_rebuild = (
+        not SWIFT_CROP_BINARY.exists()
+        or SWIFT_CROP_BINARY.stat().st_mtime < SWIFT_CROP_SOURCE.stat().st_mtime
+    )
+    if needs_rebuild:
+        subprocess.run(
+            ["swiftc", str(SWIFT_CROP_SOURCE), "-o", str(SWIFT_CROP_BINARY)],
+            check=True,
+        )
+    return SWIFT_CROP_BINARY
+
+
+def canonical_isolated_name(source_file: str, symbol_id: str, taken: set[str]) -> str:
+    stem = Path(source_file).stem
+    suffix = Path(source_file).suffix or ".pdf"
+    safe_symbol = symbol_id.replace("#", "__").replace("/", "-").replace(":", "-")
+    candidate = f"{stem}__{safe_symbol}{suffix}"
+    if candidate not in taken:
+        taken.add(candidate)
+        return candidate
+    index = 2
+    while True:
+        candidate = f"{stem}__{safe_symbol}-{index}{suffix}"
+        if candidate not in taken:
+            taken.add(candidate)
+            return candidate
+        index += 1
+
+
+def strip_text_from_pdf(input_pdf: Path, output_pdf: Path) -> bool:
+    try:
+        subprocess.run(
+            [
+                "gs",
+                "-q",
+                "-dBATCH",
+                "-dNOPAUSE",
+                "-sDEVICE=pdfwrite",
+                "-dCompatibilityLevel=1.6",
+                "-dFILTERTEXT",
+                f"-sOutputFile={output_pdf}",
+                str(input_pdf),
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return output_pdf.exists() and output_pdf.stat().st_size > 0
+    except Exception:
+        return False
+
+
+def has_vector_geometry(pdf_path: Path) -> bool:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        svg_path = Path(tmpdir) / "preview.svg"
+        try:
+            subprocess.run(
+                [
+                    "pdftocairo",
+                    "-svg",
+                    str(pdf_path),
+                    str(svg_path),
+                ],
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+        except Exception:
+            return False
+        if not svg_path.exists():
+            return False
+        svg = svg_path.read_text(encoding="utf-8", errors="ignore")
+        geometry_markers = ("<path", "<line", "<polyline", "<polygon", "<circle", "<ellipse")
+        return any(marker in svg for marker in geometry_markers)
+
+
+def is_viable_symbol_pdf(pdf_path: Path) -> bool:
+    # After text stripping, keep only PDFs that still carry vector geometry.
+    return has_vector_geometry(pdf_path)
+
+
+def materialize_isolated_pdfs(entries: list[dict[str, Any]]) -> dict[str, str]:
+    ISOLATED_BASE.mkdir(parents=True, exist_ok=True)
+    for existing in ISOLATED_BASE.glob("*.pdf"):
+        existing.unlink()
+
+    crop_bin = ensure_crop_binary()
+    isolated_map: dict[str, str] = {}
+    taken_names: set[str] = set()
+    textless_sources: dict[Path, Path] = {}
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_base = Path(temp_dir)
+        for entry in entries:
+            symbol_id = entry["symbolId"]
+            if symbol_id in isolated_map:
+                continue
+
+            source_rel = entry["pdf"]["path"]
+            source_abs = USGS_BASE / source_rel
+            if not source_abs.exists():
+                continue
+
+            textless_source = textless_sources.get(source_abs)
+            if textless_source is None:
+                textless_name = f"{source_abs.stem}-notext-{len(textless_sources):04d}.pdf"
+                candidate = temp_base / textless_name
+                if strip_text_from_pdf(source_abs, candidate):
+                    textless_source = candidate
+                else:
+                    textless_source = source_abs
+                textless_sources[source_abs] = textless_source
+
+            rect = entry["symbolRect"]
+            page = entry["pageSizePoints"]
+            isolated_name = canonical_isolated_name(entry["sourceFileNameUSGS"], symbol_id, taken_names)
+            isolated_abs = ISOLATED_BASE / isolated_name
+            subprocess.run(
+                [
+                    str(crop_bin),
+                    str(textless_source),
+                    str(isolated_abs),
+                    str(rect["x"]),
+                    str(rect["y"]),
+                    str(rect["width"]),
+                    str(rect["height"]),
+                    str(page["width"]),
+                    str(page["height"]),
+                ],
+                check=True,
+            )
+            if not is_viable_symbol_pdf(isolated_abs):
+                isolated_abs.unlink(missing_ok=True)
+                continue
+            isolated_map[symbol_id] = f"isolated/{isolated_name}"
+
+    return isolated_map
 
 
 def build_catalog(profile: str, entries: list[dict[str, Any]]) -> dict[str, Any]:
-    all_codes = sorted({entry["code"] for entry in entries})
-    if profile == "dev":
-        allowed_codes = selected_codes_for_dev(all_codes)
-        selected_entries = [entry for entry in entries if entry["code"] in allowed_codes]
-    else:
-        selected_entries = entries
+    selected_entries = select_dev_entries(entries) if profile == "dev" else entries
+    isolated_map = materialize_isolated_pdfs(selected_entries if profile == "release" else entries)
 
-    out_entries: list[dict[str, Any]] = []
-    seen_ids: set[str] = set()
+    output_entries: list[dict[str, Any]] = []
     for entry in selected_entries:
-        label = entry["label"]
-        # Prefer ai8 and include fallback variant when available.
-        for variant in ("ai8", "cs2"):
-            variant_entry = entry.get(variant)
-            if not variant_entry:
-                continue
-            runtime_entry = build_entry(code=entry["code"], label=label, variant=variant, variant_entry=variant_entry)
-            if runtime_entry["id"] in seen_ids:
-                raise RuntimeError(f"Catalog id collision: {runtime_entry['id']}")
-            seen_ids.add(runtime_entry["id"])
-            out_entries.append(runtime_entry)
-
-    out_entries.sort(key=lambda item: (item["code"], item["variant"]))
+        isolated_path = isolated_map.get(entry["symbolId"])
+        if not isolated_path:
+            continue
+        copied = dict(entry)
+        copied["isolatedPdfPath"] = isolated_path
+        output_entries.append(copied)
 
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "profile": profile,
         "sourceIndex": relative_source_path(INDEX_PATH),
-        "totalEntries": len(out_entries),
+        "totalEntries": len(output_entries),
         "generatedBy": "scripts/build_usgs_resource_catalog.py",
-        "entries": out_entries,
+        "entries": output_entries,
     }
-
-
-def assert_catalog_consistency(profile: str, payload: dict[str, Any]) -> None:
-    official_codes, aliases = parse_official_codes_and_aliases()
-    runtime_codes = {entry["code"] for entry in payload["entries"]}
-
-    if profile == "release":
-        allowed_missing = set(aliases.keys())
-        missing = official_codes - runtime_codes
-        extra = runtime_codes - official_codes
-        if missing != allowed_missing:
-            raise RuntimeError(
-                "Section 37 catalog mismatch: "
-                f"missing={sorted(missing)} expected_allowed_missing={sorted(allowed_missing)}"
-            )
-        if extra:
-            raise RuntimeError(f"Section 37 catalog mismatch: extra runtime codes={sorted(extra)}")
-        for alias_source, alias_target in aliases.items():
-            if alias_source not in official_codes:
-                raise RuntimeError(f"Alias source code {alias_source} is not in official Section 37 list")
-            if alias_target not in runtime_codes:
-                raise RuntimeError(f"Alias target code {alias_target} is missing from runtime catalog")
-    else:
-        if not runtime_codes.issubset(official_codes):
-            raise RuntimeError(
-                f"Dev catalog must stay a subset of official Section 37 codes. extra={sorted(runtime_codes - official_codes)}"
-            )
 
 
 def write_catalog(profile: str, payload: dict[str, Any]) -> None:
@@ -193,13 +334,12 @@ def main() -> None:
     parser.add_argument("--profile", choices=["dev", "release", "all"], default=os.environ.get("RESOURCE_PROFILE", "dev"))
     args = parser.parse_args()
 
-    document = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
-    entries: list[dict[str, Any]] = document["entries"]
-
+    entries = build_entries_from_index()
     profiles = ["dev", "release"] if args.profile == "all" else [args.profile]
     for profile in profiles:
         payload = build_catalog(profile=profile, entries=entries)
-        assert_catalog_consistency(profile=profile, payload=payload)
+        if profile == "release":
+            assert_release_consistency(payload["entries"])
         write_catalog(profile=profile, payload=payload)
 
 

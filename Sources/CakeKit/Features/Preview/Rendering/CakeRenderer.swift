@@ -11,6 +11,7 @@ public struct CakeRenderer: LogRenderer {
     private struct LithologyLegendKey: Hashable {
         let label: String
         let usgsSymbolCode: Int?
+        let usgsSymbolID: String?
         let fillHex: String
     }
 
@@ -48,6 +49,7 @@ public struct CakeRenderer: LogRenderer {
             let safeThickness = max(unit.thickness, 0.01)
             let height = safeThickness * project.settings.verticalScale
             let usgsCode = unit.usgsLithologyCode
+            let usgsSymbolID = unit.usgsSymbolID?.isEmpty == false ? unit.usgsSymbolID : nil
             let style = SymbologyLibrary.style(forUSGSCode: usgsCode)
             let resolvedFill = ColorHex.normalizedHex(unit.lithologyColorHex) ?? style.fillHex
             let width = unitWidths[index]
@@ -65,6 +67,7 @@ public struct CakeRenderer: LogRenderer {
                     lithology: unit.lithologyLabel,
                     symbol: style.symbol,
                     usgsSymbolCode: usgsCode,
+                    usgsSymbolID: usgsSymbolID,
                     fillHex: resolvedFill,
                     rect: rect,
                     grainSize: unit.grainSize,
@@ -79,8 +82,20 @@ public struct CakeRenderer: LogRenderer {
             } else {
                 label = legendBaseLabel
             }
-            let key = LithologyLegendKey(label: label, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
-            let item = LegendItem(label: label, symbol: style.symbol, usgsSymbolCode: usgsCode, fillHex: resolvedFill)
+            let symbolLabel: String
+            if let usgsSymbolID, let asset = USGSSymbolAssetResolver.asset(forSymbolID: usgsSymbolID) {
+                symbolLabel = "\(asset.label) [\(asset.section)]"
+            } else {
+                symbolLabel = label
+            }
+            let key = LithologyLegendKey(label: symbolLabel, usgsSymbolCode: usgsCode, usgsSymbolID: usgsSymbolID, fillHex: resolvedFill)
+            let item = LegendItem(
+                label: symbolLabel,
+                symbol: style.symbol,
+                usgsSymbolCode: usgsCode,
+                usgsSymbolID: usgsSymbolID,
+                fillHex: resolvedFill
+            )
             if seenLithologyLegendKeys.insert(key).inserted {
                 legendOrder.append(item)
             }

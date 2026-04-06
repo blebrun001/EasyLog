@@ -77,16 +77,16 @@ Build runtime resource catalogs (`dev`, `release`, or `all`):
 ./scripts/build-resources.sh all
 ```
 
-Sync EPS symbols and rebuild the source index:
+Sync EPS symbols and rebuild source indexes:
 
 ```bash
 ./scripts/sync_usgs_11a02_eps.sh && ./scripts/build_usgs_symbol_index.py
 ```
 
-Increase raster quality (default `600` DPI):
+Generate the unified runtime catalog + isolated PDF symbol resources:
 
 ```bash
-USGS_RASTER_DPI=1200 ./scripts/render_usgs_eps_raster.sh
+./scripts/build_usgs_resource_catalog.py --profile all
 ```
 
 Regenerate PDF derivatives from EPS:
@@ -95,10 +95,11 @@ Regenerate PDF derivatives from EPS:
 ./scripts/render_usgs_eps_pdf.sh
 ```
 
-`CakeKit` now loads symbols from generated runtime catalogs:
+`CakeKit` now loads symbols from generated runtime catalogs and isolated PDFs:
 
 - `Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.dev.json`
 - `Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.release.json`
+- `Sources/CakeKit/Resources/USGS/isolated/`
 
 Profile selection is controlled by `CAKE_RESOURCE_PROFILE=dev|release`.
 Default profile is `dev` for debug builds and `release` otherwise.
@@ -106,7 +107,7 @@ Default profile is `dev` for debug builds and `release` otherwise.
 ## Build Size Strategy
 
 - Build artifacts are kept outside the repo by default (`~/Library/Caches/Cake-build`) via `make`.
-- Raw EPS authoring sources remain in the repository, but runtime packaging only includes generated catalogs + runtime raster/PDF assets.
+- Raw EPS authoring sources remain in the repository, but runtime packaging only includes generated catalogs + runtime PDF assets.
 - For release parity in CI, run `./scripts/build-resources.sh release` before building.
 
 ## Git Large Files (Future Additions)

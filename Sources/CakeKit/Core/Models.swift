@@ -321,6 +321,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
     public var name: String
     public var thickness: Double
     public var usgsLithologyCode: Int
+    public var usgsSymbolID: String?
     public var lithologyColorHex: String?
     public var grainSize: USGSGrainSize?
     public var pointFeatures: [UnitPointFeature]
@@ -344,6 +345,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         name: String,
         thickness: Double,
         usgsLithologyCode: Int,
+        usgsSymbolID: String? = nil,
         lithologyColorHex: String? = nil,
         grainSize: USGSGrainSize? = nil,
         pointFeatures: [UnitPointFeature] = []
@@ -352,6 +354,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         self.name = name
         self.thickness = thickness
         self.usgsLithologyCode = usgsLithologyCode
+        self.usgsSymbolID = usgsSymbolID?.trimmingCharacters(in: .whitespacesAndNewlines)
         self.lithologyColorHex = Self.normalizedHexColor(lithologyColorHex)
         self.grainSize = grainSize
         self.pointFeatures = pointFeatures
@@ -383,6 +386,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         case name
         case thickness
         case usgsLithologyCode
+        case usgsSymbolID
         case lithology
         case lithologyColorHex
         case grainSize
@@ -402,6 +406,8 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         } else {
             usgsLithologyCode = 607
         }
+        usgsSymbolID = try container.decodeIfPresent(String.self, forKey: .usgsSymbolID)?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
         let rawColorHex = try container.decodeIfPresent(String.self, forKey: .lithologyColorHex)
         lithologyColorHex = Self.normalizedHexColor(rawColorHex)
         grainSize = try container.decodeIfPresent(USGSGrainSize.self, forKey: .grainSize)
@@ -414,6 +420,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encode(thickness, forKey: .thickness)
         try container.encode(usgsLithologyCode, forKey: .usgsLithologyCode)
+        try container.encodeIfPresent(usgsSymbolID, forKey: .usgsSymbolID)
         try container.encodeIfPresent(Self.normalizedHexColor(lithologyColorHex), forKey: .lithologyColorHex)
         try container.encodeIfPresent(grainSize, forKey: .grainSize)
         try container.encode(pointFeatures, forKey: .pointFeatures)

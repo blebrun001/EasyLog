@@ -9,6 +9,8 @@ public struct UnitFormView: View {
     @State private var selectedLithologyCode: Int
     @State private var showLithologyColorChangeDialog = false
     @State private var pendingLithologySelectionCode: Int?
+    @State private var selectedUSGSSection: String
+    @State private var selectedUSGSSymbolID: String
     @State private var colorPickerSelection: Color = .clear
     @State private var lithologyHexText: String = ""
     @State private var pendingPointFeatureCategory: PointFeatureCategory
@@ -19,6 +21,10 @@ public struct UnitFormView: View {
         self._thicknessText = State(initialValue: Self.formatNumber(unit.wrappedValue.thickness))
         self._selectedLithologyCategory = State(initialValue: SymbologyLibrary.lithologyCategory(forUSGSCode: unit.wrappedValue.usgsLithologyCode))
         self._selectedLithologyCode = State(initialValue: unit.wrappedValue.usgsLithologyCode)
+        let sections = USGSSymbolAssetResolver.allSections()
+        let initialSection = sections.contains("Sec37") ? "Sec37" : (sections.first ?? "Sec37")
+        self._selectedUSGSSection = State(initialValue: initialSection)
+        self._selectedUSGSSymbolID = State(initialValue: unit.wrappedValue.usgsSymbolID ?? "")
         self._pendingPointFeatureCategory = State(initialValue: PointFeatureType.allCases.first?.category ?? .biological)
     }
 
@@ -70,6 +76,41 @@ public struct UnitFormView: View {
                     Text("Code \(unit.usgsLithologyCode) uses rendered swatch \(aliased).")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                }
+
+                fieldGroup("USGS Symbol Override") {
+                    Toggle("Use Full USGS Symbol Catalog", isOn: useUSGSSymbolOverrideBinding)
+                        .toggleStyle(.switch)
+                        .onChange(of: unit.usgsSymbolID) { _, _ in
+                            syncUSGSSymbolSelection()
+                        }
+                }
+
+                if unit.usgsSymbolID != nil {
+                    fieldGroup("USGS Section") {
+                        Picker("USGS Section", selection: $selectedUSGSSection) {
+                            ForEach(availableUSGSSections, id: \.self) { section in
+                                Text(section).tag(section)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .onChange(of: selectedUSGSSection) { _, _ in
+                            normalizeUSGSSymbolSelection()
+                        }
+                    }
+
+                    fieldGroup("USGS Symbol") {
+                        Picker("USGS Symbol", selection: usgsSymbolBinding) {
+                            ForEach(availableUSGSSymbolsInSection, id: \.symbolId) { symbol in
+                                Text("\(symbol.label) · \(symbol.sourceFileNameUSGS)").tag(symbol.symbolId)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
 
                 fieldGroup("Lithology Color") {
@@ -174,6 +215,8 @@ public struct UnitFormView: View {
             thicknessText = Self.formatNumber(unit.thickness)
             syncLithologyCategoryWithUnit()
             normalizeLithologySelection()
+            syncUSGSSymbolSelection()
+            normalizeUSGSSymbolSelection()
             syncColorControlsFromUnit()
             normalizePendingFeatureSelection()
         }
@@ -182,6 +225,8 @@ public struct UnitFormView: View {
             thicknessText = Self.formatNumber(unit.thickness)
             syncLithologyCategoryWithUnit()
             normalizeLithologySelection()
+            syncUSGSSymbolSelection()
+            normalizeUSGSSymbolSelection()
             syncColorControlsFromUnit()
             normalizePendingFeatureSelection()
         }
@@ -213,6 +258,14 @@ public struct UnitFormView: View {
         SymbologyLibrary.symbols(in: selectedLithologyCategory)
     }
 
+    private var availableUSGSSections: [String] {
+        USGSSymbolAssetResolver.allSections()
+    }
+
+    private var availableUSGSSymbolsInSection: [USGSSymbolAsset] {
+        USGSSymbolAssetResolver.symbols(inSection: selectedUSGSSection)
+    }
+
     private func syncLithologyCategoryWithUnit() {
         selectedLithologyCode = unit.usgsLithologyCode
         selectedLithologyCategory = SymbologyLibrary.lithologyCategory(forUSGSCode: unit.usgsLithologyCode)
@@ -236,6 +289,40 @@ public struct UnitFormView: View {
         }
     }
 
+    private func syncUSGSSymbolSelection() {
+        guard let current = unit.usgsSymbolID, !current.isEmpty else {
+            selectedUSGSSymbolID = ""
+            return
+        }
+        selectedUSGSSymbolID = current
+        if let symbol = USGSSymbolAssetResolver.asset(forSymbolID: current) {
+            selectedUSGSSection = symbol.section
+        }
+    }
+
+    private func normalizeUSGSSymbolSelection() {
+        guard unit.usgsSymbolID != nil else { return }
+        let sections = availableUSGSSections
+        guard !sections.isEmpty else {
+            unit.usgsSymbolID = nil
+            selectedUSGSSymbolID = ""
+            return
+        }
+        if !sections.contains(selectedUSGSSection) {
+            selectedUSGSSection = sections[0]
+        }
+        let symbols = availableUSGSSymbolsInSection
+        guard let first = symbols.first else {
+            unit.usgsSymbolID = nil
+            selectedUSGSSymbolID = ""
+            return
+        }
+        if !symbols.contains(where: { $0.symbolId == selectedUSGSSymbolID }) {
+            selectedUSGSSymbolID = first.symbolId
+        }
+        unit.usgsSymbolID = selectedUSGSSymbolID
+    }
+
     private func coerceLithologyToSupportedValueIfNeeded() {
         guard !SymbologyLibrary.isSupportedUSGSLithologyCode(unit.usgsLithologyCode) else { return }
         unit.usgsLithologyCode = SymbologyLibrary.supportedUSGSCodes.first ?? unit.usgsLithologyCode
@@ -248,6 +335,40 @@ public struct UnitFormView: View {
             set: { candidate in
                 guard candidate != selectedLithologyCode else { return }
                 requestLithologyChange(to: candidate)
+            }
+        )
+    }
+
+    private var useUSGSSymbolOverrideBinding: Binding<Bool> {
+        Binding(
+            get: { unit.usgsSymbolID != nil },
+            set: { enabled in
+                if enabled {
+                    let sections = availableUSGSSections
+                    if sections.contains("Sec37") {
+                        selectedUSGSSection = "Sec37"
+                    } else if let firstSection = sections.first {
+                        selectedUSGSSection = firstSection
+                    }
+                    let symbols = availableUSGSSymbolsInSection
+                    if let first = symbols.first {
+                        selectedUSGSSymbolID = first.symbolId
+                        unit.usgsSymbolID = first.symbolId
+                    }
+                } else {
+                    unit.usgsSymbolID = nil
+                    selectedUSGSSymbolID = ""
+                }
+            }
+        )
+    }
+
+    private var usgsSymbolBinding: Binding<String> {
+        Binding(
+            get: { selectedUSGSSymbolID },
+            set: { candidate in
+                selectedUSGSSymbolID = candidate
+                unit.usgsSymbolID = candidate
             }
         )
     }

@@ -40,7 +40,7 @@ def parse_official_symbols_and_aliases() -> tuple[list[dict[str, object]], dict[
 def main() -> None:
     symbols, aliases = parse_official_symbols_and_aliases()
     index = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
-    available_codes = {int(entry["code"]) for entry in index["entries"]}
+    available_codes = {int(entry["code"]) for entry in index["entries"] if entry.get("code") is not None}
 
     entries = []
     for item in symbols:

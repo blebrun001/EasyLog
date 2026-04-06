@@ -18,5 +18,6 @@ case "$PROFILE" in
     ;;
 esac
 
+python3 "$ROOT_DIR/scripts/build_usgs_symbol_index.py"
 python3 "$ROOT_DIR/scripts/build_usgs_resource_catalog.py" --profile "$PROFILE"
 python3 "$ROOT_DIR/scripts/build_usgs_section37_catalog.py"

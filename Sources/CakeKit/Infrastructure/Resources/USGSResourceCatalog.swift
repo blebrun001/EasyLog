@@ -15,13 +15,16 @@ public struct USGSResourceCatalog {
 
     public struct Entry: Codable, Hashable {
         public let id: String
-        public let code: Int
+        public let symbolId: String
+        public let code: Int?
         public let label: String
+        public let section: String
+        public let sourceFileNameUSGS: String
         public let variant: String
         public let epsRelativePath: String
         public let pageSizePoints: CGSizeDTO
         public let symbolRect: USGSSymbolRect
-        public let png: AssetFile
+        public let isolatedPdfPath: String?
         public let pdf: AssetFile
     }
 
@@ -36,16 +39,19 @@ public struct USGSResourceCatalog {
 
     public enum CatalogError: Error, CustomStringConvertible {
         case invalidManifest(String)
-        case missingEntry(code: Int)
-        case missingAsset(path: String)
+        case missingEntryForCode(Int)
+        case missingEntryForSymbolId(String)
+        case missingAsset(String)
         case hashMismatch(path: String, expected: String, actual: String)
 
         public var description: String {
             switch self {
             case .invalidManifest(let reason):
                 return "Invalid resource catalog: \(reason)"
-            case .missingEntry(let code):
+            case .missingEntryForCode(let code):
                 return "No resource entry found for USGS code \(code)."
+            case .missingEntryForSymbolId(let symbolId):
+                return "No resource entry found for USGS symbol id \(symbolId)."
             case .missingAsset(let path):
                 return "Catalog references a missing asset: \(path)."
             case .hashMismatch(let path, let expected, let actual):
@@ -59,6 +65,7 @@ public struct USGSResourceCatalog {
 
     private let provider: any ResourceProvider
     private let entriesByCode: [Int: [Entry]]
+    private let entriesBySymbolID: [String: [Entry]]
 
     public init(
         bundle: Bundle = CakeKitBundle.resources,
@@ -69,66 +76,102 @@ public struct USGSResourceCatalog {
         let relativePath = "USGSRuntime/ResourceCatalog.\(profile.rawValue).json"
         let data = try provider.data(for: relativePath)
         let document = try JSONDecoder().decode(Document.self, from: data)
-
-        guard document.schemaVersion == 1 else {
-            throw CatalogError.invalidManifest("Unsupported schema version \(document.schemaVersion)")
-        }
-
+        try Self.validate(document: document)
         self.entries = document.entries
-        var map: [Int: [Entry]] = [:]
-        for entry in entries {
-            map[entry.code, default: []].append(entry)
-        }
-        self.entriesByCode = map
+        self.entriesByCode = Self.buildByCode(entries: entries)
+        self.entriesBySymbolID = Self.buildBySymbolID(entries: entries)
     }
 
     public init(profile: USGSResourceProfile, provider: any ResourceProvider, manifestData: Data) throws {
         self.profile = profile
         self.provider = provider
         let document = try JSONDecoder().decode(Document.self, from: manifestData)
-        guard document.schemaVersion == 1 else {
-            throw CatalogError.invalidManifest("Unsupported schema version \(document.schemaVersion)")
-        }
+        try Self.validate(document: document)
         self.entries = document.entries
-
-        var map: [Int: [Entry]] = [:]
-        for entry in entries {
-            map[entry.code, default: []].append(entry)
-        }
-        self.entriesByCode = map
+        self.entriesByCode = Self.buildByCode(entries: entries)
+        self.entriesBySymbolID = Self.buildBySymbolID(entries: entries)
     }
 
-    public func preferredEntry(for code: Int) throws -> Entry {
+    public func preferredEntry(forCode code: Int) throws -> Entry {
         guard let candidates = entriesByCode[code], !candidates.isEmpty else {
-            throw CatalogError.missingEntry(code: code)
+            throw CatalogError.missingEntryForCode(code)
         }
-
         if let ai8 = candidates.first(where: { $0.variant == "ai8" }) {
             return ai8
         }
         return candidates[0]
     }
 
-    public func resolvedURLs(for entry: Entry, validateHashes: Bool = false) throws -> (pngURL: URL, pdfURL: URL) {
-        let pngURL = try provider.url(for: entry.png.path)
-        let pdfURL = try provider.url(for: entry.pdf.path)
+    public func preferredEntry(forSymbolID symbolID: String) throws -> Entry {
+        guard let candidates = entriesBySymbolID[symbolID], !candidates.isEmpty else {
+            throw CatalogError.missingEntryForSymbolId(symbolID)
+        }
+        if let ai8 = candidates.first(where: { $0.variant == "ai8" }) {
+            return ai8
+        }
+        return candidates[0]
+    }
+
+    public func allSections() -> [String] {
+        Array(Set(entries.map(\.section))).sorted()
+    }
+
+    public func entries(inSection section: String) -> [Entry] {
+        entries
+            .filter { $0.section.caseInsensitiveCompare(section) == .orderedSame }
+            .sorted { lhs, rhs in
+                if lhs.label != rhs.label {
+                    return lhs.label.localizedCaseInsensitiveCompare(rhs.label) == .orderedAscending
+                }
+                return lhs.symbolId < rhs.symbolId
+            }
+    }
+
+    public func search(labelContains query: String) -> [Entry] {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return entries }
+        return entries.filter {
+            $0.label.localizedCaseInsensitiveContains(trimmed) ||
+            $0.symbolId.localizedCaseInsensitiveContains(trimmed) ||
+            $0.sourceFileNameUSGS.localizedCaseInsensitiveContains(trimmed)
+        }
+    }
+
+    public func resolvedPDFURL(for entry: Entry, validateHashes: Bool = false, preferIsolated: Bool = true) throws -> URL {
+        let relativePath = (preferIsolated ? entry.isolatedPdfPath : nil) ?? entry.pdf.path
+        let pdfURL = try provider.url(for: relativePath)
 
         if validateHashes {
-            let pngData = try Data(contentsOf: pngURL)
             let pdfData = try Data(contentsOf: pdfURL)
-
-            let pngDigest = SHA256.hash(data: pngData).hexString
             let pdfDigest = SHA256.hash(data: pdfData).hexString
-
-            if pngDigest != entry.png.sha256 {
-                throw CatalogError.hashMismatch(path: entry.png.path, expected: entry.png.sha256, actual: pngDigest)
-            }
             if pdfDigest != entry.pdf.sha256 {
-                throw CatalogError.hashMismatch(path: entry.pdf.path, expected: entry.pdf.sha256, actual: pdfDigest)
+                throw CatalogError.hashMismatch(path: relativePath, expected: entry.pdf.sha256, actual: pdfDigest)
             }
         }
+        return pdfURL
+    }
 
-        return (pngURL, pdfURL)
+    private static func validate(document: Document) throws {
+        guard document.schemaVersion == 2 else {
+            throw CatalogError.invalidManifest("Unsupported schema version \(document.schemaVersion)")
+        }
+    }
+
+    private static func buildByCode(entries: [Entry]) -> [Int: [Entry]] {
+        var map: [Int: [Entry]] = [:]
+        for entry in entries {
+            guard let code = entry.code else { continue }
+            map[code, default: []].append(entry)
+        }
+        return map
+    }
+
+    private static func buildBySymbolID(entries: [Entry]) -> [String: [Entry]] {
+        var map: [String: [Entry]] = [:]
+        for entry in entries {
+            map[entry.symbolId, default: []].append(entry)
+        }
+        return map
     }
 }
 

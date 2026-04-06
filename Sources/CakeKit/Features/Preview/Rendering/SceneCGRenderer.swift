@@ -89,7 +89,11 @@ public enum SceneCGRenderer {
 
             context.setFillColor(fill)
             context.fill(rect)
-            if let code = unit.usgsSymbolCode {
+            if let symbolID = unit.usgsSymbolID {
+                if !USGSEPSSymbolRenderer.drawSymbol(symbolID: symbolID, in: rect, context: context, symbolScale: scene.symbolScale) {
+                    drawSymbolPattern(unit.symbol, in: rect, context: context, symbolScale: scene.symbolScale)
+                }
+            } else if let code = unit.usgsSymbolCode {
                 if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: scene.symbolScale) {
                     drawSymbolPattern(unit.symbol, in: rect, context: context, symbolScale: scene.symbolScale)
                 }
@@ -212,6 +216,10 @@ public enum SceneCGRenderer {
                 fillColor: fillColor,
                 context: context
             )
+        } else if let symbolID = item.usgsSymbolID {
+            if !USGSEPSSymbolRenderer.drawSymbol(symbolID: symbolID, in: rect, context: context, symbolScale: symbolScale) {
+                drawSymbolPattern(item.symbol, in: rect, context: context, symbolScale: symbolScale)
+            }
         } else if let code = item.usgsSymbolCode {
             if !USGSEPSSymbolRenderer.drawSymbol(code: code, in: rect, context: context, symbolScale: symbolScale) {
                 drawSymbolPattern(item.symbol, in: rect, context: context, symbolScale: symbolScale)
