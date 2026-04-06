@@ -41,13 +41,14 @@ Cake is a macOS SwiftUI application for building a minimal, data-driven stratigr
 ## Run
 
 ```bash
-swift run CakeApp
+make build
+CAKE_RESOURCE_PROFILE=dev swift run CakeApp
 ```
 
 ## Test
 
 ```bash
-swift test
+make test
 ```
 
 ## Xcode Project
@@ -68,7 +69,15 @@ Generate `Cake.icns` and `Assets.xcassets/AppIcon.appiconset`:
 
 ## USGS Assets
 
-Sync EPS symbols and rebuild the index:
+Build runtime resource catalogs (`dev`, `release`, or `all`):
+
+```bash
+./scripts/build-resources.sh dev
+./scripts/build-resources.sh release
+./scripts/build-resources.sh all
+```
+
+Sync EPS symbols and rebuild the source index:
 
 ```bash
 ./scripts/sync_usgs_11a02_eps.sh && ./scripts/build_usgs_symbol_index.py
@@ -84,6 +93,55 @@ Regenerate PDF derivatives from EPS:
 
 ```bash
 ./scripts/render_usgs_eps_pdf.sh
+```
+
+`CakeKit` now loads symbols from generated runtime catalogs:
+
+- `Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.dev.json`
+- `Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.release.json`
+
+Profile selection is controlled by `CAKE_RESOURCE_PROFILE=dev|release`.
+Default profile is `dev` for debug builds and `release` otherwise.
+
+## Build Size Strategy
+
+- Build artifacts are kept outside the repo by default (`~/Library/Caches/Cake-build`) via `make`.
+- Raw EPS authoring sources remain in the repository, but runtime packaging only includes generated catalogs + runtime raster/PDF assets.
+- For release parity in CI, run `./scripts/build-resources.sh release` before building.
+
+## Git Large Files (Future Additions)
+
+Large USGS assets are protected by `.gitattributes` LFS patterns.
+
+Check newly added large files:
+
+```bash
+./scripts/check-large-assets.sh
+```
+
+## Lightweight Clone (Contributors)
+
+Partial clone + sparse-checkout example:
+
+```bash
+git clone --filter=blob:none <repo-url>
+cd Cake
+./scripts/setup-sparse-checkout.sh light
+```
+
+To restore full checkout:
+
+```bash
+./scripts/setup-sparse-checkout.sh full
+```
+
+## Local Git Ref Maintenance
+
+If duplicate refs appear locally (for example `main 2`), inspect/fix with:
+
+```bash
+./scripts/fix-local-git-refs.sh
+./scripts/fix-local-git-refs.sh --apply
 ```
 
 ## Compatibility Note

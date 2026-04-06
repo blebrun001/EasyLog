@@ -10,5 +10,20 @@ public enum CakeKitBundle {
         #endif
     }
 
+    public static var resourceProfile: USGSResourceProfile {
+        if let raw = ProcessInfo.processInfo.environment["CAKE_RESOURCE_PROFILE"]?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased(),
+           let profile = USGSResourceProfile(rawValue: raw) {
+            return profile
+        }
+
+        #if DEBUG
+        return .dev
+        #else
+        return .release
+        #endif
+    }
+
     private final class BundleFinder {}
 }

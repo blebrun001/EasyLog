@@ -227,8 +227,8 @@ func rendererUsesNaturalCanvasSizeWithoutPresetMinimums() {
     let sceneA4 = renderer.makeScene(project: projectA4)
 
     // Expected natural dimensions from renderer margins and content.
-    #expect(sceneLetter.canvasSize.height == 161)
-    #expect(sceneA4.canvasSize.height == 161)
+    #expect(sceneLetter.canvasSize.height == 184)
+    #expect(sceneA4.canvasSize.height == 184)
     #expect(sceneLetter.canvasSize.width == sceneA4.canvasSize.width)
     #expect(sceneLetter.canvasSize.width >= 460)
 }

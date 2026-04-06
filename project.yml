@@ -14,7 +14,9 @@ targets:
     sources:
       - Sources/CakeKit
     resources:
-      - Sources/CakeKit/Resources/USGS
+      - Sources/CakeKit/Resources/USGS/11A02/raster
+      - Sources/CakeKit/Resources/USGS/11A02/pdf
+      - Sources/CakeKit/Resources/USGSRuntime
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit

@@ -231,6 +231,7 @@
 		4372CE63411BED3A258A24BC /* Cake.icns in Resources */ = {isa = PBXBuildFile; fileRef = D88AF3A6A58325D2451FFCF4 /* Cake.icns */; };
 		439A5628DA66904B2BB76604 /* FGDCgeostdTM11A2_A-18-02ai8.png in Resources */ = {isa = PBXBuildFile; fileRef = 48A6BB84A5203170878B0CC1 /* FGDCgeostdTM11A2_A-18-02ai8.png */; };
 		43F589F1CB015440FD75F715 /* FGDCgeostdTM11A2_A-09-05ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 96D3A451C7E9D6CD85D1768F /* FGDCgeostdTM11A2_A-09-05ai8.pdf */; };
+		444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */; };
 		44B301172F2DED7AC6C7F0C0 /* FGDCgeostdTM11A2_A-02-06cs2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2832463266C4E0F4A695024B /* FGDCgeostdTM11A2_A-02-06cs2.png */; };
 		44D7D549F3F604580ADD1A35 /* FGDCgeostdTM11A2_A-09-04cs2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AB55E1CADFA0D2098DCBC15 /* FGDCgeostdTM11A2_A-09-04cs2.png */; };
 		44F7A61CCFC24BAA5E8601A5 /* FGDCgeostdTM11A2_A-30-02cs2.eps in Resources */ = {isa = PBXBuildFile; fileRef = 2DAC43D2B15DD826E18C6B1A /* FGDCgeostdTM11A2_A-30-02cs2.eps */; };
@@ -250,6 +251,7 @@
 		47E41387B21F8B1891A801FF /* FGDCgeostdTM11A2_A-19-01ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2F5047AF70C4DD33323B20FA /* FGDCgeostdTM11A2_A-19-01ai8.pdf */; };
 		481AF3564E92E280F3EAEA7D /* FGDCgeostdTM11A2_A-06-02ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A68ED7D12D3019BC24EBB6C9 /* FGDCgeostdTM11A2_A-06-02ai8.pdf */; };
 		481CBDAAD7A30F9E60527621 /* FGDCgeostdTM11A2_A-26-05ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 66969FFD1559DBE21E973BE4 /* FGDCgeostdTM11A2_A-26-05ai8.pdf */; };
+		4898585302421141B620430B /* ResourceCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */; };
 		49A2EE6B88F136C823420D49 /* FGDCgeostdTM11A2_A-19-01cs2.eps in Resources */ = {isa = PBXBuildFile; fileRef = ABBD3FDC764AAE7205BA4F7B /* FGDCgeostdTM11A2_A-19-01cs2.eps */; };
 		49F5E48CAB5BCB06CA9FEF66 /* FGDCgeostdTM11A2_A-11-02ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 39E9FBC3072F4213F5E8408E /* FGDCgeostdTM11A2_A-11-02ai8.pdf */; };
 		4A60714076F63466072B9BAC /* FGDCgeostdTM11A2_A-05-09ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B7D304407666AABEF3297934 /* FGDCgeostdTM11A2_A-05-09ai8.pdf */; };
@@ -325,6 +327,7 @@
 		5E5885018502D7B0A5A38EA0 /* FGDCgeostdTM11A2_A-34-02ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3667A12D6F57D4310BB32CB6 /* FGDCgeostdTM11A2_A-34-02ai8.pdf */; };
 		5E786144DDE489518F1B1511 /* FGDCgeostdTM11A2_A-19-02cs2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 765A90531C34B64581188351 /* FGDCgeostdTM11A2_A-19-02cs2.pdf */; };
 		5EAF7BF6390CCCB7E494735E /* FGDCgeostdTM11A2_A-05-10cs2.eps in Resources */ = {isa = PBXBuildFile; fileRef = AC0DC646BCB166556B84E5DA /* FGDCgeostdTM11A2_A-05-10cs2.eps */; };
+		5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */; };
 		5F03D81BDBB3BCDB421C364D /* FGDCgeostdTM11A2_A-02-12ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3959377DAD69B5B033F23772 /* FGDCgeostdTM11A2_A-02-12ai8.pdf */; };
 		5F74E78545752C4A1BD5A4F4 /* FGDCgeostdTM11A2_A-26-08ai8.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B95FED191C429BA27FE3083 /* FGDCgeostdTM11A2_A-26-08ai8.png */; };
 		5F83CA0B5CDB98171B69CB96 /* FGDCgeostdTM11A2_A-35-05ai8.eps in Resources */ = {isa = PBXBuildFile; fileRef = ED0D0E4E59726CB8BE1369EB /* FGDCgeostdTM11A2_A-35-05ai8.eps */; };
@@ -418,12 +421,14 @@
 		7ECC2066BC9AFB937F5E2ED1 /* FGDCgeostdTM11A2_A-15-02cs2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0706C177A4B5574DA7D78236 /* FGDCgeostdTM11A2_A-15-02cs2.pdf */; };
 		7ECEE05F234DE14CB0B92C9B /* FGDCgeostdTM11A2_A-09-03cs2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3BFD5094E821FBC81F94A97E /* FGDCgeostdTM11A2_A-09-03cs2.pdf */; };
 		7EE268C83D6CA766EE50A548 /* FGDCgeostdTM11A2_A-35-09ai8.png in Resources */ = {isa = PBXBuildFile; fileRef = A0E02E6E53F8146770852553 /* FGDCgeostdTM11A2_A-35-09ai8.png */; };
+		7EEEDBA2F078BA5E9E249F83 /* ResourceCatalog.release.json in Resources */ = {isa = PBXBuildFile; fileRef = A4421D9B1B5FC7B033FB2C4E /* ResourceCatalog.release.json */; };
 		7F4FEAADED541F802ADE0220 /* FGDCgeostdTM11A2_A-11-02ai8.eps in Resources */ = {isa = PBXBuildFile; fileRef = E85A1CA0D0B2CEEC2BA9A4AB /* FGDCgeostdTM11A2_A-11-02ai8.eps */; };
 		804C6E3F7F9719E76D3510B5 /* FGDCgeostdTM11A2_A-01-03ai8.png in Resources */ = {isa = PBXBuildFile; fileRef = CD79C4B7746389CAC9A388BF /* FGDCgeostdTM11A2_A-01-03ai8.png */; };
 		806063E8A7FC9BAAC20A31CF /* FGDCgeostdTM11A2_A-05-03ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A72A343DE88BBC8CA5EAA5C7 /* FGDCgeostdTM11A2_A-05-03ai8.pdf */; };
 		8127885A3CF9074780DF9F84 /* FGDCgeostdTM11A2_A-18-02cs2.eps in Resources */ = {isa = PBXBuildFile; fileRef = 73B6DFD7CF071600268AF07A /* FGDCgeostdTM11A2_A-18-02cs2.eps */; };
 		819BC4AC70C4148F1AB3FE12 /* FGDCgeostdTM11A2_A-11-01ai8.png in Resources */ = {isa = PBXBuildFile; fileRef = 706EF9ACB0EBD5CFFDBB2333 /* FGDCgeostdTM11A2_A-11-01ai8.png */; };
 		81B442BBECD6FF8CADAA3E18 /* FGDCgeostdTM11A2_A-01-04ai8.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3B90625467B4F86DA15D3381 /* FGDCgeostdTM11A2_A-01-04ai8.pdf */; };
+		821C30231C4F5A98DD266FAB /* ResourceCatalog.dev.json in Resources */ = {isa = PBXBuildFile; fileRef = 0195ADD231D3ABEC2139500B /* ResourceCatalog.dev.json */; };
 		823A3D5945AA3674FFB00FD9 /* FGDCgeostdTM11A2_A-17-03cs2.png in Resources */ = {isa = PBXBuildFile; fileRef = 001DA14D7AA6D5B34B1637C7 /* FGDCgeostdTM11A2_A-17-03cs2.png */; };
 		82A054CD5A340A5ABB7C36E8 /* FGDCgeostdTM11A2_A-02-15cs2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 638F03A06965AC0E4B818386 /* FGDCgeostdTM11A2_A-02-15cs2.pdf */; };
 		82E9778552C47E9E4E8B0663 /* FGDCgeostdTM11A2_A-26-05cs2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1955A679EC4C32B2071EA73E /* FGDCgeostdTM11A2_A-26-05cs2.png */; };
@@ -869,6 +874,7 @@
 		00D08F2381F08B896F282C56 /* FGDCgeostdTM11A2_A-18-03cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-18-03cs2.pdf"; sourceTree = "<group>"; };
 		016133356CFE3B8243C3E95E /* CakeKitBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CakeKitBundle.swift; sourceTree = "<group>"; };
 		01866B7382E44C5B95025A10 /* FGDCgeostdTM11A2_A-35-02cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-35-02cs2.pdf"; sourceTree = "<group>"; };
+		0195ADD231D3ABEC2139500B /* ResourceCatalog.dev.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResourceCatalog.dev.json; sourceTree = "<group>"; };
 		0227BA2A80A772C23116F823 /* FGDCgeostdTM11A2_A-36-01cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-36-01cs2.pdf"; sourceTree = "<group>"; };
 		0254994317DC6FAF041BBC02 /* FGDCgeostdTM11A2_A-36-03cs2.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-36-03cs2.eps"; sourceTree = "<group>"; };
 		028F05EC77833D950D33FD29 /* FGDCgeostdTM11A2_A-35-04cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-35-04cs2.pdf"; sourceTree = "<group>"; };
@@ -1218,6 +1224,7 @@
 		6A8A788D84B1A1EF3F6B0E1C /* FGDCgeostdTM11A2_A-25-03cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-25-03cs2.pdf"; sourceTree = "<group>"; };
 		6A97FE3B60A3C822E0620CF2 /* FGDCgeostdTM11A2_A-19-08cs2.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-19-08cs2.eps"; sourceTree = "<group>"; };
 		6ACBB42FB20BE0770B7871B2 /* FGDCgeostdTM11A2_A-13-03ai8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-13-03ai8.png"; sourceTree = "<group>"; };
+		6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceProvider.swift; sourceTree = "<group>"; };
 		6C1BBC8992EA2E8F90833691 /* FGDCgeostdTM11A2_A-17-03ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-17-03ai8.eps"; sourceTree = "<group>"; };
 		6D6F06C2ECBD9935DB2C18C6 /* FGDCgeostdTM11A2_A-25-04ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-25-04ai8.eps"; sourceTree = "<group>"; };
 		6DBA6A86DA29340E6343CAD1 /* FGDCgeostdTM11A2_A-09-01ai8.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-09-01ai8.pdf"; sourceTree = "<group>"; };
@@ -1403,6 +1410,7 @@
 		A39527B42E624942EDCE98F1 /* FGDCgeostdTM11A2_A-02-05ai8.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-02-05ai8.pdf"; sourceTree = "<group>"; };
 		A39A8F26D805AF3C2FCD2DC4 /* FGDCgeostdTM11A2_A-05-15cs2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-05-15cs2.png"; sourceTree = "<group>"; };
 		A401ECD7BAE7A2C814BDF743 /* FGDCgeostdTM11A2_A-05-11cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-05-11cs2.pdf"; sourceTree = "<group>"; };
+		A4421D9B1B5FC7B033FB2C4E /* ResourceCatalog.release.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResourceCatalog.release.json; sourceTree = "<group>"; };
 		A49A30F03E7DA6F6CF80E73F /* FGDCgeostdTM11A2_A-25-03ai8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-25-03ai8.png"; sourceTree = "<group>"; };
 		A55AB9DD3ADDD87AAE5BDE55 /* FGDCgeostdTM11A2_A-35-05cs2.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-35-05cs2.eps"; sourceTree = "<group>"; };
 		A56368E4811B6CBC633A3582 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
@@ -1413,6 +1421,7 @@
 		A97014E3781249A6E2106A78 /* FGDCgeostdTM11A2_A-37-03cs2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-37-03cs2.pdf"; sourceTree = "<group>"; };
 		A981A02B947C4EBA4AB77341 /* FGDCgeostdTM11A2_A-05-10ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-05-10ai8.eps"; sourceTree = "<group>"; };
 		AA043DC1BA536FCE1F2459EE /* FGDCgeostdTM11A2_A-02-03ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-02-03ai8.eps"; sourceTree = "<group>"; };
+		AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCatalogTests.swift; sourceTree = "<group>"; };
 		AA25A3440C30830294C8FB98 /* FGDCgeostdTM11A2_A-02-05ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-02-05ai8.eps"; sourceTree = "<group>"; };
 		AA65BAF872C853A0436C051B /* FGDCgeostdTM11A2_A-ii_ai8.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-ii_ai8.pdf"; sourceTree = "<group>"; };
 		AA74F10490E72A12672D67F4 /* FGDCgeostdTM11A2_A-05-01ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-05-01ai8.eps"; sourceTree = "<group>"; };
@@ -1524,6 +1533,7 @@
 		CA8306C588AC371C58AFFE93 /* FGDCgeostdTM11A2_A-37-01ai8.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-37-01ai8.eps"; sourceTree = "<group>"; };
 		CB278515BE88C20880A246AD /* FGDCgeostdTM11A2_A-30-06cs2.eps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FGDCgeostdTM11A2_A-30-06cs2.eps"; sourceTree = "<group>"; };
 		CB57650D16B7F03D2993CD7D /* FGDCgeostdTM11A2_A-02-08ai8.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-02-08ai8.pdf"; sourceTree = "<group>"; };
+		CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGSResourceCatalog.swift; sourceTree = "<group>"; };
 		CBFF9718181C527249370D79 /* FGDCgeostdTM11A2_A-05-05cs2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-05-05cs2.png"; sourceTree = "<group>"; };
 		CC3893D8DB024BF3DF18BBBE /* FGDCgeostdTM11A2_A-08-03ai8.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "FGDCgeostdTM11A2_A-08-03ai8.pdf"; sourceTree = "<group>"; };
 		CC3A88A80B8B4AB7F532CFA7 /* FGDCgeostdTM11A2_A-08-03ai8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FGDCgeostdTM11A2_A-08-03ai8.png"; sourceTree = "<group>"; };
@@ -1704,6 +1714,15 @@
 				28497F2AC463135511A2752F /* FGDCgeostdTM11A2_A-01-06ai8 2.eps */,
 			);
 			path = "extract-FGDCgeostdTM11A2_Sec01_ai8";
+			sourceTree = "<group>";
+		};
+		086A67ECEB6C4A78326C8B76 /* USGSRuntime */ = {
+			isa = PBXGroup;
+			children = (
+				0195ADD231D3ABEC2139500B /* ResourceCatalog.dev.json */,
+				A4421D9B1B5FC7B033FB2C4E /* ResourceCatalog.release.json */,
+			);
+			path = USGSRuntime;
 			sourceTree = "<group>";
 		};
 		0946D5EDAAC8B73294E39EBA /* 11A02 */ = {
@@ -2084,6 +2103,7 @@
 			children = (
 				88D4BB6EAF220268EA50FE1C /* ProjectRoundTripTests.swift */,
 				129B645DB11BB949CD32C1C5 /* RendererTests.swift */,
+				AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */,
 				EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */,
 				781404DE44796AF2EF9863D1 /* SymbologyTests.swift */,
 				41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */,
@@ -2275,6 +2295,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C675D0832FAD9480C51456 /* USGS */,
+				086A67ECEB6C4A78326C8B76 /* USGSRuntime */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2346,6 +2367,15 @@
 				24B8DA8D8005842745609B5C /* FGDCgeostdTM11A2_A-01-05cs2 2.eps */,
 			);
 			path = "extract-FGDCgeostdTM11A2_Sec01_cs2";
+			sourceTree = "<group>";
+		};
+		BDE419CFE447D3EE7BF8BE3C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */,
+				CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		BFB71E833BC1E07EA046987F /* cs2 */ = {
@@ -2495,6 +2525,7 @@
 			children = (
 				6103397F1F9646B4C7CD177A /* Export */,
 				89D99389C4AE7267D1A51B6F /* Persistence */,
+				BDE419CFE447D3EE7BF8BE3C /* Resources */,
 				A716B526D2B560A5892B12EF /* Utils */,
 			);
 			path = Infrastructure;
@@ -3695,6 +3726,8 @@
 				2545840D208FE52B45E20B46 /* FGDCgeostdTM11A2_A-v_cs2.eps in Resources */,
 				3A5F9D33E689CC929DBD05B9 /* FGDCgeostdTM11A2_A-v_cs2.pdf in Resources */,
 				88CDE90BFEC1555E74B2F35C /* FGDCgeostdTM11A2_A-v_cs2.png in Resources */,
+				821C30231C4F5A98DD266FAB /* ResourceCatalog.dev.json in Resources */,
+				7EEEDBA2F078BA5E9E249F83 /* ResourceCatalog.release.json in Resources */,
 				5306D932B00CD9800B5F38FC /* manifest.json in Resources */,
 				F0BA410FD1F6C5879B1A8347 /* symbol-index.json in Resources */,
 			);
@@ -3722,6 +3755,7 @@
 				62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */,
 				8B6A4B263EF331ADD6624D58 /* RenderPreviewView.swift in Sources */,
 				BBF2E52203A2EC14FDD27AB7 /* RenderScene.swift in Sources */,
+				444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */,
 				85F853C0F2907A1E98DB4C04 /* SVGExporter.swift in Sources */,
 				0867532368DEC81A686CB8FB /* SceneCGRenderer.swift in Sources */,
 				02452F42842E782D0299EA4B /* SceneLayout.swift in Sources */,
@@ -3731,6 +3765,7 @@
 				13D455AEC96E69220BAE4E4E /* SyntheticComparisonScene.swift in Sources */,
 				F1E3A660A04FE7DE9102FF3F /* SyntheticSceneCGRenderer.swift in Sources */,
 				1CC7990C7EE51761B41BFE79 /* USGSEPSSymbolRenderer.swift in Sources */,
+				5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */,
 				AAF21A380948460335344083 /* USGSSymbolAssetResolver.swift in Sources */,
 				A481E7D286E587E2FE2B68CF /* UnitFormView.swift in Sources */,
 				049E9319B85989BBE561630B /* Validation.swift in Sources */,
@@ -3751,6 +3786,7 @@
 			files = (
 				B2253826424C913638E0C8D3 /* ProjectRoundTripTests.swift in Sources */,
 				6170B9364720079B3520CC6E /* RendererTests.swift in Sources */,
+				4898585302421141B620430B /* ResourceCatalogTests.swift in Sources */,
 				A68F6AB2A80CA6106C2A0EF2 /* SVGExportTests.swift in Sources */,
 				C0816BF8C965B82908A7EFE1 /* SymbologyTests.swift in Sources */,
 				CC19EE6C1553D69661621A78 /* ViewModelTests.swift in Sources */,

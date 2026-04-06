@@ -1,0 +1,3141 @@
+{
+  "schemaVersion": 1,
+  "profile": "release",
+  "sourceIndex": "USGS/11A02/symbol-index.json",
+  "totalEntries": 116,
+  "generatedBy": "scripts/build_usgs_resource_catalog.py",
+  "entries": [
+    {
+      "id": "usgs-601-ai8-gravel-or-conglomerate-1st-option",
+      "code": 601,
+      "label": "Gravel or conglomerate (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4834,
+        "y": 645.5288,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-602-ai8-gravel-or-conglomerate-2nd-option",
+      "code": 602,
+      "label": "Gravel or conglomerate (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6904,
+        "y": 645.5288,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-603-ai8-crossbedded-gravel-or-conglomerate",
+      "code": 603,
+      "label": "Crossbedded gravel or conglomerate",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8975,
+        "y": 645.5288,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-605-ai8-breccia-1st-option",
+      "code": 605,
+      "label": "Breccia (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.105,
+        "y": 645.5288,
+        "width": 54.0005,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-606-ai8-breccia-2nd-option",
+      "code": 606,
+      "label": "Breccia (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3115,
+        "y": 645.5288,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-607-ai8-massive-sand-or-sandstone",
+      "code": 607,
+      "label": "Massive sand or sandstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5176,
+        "y": 645.5288,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-608-ai8-bedded-sand-or-sandstone",
+      "code": 608,
+      "label": "Bedded sand or sandstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7256,
+        "y": 645.5288,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-609-ai8-crossbedded-sand-or-sandstone-1st-option",
+      "code": 609,
+      "label": "Crossbedded sand or sandstone (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4834,
+        "y": 552.4575,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-610-ai8-crossbedded-sand-or-sandstone-2nd-option",
+      "code": 610,
+      "label": "Crossbedded sand or sandstone (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6904,
+        "y": 552.4575,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-611-ai8-ripple-bedded-sand-or-sandstone",
+      "code": 611,
+      "label": "Ripple-bedded sand or sandstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8975,
+        "y": 552.4575,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-612-ai8-argillaceous-or-shaly-sandstone",
+      "code": 612,
+      "label": "Argillaceous or shaly sandstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.105,
+        "y": 552.4575,
+        "width": 54.0005,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-613-ai8-calcareous-sandstone",
+      "code": 613,
+      "label": "Calcareous sandstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3115,
+        "y": 552.4575,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-614-ai8-dolomitic-sandstone",
+      "code": 614,
+      "label": "Dolomitic sandstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5176,
+        "y": 552.4575,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-616-ai8-silt-siltstone-or-shaly-silt",
+      "code": 616,
+      "label": "Silt, siltstone, or shaly silt",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7256,
+        "y": 552.4575,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-617-ai8-calcareous-siltstone",
+      "code": 617,
+      "label": "Calcareous siltstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4834,
+        "y": 458.3667,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-618-ai8-dolomitic-siltstone",
+      "code": 618,
+      "label": "Dolomitic siltstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6904,
+        "y": 458.3667,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-619-ai8-sandy-or-silty-shale",
+      "code": 619,
+      "label": "Sandy or silty shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8975,
+        "y": 458.3667,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-620-ai8-clay-or-clay-shale",
+      "code": 620,
+      "label": "Clay or clay shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.105,
+        "y": 458.3667,
+        "width": 54.0005,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-621-ai8-cherty-shale",
+      "code": 621,
+      "label": "Cherty shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3115,
+        "y": 458.3667,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-622-ai8-dolomitic-shale",
+      "code": 622,
+      "label": "Dolomitic shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5176,
+        "y": 458.3667,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-623-ai8-calcareous-shale-or-marl",
+      "code": 623,
+      "label": "Calcareous shale or marl",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7256,
+        "y": 458.3667,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-624-ai8-carbonaceous-shale",
+      "code": 624,
+      "label": "Carbonaceous shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4834,
+        "y": 365.3359,
+        "width": 54.0,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-625-ai8-oil-shale",
+      "code": 625,
+      "label": "Oil shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6904,
+        "y": 365.3359,
+        "width": 54.0,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-626-ai8-chalk",
+      "code": 626,
+      "label": "Chalk",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8975,
+        "y": 365.3359,
+        "width": 54.0,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-627-ai8-limestone",
+      "code": 627,
+      "label": "Limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.105,
+        "y": 365.3359,
+        "width": 54.0005,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-628-ai8-clastic-limestone",
+      "code": 628,
+      "label": "Clastic limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3115,
+        "y": 365.3359,
+        "width": 54.0,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-629-ai8-fossiliferous-clastic-limestone",
+      "code": 629,
+      "label": "Fossiliferous clastic limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5176,
+        "y": 365.3359,
+        "width": 54.0,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-630-ai8-nodular-or-irregularly-bedded-limestone",
+      "code": 630,
+      "label": "Nodular or irregularly bedded limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7256,
+        "y": 365.3359,
+        "width": 54.0,
+        "height": 43.2017
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-631-ai8-limestone-irregular-burrow-fillings-of-saccharoidal-dolomite",
+      "code": 631,
+      "label": "Limestone, irregular (burrow?) fillings of saccharoidal dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4834,
+        "y": 271.1855,
+        "width": 54.0,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-632-ai8-crossbedded-limestone",
+      "code": 632,
+      "label": "Crossbedded limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6904,
+        "y": 271.1855,
+        "width": 54.0,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-633-ai8-cherty-crossbedded-limestone",
+      "code": 633,
+      "label": "Cherty crossbedded limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8975,
+        "y": 271.1855,
+        "width": 54.0,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-634-ai8-cherty-and-sandy-crossbedded-clastic-limestone",
+      "code": 634,
+      "label": "Cherty and sandy crossbedded clastic limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.105,
+        "y": 271.1855,
+        "width": 54.0005,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-635-ai8-oolitic-limestone",
+      "code": 635,
+      "label": "Oolitic limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3115,
+        "y": 271.1855,
+        "width": 54.0,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-636-ai8-sandy-limestone",
+      "code": 636,
+      "label": "Sandy limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5176,
+        "y": 271.1855,
+        "width": 54.0,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-637-ai8-silty-limestone",
+      "code": 637,
+      "label": "Silty limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7256,
+        "y": 271.1855,
+        "width": 54.0,
+        "height": 43.1993
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-638-ai8-argillaceous-or-shaly-limestone",
+      "code": 638,
+      "label": "Argillaceous or shaly limestone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4834,
+        "y": 178.2813,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-639-ai8-cherty-limestone-1st-option",
+      "code": 639,
+      "label": "Cherty limestone (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6904,
+        "y": 178.2813,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-640-ai8-cherty-limestone-2nd-option",
+      "code": 640,
+      "label": "Cherty limestone (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8975,
+        "y": 178.2813,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-641-ai8-dolomitic-limestone-limy-dolostone-or-limy-dolomite",
+      "code": 641,
+      "label": "Dolomitic limestone, limy dolostone, or limy dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.105,
+        "y": 178.2813,
+        "width": 54.0005,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-642-ai8-dolostone-or-dolomite",
+      "code": 642,
+      "label": "Dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.8115,
+        "y": 178.2813,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-643-ai8-crossbedded-dolostone-or-dolomite",
+      "code": 643,
+      "label": "Crossbedded dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5176,
+        "y": 178.2813,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-644-ai8-oolitic-dolostone-or-dolomite",
+      "code": 644,
+      "label": "Oolitic dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-01ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 493.2256,
+        "y": 178.2813,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-01ai8.png",
+        "sha256": "d04200cb2900f4fcc61520c360a33b7ab3eb526b98632b805fafaddaa74d1cf3",
+        "bytes": 1190841
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-01ai8.pdf",
+        "sha256": "57fd1c91f08edd135a9b9423911d36018b2e0b2f49770c37ce86afb1659879b5",
+        "bytes": 264907
+      }
+    },
+    {
+      "id": "usgs-645-ai8-sandy-dolostone-or-dolomite",
+      "code": 645,
+      "label": "Sandy dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4849,
+        "y": 645.5215,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-646-ai8-silty-dolostone-or-dolomite",
+      "code": 646,
+      "label": "Silty dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6934,
+        "y": 645.5215,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-647-ai8-argillaceous-or-shaly-dolostone-or-dolomite",
+      "code": 647,
+      "label": "Argillaceous or shaly dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 208.0249,
+        "y": 645.5215,
+        "width": 54.002,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-648-ai8-cherty-dolostone-or-dolomite",
+      "code": 648,
+      "label": "Cherty dolostone or dolomite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1084,
+        "y": 645.5215,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-649-ai8-bedded-chert-1st-option",
+      "code": 649,
+      "label": "Bedded chert (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3164,
+        "y": 645.5215,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-650-ai8-bedded-chert-2nd-option",
+      "code": 650,
+      "label": "Bedded chert (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.6475,
+        "y": 645.5215,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-651-ai8-fossiliferous-bedded-chert",
+      "code": 651,
+      "label": "Fossiliferous bedded chert",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7285,
+        "y": 645.5215,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-652-ai8-fossiliferous-rock",
+      "code": 652,
+      "label": "Fossiliferous rock",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4849,
+        "y": 551.4512,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-653-ai8-diatomaceous-rock",
+      "code": 653,
+      "label": "Diatomaceous rock",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6934,
+        "y": 551.4512,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-654-ai8-subgraywacke",
+      "code": 654,
+      "label": "Subgraywacke",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 208.0249,
+        "y": 551.4512,
+        "width": 54.002,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-655-ai8-crossbedded-subgraywacke",
+      "code": 655,
+      "label": "Crossbedded subgraywacke",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1084,
+        "y": 551.4512,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-656-ai8-ripple-bedded-subgraywacke",
+      "code": 656,
+      "label": "Ripple-bedded subgraywacke",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3164,
+        "y": 551.4512,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-657-ai8-peat",
+      "code": 657,
+      "label": "Peat",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.6475,
+        "y": 551.4512,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-658-ai8-coal",
+      "code": 658,
+      "label": "Coal",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7285,
+        "y": 551.4512,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-659-ai8-bony-coal-or-impure-coal",
+      "code": 659,
+      "label": "Bony coal or impure coal",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4849,
+        "y": 458.3584,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-660-ai8-underclay",
+      "code": 660,
+      "label": "Underclay",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 137.7246,
+        "y": 458.3584,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-661-ai8-flint-clay",
+      "code": 661,
+      "label": "Flint clay",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8999,
+        "y": 458.3584,
+        "width": 54.002,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-662-ai8-bentonite",
+      "code": 662,
+      "label": "Bentonite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1084,
+        "y": 459.3896,
+        "width": 54.002,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-663-ai8-glauconite",
+      "code": 663,
+      "label": "Glauconite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3164,
+        "y": 458.3584,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-664-ai8-limonite",
+      "code": 664,
+      "label": "Limonite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5225,
+        "y": 458.3584,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-665-ai8-siderite",
+      "code": 665,
+      "label": "Siderite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7285,
+        "y": 458.3584,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-666-ai8-phosphatic-nodular-rock",
+      "code": 666,
+      "label": "Phosphatic-nodular rock",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4849,
+        "y": 364.6543,
+        "width": 54.0,
+        "height": 43.1738
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-667-ai8-gypsum",
+      "code": 667,
+      "label": "Gypsum",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6934,
+        "y": 364.293,
+        "width": 54.0,
+        "height": 43.1758
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-668-ai8-salt",
+      "code": 668,
+      "label": "Salt",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8999,
+        "y": 364.293,
+        "width": 54.002,
+        "height": 43.1758
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-669-ai8-interbedded-sandstone-and-siltstone",
+      "code": 669,
+      "label": "Interbedded sandstone and siltstone",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1084,
+        "y": 364.293,
+        "width": 54.002,
+        "height": 43.1758
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-670-ai8-interbedded-sandstone-and-shale",
+      "code": 670,
+      "label": "Interbedded sandstone and shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3164,
+        "y": 364.293,
+        "width": 54.0,
+        "height": 43.1758
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-671-ai8-interbedded-ripple-bedded-sandstone-and-shale",
+      "code": 671,
+      "label": "Interbedded ripple bedded sandstone and shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5225,
+        "y": 364.293,
+        "width": 54.0,
+        "height": 43.1758
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-672-ai8-interbedded-shale-and-silty-limestone-shale-dominant",
+      "code": 672,
+      "label": "Interbedded shale and silty limestone (shale dominant)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7285,
+        "y": 364.293,
+        "width": 54.0,
+        "height": 43.1758
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-673-ai8-interbedded-shale-and-limestone-shale-dominant-1st-option",
+      "code": 673,
+      "label": "Interbedded shale and limestone (shale dominant) (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4849,
+        "y": 271.2676,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-674-ai8-interbedded-shale-and-limestone-shale-dominant-2nd-option",
+      "code": 674,
+      "label": "Interbedded shale and limestone (shale dominant) (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6934,
+        "y": 271.2676,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-675-ai8-interbedded-calc-areous-shale-and-limestone-shale-dominant",
+      "code": 675,
+      "label": "Interbedded calc areous shale and limestone (shale dominant)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8999,
+        "y": 271.2676,
+        "width": 54.002,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-676-ai8-interbedded-silty-limestone-and-shale",
+      "code": 676,
+      "label": "Interbedded silty limestone and shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1084,
+        "y": 271.2676,
+        "width": 54.002,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-677-ai8-interbedded-limestone-and-shale-1st-option",
+      "code": 677,
+      "label": "Interbedded limestone and shale (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3164,
+        "y": 271.2676,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-678-ai8-interbedded-limestone-and-shale-2nd-option",
+      "code": 678,
+      "label": "Interbedded limestone and shale (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5225,
+        "y": 271.2676,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-679-ai8-interbedded-limestone-and-shale-limestone-dominant",
+      "code": 679,
+      "label": "Interbedded limestone and shale (limestone dominant)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7285,
+        "y": 271.2676,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-680-ai8-interbedded-limestone-and-calcareous-shale",
+      "code": 680,
+      "label": "Interbedded limestone and calcareous shale",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 65.4849,
+        "y": 177.8613,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-681-ai8-till-or-diamicton-1st-option",
+      "code": 681,
+      "label": "Till or diamicton (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 136.6934,
+        "y": 177.8613,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-682-ai8-till-or-diamicton-2nd-option",
+      "code": 682,
+      "label": "Till or diamicton (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 207.8999,
+        "y": 177.8613,
+        "width": 54.002,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-683-ai8-till-or-diamicton-3rd-option",
+      "code": 683,
+      "label": "Till or diamicton (3rd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1084,
+        "y": 177.8613,
+        "width": 54.002,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-684-ai8-loess-1st-option",
+      "code": 684,
+      "label": "Loess (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 350.3164,
+        "y": 177.8613,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-685-ai8-loess-2nd-option",
+      "code": 685,
+      "label": "Loess (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 421.5225,
+        "y": 177.8613,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-686-ai8-loess-3rd-option",
+      "code": 686,
+      "label": "Loess (3rd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-02ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 492.7285,
+        "y": 177.8613,
+        "width": 54.0,
+        "height": 43.1992
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-02ai8.png",
+        "sha256": "df64e99d40a0d0fe57a52edd5f4519bc4b312416eb2ae733a8299aeb17744e09",
+        "bytes": 1146111
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-02ai8.pdf",
+        "sha256": "7d179f5d20d1bb111c0cc89b9ce5410d4d3296448a8d18a234074e4e8fd57dfe",
+        "bytes": 276899
+      }
+    },
+    {
+      "id": "usgs-701-ai8-metamorphism",
+      "code": 701,
+      "label": "Metamorphism",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 93.5713,
+        "y": 645.5259,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-702-ai8-quartzite",
+      "code": 702,
+      "label": "Quartzite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 167.6123,
+        "y": 645.5259,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-703-ai8-slate",
+      "code": 703,
+      "label": "Slate",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 241.6553,
+        "y": 645.5259,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-704-ai8-schistose-or-gneissoid-granite",
+      "code": 704,
+      "label": "Schistose or gneissoid granite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 315.6963,
+        "y": 645.5259,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-705-ai8-schist",
+      "code": 705,
+      "label": "Schist",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 389.9873,
+        "y": 645.5259,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-706-ai8-contorted-schist",
+      "code": 706,
+      "label": "Contorted schist",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 464.0283,
+        "y": 645.5259,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-707-ai8-schist-and-gneiss",
+      "code": 707,
+      "label": "Schist and gneiss",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 166.6885,
+        "y": 561.8423,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-708-ai8-gneiss",
+      "code": 708,
+      "label": "Gneiss",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 240.7295,
+        "y": 561.8423,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-709-ai8-contorted-gneiss",
+      "code": 709,
+      "label": "Contorted gneiss",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 314.7705,
+        "y": 561.8423,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-710-ai8-soapstone-talc-or-serpentinite",
+      "code": 710,
+      "label": "Soapstone, talc, or serpentinite",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 389.0107,
+        "y": 561.8833,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-711-ai8-tuffaceous-rock",
+      "code": 711,
+      "label": "Tuffaceous rock",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 92.6377,
+        "y": 478.146,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-712-ai8-crystal-tuff",
+      "code": 712,
+      "label": "Crystal tuff",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 166.6787,
+        "y": 478.146,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-713-ai8-devitrified-r-tuff",
+      "code": 713,
+      "label": "Devitrified\\r tuff",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 240.7207,
+        "y": 478.146,
+        "width": 53.999,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-714-ai8-volcanic-breccia-and-tuff",
+      "code": 714,
+      "label": "Volcanic breccia and tuff",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 314.7627,
+        "y": 478.146,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-715-ai8-volcanic-breccia-or-agglomerate",
+      "code": 715,
+      "label": "Volcanic breccia or agglomerate",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 389.0537,
+        "y": 478.146,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-716-ai8-zeolitic-rock",
+      "code": 716,
+      "label": "Zeolitic rock",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 463.0947,
+        "y": 478.146,
+        "width": 54.0,
+        "height": 43.2002
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-717-ai8-basaltic-flows",
+      "code": 717,
+      "label": "Basaltic flows",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 92.7207,
+        "y": 394.4531,
+        "width": 54.0,
+        "height": 43.208
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-719-ai8-granite-2nd-option",
+      "code": 719,
+      "label": "Granite (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 240.8037,
+        "y": 394.4531,
+        "width": 54.0,
+        "height": 43.208
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-720-ai8-banded-igneous-rock",
+      "code": 720,
+      "label": "Banded igneous rock",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 314.8447,
+        "y": 394.4531,
+        "width": 54.0,
+        "height": 43.208
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-721-ai8-igneous-rock-1st-option",
+      "code": 721,
+      "label": "Igneous rock (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 389.085,
+        "y": 394.4941,
+        "width": 54.0,
+        "height": 43.21
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-722-ai8-igneous-rock-2nd-option",
+      "code": 722,
+      "label": "Igneous rock (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 463.085,
+        "y": 394.4941,
+        "width": 54.0,
+        "height": 43.21
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-723-ai8-igneous-rock-3rd-option",
+      "code": 723,
+      "label": "Igneous rock (3rd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 92.6377,
+        "y": 310.7803,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-724-ai8-igneous-rock-4th-option",
+      "code": 724,
+      "label": "Igneous rock (4th option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 166.6787,
+        "y": 310.7803,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-725-ai8-igneous-rock-5th-option",
+      "code": 725,
+      "label": "Igneous rock (5th option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 240.7207,
+        "y": 310.7803,
+        "width": 53.999,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-726-ai8-igneous-rock-6th-option",
+      "code": 726,
+      "label": "Igneous rock (6th option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 314.7627,
+        "y": 310.7803,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-727-ai8-igneous-rock-7th-option",
+      "code": 727,
+      "label": "Igneous rock (7th option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 389.0537,
+        "y": 310.7803,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-728-ai8-igneous-rock-8th-option",
+      "code": 728,
+      "label": "Igneous rock (8th option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 463.0947,
+        "y": 310.7803,
+        "width": 54.0,
+        "height": 43.2011
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-729-ai8-porphyritic-rock-1st-option",
+      "code": 729,
+      "label": "Porphyritic rock (1st option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 131.0264,
+        "y": 227.0869,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-730-ai8-porphyritic-rock-2nd-option",
+      "code": 730,
+      "label": "Porphyritic rock (2nd option)",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 205.0674,
+        "y": 227.0869,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-731-ai8-vitrophyre",
+      "code": 731,
+      "label": "Vitrophyre",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 279.1094,
+        "y": 227.0869,
+        "width": 53.999,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-732-ai8-quartz",
+      "code": 732,
+      "label": "Quartz",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 353.1514,
+        "y": 227.0869,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    },
+    {
+      "id": "usgs-733-ai8-ore",
+      "code": 733,
+      "label": "Ore",
+      "variant": "ai8",
+      "epsRelativePath": "USGS/11A02/ai8/FGDCgeostdTM11A2_A-37-03ai8.eps",
+      "pageSizePoints": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "symbolRect": {
+        "x": 427.1924,
+        "y": 227.0869,
+        "width": 54.0,
+        "height": 43.2012
+      },
+      "png": {
+        "path": "raster/ai8/FGDCgeostdTM11A2_A-37-03ai8.png",
+        "sha256": "9f8ef3e2f60e8967aad08fe78566685dec20fd4e011db8c587ed386093af4a39",
+        "bytes": 1246543
+      },
+      "pdf": {
+        "path": "pdf/ai8/FGDCgeostdTM11A2_A-37-03ai8.pdf",
+        "sha256": "5f6ed74058e62c38eaac8bc5f1bd952a51338d29fe086fe53fea8eb1999a0511",
+        "bytes": 224034
+      }
+    }
+  ]
+}

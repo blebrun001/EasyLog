@@ -22,14 +22,14 @@ public struct USGSSymbolAsset: Hashable {
     public let imageURL: URL
 }
 
-/// Loads and caches `symbol-index.json`, then resolves runtime asset URLs.
+/// Loads and caches the generated runtime catalog, then resolves asset URLs.
 public final class USGSSymbolAssetResolver: @unchecked Sendable {
     public static let shared = USGSSymbolAssetResolver()
 
-    private let entriesByCode: [Int: SymbolIndexEntry]
+    private let catalog: USGSResourceCatalog?
 
     public init(bundle: Bundle = CakeKitBundle.resources) {
-        self.entriesByCode = Self.loadIndex(bundle: bundle)
+        self.catalog = try? USGSResourceCatalog(bundle: bundle)
     }
 
     public static func asset(for code: Int) -> USGSSymbolAsset? {
@@ -38,45 +38,27 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
 
     public func asset(for code: Int) -> USGSSymbolAsset? {
         let resolvedCode = Self.aliasCode[code] ?? code
-        guard let entry = entriesByCode[resolvedCode] else { return nil }
-
-        if let ai8 = entry.ai8, let asset = makeAsset(code: code, label: entry.label, variant: "ai8", variantEntry: ai8) {
-            return asset
+        guard let catalog else {
+            return nil
         }
 
-        if let cs2 = entry.cs2, let asset = makeAsset(code: code, label: entry.label, variant: "cs2", variantEntry: cs2) {
-            return asset
-        }
-
-        let fallbackVariant = entry.epsFile.contains("/cs2/") ? "cs2" : "ai8"
-        let fallbackPNG = entry.epsFile
-            .replacingOccurrences(of: "/ai8/", with: "/raster/ai8/")
-            .replacingOccurrences(of: "/cs2/", with: "/raster/cs2/")
-            .replacingOccurrences(of: ".eps", with: ".png")
-        let fallbackURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(fallbackPNG)
-        let fallbackPDF = entry.epsFile
-            .replacingOccurrences(of: "/ai8/", with: "/pdf/ai8/")
-            .replacingOccurrences(of: "/cs2/", with: "/pdf/cs2/")
-            .replacingOccurrences(of: ".eps", with: ".pdf")
-        let fallbackPDFURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(fallbackPDF)
-        guard let fallbackURL,
-              FileManager.default.fileExists(atPath: fallbackURL.path),
-              let fallbackPDFURL,
-              FileManager.default.fileExists(atPath: fallbackPDFURL.path)
+        guard let entry = try? catalog.preferredEntry(for: resolvedCode),
+              let urls = try? catalog.resolvedURLs(for: entry)
         else {
             return nil
         }
+
         return USGSSymbolAsset(
             code: code,
             label: entry.label,
-            variant: fallbackVariant,
-            epsRelativePath: entry.epsFile,
-            pngRelativePath: fallbackPNG,
-            pdfRelativePath: fallbackPDF,
-            pageSizePoints: CGSizeDTO(width: 612, height: 792),
+            variant: entry.variant,
+            epsRelativePath: entry.epsRelativePath,
+            pngRelativePath: entry.png.path,
+            pdfRelativePath: entry.pdf.path,
+            pageSizePoints: entry.pageSizePoints,
             symbolRect: entry.symbolRect,
-            pdfURL: fallbackPDFURL,
-            imageURL: fallbackURL
+            pdfURL: urls.pdfURL,
+            imageURL: urls.pngURL
         )
     }
 
@@ -85,70 +67,4 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
     private static let aliasCode: [Int: Int] = [
         718: 719
     ]
-
-    private func makeAsset(code: Int, label: String, variant: String, variantEntry: VariantEntry) -> USGSSymbolAsset? {
-        guard let pngURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(variantEntry.pngFile),
-              FileManager.default.fileExists(atPath: pngURL.path),
-              let pdfURL = CakeKitBundle.resources.resourceURL?.appendingPathComponent(variantEntry.pdfFile),
-              FileManager.default.fileExists(atPath: pdfURL.path)
-        else {
-            return nil
-        }
-
-        return USGSSymbolAsset(
-            code: code,
-            label: label,
-            variant: variant,
-            epsRelativePath: variantEntry.epsFile,
-            pngRelativePath: variantEntry.pngFile,
-            pdfRelativePath: variantEntry.pdfFile,
-            pageSizePoints: variantEntry.pageSizePoints,
-            symbolRect: variantEntry.symbolRect,
-            pdfURL: pdfURL,
-            imageURL: pngURL
-        )
-    }
-
-    private static func loadIndex(bundle: Bundle) -> [Int: SymbolIndexEntry] {
-        guard let rootURL = bundle.resourceURL else { return [:] }
-        let indexURL = rootURL.appendingPathComponent("USGS/11A02/symbol-index.json")
-
-        guard let data = try? Data(contentsOf: indexURL),
-              let document = try? JSONDecoder().decode(SymbolIndexDocument.self, from: data)
-        else {
-            return [:]
-        }
-
-        var map: [Int: SymbolIndexEntry] = [:]
-        for entry in document.entries {
-            map[entry.code] = entry
-        }
-        return map
-    }
-}
-
-private struct SymbolIndexDocument: Codable {
-    let entries: [SymbolIndexEntry]
-}
-
-private struct SymbolIndexEntry: Codable {
-    let code: Int
-    let label: String
-    let preferredVariant: String
-    let fallbackVariant: String
-    let epsFile: String
-    let symbolRect: USGSSymbolRect
-    let ai8: VariantEntry?
-    let cs2: VariantEntry?
-}
-
-private struct VariantEntry: Codable {
-    let code: Int
-    let label: String
-    let epsFile: String
-    let pngFile: String
-    let pdfFile: String
-    let pageSizePoints: CGSizeDTO
-    let symbolRect: USGSSymbolRect
-    let variant: String
 }

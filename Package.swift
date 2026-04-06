@@ -1,8 +1,8 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
-// Defines the package graph: CakeKit library + CakeApp executable,
-// with bundled USGS resources copied into the CakeKit target.
+// Defines the package graph: CakeKit library + CakeApp executable.
+// CakeKit bundles only runtime-ready USGS assets (not raw authoring EPS files).
 let package = Package(
     name: "Cake",
     platforms: [
@@ -16,8 +16,19 @@ let package = Package(
         .target(
             name: "CakeKit",
             path: "Sources/CakeKit",
+            exclude: [
+                "Resources/USGS/11A02/ai8",
+                "Resources/USGS/11A02/cs2",
+                "Resources/USGS/11A02/raster/cs2",
+                "Resources/USGS/11A02/pdf/cs2",
+                "Resources/USGS/11A02/work",
+                "Resources/USGS/11A02/manifest.json",
+                "Resources/USGS/11A02/symbol-index.json"
+            ],
             resources: [
-                .copy("Resources/USGS")
+                .copy("Resources/USGS/11A02/raster"),
+                .copy("Resources/USGS/11A02/pdf"),
+                .copy("Resources/USGSRuntime")
             ]
         ),
         .executableTarget(

@@ -47,6 +47,12 @@ jobs:
             echo "dmg_file=${DMG_FILE}"
           } >> "${GITHUB_OUTPUT}"
 
+      - name: Build release resource catalog
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/build-resources.sh release
+
       - name: Build app (unsigned)
         shell: bash
         run: |
