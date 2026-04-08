@@ -329,16 +329,6 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         SymbologyLibrary.label(forUSGSCode: usgsLithologyCode)
     }
 
-    @available(*, deprecated, message: "Use usgsLithologyCode")
-    public var lithology: String {
-        get { lithologyLabel }
-        set {
-            if let code = SymbologyLibrary.usgsSymbolCode(forLithology: newValue) {
-                usgsLithologyCode = code
-            }
-        }
-    }
-
     public init(
         id: UUID = UUID(),
         name: String,
@@ -357,33 +347,11 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         self.pointFeatures = pointFeatures
     }
 
-    @available(*, deprecated, message: "Use init(... usgsLithologyCode: ...)")
-    public init(
-        id: UUID = UUID(),
-        name: String,
-        thickness: Double,
-        lithology: String,
-        lithologyColorHex: String? = nil,
-        grainSize: USGSGrainSize? = nil,
-        pointFeatures: [UnitPointFeature] = []
-    ) {
-        self.init(
-            id: id,
-            name: name,
-            thickness: thickness,
-            usgsLithologyCode: SymbologyLibrary.usgsSymbolCode(forLithology: lithology) ?? 607,
-            lithologyColorHex: lithologyColorHex,
-            grainSize: grainSize,
-            pointFeatures: pointFeatures
-        )
-    }
-
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case thickness
         case usgsLithologyCode
-        case lithology
         case lithologyColorHex
         case grainSize
         case pointFeatures
@@ -394,14 +362,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
         id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
         name = try container.decode(String.self, forKey: .name)
         thickness = try container.decode(Double.self, forKey: .thickness)
-        if let code = try container.decodeIfPresent(Int.self, forKey: .usgsLithologyCode) {
-            usgsLithologyCode = code
-        } else if let legacyLithology = try container.decodeIfPresent(String.self, forKey: .lithology),
-                  let legacyCode = SymbologyLibrary.usgsSymbolCode(forLithology: legacyLithology) {
-            usgsLithologyCode = legacyCode
-        } else {
-            usgsLithologyCode = 607
-        }
+        usgsLithologyCode = try container.decodeIfPresent(Int.self, forKey: .usgsLithologyCode) ?? 607
         let rawColorHex = try container.decodeIfPresent(String.self, forKey: .lithologyColorHex)
         lithologyColorHex = Self.normalizedHexColor(rawColorHex)
         grainSize = try container.decodeIfPresent(USGSGrainSize.self, forKey: .grainSize)
@@ -420,16 +381,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
     }
 
     private static func normalizedHexColor(_ raw: String?) -> String? {
-        guard let raw else { return nil }
-        var value = raw.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if value.hasPrefix("#") {
-            value.removeFirst()
-        }
-        let allowed = CharacterSet(charactersIn: "0123456789ABCDEF")
-        guard value.count == 6, value.unicodeScalars.allSatisfy({ allowed.contains($0) }) else {
-            return nil
-        }
-        return "#\(value)"
+        HexColorNormalizer.normalizedHex(raw)
     }
 }
 
@@ -453,31 +405,6 @@ public struct ProjectMetadata: Codable, Hashable {
     }
 }
 
-@available(*, deprecated, message: "unused in auto sizing mode")
-/// Export page size presets used by SVG/JPG export workflows.
-public enum PageSizePreset: String, Codable, CaseIterable, Identifiable {
-    case a4Portrait
-    case letterPortrait
-
-    public var id: String { rawValue }
-
-    public var canvasSize: CGSizeDTO {
-        switch self {
-        case .a4Portrait:
-            return CGSizeDTO(width: 794, height: 1123)
-        case .letterPortrait:
-            return CGSizeDTO(width: 816, height: 1056)
-        }
-    }
-
-    public var label: String {
-        switch self {
-        case .a4Portrait: return "A4 Portrait"
-        case .letterPortrait: return "Letter Portrait"
-        }
-    }
-}
-
 /// Codable bridge for `CGSize` to keep model pure-Foundation.
 public struct CGSizeDTO: Codable, Hashable {
     public var width: Double
@@ -492,12 +419,6 @@ public struct CGSizeDTO: Codable, Hashable {
 /// Rendering preferences and export defaults persisted with the project.
 public struct ProjectSettings: Codable, Hashable {
     public var verticalScale: Double
-    private var legacyPageSizeRawValue: String
-    @available(*, deprecated, message: "unused in auto sizing mode")
-    public var pageSize: PageSizePreset {
-        get { PageSizePreset(rawValue: legacyPageSizeRawValue) ?? .a4Portrait }
-        set { legacyPageSizeRawValue = newValue.rawValue }
-    }
     public var baseFontSize: Double
     public var showGrid: Bool
     public var showLegend: Bool
@@ -527,40 +448,6 @@ public struct ProjectSettings: Codable, Hashable {
         zeroLevelAltitudeMeters: Double? = nil
     ) {
         self.verticalScale = verticalScale
-        self.legacyPageSizeRawValue = "a4Portrait"
-        self.baseFontSize = baseFontSize
-        self.showGrid = showGrid
-        self.showLegend = showLegend
-        self.showScale = showScale
-        self.showGrainSizeScale = showGrainSizeScale
-        self.showLogTitle = showLogTitle
-        self.showUSGSCodesInLithologyLabels = showUSGSCodesInLithologyLabels
-        self.symbolScale = symbolScale
-        self.pointFeatureIconSize = pointFeatureIconSize
-        self.depthScaleUnit = depthScaleUnit
-        self.useAbsoluteAltitude = useAbsoluteAltitude
-        self.zeroLevelAltitudeMeters = zeroLevelAltitudeMeters
-    }
-
-    @available(*, deprecated, message: "unused in auto sizing mode")
-    public init(
-        verticalScale: Double = 25,
-        pageSize: PageSizePreset = .a4Portrait,
-        baseFontSize: Double = 12,
-        showGrid: Bool = false,
-        showLegend: Bool = true,
-        showScale: Bool = true,
-        showGrainSizeScale: Bool = true,
-        showLogTitle: Bool = true,
-        showUSGSCodesInLithologyLabels: Bool = true,
-        symbolScale: Double = 1.0,
-        pointFeatureIconSize: Double = 8.0,
-        depthScaleUnit: DepthScaleUnit = .meter,
-        useAbsoluteAltitude: Bool = false,
-        zeroLevelAltitudeMeters: Double? = nil
-    ) {
-        self.verticalScale = verticalScale
-        self.legacyPageSizeRawValue = pageSize.rawValue
         self.baseFontSize = baseFontSize
         self.showGrid = showGrid
         self.showLegend = showLegend
@@ -577,7 +464,6 @@ public struct ProjectSettings: Codable, Hashable {
 
     enum CodingKeys: String, CodingKey {
         case verticalScale
-        case pageSize
         case baseFontSize
         case showGrid
         case showLegend
@@ -595,7 +481,6 @@ public struct ProjectSettings: Codable, Hashable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         verticalScale = try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25
-        legacyPageSizeRawValue = try container.decodeIfPresent(String.self, forKey: .pageSize) ?? "a4Portrait"
         baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
         showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? false
         showLegend = try container.decodeIfPresent(Bool.self, forKey: .showLegend) ?? true
@@ -613,7 +498,6 @@ public struct ProjectSettings: Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(verticalScale, forKey: .verticalScale)
-        try container.encode(legacyPageSizeRawValue, forKey: .pageSize)
         try container.encode(baseFontSize, forKey: .baseFontSize)
         try container.encode(showGrid, forKey: .showGrid)
         try container.encode(showLegend, forKey: .showLegend)

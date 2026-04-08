@@ -18,7 +18,8 @@ func openProjectViaDialogLoadsProjectAndUpdatesState() throws {
         project: Project(),
         store: store,
         exporter: MockExporter(),
-        fileDialogService: dialogs
+        fileDialogService: dialogs,
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.openProjectViaPanel()
@@ -36,7 +37,8 @@ func saveProjectWritesToStoreAndTracksURL() {
         project: Project.sample,
         store: store,
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
     let saveURL = URL(fileURLWithPath: NSTemporaryDirectory())
         .appending(path: "cake-save-\(UUID().uuidString).json")
@@ -56,7 +58,8 @@ func exportProjectPassesRequestedFormatAndDPI() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: exporter,
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
     let exportURL = URL(fileURLWithPath: NSTemporaryDirectory())
         .appending(path: "cake-export-\(UUID().uuidString).jpg")
@@ -75,7 +78,8 @@ func addAndDuplicateLogSelectNewTabsAndKeepIndependentData() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.addLog()
@@ -99,7 +103,8 @@ func zeroLevelAltitudeRemainsIndependentPerLog() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.project.settings.zeroLevelAltitudeMeters = 123
@@ -120,7 +125,8 @@ func removeLogKeepsAtLeastOneAndAdjustsSelection() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.addLog()
@@ -151,7 +157,8 @@ func syntheticViewRequiresAtLeastTwoLogs() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.project.settings.zeroLevelAltitudeMeters = 100
@@ -166,7 +173,8 @@ func syntheticViewRequiresZeroLevelOnEveryLog() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.project.settings.zeroLevelAltitudeMeters = 100
@@ -182,7 +190,8 @@ func syntheticViewIsEnabledWithTwoLogsAndAllZeroLevelsSet() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.project.settings.zeroLevelAltitudeMeters = 100
@@ -198,7 +207,8 @@ func availableDetailPanesTracksSyntheticAvailability() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     #expect(viewModel.availableDetailPanes == [.preview])
@@ -216,7 +226,8 @@ func selectingSyntheticPaneFallsBackToPreviewWhenUnavailable() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     #expect(viewModel.selectedDetailPane == .preview)
@@ -240,7 +251,8 @@ func canRemoveCurrentLogIsEnabledOnlyForMultiLogDocuments() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     #expect(viewModel.canRemoveCurrentLog == false)
@@ -257,7 +269,8 @@ func togglingInspectorUpdatesPresentationState() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     #expect(viewModel.isInspectorPresented == false)
@@ -275,7 +288,8 @@ func selectingLogUpdatesStatusMessageWithOneBasedIndex() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.addLog()
@@ -294,7 +308,8 @@ func exportAllProjectsEmitsOneFilePerLogAndResolvesFilenameCollisions() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: exporter,
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.project.metadata.title = "Same Name"
@@ -319,7 +334,8 @@ func zoomCommandsClampToConfiguredBoundsAndReset() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.zoom = 2.48
@@ -419,7 +435,8 @@ func resetZoomVisibilityTracksManualZoomChanges() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     #expect(viewModel.canResetManualZoom == false)
@@ -547,16 +564,17 @@ func autoAdjustResizesUntilManualZoomSuspendsIt() async throws {
 func moveSelectedUnitCommandsReorderUnits() {
     var project = Project.sample
     project.units = [
-        StratigraphicUnit(name: "A", thickness: 1, lithology: "Massive sand or sandstone"),
-        StratigraphicUnit(name: "B", thickness: 1, lithology: "Limestone"),
-        StratigraphicUnit(name: "C", thickness: 1, lithology: "Sandy or silty shale")
+        StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Massive sand or sandstone")),
+        StratigraphicUnit(name: "B", thickness: 1, usgsLithologyCode: usgsCode("Limestone")),
+        StratigraphicUnit(name: "C", thickness: 1, usgsLithologyCode: usgsCode("Sandy or silty shale"))
     ]
 
     let viewModel = ProjectViewModel(
         project: project,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.selectedUnitID = viewModel.project.units[1].id // B
@@ -574,7 +592,8 @@ func updatingNestedProjectSettingsRefreshesScene() async throws {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     let initialScale = viewModel.scene.symbolScale
@@ -606,6 +625,7 @@ func colorProfilesBootstrapWithSingleDefaultProfile() {
 
     #expect(viewModel.colorProfiles.count == 1)
     #expect(viewModel.activeColorProfileName == "Default")
+    #expect(viewModel.presetColor(for: 607) == nil)
 }
 
 @MainActor
@@ -676,7 +696,8 @@ func applyPresetToSelectedUnitUsesManualMappingOnlyWhenPresent() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     guard let selectedIndex = viewModel.selectedUnitIndex else {
@@ -701,7 +722,8 @@ func removingOneLithologyPresetKeepsOtherMappings() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "cake-vm")
     )
 
     viewModel.setLithologyColorPreset(usgsCode: 627, hex: "#AA0000")

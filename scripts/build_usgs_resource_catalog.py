@@ -269,52 +269,42 @@ def materialize_isolated_pdfs(entries: list[dict[str, Any]]) -> dict[str, str]:
     crop_bin = ensure_crop_binary()
     isolated_map: dict[str, str] = {}
     taken_names: set[str] = set()
-    textless_sources: dict[Path, Path] = {}
+    for entry in entries:
+        symbol_id = entry["symbolId"]
+        if symbol_id in isolated_map:
+            continue
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        temp_base = Path(temp_dir)
-        for entry in entries:
-            symbol_id = entry["symbolId"]
-            if symbol_id in isolated_map:
-                continue
+        source_rel = entry["pdf"]["path"]
+        source_abs = USGS_BASE / source_rel
+        if not source_abs.exists():
+            continue
 
-            source_rel = entry["pdf"]["path"]
-            source_abs = USGS_BASE / source_rel
-            if not source_abs.exists():
-                continue
+        # Keep the original source PDF for crop extraction.
+        # Text filtering via Ghostscript can drop symbol geometry on some files.
+        textless_source = source_abs
 
-            textless_source = textless_sources.get(source_abs)
-            if textless_source is None:
-                textless_name = f"{source_abs.stem}-notext-{len(textless_sources):04d}.pdf"
-                candidate = temp_base / textless_name
-                if strip_text_from_pdf(source_abs, candidate):
-                    textless_source = candidate
-                else:
-                    textless_source = source_abs
-                textless_sources[source_abs] = textless_source
-
-            rect = entry["symbolRect"]
-            page = entry["pageSizePoints"]
-            isolated_name = canonical_isolated_name(entry["sourceFileNameUSGS"], symbol_id, taken_names)
-            isolated_abs = ISOLATED_BASE / isolated_name
-            subprocess.run(
-                [
-                    str(crop_bin),
-                    str(textless_source),
-                    str(isolated_abs),
-                    str(rect["x"]),
-                    str(rect["y"]),
-                    str(rect["width"]),
-                    str(rect["height"]),
-                    str(page["width"]),
-                    str(page["height"]),
-                ],
-                check=True,
-            )
-            if not is_viable_symbol_pdf(isolated_abs):
-                isolated_abs.unlink(missing_ok=True)
-                continue
-            isolated_map[symbol_id] = f"isolated/{isolated_name}"
+        rect = entry["symbolRect"]
+        page = entry["pageSizePoints"]
+        isolated_name = canonical_isolated_name(entry["sourceFileNameUSGS"], symbol_id, taken_names)
+        isolated_abs = ISOLATED_BASE / isolated_name
+        subprocess.run(
+            [
+                str(crop_bin),
+                str(textless_source),
+                str(isolated_abs),
+                str(rect["x"]),
+                str(rect["y"]),
+                str(rect["width"]),
+                str(rect["height"]),
+                str(page["width"]),
+                str(page["height"]),
+            ],
+            check=True,
+        )
+        if not is_viable_symbol_pdf(isolated_abs):
+            isolated_abs.unlink(missing_ok=True)
+            continue
+        isolated_map[symbol_id] = f"isolated/{isolated_name}"
 
     return isolated_map
 
@@ -339,19 +329,6 @@ def build_catalog(profile: str, scope: str, entries: list[dict[str, Any]]) -> di
             continue
         copied = dict(entry)
         copied["isolatedPdfPath"] = isolated_path
-        # Runtime loads isolated PDFs when available. Their local page-space starts at (0, 0),
-        # so publish a tile-local rect to avoid reusing source-page coordinates.
-        rect = copied["symbolRect"]
-        copied["pageSizePoints"] = {
-            "width": rect["width"],
-            "height": rect["height"],
-        }
-        copied["symbolRect"] = {
-            "x": 0.0,
-            "y": 0.0,
-            "width": rect["width"],
-            "height": rect["height"],
-        }
         output_entries.append(copied)
 
     return {

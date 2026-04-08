@@ -113,14 +113,6 @@ public enum USGSEPSSymbolRenderer {
         )
     }
 
-    private static func tileImage(for code: Int) -> CGImage? {
-        guard let asset = resolver.asset(for: code) else {
-            logMissingAssetOnce(code: code, reason: "No symbol asset entry")
-            return nil
-        }
-        return tileImage(asset: asset)
-    }
-
     private static func tileImage(asset: USGSSymbolAsset) -> CGImage? {
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
 
@@ -211,6 +203,19 @@ public enum USGSEPSSymbolRenderer {
     }
 
     private static func drawCroppedPDF(page: CGPDFPage, symbolRect: USGSSymbolRect, pageSizePoints: CGSizeDTO, in drawRect: CGRect, context: CGContext) {
+        // Isolated symbol PDFs are generated as single-tile pages in local coordinates.
+        // Render the whole page directly to avoid coordinate mismatches with source-page math.
+        if isTileLocalPage(symbolRect: symbolRect, pageSizePoints: pageSizePoints) {
+            context.saveGState()
+            context.clip(to: drawRect)
+            let box = preferredPDFBox(for: page)
+            let transform = page.getDrawingTransform(box, rect: drawRect, rotate: 0, preserveAspectRatio: false)
+            context.concatenate(transform)
+            context.drawPDFPage(page)
+            context.restoreGState()
+            return
+        }
+
         let pageW = CGFloat(max(pageSizePoints.width, 1))
         let pageH = CGFloat(max(pageSizePoints.height, 1))
         let sx = drawRect.width / CGFloat(max(symbolRect.width, 0.0001))
@@ -237,6 +242,22 @@ public enum USGSEPSSymbolRenderer {
 
         context.drawPDFPage(page)
         context.restoreGState()
+    }
+
+    private static func isTileLocalPage(symbolRect: USGSSymbolRect, pageSizePoints: CGSizeDTO) -> Bool {
+        let epsilon = 0.0001
+        return abs(symbolRect.x) < epsilon &&
+            abs(symbolRect.y) < epsilon &&
+            abs(symbolRect.width - pageSizePoints.width) < epsilon &&
+            abs(symbolRect.height - pageSizePoints.height) < epsilon
+    }
+
+    private static func preferredPDFBox(for page: CGPDFPage) -> CGPDFBox {
+        let crop = page.getBoxRect(.cropBox)
+        if crop.width > 0, crop.height > 0 {
+            return .cropBox
+        }
+        return .mediaBox
     }
 
     private static func insetSymbolRect(_ rect: USGSSymbolRect, pageSizePoints: CGSizeDTO) -> USGSSymbolRect {

@@ -8,8 +8,8 @@ func svgExportContainsCoreGroupsAndGridWhenEnabled() throws {
     let project = Project(
         settings: ProjectSettings(showGrid: true),
         units: [
-            StratigraphicUnit(name: "A", thickness: 2, lithology: "Massive sand or sandstone", grainSize: .sand),
-            StratigraphicUnit(name: "B", thickness: 1.5, lithology: "Limestone", grainSize: .granule)
+            StratigraphicUnit(name: "A", thickness: 2, usgsLithologyCode: usgsCode("Massive sand or sandstone"), grainSize: .sand),
+            StratigraphicUnit(name: "B", thickness: 1.5, usgsLithologyCode: usgsCode("Limestone"), grainSize: .granule)
         ]
     )
     let scene = CakeRenderer().makeScene(project: project)
@@ -34,7 +34,7 @@ func svgExportUsesCustomLithologyFillForUnitsAndLegend() throws {
             StratigraphicUnit(
                 name: "A",
                 thickness: 2,
-                lithology: "Limestone",
+                usgsLithologyCode: usgsCode("Limestone"),
                 lithologyColorHex: "#12ab34"
             )
         ]
@@ -58,7 +58,7 @@ func svgExportUsesUnitNameOnlyForPrimaryUnitLabel() throws {
             StratigraphicUnit(
                 name: "Unit Alpha",
                 thickness: 2.5,
-                lithology: "Limestone",
+                usgsLithologyCode: usgsCode("Limestone"),
                 grainSize: .sand
             )
         ]
@@ -81,7 +81,7 @@ func svgExportUsesAltitudeAxisLabelWhenZeroLevelAltitudeIsConfigured() throws {
     let project = Project(
         settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 123),
         units: [
-            StratigraphicUnit(name: "A", thickness: 2, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 2, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let scene = CakeRenderer().makeScene(project: project)

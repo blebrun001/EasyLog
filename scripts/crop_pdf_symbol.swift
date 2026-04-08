@@ -61,15 +61,21 @@ private func cropPDF(_ args: Arguments) throws {
     let sx = mediaBox.width / tileRect.width
     let sy = mediaBox.height / tileRect.height
 
-    // Normalize source page size first.
+    // Mirror runtime draw math so isolated tiles stay pixel-identical to live rendering.
+    ctx.clip(to: mediaBox)
+    ctx.translateBy(x: 0, y: mediaBox.maxY + mediaBox.minY)
+    ctx.scaleBy(x: 1, y: -1)
+    ctx.translateBy(
+        x: mediaBox.minX - tileRect.minX * sx,
+        y: mediaBox.minY - tileRect.minY * sy
+    )
+    ctx.scaleBy(x: sx, y: sy)
+
     let pageMedia = page.getBoxRect(.mediaBox)
     if pageMedia.width > 0, pageMedia.height > 0 {
         ctx.scaleBy(x: sourceW / pageMedia.width, y: sourceH / pageMedia.height)
     }
 
-    // Shift so desired symbol rect maps to output origin, then scale to fill.
-    ctx.translateBy(x: -tileRect.minX, y: -tileRect.minY)
-    ctx.scaleBy(x: sx, y: sy)
     ctx.drawPDFPage(page)
 
     ctx.restoreGState()

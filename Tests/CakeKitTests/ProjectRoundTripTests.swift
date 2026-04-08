@@ -10,7 +10,7 @@ func projectJSONRoundTripPreservesMWEFields() throws {
     project.metadata.updatedAt = Date(timeIntervalSince1970: 1_700_000_100)
     project.units[0].name = "Floodplain Mud"
     project.units[0].thickness = 1.45
-    project.units[0].lithology = "Sandy or silty shale"
+    project.units[0].usgsLithologyCode = usgsCode("Sandy or silty shale")
     project.units[0].lithologyColorHex = "#1A2B3C"
     project.units[0].grainSize = .silt
 
@@ -48,21 +48,19 @@ func loadingLegacySingleProjectJSONBuildsSingleLogDocument() throws {
 }
 
 @Test
-func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
-    let legacyJSON = """
+func projectSettingsDecodesSuccessfullyWithoutLegacyPageSize() throws {
+    let json = """
     {
       "verticalScale": 25,
-      "pageSize": "letterPortrait",
       "baseFontSize": 12,
       "showGrid": false,
       "symbolScale": 1.0
     }
     """
 
-    let decoded = try JSONDecoder().decode(ProjectSettings.self, from: Data(legacyJSON.utf8))
+    let decoded = try JSONDecoder().decode(ProjectSettings.self, from: Data(json.utf8))
 
     #expect(decoded.verticalScale == 25)
-    #expect(decoded.pageSize == .letterPortrait)
     #expect(decoded.baseFontSize == 12)
     #expect(decoded.symbolScale == 1.0)
     #expect(decoded.pointFeatureIconSize == 8.0)
@@ -121,17 +119,17 @@ func projectSettingsShowGridRoundTripPersistsValue() throws {
 
 @Test
 func stratigraphicUnitLegacyJSONWithoutLithologyColorDecodesWithNilCustomColor() throws {
-    let legacyJSON = """
+    let json = """
     {
       "id": "\(UUID().uuidString)",
       "name": "Layer",
       "thickness": 1.2,
-      "lithology": "Limestone",
+      "usgsLithologyCode": 627,
       "pointFeatures": []
     }
     """
 
-    let decoded = try JSONDecoder().decode(StratigraphicUnit.self, from: Data(legacyJSON.utf8))
+    let decoded = try JSONDecoder().decode(StratigraphicUnit.self, from: Data(json.utf8))
     #expect(decoded.lithologyColorHex == nil)
 }
 

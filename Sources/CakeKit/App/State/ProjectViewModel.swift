@@ -103,7 +103,6 @@ public final class ProjectViewModel: ObservableObject {
     private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
     private let colorPresetStore: any LithologyColorPresetPersisting
     private var cancellables = Set<AnyCancellable>()
-    private let defaults: UserDefaults
     private var viewportSize: CGSize = .zero
     private var isAutoAdjustSuspendedByManualZoom = false
     private var hasManualZoomOverride = false
@@ -116,9 +115,6 @@ public final class ProjectViewModel: ObservableObject {
     private static let defaultZoom = 1.0
     private static let fitWidthVisualBoost = 1.12
     private static let resizeDebounceNanoseconds: UInt64 = 120_000_000
-    private static let zoomDefaultsKey = "cake.viewer.zoom"
-    private static let zoomModeDefaultsKey = "cake.viewer.zoomMode"
-    private static let autoAdjustDefaultsKey = "cake.viewer.autoAdjust"
 
     public init(
         project: Project = .sample,
@@ -137,7 +133,6 @@ public final class ProjectViewModel: ObservableObject {
         self.saveProjectUseCase = SaveProjectUseCase(store: store)
         self.exportProjectUseCase = ExportProjectUseCase(exporter: exporter)
         self.fileDialogService = fileDialogService
-        self.defaults = defaults
         self.colorPresetStore = colorPresetStore ?? UserDefaultsLithologyColorPresetStore(defaults: defaults)
         // Launch defaults are always width-fitted to avoid opening in a stale manual zoom
         // state when the zoom-mode selector is hidden from the UI.
@@ -298,7 +293,6 @@ public final class ProjectViewModel: ObservableObject {
         let clamped = Self.clampedZoom(value)
         let didChange = abs(clamped - zoom) > 0.0001
         zoom = clamped
-        persistZoom()
 
         guard didChange else { return }
         hasManualZoomOverride = true
@@ -309,12 +303,10 @@ public final class ProjectViewModel: ObservableObject {
         }
 
         zoomMode = .manual
-        persistZoomMode()
     }
 
     public func setZoomMode(_ mode: ZoomMode) {
         zoomMode = mode
-        persistZoomMode()
 
         guard mode != .manual else { return }
         hasManualZoomOverride = false
@@ -342,7 +334,6 @@ public final class ProjectViewModel: ObservableObject {
 
     public func setAutoAdjustToWindow(_ enabled: Bool) {
         autoAdjustToWindow = enabled
-        defaults.set(enabled, forKey: Self.autoAdjustDefaultsKey)
 
         if enabled {
             hasManualZoomOverride = false
@@ -366,7 +357,6 @@ public final class ProjectViewModel: ObservableObject {
             hasManualZoomOverride = false
             isAutoAdjustSuspendedByManualZoom = false
             zoomMode = .fitWidth
-            persistZoomMode()
             applyFit(mode: .fitWidth)
             zoomLogger.info(
                 "initial fit-width forced -> zoom=\(self.zoom, format: .fixed(precision: 4)) viewportWidth=\(self.viewportSize.width, format: .fixed(precision: 2)) canvasWidth=\(self.scene.canvasSize.width, format: .fixed(precision: 2))"
@@ -699,7 +689,6 @@ public final class ProjectViewModel: ObservableObject {
             "applyFit mode=\(mode.rawValue, privacy: .public) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2))) target=\(targetZoom, format: .fixed(precision: 4)) clamped=\(Self.clampedAutoFitZoom(targetZoom), format: .fixed(precision: 4))"
         )
         zoom = Self.clampedAutoFitZoom(targetZoom)
-        persistZoom()
     }
 
     private func fitScaleForWidth() -> Double {
@@ -712,14 +701,6 @@ public final class ProjectViewModel: ObservableObject {
     private func fitScaleForHeight() -> Double {
         guard scene.canvasSize.height > 0 else { return Self.defaultZoom }
         return viewportSize.height / scene.canvasSize.height
-    }
-
-    private func persistZoom() {
-        defaults.set(zoom, forKey: Self.zoomDefaultsKey)
-    }
-
-    private func persistZoomMode() {
-        defaults.set(zoomMode.rawValue, forKey: Self.zoomModeDefaultsKey)
     }
 
     private static func clampedZoom(_ value: Double) -> Double {

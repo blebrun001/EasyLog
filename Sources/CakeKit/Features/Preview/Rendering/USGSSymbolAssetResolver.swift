@@ -22,6 +22,7 @@ public struct USGSSymbolAsset: Hashable {
     public let pageSizePoints: CGSizeDTO
     public let symbolRect: USGSSymbolRect
     public let pdfURL: URL
+    public let usesIsolatedPDF: Bool
 }
 
 /// Loads and caches the generated runtime catalog, then resolves asset URLs.
@@ -51,7 +52,7 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
         let resolvedCode = SymbologyLibrary.renderableUSGSCode(forSelectionCode: code)
         for catalog in catalogs {
             guard let entry = try? catalog.preferredEntry(forCode: resolvedCode),
-                  let url = try? catalog.resolvedPDFURL(for: entry) else {
+                  let url = try? catalog.resolvedPDFURL(for: entry, preferIsolated: true) else {
                 continue
             }
             return makeAsset(entry: entry, pdfURL: url)
@@ -64,7 +65,24 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
     }
 
     private func makeAsset(entry: USGSResourceCatalog.Entry, pdfURL: URL) -> USGSSymbolAsset {
-        USGSSymbolAsset(
+        let usesIsolatedPDF = entry.isolatedPdfPath != nil && pdfURL.path.contains("/isolated/")
+        let normalizedPageSize: CGSizeDTO
+        let normalizedRect: USGSSymbolRect
+        if usesIsolatedPDF {
+            // Isolated pages contain only one tile; use tile-local coordinates.
+            normalizedPageSize = CGSizeDTO(width: entry.symbolRect.width, height: entry.symbolRect.height)
+            normalizedRect = USGSSymbolRect(
+                x: 0,
+                y: 0,
+                width: entry.symbolRect.width,
+                height: entry.symbolRect.height
+            )
+        } else {
+            normalizedPageSize = entry.pageSizePoints
+            normalizedRect = entry.symbolRect
+        }
+
+        return USGSSymbolAsset(
             symbolId: entry.symbolId,
             code: entry.code,
             label: entry.label,
@@ -74,9 +92,10 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
             epsRelativePath: entry.epsRelativePath,
             pdfRelativePath: entry.pdf.path,
             isolatedPdfRelativePath: entry.isolatedPdfPath,
-            pageSizePoints: entry.pageSizePoints,
-            symbolRect: entry.symbolRect,
-            pdfURL: pdfURL
+            pageSizePoints: normalizedPageSize,
+            symbolRect: normalizedRect,
+            pdfURL: pdfURL,
+            usesIsolatedPDF: usesIsolatedPDF
         )
     }
 }

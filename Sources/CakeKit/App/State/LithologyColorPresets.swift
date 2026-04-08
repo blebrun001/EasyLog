@@ -13,16 +13,7 @@ public struct LithologyColorProfile: Identifiable, Codable, Hashable {
     }
 
     public static func normalizedHex(_ raw: String?) -> String? {
-        guard let raw else { return nil }
-        var value = raw.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if value.hasPrefix("#") {
-            value.removeFirst()
-        }
-        let allowed = CharacterSet(charactersIn: "0123456789ABCDEF")
-        guard value.count == 6, value.unicodeScalars.allSatisfy({ allowed.contains($0) }) else {
-            return nil
-        }
-        return "#\(value)"
+        HexColorNormalizer.normalizedHex(raw)
     }
 
     public static func normalizedName(_ raw: String, fallback: String = "New Profile") -> String {

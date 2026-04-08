@@ -6,9 +6,9 @@ import Testing
 func rendererProducesStackedUnitsWithoutOverlap() {
     let project = Project(
         units: [
-            StratigraphicUnit(name: "A", thickness: 2, lithology: "Massive sand or sandstone"),
-            StratigraphicUnit(name: "B", thickness: 3, lithology: "Sandy or silty shale"),
-            StratigraphicUnit(name: "C", thickness: 1.5, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 2, usgsLithologyCode: usgsCode("Massive sand or sandstone")),
+            StratigraphicUnit(name: "B", thickness: 3, usgsLithologyCode: usgsCode("Sandy or silty shale")),
+            StratigraphicUnit(name: "C", thickness: 1.5, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let renderer = CakeRenderer()
@@ -26,9 +26,9 @@ func rendererProducesStackedUnitsWithoutOverlap() {
 func legendContainsEveryUsedUSGSSymbolCode() {
     let project = Project(
         units: [
-            StratigraphicUnit(name: "A", thickness: 2, lithology: "Massive sand or sandstone"),
-            StratigraphicUnit(name: "B", thickness: 2, lithology: "Crossbedded sand or sandstone (1st option)"),
-            StratigraphicUnit(name: "C", thickness: 2, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 2, usgsLithologyCode: usgsCode("Massive sand or sandstone")),
+            StratigraphicUnit(name: "B", thickness: 2, usgsLithologyCode: usgsCode("Crossbedded sand or sandstone (1st option)")),
+            StratigraphicUnit(name: "C", thickness: 2, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let renderer = CakeRenderer()
@@ -48,7 +48,7 @@ func sceneCarriesConfiguredSymbolScale() {
     let project = Project(
         settings: ProjectSettings(symbolScale: 1.8),
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let renderer = CakeRenderer()
@@ -63,7 +63,7 @@ func pointFeaturesAppearInLegendOnlyWhenUsed() {
             StratigraphicUnit(
                 name: "A",
                 thickness: 2,
-                lithology: "Massive sand or sandstone",
+                usgsLithologyCode: usgsCode("Massive sand or sandstone"),
                 pointFeatures: [
                     UnitPointFeature(type: .archaeologicalBoneFragments, concentration: .low)
                 ]
@@ -71,7 +71,7 @@ func pointFeaturesAppearInLegendOnlyWhenUsed() {
             StratigraphicUnit(
                 name: "B",
                 thickness: 2,
-                lithology: "Limestone",
+                usgsLithologyCode: usgsCode("Limestone"),
                 pointFeatures: [
                     UnitPointFeature(type: .hydroDissolutionTraces, concentration: .high)
                 ]
@@ -96,13 +96,13 @@ func samePointFeatureAcrossUnitsAppearsOnceInLegend() {
             StratigraphicUnit(
                 name: "A",
                 thickness: 2,
-                lithology: "Massive sand or sandstone",
+                usgsLithologyCode: usgsCode("Massive sand or sandstone"),
                 pointFeatures: [UnitPointFeature(type: sharedType, density: 0.2)]
             ),
             StratigraphicUnit(
                 name: "B",
                 thickness: 2,
-                lithology: "Limestone",
+                usgsLithologyCode: usgsCode("Limestone"),
                 pointFeatures: [UnitPointFeature(type: sharedType, density: 0.8)]
             )
         ]
@@ -118,7 +118,7 @@ func highConcentrationProducesMorePointSymbolsAndStaysInsideUnit() {
     let unit = StratigraphicUnit(
         name: "A",
         thickness: 4,
-        lithology: "Massive sand or sandstone",
+        usgsLithologyCode: usgsCode("Massive sand or sandstone"),
         pointFeatures: [
             UnitPointFeature(type: .archaeologicalBoneFragments, concentration: .low),
             UnitPointFeature(type: .archaeologicalArtifacts, concentration: .high)
@@ -146,7 +146,7 @@ func higherDensityProducesMorePointSymbols() {
     let unit = StratigraphicUnit(
         name: "A",
         thickness: 4,
-        lithology: "Massive sand or sandstone",
+        usgsLithologyCode: usgsCode("Massive sand or sandstone"),
         pointFeatures: [
             UnitPointFeature(type: .archaeologicalBoneFragments, density: 0.2),
             UnitPointFeature(type: .archaeologicalArtifacts, density: 0.9)
@@ -168,7 +168,7 @@ func pointFeatureIconSizeIsPropagatedToSceneAndRenderedPoints() {
             StratigraphicUnit(
                 name: "A",
                 thickness: 2,
-                lithology: "Massive sand or sandstone",
+                usgsLithologyCode: usgsCode("Massive sand or sandstone"),
                 pointFeatures: [UnitPointFeature(type: .paleoRoots, density: 0.4)]
             )
         ]
@@ -183,7 +183,7 @@ func sceneCarriesConfiguredDepthScaleUnit() {
     let project = Project(
         settings: ProjectSettings(depthScaleUnit: .centimeter),
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let scene = CakeRenderer().makeScene(project: project)
@@ -220,7 +220,7 @@ func sceneCarriesConfiguredZeroLevelAltitude() {
     let project = Project(
         settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 123),
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let scene = CakeRenderer().makeScene(project: project)
@@ -233,7 +233,7 @@ func sceneCarriesConfiguredGridVisibility() {
     let project = Project(
         settings: ProjectSettings(showGrid: true),
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let scene = CakeRenderer().makeScene(project: project)
@@ -245,7 +245,7 @@ func sceneCarriesRenderingVisibilityFlags() {
     let project = Project(
         settings: ProjectSettings(showLegend: false, showScale: false, showLogTitle: false),
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let scene = CakeRenderer().makeScene(project: project)
@@ -257,13 +257,13 @@ func sceneCarriesRenderingVisibilityFlags() {
 @Test
 func rendererUsesNaturalCanvasSizeWithoutPresetMinimums() {
     let projectLetter = Project(
-        settings: ProjectSettings(verticalScale: 25, pageSize: .letterPortrait),
+        settings: ProjectSettings(verticalScale: 25),
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Massive sand or sandstone")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Massive sand or sandstone"))
         ]
     )
     let projectA4 = Project(
-        settings: ProjectSettings(verticalScale: 25, pageSize: .a4Portrait),
+        settings: ProjectSettings(verticalScale: 25),
         units: projectLetter.units
     )
     let renderer = CakeRenderer()
@@ -279,7 +279,7 @@ func rendererUsesNaturalCanvasSizeWithoutPresetMinimums() {
 
 @Test
 func rendererExpandsCanvasWidthForLongLegendLabels() {
-    let baseUnit = StratigraphicUnit(name: "A", thickness: 1, lithology: "Massive sand or sandstone")
+    let baseUnit = StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Massive sand or sandstone"))
     let shortestType = PointFeatureType.allCases.min {
         ("\($0.categoryLabel): \($0.label)").count < ("\($1.categoryLabel): \($1.label)").count
     } ?? .paleoRoots
@@ -289,13 +289,13 @@ func rendererExpandsCanvasWidthForLongLegendLabels() {
     let shortLegendUnit = StratigraphicUnit(
         name: "A",
         thickness: 1,
-        lithology: "Massive sand or sandstone",
+        usgsLithologyCode: usgsCode("Massive sand or sandstone"),
         pointFeatures: [UnitPointFeature(type: shortestType, concentration: .low)]
     )
     let longLegendUnit = StratigraphicUnit(
         name: "A",
         thickness: 1,
-        lithology: "Massive sand or sandstone",
+        usgsLithologyCode: usgsCode("Massive sand or sandstone"),
         pointFeatures: [UnitPointFeature(type: longestType, concentration: .low)]
     )
 
@@ -315,7 +315,7 @@ func rendererUsesCustomLithologyColorWhenProvided() {
             StratigraphicUnit(
                 name: "A",
                 thickness: 1,
-                lithology: "Limestone",
+                usgsLithologyCode: usgsCode("Limestone"),
                 lithologyColorHex: "#abc123"
             )
         ]
@@ -331,7 +331,7 @@ func rendererFallsBackToUSGSColorWhenNoCustomColor() {
     let lithology = "Limestone"
     let project = Project(
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: lithology)
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode(lithology))
         ]
     )
 
@@ -345,8 +345,8 @@ func rendererFallsBackToUSGSColorWhenNoCustomColor() {
 func legendKeepsSeparateLithologyRowsWhenSameLithologyUsesDifferentColors() {
     let project = Project(
         units: [
-            StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone", lithologyColorHex: "#FF0000"),
-            StratigraphicUnit(name: "B", thickness: 1, lithology: "Limestone", lithologyColorHex: "#00FF00")
+            StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"), lithologyColorHex: "#FF0000"),
+            StratigraphicUnit(name: "B", thickness: 1, usgsLithologyCode: usgsCode("Limestone"), lithologyColorHex: "#00FF00")
         ]
     )
 
@@ -366,7 +366,7 @@ func syntheticComparisonAlignsUnitsInSharedAltitudeReference() {
             zeroLevelAltitudeMeters: 100
         ),
         units: [
-            StratigraphicUnit(name: "A1", thickness: 2, lithology: "Limestone")
+            StratigraphicUnit(name: "A1", thickness: 2, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let logB = Project(
@@ -377,7 +377,7 @@ func syntheticComparisonAlignsUnitsInSharedAltitudeReference() {
             zeroLevelAltitudeMeters: 101
         ),
         units: [
-            StratigraphicUnit(name: "B1", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "B1", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
 
@@ -396,13 +396,13 @@ func syntheticComparisonMergesLegendAcrossLogs() {
     let logA = Project(
         settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 100),
         units: [
-            StratigraphicUnit(name: "A1", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "A1", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
     let logB = Project(
         settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 99),
         units: [
-            StratigraphicUnit(name: "B1", thickness: 1, lithology: "Limestone")
+            StratigraphicUnit(name: "B1", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))
         ]
     )
 
@@ -415,11 +415,11 @@ func syntheticComparisonMergesLegendAcrossLogs() {
 func syntheticComparisonUsesSelectedLogDepthUnit() {
     let first = Project(
         settings: ProjectSettings(depthScaleUnit: .meter, zeroLevelAltitudeMeters: 100),
-        units: [StratigraphicUnit(name: "A", thickness: 1, lithology: "Limestone")]
+        units: [StratigraphicUnit(name: "A", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))]
     )
     let second = Project(
         settings: ProjectSettings(depthScaleUnit: .centimeter, zeroLevelAltitudeMeters: 90),
-        units: [StratigraphicUnit(name: "B", thickness: 1, lithology: "Limestone")]
+        units: [StratigraphicUnit(name: "B", thickness: 1, usgsLithologyCode: usgsCode("Limestone"))]
     )
 
     let scene = SyntheticComparisonSceneBuilder.make(
