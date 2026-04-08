@@ -47,6 +47,13 @@ jobs:
             echo "dmg_file=${DMG_FILE}"
           } >> "${GITHUB_OUTPUT}"
 
+      - name: Install USGS build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew update
+          brew install poppler ghostscript
+
       - name: Build release resource catalog
         shell: bash
         run: |

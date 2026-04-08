@@ -99,7 +99,7 @@ public struct ProjectSidebarView: View {
 
                 ProPanelSection("Selected Unit", subtitle: "Edit lithology, grain size and point features") {
                     if let index = viewModel.selectedUnitIndex {
-                        UnitFormView(unit: $viewModel.project.units[index])
+                        UnitFormView(unit: $viewModel.project.units[index], viewModel: viewModel)
                             .id(viewModel.project.units[index].id)
                     } else {
                         ProEmptyState(

@@ -28,6 +28,8 @@
 		6170B9364720079B3520CC6E /* RendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129B645DB11BB949CD32C1C5 /* RendererTests.swift */; };
 		62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */; };
 		633DB19B03C5552D944600AC /* CakeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* CakeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6702C3B4A1D9EF084D56AA10 /* LithologyColorPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8374E19A5D6F00C413B29 /* LithologyColorPresets.swift */; };
+		673A4D79F9D27A021E4F18C5 /* LithologyColorProfilesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53108D24B29A3C6E18F76AB /* LithologyColorProfilesSheetView.swift */; };
 		6891AA40A00BF6FA9CE9CA20 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169864B2603FD5F9EFB06C4 /* Models.swift */; };
 		76BACC69C056F4E1E5F214EE /* Symbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D25B1F6E4686681A6AF31 /* Symbology.swift */; };
 		85F853C0F2907A1E98DB4C04 /* SVGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C36B1736B07D6FB0428382 /* SVGExporter.swift */; };
@@ -131,6 +133,7 @@
 		AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCatalogTests.swift; sourceTree = "<group>"; };
 		AC1BE3DE3870F95ADCBDA3D3 /* SettingsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanelView.swift; sourceTree = "<group>"; };
 		AD43A16B9843CA6574A82719 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		B2C8374E19A5D6F00C413B29 /* LithologyColorPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LithologyColorPresets.swift; sourceTree = "<group>"; };
 		B16D25B1F6E4686681A6AF31 /* Symbology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbology.swift; sourceTree = "<group>"; };
 		B928F8F34F0446429554B105 /* UnitFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitFormView.swift; sourceTree = "<group>"; };
 		C1C05F756A8D250C6197752A /* SceneLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLayout.swift; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 		E87C4E45F6F21E3D2C0A1D7A /* SceneCGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCGRenderer.swift; sourceTree = "<group>"; };
 		EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGExportTests.swift; sourceTree = "<group>"; };
 		EFBEC5B0A39918FC3C8C8389 /* JPGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JPGExporter.swift; sourceTree = "<group>"; };
+		F53108D24B29A3C6E18F76AB /* LithologyColorProfilesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LithologyColorProfilesSheetView.swift; sourceTree = "<group>"; };
 		F96D597AA47015689568B569 /* ProUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUIComponents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -237,6 +241,7 @@
 		461178974177AAB83F36EBE4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F53108D24B29A3C6E18F76AB /* LithologyColorProfilesSheetView.swift */,
 				8A69FEE1C01D6A5C7C75511A /* ProjectSidebarView.swift */,
 				B928F8F34F0446429554B105 /* UnitFormView.swift */,
 			);
@@ -411,6 +416,7 @@
 		E8960DCA309FE21B2742F586 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				B2C8374E19A5D6F00C413B29 /* LithologyColorPresets.swift */,
 				1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */,
 			);
 			path = State;
@@ -557,6 +563,7 @@
 				CA94EBE02FFD245F850C2751 /* ProjectStore.swift in Sources */,
 				221FD5A53B53D550F8E6BABC /* ProjectUseCases.swift in Sources */,
 				62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */,
+				6702C3B4A1D9EF084D56AA10 /* LithologyColorPresets.swift in Sources */,
 				8B6A4B263EF331ADD6624D58 /* RenderPreviewView.swift in Sources */,
 				BBF2E52203A2EC14FDD27AB7 /* RenderScene.swift in Sources */,
 				444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */,
@@ -571,6 +578,7 @@
 				1CC7990C7EE51761B41BFE79 /* USGSEPSSymbolRenderer.swift in Sources */,
 				5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */,
 				AAF21A380948460335344083 /* USGSSymbolAssetResolver.swift in Sources */,
+				673A4D79F9D27A021E4F18C5 /* LithologyColorProfilesSheetView.swift in Sources */,
 				A481E7D286E587E2FE2B68CF /* UnitFormView.swift in Sources */,
 				049E9319B85989BBE561630B /* Validation.swift in Sources */,
 			);

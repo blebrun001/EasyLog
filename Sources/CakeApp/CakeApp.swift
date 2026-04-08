@@ -54,12 +54,10 @@ struct CakeApp: App {
             }
 
             CommandGroup(after: .toolbar) {
-                Button("Zoom In") { viewModel.zoomIn() }
-                    .keyboardShortcut("+", modifiers: [.command])
-                Button("Zoom Out") { viewModel.zoomOut() }
-                    .keyboardShortcut("-", modifiers: [.command])
-                Button("Actual Size") { viewModel.resetZoom() }
-                    .keyboardShortcut("0", modifiers: [.command])
+                if viewModel.canResetManualZoom {
+                    Button("reset zoom") { viewModel.resetZoom() }
+                        .keyboardShortcut("0", modifiers: [.command])
+                }
             }
 
             CommandGroup(after: .pasteboard) {
@@ -93,14 +91,6 @@ struct CakeApp: App {
                             .disabled(pane == .synthetic && !viewModel.canOpenSyntheticView)
                     }
                 }
-
-                Divider()
-
-                Picker("Zoom Mode", selection: zoomModeBinding) {
-                    ForEach(ProjectViewModel.ZoomMode.allCases) { mode in
-                        Text(mode.label).tag(mode)
-                    }
-                }
             }
         }
     }
@@ -109,13 +99,6 @@ struct CakeApp: App {
         Binding(
             get: { viewModel.selectedDetailPane },
             set: { viewModel.selectDetailPane($0) }
-        )
-    }
-
-    private var zoomModeBinding: Binding<ProjectViewModel.ZoomMode> {
-        Binding(
-            get: { viewModel.zoomMode },
-            set: { viewModel.setZoomMode($0) }
         )
     }
 }

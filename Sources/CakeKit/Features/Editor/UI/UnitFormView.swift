@@ -4,18 +4,21 @@ import AppKit
 /// Form that edits one `StratigraphicUnit`, including lithology and point features.
 public struct UnitFormView: View {
     @Binding private var unit: StratigraphicUnit
+    @ObservedObject private var viewModel: ProjectViewModel
     @State private var thicknessText: String = ""
     @State private var selectedLithologyCategory: USGSLithologyCategory
     @State private var selectedLithologyCode: Int
     @State private var showLithologyColorChangeDialog = false
+    @State private var showColorProfilesSheet = false
     @State private var pendingLithologySelectionCode: Int?
     @State private var colorPickerSelection: Color = .clear
     @State private var lithologyHexText: String = ""
     @State private var pendingPointFeatureCategory: PointFeatureCategory
     @State private var pendingPointFeatureType: PointFeatureType = PointFeatureType.allCases.first ?? .paleoMacroFossils
 
-    public init(unit: Binding<StratigraphicUnit>) {
+    public init(unit: Binding<StratigraphicUnit>, viewModel: ProjectViewModel) {
         self._unit = unit
+        self.viewModel = viewModel
         self._thicknessText = State(initialValue: Self.formatNumber(unit.wrappedValue.thickness))
         self._selectedLithologyCategory = State(initialValue: SymbologyLibrary.lithologyCategory(forUSGSCode: unit.wrappedValue.usgsLithologyCode))
         self._selectedLithologyCode = State(initialValue: unit.wrappedValue.usgsLithologyCode)
@@ -90,6 +93,20 @@ public struct UnitFormView: View {
                             .buttonStyle(.bordered)
                             .disabled(unit.lithologyColorHex == nil)
                             .accessibilityHint("Removes custom color and restores default USGS color")
+                        }
+
+                        HStack(spacing: 8) {
+                            Button("Apply Profile Color") {
+                                viewModel.applyPresetToSelectedUnit()
+                                syncColorControlsFromUnit()
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(viewModel.presetColor(for: unit.usgsLithologyCode) == nil)
+
+                            Button("Color Profiles…") {
+                                showColorProfilesSheet = true
+                            }
+                            .buttonStyle(.bordered)
                         }
                     }
                 }
@@ -202,6 +219,10 @@ public struct UnitFormView: View {
             }
         } message: {
             Text("Changing lithology while a custom color is set can either keep your custom color or restore the default USGS fill.")
+        }
+        .sheet(isPresented: $showColorProfilesSheet) {
+            LithologyColorProfilesSheetView(viewModel: viewModel)
+                .frame(minWidth: 760, minHeight: 620)
         }
     }
 

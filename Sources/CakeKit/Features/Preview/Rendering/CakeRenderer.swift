@@ -5,7 +5,7 @@ import AppKit
 public struct CakeRenderer: LogRenderer {
     public init() {}
 
-    private let minimumRightMargin = 260.0
+    private let minimumRightMargin = 120.0
     private let legendTrailingPadding = 24.0
 
     private struct LithologyLegendKey: Hashable {

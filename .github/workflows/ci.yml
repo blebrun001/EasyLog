@@ -18,6 +18,11 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
+      - name: Install USGS build dependencies
+        run: |
+          brew update
+          brew install poppler ghostscript
+
       - name: Build resource catalogs
         run: ./scripts/build-resources.sh all
 

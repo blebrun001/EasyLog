@@ -1,6 +1,7 @@
 import Combine
 import CoreGraphics
 import Foundation
+import os
 
 /// UI-only state shared across menus, toolbar and top-level content views.
 public struct EditorPresentationState: Equatable {
@@ -63,8 +64,13 @@ public final class ProjectViewModel: ObservableObject {
     @Published public private(set) var presentationState = EditorPresentationState()
     @Published public private(set) var statusMessage: String = "Ready"
     @Published public private(set) var errorMessage: String?
+    @Published public private(set) var colorProfiles: [LithologyColorProfile] = []
+    @Published public private(set) var activeColorProfileID: UUID?
 
     public private(set) var projectURL: URL?
+    public var activeColorProfileName: String {
+        activeColorProfile?.name ?? ""
+    }
 
     public var logs: [Project] { document.logs }
     public var selectedDetailPane: EditorPresentationState.DetailPane {
@@ -83,6 +89,9 @@ public final class ProjectViewModel: ObservableObject {
     public var canRemoveCurrentLog: Bool {
         document.logs.count > 1
     }
+    public var canResetManualZoom: Bool {
+        hasManualZoomOverride
+    }
 
     private let renderer: LogRenderer
     private let openProjectUseCase: OpenProjectUseCase
@@ -92,15 +101,20 @@ public final class ProjectViewModel: ObservableObject {
     private let addUnitUseCase = AddUnitUseCase()
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
     private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
+    private let colorPresetStore: any LithologyColorPresetPersisting
     private var cancellables = Set<AnyCancellable>()
     private let defaults: UserDefaults
     private var viewportSize: CGSize = .zero
     private var isAutoAdjustSuspendedByManualZoom = false
+    private var hasManualZoomOverride = false
+    private var didApplyInitialWidthFit = false
     private var resizeDebounceTask: Task<Void, Never>?
+    private let zoomLogger = Logger(subsystem: "Cake", category: "Zoom")
 
     private static let minZoom = 0.5
     private static let maxZoom = 2.5
     private static let defaultZoom = 1.0
+    private static let fitWidthVisualBoost = 1.12
     private static let resizeDebounceNanoseconds: UInt64 = 120_000_000
     private static let zoomDefaultsKey = "cake.viewer.zoom"
     private static let zoomModeDefaultsKey = "cake.viewer.zoomMode"
@@ -112,7 +126,8 @@ public final class ProjectViewModel: ObservableObject {
         store: ProjectStore = JSONProjectStore(),
         exporter: Exporter = CompositeExporter(),
         fileDialogService: FileDialoging = AppKitFileDialogService(),
-        defaults: UserDefaults = .standard
+        defaults: UserDefaults = .standard,
+        colorPresetStore: (any LithologyColorPresetPersisting)? = nil
     ) {
         self.project = project
         self.document = ProjectDocument(logs: [project])
@@ -123,16 +138,15 @@ public final class ProjectViewModel: ObservableObject {
         self.exportProjectUseCase = ExportProjectUseCase(exporter: exporter)
         self.fileDialogService = fileDialogService
         self.defaults = defaults
-        let savedZoom = defaults.object(forKey: Self.zoomDefaultsKey) as? Double
-        self.zoom = Self.clampedZoom(savedZoom ?? Self.defaultZoom)
-        if let rawMode = defaults.string(forKey: Self.zoomModeDefaultsKey), let parsedMode = ZoomMode(rawValue: rawMode) {
-            self.zoomMode = parsedMode
-        } else {
-            self.zoomMode = .manual
-        }
-        self.autoAdjustToWindow = defaults.bool(forKey: Self.autoAdjustDefaultsKey)
+        self.colorPresetStore = colorPresetStore ?? UserDefaultsLithologyColorPresetStore(defaults: defaults)
+        // Launch defaults are always width-fitted to avoid opening in a stale manual zoom
+        // state when the zoom-mode selector is hidden from the UI.
+        self.zoom = Self.defaultZoom
+        self.zoomMode = .fitWidth
+        self.autoAdjustToWindow = true
         self.scene = renderer.makeScene(project: project)
         self.selectedUnitID = project.units.first?.id
+        loadColorPresetState()
 
         $project
             .debounce(for: .milliseconds(33), scheduler: RunLoop.main)
@@ -275,13 +289,19 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func resetZoom() {
-        setManualZoom(1.0)
-        statusMessage = "Zoom 100%"
+        hasManualZoomOverride = false
+        setZoomMode(.fitWidth)
+        statusMessage = "Zoom fit width"
     }
 
     public func setManualZoom(_ value: Double) {
-        zoom = Self.clampedZoom(value)
+        let clamped = Self.clampedZoom(value)
+        let didChange = abs(clamped - zoom) > 0.0001
+        zoom = clamped
         persistZoom()
+
+        guard didChange else { return }
+        hasManualZoomOverride = true
 
         if autoAdjustToWindow, zoomMode != .manual {
             isAutoAdjustSuspendedByManualZoom = true
@@ -297,6 +317,7 @@ public final class ProjectViewModel: ObservableObject {
         persistZoomMode()
 
         guard mode != .manual else { return }
+        hasManualZoomOverride = false
         isAutoAdjustSuspendedByManualZoom = false
         applyFit(mode: mode)
     }
@@ -324,6 +345,7 @@ public final class ProjectViewModel: ObservableObject {
         defaults.set(enabled, forKey: Self.autoAdjustDefaultsKey)
 
         if enabled {
+            hasManualZoomOverride = false
             isAutoAdjustSuspendedByManualZoom = false
             applyAutoAdjustIfNeeded()
         }
@@ -332,7 +354,33 @@ public final class ProjectViewModel: ObservableObject {
     public func updateViewportSize(_ size: CGSize) {
         let normalized = CGSize(width: max(0, size.width), height: max(0, size.height))
         guard normalized != viewportSize else { return }
+        let hadViewport = viewportSize.width > 0 && viewportSize.height > 0
+        zoomLogger.info(
+            "updateViewportSize raw=(\(size.width, format: .fixed(precision: 2)), \(size.height, format: .fixed(precision: 2))) normalized=(\(normalized.width, format: .fixed(precision: 2)), \(normalized.height, format: .fixed(precision: 2))) oldViewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) mode=\(self.zoomMode.rawValue, privacy: .public) zoom=\(self.zoom, format: .fixed(precision: 4)) autoAdjust=\(self.autoAdjustToWindow) manualOverride=\(self.hasManualZoomOverride)"
+        )
         viewportSize = normalized
+
+        // Force a one-time fit-to-width as soon as the first real viewport is known.
+        if !didApplyInitialWidthFit, viewportSize.width > 0 {
+            didApplyInitialWidthFit = true
+            hasManualZoomOverride = false
+            isAutoAdjustSuspendedByManualZoom = false
+            zoomMode = .fitWidth
+            persistZoomMode()
+            applyFit(mode: .fitWidth)
+            zoomLogger.info(
+                "initial fit-width forced -> zoom=\(self.zoom, format: .fixed(precision: 4)) viewportWidth=\(self.viewportSize.width, format: .fixed(precision: 2)) canvasWidth=\(self.scene.canvasSize.width, format: .fixed(precision: 2))"
+            )
+            return
+        }
+
+        // Apply fit immediately on first measurable viewport so initial launch
+        // starts at the expected width-fitted zoom instead of waiting for debounce.
+        if !hadViewport {
+            applyAutoAdjustIfNeeded()
+            return
+        }
+
         scheduleAutoAdjust()
     }
 
@@ -343,6 +391,7 @@ public final class ProjectViewModel: ObservableObject {
         projectURL = nil
         presentationState = EditorPresentationState()
         isAutoAdjustSuspendedByManualZoom = false
+        hasManualZoomOverride = false
         statusMessage = "New project"
         errorMessage = nil
     }
@@ -375,6 +424,66 @@ public final class ProjectViewModel: ObservableObject {
         errorMessage = nil
     }
 
+    public func createColorProfile(name: String) {
+        let resolved = uniqueColorProfileName(base: LithologyColorProfile.normalizedName(name))
+        let profile = LithologyColorProfile(name: resolved)
+        colorProfiles.append(profile)
+        activeColorProfileID = profile.id
+        persistColorPresetState()
+    }
+
+    public func renameColorProfile(id: UUID, name: String) {
+        guard let index = colorProfiles.firstIndex(where: { $0.id == id }) else { return }
+        let resolved = uniqueColorProfileName(
+            base: LithologyColorProfile.normalizedName(name, fallback: colorProfiles[index].name),
+            excludingID: id
+        )
+        colorProfiles[index].name = resolved
+        persistColorPresetState()
+    }
+
+    public func deleteColorProfile(id: UUID) {
+        guard colorProfiles.count > 1 else { return }
+        guard let index = colorProfiles.firstIndex(where: { $0.id == id }) else { return }
+
+        colorProfiles.remove(at: index)
+        if activeColorProfileID == id {
+            activeColorProfileID = colorProfiles.first?.id
+        }
+        persistColorPresetState()
+    }
+
+    public func setActiveColorProfile(id: UUID) {
+        guard colorProfiles.contains(where: { $0.id == id }) else { return }
+        activeColorProfileID = id
+        persistColorPresetState()
+    }
+
+    public func setLithologyColorPreset(usgsCode: Int, hex: String) {
+        guard let normalized = LithologyColorProfile.normalizedHex(hex) else { return }
+        mutateActiveColorProfile { profile in
+            profile.mappings[usgsCode] = normalized
+        }
+    }
+
+    public func removeLithologyColorPreset(usgsCode: Int) {
+        mutateActiveColorProfile { profile in
+            profile.mappings.removeValue(forKey: usgsCode)
+        }
+    }
+
+    public func presetColor(for usgsCode: Int) -> String? {
+        activeColorProfile?.mappings[usgsCode]
+    }
+
+    public func applyPresetToSelectedUnit() {
+        guard let selectedUnitIndex else { return }
+        let usgsCode = project.units[selectedUnitIndex].usgsLithologyCode
+        guard let presetHex = presetColor(for: usgsCode) else { return }
+        project.units[selectedUnitIndex].lithologyColorHex = presetHex
+        statusMessage = "Applied profile color to selected unit"
+    }
+
     public func openProject(at url: URL) {
         do {
             let loaded = try openProjectUseCase.execute(url: url)
@@ -383,6 +492,7 @@ public final class ProjectViewModel: ObservableObject {
             setSelectedLog(0)
             presentationState.selectedDetailPane = .preview
             isAutoAdjustSuspendedByManualZoom = false
+            hasManualZoomOverride = false
             applyAutoAdjustIfNeeded()
             statusMessage = "Opened \(url.lastPathComponent)"
             errorMessage = nil
@@ -585,13 +695,18 @@ public final class ProjectViewModel: ObservableObject {
             targetZoom = fitScaleForHeight()
         }
 
-        zoom = Self.clampedZoom(targetZoom)
+        zoomLogger.info(
+            "applyFit mode=\(mode.rawValue, privacy: .public) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2))) target=\(targetZoom, format: .fixed(precision: 4)) clamped=\(Self.clampedAutoFitZoom(targetZoom), format: .fixed(precision: 4))"
+        )
+        zoom = Self.clampedAutoFitZoom(targetZoom)
         persistZoom()
     }
 
     private func fitScaleForWidth() -> Double {
         guard scene.canvasSize.width > 0 else { return Self.defaultZoom }
-        return viewportSize.width / scene.canvasSize.width
+        let base = viewportSize.width / scene.canvasSize.width
+        guard base > 1 else { return base }
+        return base * Self.fitWidthVisualBoost
     }
 
     private func fitScaleForHeight() -> Double {
@@ -609,5 +724,61 @@ public final class ProjectViewModel: ObservableObject {
 
     private static func clampedZoom(_ value: Double) -> Double {
         min(max(value, minZoom), maxZoom)
+    }
+
+    private static func clampedAutoFitZoom(_ value: Double) -> Double {
+        max(value, minZoom)
+    }
+
+    private var activeColorProfile: LithologyColorProfile? {
+        guard let activeColorProfileID else { return nil }
+        return colorProfiles.first(where: { $0.id == activeColorProfileID })
+    }
+
+    private func mutateActiveColorProfile(_ mutate: (inout LithologyColorProfile) -> Void) {
+        guard let activeColorProfileID,
+              let index = colorProfiles.firstIndex(where: { $0.id == activeColorProfileID }) else { return }
+
+        mutate(&colorProfiles[index])
+        colorProfiles[index].mappings = LithologyColorProfile.normalizedMappings(colorProfiles[index].mappings)
+        persistColorPresetState()
+    }
+
+    private func uniqueColorProfileName(base: String, excludingID: UUID? = nil) -> String {
+        let baseName = LithologyColorProfile.normalizedName(base)
+        let existing = Set(
+            colorProfiles
+                .filter { $0.id != excludingID }
+                .map { $0.name.lowercased() }
+        )
+
+        if !existing.contains(baseName.lowercased()) {
+            return baseName
+        }
+
+        var suffix = 2
+        while true {
+            let candidate = "\(baseName) \(suffix)"
+            if !existing.contains(candidate.lowercased()) {
+                return candidate
+            }
+            suffix += 1
+        }
+    }
+
+    private func loadColorPresetState() {
+        let stored = colorPresetStore.load()
+        colorProfiles = stored.profiles
+        activeColorProfileID = stored.activeProfileID
+    }
+
+    private func persistColorPresetState() {
+        let normalized = LithologyColorPresetStore(
+            profiles: colorProfiles,
+            activeProfileID: activeColorProfileID
+        )
+        colorProfiles = normalized.profiles
+        activeColorProfileID = normalized.activeProfileID
+        colorPresetStore.save(normalized)
     }
 }

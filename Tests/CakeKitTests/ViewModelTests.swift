@@ -334,8 +334,102 @@ func zoomCommandsClampToConfiguredBoundsAndReset() {
     viewModel.zoomOut()
     #expect(viewModel.zoom == 0.5)
 
+    viewModel.updateViewportSize(CGSize(width: 720, height: 500))
+    viewModel.setManualZoom(1.3)
     viewModel.resetZoom()
-    #expect(viewModel.zoom == 1.0)
+    #expect(viewModel.zoomMode == .fitWidth)
+    #expect(viewModel.zoom == 720 / viewModel.scene.canvasSize.width)
+}
+
+@MainActor
+@Test
+func defaultZoomModeIsFitWidth() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    #expect(viewModel.zoomMode == .fitWidth)
+}
+
+@MainActor
+@Test
+func firstViewportUpdateAppliesFitWidthImmediatelyByDefault() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    let viewport = CGSize(width: 760, height: 500)
+    viewModel.updateViewportSize(viewport)
+    #expect(viewModel.zoom > viewport.width / viewModel.scene.canvasSize.width)
+}
+
+@MainActor
+@Test
+func startupIgnoresStalePersistedManualZoomAndUsesFitWidth() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    defaults.set(1.0, forKey: "cake.viewer.zoom")
+    defaults.set("manual", forKey: "cake.viewer.zoomMode")
+    defaults.set(false, forKey: "cake.viewer.autoAdjust")
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    #expect(viewModel.zoomMode == .fitWidth)
+    let viewport = CGSize(width: 760, height: 500)
+    viewModel.updateViewportSize(viewport)
+    #expect(viewModel.zoom > viewport.width / viewModel.scene.canvasSize.width)
+}
+
+@MainActor
+@Test
+func resetZoomVisibilityTracksManualZoomChanges() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    #expect(viewModel.canResetManualZoom == false)
+
+    viewModel.setZoomMode(.fitWidth)
+    #expect(viewModel.canResetManualZoom == false)
+
+    viewModel.setManualZoom(1.6)
+    #expect(viewModel.canResetManualZoom == true)
+
+    viewModel.resetZoom()
+    #expect(viewModel.canResetManualZoom == false)
 }
 
 @MainActor
@@ -364,6 +458,28 @@ func fitToWindowComputesZoomFromViewportSize() {
         viewport.height / viewModel.scene.canvasSize.height
     )
     #expect(abs(viewModel.zoom - expected) < 0.0001)
+}
+
+@MainActor
+@Test
+func fitWidthIsNotLimitedByManualZoomMaximum() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    viewModel.updateViewportSize(CGSize(width: 5000, height: 900))
+    viewModel.setZoomMode(.fitWidth)
+    #expect(viewModel.zoom > 2.5)
 }
 
 @MainActor
@@ -465,6 +581,124 @@ func updatingNestedProjectSettingsRefreshesScene() async throws {
 
     #expect(initialScale != 1.9)
     #expect(viewModel.scene.symbolScale == 1.9)
+}
+
+@MainActor
+@Test
+func colorProfilesBootstrapWithSingleDefaultProfile() {
+    let suiteName = "cake-vm-preset-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    #expect(viewModel.colorProfiles.count == 1)
+    #expect(viewModel.activeColorProfileName == "Default")
+}
+
+@MainActor
+@Test
+func colorProfilesPersistAcrossViewModelSessions() {
+    let suiteName = "cake-vm-preset-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModelA = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+    viewModelA.createColorProfile(name: "Carbonates")
+    viewModelA.setLithologyColorPreset(usgsCode: 627, hex: "#12ab34")
+
+    let viewModelB = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    #expect(viewModelB.activeColorProfileName == "Carbonates")
+    #expect(viewModelB.presetColor(for: 627) == "#12AB34")
+}
+
+@MainActor
+@Test
+func deletingActiveProfileSwitchesToAnotherValidProfile() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.createColorProfile(name: "A")
+    let profileToDelete = viewModel.activeColorProfileID
+    viewModel.createColorProfile(name: "B")
+
+    if let profileToDelete {
+        viewModel.deleteColorProfile(id: profileToDelete)
+    }
+
+    #expect(viewModel.colorProfiles.count == 2)
+    #expect(viewModel.activeColorProfileID != nil)
+    #expect(viewModel.colorProfiles.contains(where: { $0.id == viewModel.activeColorProfileID }))
+}
+
+@MainActor
+@Test
+func applyPresetToSelectedUnitUsesManualMappingOnlyWhenPresent() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    guard let selectedIndex = viewModel.selectedUnitIndex else {
+        Issue.record("Expected a selected unit in sample project")
+        return
+    }
+
+    let code = viewModel.project.units[selectedIndex].usgsLithologyCode
+    #expect(viewModel.project.units[selectedIndex].lithologyColorHex == nil)
+    viewModel.applyPresetToSelectedUnit()
+    #expect(viewModel.project.units[selectedIndex].lithologyColorHex == nil)
+
+    viewModel.setLithologyColorPreset(usgsCode: code, hex: "#445566")
+    viewModel.applyPresetToSelectedUnit()
+    #expect(viewModel.project.units[selectedIndex].lithologyColorHex == "#445566")
+}
+
+@MainActor
+@Test
+func removingOneLithologyPresetKeepsOtherMappings() {
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService()
+    )
+
+    viewModel.setLithologyColorPreset(usgsCode: 627, hex: "#AA0000")
+    viewModel.setLithologyColorPreset(usgsCode: 607, hex: "#00BB00")
+    viewModel.removeLithologyColorPreset(usgsCode: 627)
+
+    #expect(viewModel.presetColor(for: 627) == nil)
+    #expect(viewModel.presetColor(for: 607) == "#00BB00")
 }
 
 private final class MockProjectStore: ProjectStore {

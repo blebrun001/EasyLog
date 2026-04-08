@@ -1,9 +1,11 @@
 import SwiftUI
+import os
 
 /// Right-hand preview panel with live-rendered canvas.
 public struct RenderPreviewView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var pinchBaseZoom: Double?
+    private let zoomLogger = Logger(subsystem: "Cake", category: "Zoom")
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
@@ -45,10 +47,30 @@ public struct RenderPreviewView: View {
                         }
                 )
                 .onAppear {
-                    viewModel.updateViewportSize(usableViewport(from: proxy.size))
+                    let usable = usableViewport(from: proxy.size)
+                    guard usable.width > 0, usable.height > 120 else {
+                        zoomLogger.info(
+                            "RenderPreview onAppear skipped (unstable layout) proxy=(\(proxy.size.width, format: .fixed(precision: 2)), \(proxy.size.height, format: .fixed(precision: 2))) usable=(\(usable.width, format: .fixed(precision: 2)), \(usable.height, format: .fixed(precision: 2)))"
+                        )
+                        return
+                    }
+                    zoomLogger.info(
+                        "RenderPreview onAppear proxy=(\(proxy.size.width, format: .fixed(precision: 2)), \(proxy.size.height, format: .fixed(precision: 2))) usable=(\(usable.width, format: .fixed(precision: 2)), \(usable.height, format: .fixed(precision: 2)))"
+                    )
+                    viewModel.updateViewportSize(usable)
                 }
                 .onChange(of: proxy.size) { _, newSize in
-                    viewModel.updateViewportSize(usableViewport(from: newSize))
+                    let usable = usableViewport(from: newSize)
+                    guard usable.width > 0, usable.height > 120 else {
+                        zoomLogger.info(
+                            "RenderPreview onChange skipped (unstable layout) proxy=(\(newSize.width, format: .fixed(precision: 2)), \(newSize.height, format: .fixed(precision: 2))) usable=(\(usable.width, format: .fixed(precision: 2)), \(usable.height, format: .fixed(precision: 2)))"
+                        )
+                        return
+                    }
+                    zoomLogger.info(
+                        "RenderPreview onChange proxy=(\(newSize.width, format: .fixed(precision: 2)), \(newSize.height, format: .fixed(precision: 2))) usable=(\(usable.width, format: .fixed(precision: 2)), \(usable.height, format: .fixed(precision: 2)))"
+                    )
+                    viewModel.updateViewportSize(usable)
                 }
             }
             .accessibilityLabel("Log preview canvas")
@@ -72,7 +94,7 @@ public struct RenderPreviewView: View {
     }
 
     private func usableViewport(from size: CGSize) -> CGSize {
-        CGSize(width: max(0, size.width - 32), height: max(0, size.height))
+        CGSize(width: max(0, size.width), height: max(0, size.height))
     }
 
 }

@@ -4,6 +4,7 @@ import SwiftUI
 public struct MainContentView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var isDeleteLogConfirmationPresented = false
+    @State private var isOptionsPopoverPresented = false
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
@@ -15,13 +16,23 @@ public struct MainContentView: View {
                 .navigationSplitViewColumnWidth(min: 340, ideal: 420, max: 560)
         } detail: {
             VStack(spacing: 0) {
-                DetailHeaderBar(
+                PreviewContextBar(
+                    logs: viewModel.logs,
+                    selectedLogIndex: selectedLogIndexBinding,
                     selectedDetailPane: selectedDetailPaneBinding,
                     canOpenSyntheticView: viewModel.canOpenSyntheticView,
-                    zoomMode: zoomModeBinding,
-                    onZoomIn: viewModel.zoomIn,
-                    onZoomOut: viewModel.zoomOut,
-                    onResetZoom: viewModel.resetZoom
+                    canRemoveCurrentLog: viewModel.canRemoveCurrentLog,
+                    tabTitle: tabTitle(for:index:),
+                    onAddLog: viewModel.addLog,
+                    onDuplicateLog: viewModel.duplicateCurrentLog,
+                    onDeleteLog: { isDeleteLogConfirmationPresented = true }
+                )
+
+                VisualizationToolbar(
+                    isResetZoomVisible: viewModel.canResetManualZoom,
+                    onResetZoom: viewModel.resetZoom,
+                    isOptionsPopoverPresented: $isOptionsPopoverPresented,
+                    settings: settingsBinding
                 )
 
                 Group {
@@ -38,40 +49,6 @@ public struct MainContentView: View {
         }
         .modifier(RenderingInspectorModifier(isPresented: inspectorBinding, settings: settingsBinding))
         .toolbar {
-            ToolbarItemGroup(placement: .navigation) {
-                Picker("Log", selection: selectedLogIndexBinding) {
-                    ForEach(Array(viewModel.logs.enumerated()), id: \.offset) { index, log in
-                        Text(tabTitle(for: log, index: index)).tag(index)
-                    }
-                }
-                .pickerStyle(.menu)
-                .frame(minWidth: 240)
-                .accessibilityLabel("Selected log")
-
-                Button {
-                    viewModel.addLog()
-                } label: {
-                    Label("New Log", systemImage: "plus")
-                }
-                .help("Create a new log")
-
-                Button {
-                    viewModel.duplicateCurrentLog()
-                } label: {
-                    Label("Duplicate Log", systemImage: "square.on.square")
-                }
-                .disabled(viewModel.logs.isEmpty)
-                .help("Duplicate selected log")
-
-                Button(role: .destructive) {
-                    isDeleteLogConfirmationPresented = true
-                } label: {
-                    Label("Delete Log", systemImage: "trash")
-                }
-                .disabled(!viewModel.canRemoveCurrentLog)
-                .help("Delete selected log")
-            }
-
             ToolbarItemGroup {
                 Menu {
                     Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
@@ -81,6 +58,7 @@ public struct MainContentView: View {
                     Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
                 } label: {
                     Label("Export", systemImage: "square.and.arrow.up")
+                        .imageScale(.small)
                 }
 
                 Button {
@@ -132,13 +110,6 @@ public struct MainContentView: View {
         )
     }
 
-    private var zoomModeBinding: Binding<ProjectViewModel.ZoomMode> {
-        Binding(
-            get: { viewModel.zoomMode },
-            set: { viewModel.setZoomMode($0) }
-        )
-    }
-
     private var inspectorBinding: Binding<Bool> {
         Binding(
             get: { viewModel.isInspectorPresented },
@@ -166,16 +137,69 @@ public struct MainContentView: View {
     }
 }
 
-private struct DetailHeaderBar: View {
+private struct PreviewContextBar: View {
+    let logs: [Project]
+    @Binding var selectedLogIndex: Int
     @Binding var selectedDetailPane: EditorPresentationState.DetailPane
     let canOpenSyntheticView: Bool
-    @Binding var zoomMode: ProjectViewModel.ZoomMode
-    let onZoomIn: () -> Void
-    let onZoomOut: () -> Void
-    let onResetZoom: () -> Void
+    let canRemoveCurrentLog: Bool
+    let tabTitle: (Project, Int) -> String
+    let onAddLog: () -> Void
+    let onDuplicateLog: () -> Void
+    let onDeleteLog: () -> Void
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 12) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(Array(logs.enumerated()), id: \.offset) { index, log in
+                        let isSelected = selectedLogIndex == index
+                        Button {
+                            selectedLogIndex = index
+                        } label: {
+                            Text(tabTitle(log, index))
+                                .font(.subheadline.weight(.semibold))
+                                .lineLimit(1)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 9, style: .continuous)
+                                        .fill(isSelected ? Color.accentColor : Color.secondary.opacity(0.15))
+                                )
+                                .foregroundStyle(isSelected ? Color.white : Color.primary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical, 2)
+            }
+            .frame(minWidth: 220)
+
+            HStack(spacing: 6) {
+                Button(action: onAddLog) {
+                    Label("New Log", systemImage: "plus")
+                }
+                .labelStyle(.iconOnly)
+                .help("Create a new log")
+
+                Button(action: onDuplicateLog) {
+                    Label("Duplicate Log", systemImage: "square.on.square")
+                }
+                .labelStyle(.iconOnly)
+                .disabled(logs.isEmpty)
+                .help("Duplicate selected log")
+
+                Button(role: .destructive, action: onDeleteLog) {
+                    Label("Delete Log", systemImage: "trash")
+                }
+                .labelStyle(.iconOnly)
+                .disabled(!canRemoveCurrentLog)
+                .help("Delete selected log")
+
+            }
+
+            Spacer(minLength: 12)
+
             Picker("View", selection: $selectedDetailPane) {
                 ForEach(EditorPresentationState.DetailPane.allCases) { pane in
                     Text(pane.label)
@@ -184,41 +208,124 @@ private struct DetailHeaderBar: View {
                 }
             }
             .pickerStyle(.segmented)
+            .labelsHidden()
             .frame(width: 190)
             .accessibilityLabel("Detail view mode")
-
-            Divider()
-                .frame(height: 18)
-
-            Picker("Zoom", selection: $zoomMode) {
-                ForEach(ProjectViewModel.ZoomMode.allCases) { mode in
-                    Text(mode.label).tag(mode)
-                }
-            }
-            .pickerStyle(.menu)
-            .frame(width: 150)
-            .accessibilityLabel("Zoom mode")
-
-            Button(action: onZoomOut) {
-                Label("Zoom Out", systemImage: "minus.magnifyingglass")
-            }
-            .labelStyle(.iconOnly)
-
-            Button(action: onZoomIn) {
-                Label("Zoom In", systemImage: "plus.magnifyingglass")
-            }
-            .labelStyle(.iconOnly)
-
-            Button(action: onResetZoom) {
-                Label("Reset Zoom", systemImage: "arrow.counterclockwise")
-            }
-            .labelStyle(.iconOnly)
-
-            Spacer(minLength: 8)
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 10)
+        .padding(.vertical, 8)
         .background(.bar)
+    }
+}
+
+private struct VisualizationToolbar: View {
+    let isResetZoomVisible: Bool
+    let onResetZoom: () -> Void
+    @Binding var isOptionsPopoverPresented: Bool
+    @Binding var settings: ProjectSettings
+
+    var body: some View {
+        HStack(spacing: 10) {
+            if isResetZoomVisible {
+                Button(action: onResetZoom) {
+                    Text("reset zoom")
+                }
+            }
+
+            Spacer(minLength: 8)
+
+            Button {
+                isOptionsPopoverPresented.toggle()
+            } label: {
+                Label("Options", systemImage: "slider.horizontal.3")
+            }
+            .popover(isPresented: $isOptionsPopoverPresented, arrowEdge: .top) {
+                ViewOptionsPopover(settings: $settings)
+                    .frame(minWidth: 360)
+            }
+            .help("Show advanced view options")
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(.bar.opacity(0.88))
+        .overlay(alignment: .top) {
+            Divider()
+        }
+    }
+}
+
+private struct ViewOptionsPopover: View {
+    @Binding var settings: ProjectSettings
+
+    var body: some View {
+        Form {
+            Section("Scale") {
+                LabeledContent("Vertical scale") {
+                    Text("\(settings.verticalScale, specifier: "%.0f") px/m")
+                        .foregroundStyle(.secondary)
+                }
+                Slider(value: verticalScaleBinding, in: 8...120)
+                    .accessibilityLabel("Vertical scale")
+
+                LabeledContent("Symbol scale") {
+                    Text("\(settings.symbolScale, specifier: "%.2f")x")
+                        .foregroundStyle(.secondary)
+                }
+                Slider(value: symbolScaleBinding, in: 0.35...3.0)
+                    .accessibilityLabel("Symbol scale")
+
+                Picker("Scale unit", selection: $settings.depthScaleUnit) {
+                    ForEach(DepthScaleUnit.allCases) { unit in
+                        Text(unit.label).tag(unit)
+                    }
+                }
+            }
+
+            Section("Visibility") {
+                Toggle("Use absolute altitude", isOn: useAbsoluteAltitudeBinding)
+                    .accessibilityLabel("Use absolute altitude")
+                Toggle("Show legend", isOn: $settings.showLegend)
+                Toggle("Show depth scale", isOn: $settings.showScale)
+                Toggle("Show grain size scale", isOn: $settings.showGrainSizeScale)
+                Toggle("Show USGS codes in labels", isOn: $settings.showUSGSCodesInLithologyLabels)
+                Toggle("Show log title", isOn: $settings.showLogTitle)
+            }
+        }
+        .formStyle(.grouped)
+        .padding(12)
+        .accessibilityLabel("View options")
+    }
+
+    private var verticalScaleBinding: Binding<Double> {
+        Binding(
+            get: { settings.verticalScale },
+            set: { settings.verticalScale = snapped($0, step: 1, range: 8...120) }
+        )
+    }
+
+    private var symbolScaleBinding: Binding<Double> {
+        Binding(
+            get: { settings.symbolScale },
+            set: { settings.symbolScale = snapped($0, step: 0.05, range: 0.35...3.0) }
+        )
+    }
+
+    private var useAbsoluteAltitudeBinding: Binding<Bool> {
+        Binding(
+            get: { settings.useAbsoluteAltitude },
+            set: { isEnabled in
+                settings.useAbsoluteAltitude = isEnabled
+                if isEnabled {
+                    settings.zeroLevelAltitudeMeters = settings.zeroLevelAltitudeMeters ?? 0
+                }
+            }
+        )
+    }
+
+    private func snapped(_ value: Double, step: Double, range: ClosedRange<Double>) -> Double {
+        let clamped = min(max(value, range.lowerBound), range.upperBound)
+        let stepped = (clamped / step).rounded() * step
+        return min(max(stepped, range.lowerBound), range.upperBound)
     }
 }
 
