@@ -140,6 +140,26 @@ def select_dev_entries(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return selected
 
 
+def select_section37_entries(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    official_codes, aliases = parse_official_codes_and_aliases()
+    render_codes = {aliases.get(code, code) for code in official_codes}
+    section37 = [
+        entry for entry in entries
+        if entry.get("section") == "Sec37" and isinstance(entry.get("code"), int) and int(entry["code"]) in render_codes
+    ]
+    by_code: dict[int, list[dict[str, Any]]] = {}
+    for entry in section37:
+        code = int(entry["code"])
+        by_code.setdefault(code, []).append(entry)
+
+    selected: list[dict[str, Any]] = []
+    for code in sorted(by_code):
+        candidates = by_code[code]
+        ai8 = next((candidate for candidate in candidates if candidate.get("variant") == "ai8"), None)
+        selected.append(ai8 or candidates[0])
+    return selected
+
+
 def assert_release_consistency(entries: list[dict[str, Any]]) -> None:
     official_codes, aliases = parse_official_codes_and_aliases()
     code_entries = {int(entry["code"]) for entry in entries if entry["code"] is not None}
@@ -299,9 +319,18 @@ def materialize_isolated_pdfs(entries: list[dict[str, Any]]) -> dict[str, str]:
     return isolated_map
 
 
-def build_catalog(profile: str, entries: list[dict[str, Any]]) -> dict[str, Any]:
-    selected_entries = select_dev_entries(entries) if profile == "dev" else entries
-    isolated_map = materialize_isolated_pdfs(selected_entries if profile == "release" else entries)
+def build_catalog(profile: str, scope: str, entries: list[dict[str, Any]]) -> dict[str, Any]:
+    if scope == "section37":
+        selected_entries = select_section37_entries(entries)
+        isolated_source_entries = selected_entries
+    elif profile == "dev":
+        selected_entries = select_dev_entries(entries)
+        isolated_source_entries = entries
+    else:
+        selected_entries = entries
+        isolated_source_entries = entries
+
+    isolated_map = materialize_isolated_pdfs(isolated_source_entries)
 
     output_entries: list[dict[str, Any]] = []
     for entry in selected_entries:
@@ -310,11 +339,25 @@ def build_catalog(profile: str, entries: list[dict[str, Any]]) -> dict[str, Any]
             continue
         copied = dict(entry)
         copied["isolatedPdfPath"] = isolated_path
+        # Runtime loads isolated PDFs when available. Their local page-space starts at (0, 0),
+        # so publish a tile-local rect to avoid reusing source-page coordinates.
+        rect = copied["symbolRect"]
+        copied["pageSizePoints"] = {
+            "width": rect["width"],
+            "height": rect["height"],
+        }
+        copied["symbolRect"] = {
+            "x": 0.0,
+            "y": 0.0,
+            "width": rect["width"],
+            "height": rect["height"],
+        }
         output_entries.append(copied)
 
     return {
         "schemaVersion": 2,
         "profile": profile,
+        "scope": scope,
         "sourceIndex": relative_source_path(INDEX_PATH),
         "totalEntries": len(output_entries),
         "generatedBy": "scripts/build_usgs_resource_catalog.py",
@@ -332,12 +375,18 @@ def write_catalog(profile: str, payload: dict[str, Any]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--profile", choices=["dev", "release", "all"], default=os.environ.get("RESOURCE_PROFILE", "dev"))
+    parser.add_argument(
+        "--scope",
+        choices=["section37", "all"],
+        default=os.environ.get("USGS_SCOPE", "section37"),
+        help="Catalog scope: section37 (stable production target) or all (full USGS catalog pass).",
+    )
     args = parser.parse_args()
 
     entries = build_entries_from_index()
     profiles = ["dev", "release"] if args.profile == "all" else [args.profile]
     for profile in profiles:
-        payload = build_catalog(profile=profile, entries=entries)
+        payload = build_catalog(profile=profile, scope=args.scope, entries=entries)
         if profile == "release":
             assert_release_consistency(payload["entries"])
         write_catalog(profile=profile, payload=payload)
