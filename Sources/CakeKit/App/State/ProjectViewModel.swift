@@ -12,7 +12,7 @@ public struct EditorPresentationState: Equatable {
 
         public var label: String {
             switch self {
-            case .preview: "Preview"
+            case .preview: "Single Log"
             case .synthetic: "Synthetic"
             }
         }
