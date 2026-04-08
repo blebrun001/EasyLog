@@ -47,7 +47,6 @@ public struct MainContentView: View {
             }
             .background(Color(nsColor: .underPageBackgroundColor))
         }
-        .modifier(RenderingInspectorModifier(isPresented: inspectorBinding, settings: settingsBinding))
         .toolbar {
             ToolbarItemGroup {
                 Menu {
@@ -65,13 +64,6 @@ public struct MainContentView: View {
                         .imageScale(.small)
                 }
                 .help("Open export options")
-
-                Button {
-                    viewModel.toggleInspector()
-                } label: {
-                    Label("Inspector", systemImage: "sidebar.right")
-                }
-                .help("Show rendering inspector")
             }
         }
         .confirmationDialog(
@@ -112,13 +104,6 @@ public struct MainContentView: View {
         Binding(
             get: { viewModel.selectedDetailPane },
             set: { viewModel.selectDetailPane($0) }
-        )
-    }
-
-    private var inspectorBinding: Binding<Bool> {
-        Binding(
-            get: { viewModel.isInspectorPresented },
-            set: { viewModel.setInspectorPresented($0) }
         )
     }
 
@@ -358,32 +343,5 @@ private struct ViewOptionsPopover: View {
         let clamped = min(max(value, range.lowerBound), range.upperBound)
         let stepped = (clamped / step).rounded() * step
         return min(max(stepped, range.lowerBound), range.upperBound)
-    }
-}
-
-private struct RenderingInspectorModifier: ViewModifier {
-    @Binding var isPresented: Bool
-    @Binding var settings: ProjectSettings
-
-    @ViewBuilder
-    func body(content: Content) -> some View {
-        if #available(macOS 14.0, *) {
-            content
-                .inspector(isPresented: $isPresented) {
-                    inspectorBody
-                }
-        } else {
-            content
-                .sheet(isPresented: $isPresented) {
-                    inspectorBody
-                        .frame(minWidth: 420, minHeight: 420)
-                }
-        }
-    }
-
-    private var inspectorBody: some View {
-        SettingsPanelView(settings: $settings)
-            .padding()
-            .accessibilityLabel("Rendering Inspector")
     }
 }
