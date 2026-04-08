@@ -99,7 +99,10 @@ Regenerate PDF derivatives from EPS:
 
 - `Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.dev.json`
 - `Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.release.json`
-- `Sources/CakeKit/Resources/USGS/isolated/`
+- `Sources/CakeKit/Resources/isolated/`
+
+Symbology rendering uses only `usgsLithologyCode` at runtime.
+The editor no longer exposes a "full USGS catalog override" mode.
 
 Profile selection is controlled by `CAKE_RESOURCE_PROFILE=dev|release`.
 Default profile is `dev` for debug builds and `release` otherwise.

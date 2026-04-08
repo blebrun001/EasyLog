@@ -12,11 +12,19 @@ targets:
     type: framework
     platform: macOS
     sources:
-      - Sources/CakeKit
-    resources:
-      - Sources/CakeKit/Resources/USGS/11A02/pdf
-      - Sources/CakeKit/Resources/USGS/isolated
-      - Sources/CakeKit/Resources/USGSRuntime
+      - Sources/CakeKit/App
+      - Sources/CakeKit/Core
+      - Sources/CakeKit/Features
+      - Sources/CakeKit/Infrastructure
+      - path: Sources/CakeKit/Resources/USGS/11A02/pdf
+        buildPhase: resources
+        type: folder
+      - path: Sources/CakeKit/Resources/isolated
+        buildPhase: resources
+        type: folder
+      - path: Sources/CakeKit/Resources/USGSRuntime
+        buildPhase: resources
+        type: folder
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit

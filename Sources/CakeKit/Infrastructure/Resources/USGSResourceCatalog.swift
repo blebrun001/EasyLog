@@ -40,7 +40,6 @@ public struct USGSResourceCatalog {
     public enum CatalogError: Error, CustomStringConvertible {
         case invalidManifest(String)
         case missingEntryForCode(Int)
-        case missingEntryForSymbolId(String)
         case missingAsset(String)
         case hashMismatch(path: String, expected: String, actual: String)
 
@@ -50,8 +49,6 @@ public struct USGSResourceCatalog {
                 return "Invalid resource catalog: \(reason)"
             case .missingEntryForCode(let code):
                 return "No resource entry found for USGS code \(code)."
-            case .missingEntryForSymbolId(let symbolId):
-                return "No resource entry found for USGS symbol id \(symbolId)."
             case .missingAsset(let path):
                 return "Catalog references a missing asset: \(path)."
             case .hashMismatch(let path, let expected, let actual):
@@ -65,7 +62,6 @@ public struct USGSResourceCatalog {
 
     private let provider: any ResourceProvider
     private let entriesByCode: [Int: [Entry]]
-    private let entriesBySymbolID: [String: [Entry]]
 
     public init(
         bundle: Bundle = CakeKitBundle.resources,
@@ -79,7 +75,6 @@ public struct USGSResourceCatalog {
         try Self.validate(document: document)
         self.entries = document.entries
         self.entriesByCode = Self.buildByCode(entries: entries)
-        self.entriesBySymbolID = Self.buildBySymbolID(entries: entries)
     }
 
     public init(profile: USGSResourceProfile, provider: any ResourceProvider, manifestData: Data) throws {
@@ -89,7 +84,6 @@ public struct USGSResourceCatalog {
         try Self.validate(document: document)
         self.entries = document.entries
         self.entriesByCode = Self.buildByCode(entries: entries)
-        self.entriesBySymbolID = Self.buildBySymbolID(entries: entries)
     }
 
     public func preferredEntry(forCode code: Int) throws -> Entry {
@@ -100,41 +94,6 @@ public struct USGSResourceCatalog {
             return ai8
         }
         return candidates[0]
-    }
-
-    public func preferredEntry(forSymbolID symbolID: String) throws -> Entry {
-        guard let candidates = entriesBySymbolID[symbolID], !candidates.isEmpty else {
-            throw CatalogError.missingEntryForSymbolId(symbolID)
-        }
-        if let ai8 = candidates.first(where: { $0.variant == "ai8" }) {
-            return ai8
-        }
-        return candidates[0]
-    }
-
-    public func allSections() -> [String] {
-        Array(Set(entries.map(\.section))).sorted()
-    }
-
-    public func entries(inSection section: String) -> [Entry] {
-        entries
-            .filter { $0.section.caseInsensitiveCompare(section) == .orderedSame }
-            .sorted { lhs, rhs in
-                if lhs.label != rhs.label {
-                    return lhs.label.localizedCaseInsensitiveCompare(rhs.label) == .orderedAscending
-                }
-                return lhs.symbolId < rhs.symbolId
-            }
-    }
-
-    public func search(labelContains query: String) -> [Entry] {
-        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return entries }
-        return entries.filter {
-            $0.label.localizedCaseInsensitiveContains(trimmed) ||
-            $0.symbolId.localizedCaseInsensitiveContains(trimmed) ||
-            $0.sourceFileNameUSGS.localizedCaseInsensitiveContains(trimmed)
-        }
     }
 
     public func resolvedPDFURL(for entry: Entry, validateHashes: Bool = false, preferIsolated: Bool = true) throws -> URL {
@@ -166,13 +125,6 @@ public struct USGSResourceCatalog {
         return map
     }
 
-    private static func buildBySymbolID(entries: [Entry]) -> [String: [Entry]] {
-        var map: [String: [Entry]] = [:]
-        for entry in entries {
-            map[entry.symbolId, default: []].append(entry)
-        }
-        return map
-    }
 }
 
 private extension SHA256Digest {

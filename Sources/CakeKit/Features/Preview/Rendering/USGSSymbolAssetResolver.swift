@@ -47,22 +47,6 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
         shared.asset(for: code)
     }
 
-    public static func asset(forSymbolID symbolID: String) -> USGSSymbolAsset? {
-        shared.asset(forSymbolID: symbolID)
-    }
-
-    public static func allSections() -> [String] {
-        shared.allSections()
-    }
-
-    public static func symbols(inSection section: String) -> [USGSSymbolAsset] {
-        shared.symbols(inSection: section)
-    }
-
-    public static func searchSymbols(labelContains query: String) -> [USGSSymbolAsset] {
-        shared.searchSymbols(labelContains: query)
-    }
-
     public func asset(for code: Int) -> USGSSymbolAsset? {
         let resolvedCode = SymbologyLibrary.renderableUSGSCode(forSelectionCode: code)
         for catalog in catalogs {
@@ -73,61 +57,6 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
             return makeAsset(entry: entry, pdfURL: url)
         }
         return nil
-    }
-
-    public func asset(forSymbolID symbolID: String) -> USGSSymbolAsset? {
-        for catalog in catalogs {
-            guard let entry = try? catalog.preferredEntry(forSymbolID: symbolID),
-                  let url = try? catalog.resolvedPDFURL(for: entry) else {
-                continue
-            }
-            return makeAsset(entry: entry, pdfURL: url)
-        }
-        return nil
-    }
-
-    public func allSections() -> [String] {
-        var sections: [String] = []
-        for catalog in catalogs {
-            sections.append(contentsOf: catalog.allSections())
-        }
-        return Array(Set(sections)).sorted()
-    }
-
-    public func symbols(inSection section: String) -> [USGSSymbolAsset] {
-        var assets: [USGSSymbolAsset] = []
-        var seen = Set<String>()
-        for catalog in catalogs {
-            for entry in catalog.entries(inSection: section) {
-                guard seen.insert(entry.symbolId).inserted else { continue }
-                guard let url = try? catalog.resolvedPDFURL(for: entry) else { continue }
-                assets.append(makeAsset(entry: entry, pdfURL: url))
-            }
-        }
-        return assets.sorted {
-            if $0.label != $1.label {
-                return $0.label.localizedCaseInsensitiveCompare($1.label) == .orderedAscending
-            }
-            return $0.symbolId < $1.symbolId
-        }
-    }
-
-    public func searchSymbols(labelContains query: String) -> [USGSSymbolAsset] {
-        var assets: [USGSSymbolAsset] = []
-        var seen = Set<String>()
-        for catalog in catalogs {
-            for entry in catalog.search(labelContains: query) {
-                guard seen.insert(entry.symbolId).inserted else { continue }
-                guard let url = try? catalog.resolvedPDFURL(for: entry) else { continue }
-                assets.append(makeAsset(entry: entry, pdfURL: url))
-            }
-        }
-        return assets.sorted {
-            if $0.label != $1.label {
-                return $0.label.localizedCaseInsensitiveCompare($1.label) == .orderedAscending
-            }
-            return $0.symbolId < $1.symbolId
-        }
     }
 
     private var catalogs: [USGSResourceCatalog] {

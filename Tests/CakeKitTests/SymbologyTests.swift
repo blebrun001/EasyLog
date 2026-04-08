@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import CakeKit
 
@@ -77,11 +78,42 @@ func everySupportedUSGSCodeProducesRenderableTile() {
 }
 
 @Test
+func runtimeUSGSResourcesAreBundled() {
+    let bundle = CakeKitBundle.resources
+    let resourceRoot = bundle.resourceURL
+    #expect(resourceRoot != nil)
+
+    guard let resourceRoot else { return }
+    let isolatedFolder = resourceRoot.appending(path: "isolated", directoryHint: .isDirectory)
+    let catalogFile = resourceRoot.appending(path: "USGSRuntime/ResourceCatalog.release.json")
+    #expect(FileManager.default.fileExists(atPath: isolatedFolder.path))
+    #expect(FileManager.default.fileExists(atPath: catalogFile.path))
+}
+
+@Test
+func usgsTilesRemainDiverseAcrossCatalog() {
+    let renderableCodes = Set(SymbologyLibrary.supportedUSGSCodes.map(SymbologyLibrary.renderableUSGSCode(forSelectionCode:)))
+    var uniqueTileHashes = Set<Int>()
+
+    for code in renderableCodes {
+        guard let tile = USGSEPSSymbolRenderer.pngTileData(for: code) else {
+            Issue.record("Missing tile for code \(code)")
+            continue
+        }
+        uniqueTileHashes.insert(tile.data.hashValue)
+    }
+
+    // If the renderer falls back globally, this number collapses quickly.
+    #expect(uniqueTileHashes.count >= 100)
+}
+
+@Test
 func closeLithologyAlternativesUseDistinctTiles() {
     let pairs: [(Int, Int)] = [
         (601, 602),
         (605, 606),
         (609, 610),
+        (620, 621),
         (649, 650),
         (677, 678),
         (681, 682)

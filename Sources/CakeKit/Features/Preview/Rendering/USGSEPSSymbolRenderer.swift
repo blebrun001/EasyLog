@@ -19,14 +19,6 @@ public enum USGSEPSSymbolRenderer {
         return draw(asset: asset, in: rect, context: context, symbolScale: symbolScale)
     }
 
-    @discardableResult
-    public static func drawSymbol(symbolID: String, in rect: CGRect, context: CGContext, symbolScale: Double = 1.0) -> Bool {
-        guard let asset = resolver.asset(forSymbolID: symbolID) else {
-            return false
-        }
-        return draw(asset: asset, in: rect, context: context, symbolScale: symbolScale)
-    }
-
     private static func draw(asset: USGSSymbolAsset, in rect: CGRect, context: CGContext, symbolScale: Double) -> Bool {
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
         let page = pdfPage(for: asset)
@@ -65,13 +57,6 @@ public enum USGSEPSSymbolRenderer {
 
     public static func pngTileData(for code: Int, maxDimension: Int = 1024) -> (data: Data, width: Int, height: Int)? {
         guard let asset = resolver.asset(for: code) else {
-            return nil
-        }
-        return pngTileData(asset: asset, maxDimension: maxDimension)
-    }
-
-    public static func pngTileData(forSymbolID symbolID: String, maxDimension: Int = 1024) -> (data: Data, width: Int, height: Int)? {
-        guard let asset = resolver.asset(forSymbolID: symbolID) else {
             return nil
         }
         return pngTileData(asset: asset, maxDimension: maxDimension)
@@ -118,13 +103,6 @@ public enum USGSEPSSymbolRenderer {
         return (data: data, width: targetW, height: targetH)
     }
 
-    public static func tileSizePoints(forSymbolID symbolID: String, symbolScale: Double = 1.0) -> CGSizeDTO? {
-        guard let asset = resolver.asset(forSymbolID: symbolID) else { return nil }
-        let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
-        let scale = max(0.05, symbolScale)
-        return CGSizeDTO(width: tiledRect.width * scale, height: tiledRect.height * scale)
-    }
-
     public static func tileSizePoints(for code: Int, symbolScale: Double = 1.0) -> CGSizeDTO? {
         guard let asset = resolver.asset(for: code) else { return nil }
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
@@ -164,7 +142,7 @@ public enum USGSEPSSymbolRenderer {
         page: CGPDFPage,
         tiledRect: USGSSymbolRect
     ) -> CGImage? {
-        let cacheKey = "\(asset.pdfURL.path)#\(asset.symbolRect.x)-\(asset.symbolRect.y)-\(asset.symbolRect.width)-\(asset.symbolRect.height)"
+        let cacheKey = "\(asset.symbolId)#\(asset.pdfURL.path)#\(asset.pageSizePoints.width)x\(asset.pageSizePoints.height)#\(asset.symbolRect.x)-\(asset.symbolRect.y)-\(asset.symbolRect.width)-\(asset.symbolRect.height)"
         lock.lock()
         if let cached = croppedImageCache[cacheKey] {
             lock.unlock()

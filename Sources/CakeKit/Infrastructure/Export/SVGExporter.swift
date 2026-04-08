@@ -49,7 +49,7 @@ public struct SVGExporter: SVGExporting {
 
             <g id="unit-\(unit.id.uuidString)">
               <rect x="\(fmt(unit.rect.x))" y="\(fmt(unit.rect.y))" width="\(fmt(unit.rect.width))" height="\(fmt(unit.rect.height))" fill="\(fill)" class="unit-fill"/>
-              <rect x="\(fmt(unit.rect.x))" y="\(fmt(unit.rect.y))" width="\(fmt(unit.rect.width))" height="\(fmt(unit.rect.height))" fill="url(#\(patternID(symbol: unit.symbol, usgsSymbolCode: unit.usgsSymbolCode, usgsSymbolID: unit.usgsSymbolID, availableUSGSKeys: usgsPatternByKey)))" class="unit-pattern"/>
+              <rect x="\(fmt(unit.rect.x))" y="\(fmt(unit.rect.y))" width="\(fmt(unit.rect.width))" height="\(fmt(unit.rect.height))" fill="url(#\(patternID(symbol: unit.symbol, usgsSymbolCode: unit.usgsSymbolCode, availableUSGSKeys: usgsPatternByKey)))" class="unit-pattern"/>
             </g>
             """
             if !unit.pointFeatures.isEmpty {
@@ -178,7 +178,7 @@ public struct SVGExporter: SVGExporting {
                 if let pointSymbol = item.pointSymbol {
                     svg += "\n\(pointLegendElement(symbol: pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
                 } else {
-                    svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, usgsSymbolID: item.usgsSymbolID, availableUSGSKeys: usgsPatternByKey)))\"/>"
+                    svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSKeys: usgsPatternByKey)))\"/>"
                 }
                 svg += """
                   <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="none" stroke="#111111" stroke-width="1"/>
@@ -199,10 +199,10 @@ public struct SVGExporter: SVGExporting {
         definitions.append(contentsOf: usgsPatternByKey.values.sorted())
 
         var fallbackSymbols = Set<SymbolPattern>()
-        for unit in scene.units where patternKey(usgsSymbolCode: unit.usgsSymbolCode, usgsSymbolID: unit.usgsSymbolID) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: unit.usgsSymbolCode, usgsSymbolID: unit.usgsSymbolID)!] == nil {
+        for unit in scene.units where patternKey(usgsSymbolCode: unit.usgsSymbolCode) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: unit.usgsSymbolCode)!] == nil {
             fallbackSymbols.insert(unit.symbol)
         }
-        for item in scene.legend where item.pointSymbol == nil && (patternKey(usgsSymbolCode: item.usgsSymbolCode, usgsSymbolID: item.usgsSymbolID) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: item.usgsSymbolCode, usgsSymbolID: item.usgsSymbolID)!] == nil) {
+        for item in scene.legend where item.pointSymbol == nil && (patternKey(usgsSymbolCode: item.usgsSymbolCode) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: item.usgsSymbolCode)!] == nil) {
             fallbackSymbols.insert(item.symbol)
         }
         definitions.append(contentsOf: fallbackSymbols.sorted(by: { $0.rawValue < $1.rawValue }).map { patternDefinition(for: $0) })
@@ -211,17 +211,14 @@ public struct SVGExporter: SVGExporting {
 
     private func buildUSGSPatternDefinitions(scene: RenderScene) -> [String: String] {
         var items = Set<String>()
-        scene.units.compactMap { patternKey(usgsSymbolCode: $0.usgsSymbolCode, usgsSymbolID: $0.usgsSymbolID) }.forEach { items.insert($0) }
-        scene.legend.compactMap { patternKey(usgsSymbolCode: $0.usgsSymbolCode, usgsSymbolID: $0.usgsSymbolID) }.forEach { items.insert($0) }
+        scene.units.compactMap { patternKey(usgsSymbolCode: $0.usgsSymbolCode) }.forEach { items.insert($0) }
+        scene.legend.compactMap { patternKey(usgsSymbolCode: $0.usgsSymbolCode) }.forEach { items.insert($0) }
 
         var map: [String: String] = [:]
         for key in items.sorted() {
             let tile: (data: Data, width: Int, height: Int)?
             let tileSize: CGSizeDTO?
-            if key.hasPrefix("id:"), let symbolID = key.split(separator: ":", maxSplits: 1).last.map(String.init) {
-                tile = USGSEPSSymbolRenderer.pngTileData(forSymbolID: symbolID, maxDimension: 2048)
-                tileSize = USGSEPSSymbolRenderer.tileSizePoints(forSymbolID: symbolID, symbolScale: scene.symbolScale)
-            } else if key.hasPrefix("code:"), let code = Int(key.split(separator: ":", maxSplits: 1).last ?? "") {
+            if key.hasPrefix("code:"), let code = Int(key.split(separator: ":", maxSplits: 1).last ?? "") {
                 tile = USGSEPSSymbolRenderer.pngTileData(for: code, maxDimension: 2048)
                 tileSize = USGSEPSSymbolRenderer.tileSizePoints(for: code, symbolScale: scene.symbolScale)
             } else {
@@ -244,18 +241,15 @@ public struct SVGExporter: SVGExporting {
         return map
     }
 
-    private func patternID(symbol: SymbolPattern, usgsSymbolCode: Int?, usgsSymbolID: String?, availableUSGSKeys: [String: String]) -> String {
-        if let key = patternKey(usgsSymbolCode: usgsSymbolCode, usgsSymbolID: usgsSymbolID),
+    private func patternID(symbol: SymbolPattern, usgsSymbolCode: Int?, availableUSGSKeys: [String: String]) -> String {
+        if let key = patternKey(usgsSymbolCode: usgsSymbolCode),
            availableUSGSKeys[key] != nil {
             return "pattern-usgs-\(key.replacingOccurrences(of: ":", with: "-"))"
         }
         return "pattern-\(symbol.rawValue)"
     }
 
-    private func patternKey(usgsSymbolCode: Int?, usgsSymbolID: String?) -> String? {
-        if let usgsSymbolID, !usgsSymbolID.isEmpty {
-            return "id:\(usgsSymbolID)"
-        }
+    private func patternKey(usgsSymbolCode: Int?) -> String? {
         if let usgsSymbolCode {
             return "code:\(usgsSymbolCode)"
         }

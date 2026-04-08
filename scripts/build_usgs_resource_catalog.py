@@ -3,7 +3,7 @@
 
 Outputs:
 - Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.<profile>.json
-- Sources/CakeKit/Resources/USGS/isolated/*.pdf (one cropped symbol per PDF)
+- Sources/CakeKit/Resources/isolated/*.pdf (one cropped symbol per PDF)
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 USGS_BASE = ROOT / "Sources/CakeKit/Resources/USGS/11A02"
 INDEX_PATH = USGS_BASE / "symbol-index.json"
 OUT_BASE = ROOT / "Sources/CakeKit/Resources/USGSRuntime"
-ISOLATED_BASE = ROOT / "Sources/CakeKit/Resources/USGS/isolated"
+ISOLATED_BASE = ROOT / "Sources/CakeKit/Resources/isolated"
 SYMBOLOGY_PATH = ROOT / "Sources/CakeKit/Features/Preview/Rendering/Symbology.swift"
 SWIFT_CROP_SOURCE = ROOT / "scripts/crop_pdf_symbol.swift"
 SWIFT_CROP_BINARY = ROOT / ".cache/usgs_11a02/bin/crop_pdf_symbol"
