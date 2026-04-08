@@ -10,8 +10,9 @@ public enum SceneLayout {
     public static let unitPrimaryLabelYOffset = -6.0
     public static let unitSecondaryLabelYOffset = 8.0
     public static let scaleAxisOffsetFromLog = 28.0
-    public static let scaleLabelOffsetX = 20.0
-    public static let depthLabelOffsetX = 30.0
+    public static let scaleLabelAxisPadding = 8.0
+    public static let scaleLabelTitleGap = 8.0
+    public static let depthLabelMinimumHalfThickness = 4.0
     public static let depthLabelOffsetY = 24.0
     public static let scaleMinorTickHalfLength = 4.0
     public static let scaleMajorTickHalfLength = 7.0
@@ -22,6 +23,21 @@ public enum SceneLayout {
 
     public static func scaleAxisX(scene: RenderScene) -> Double {
         scene.logColumnRect.x - scaleAxisOffsetFromLog
+    }
+
+    public static func scaleLabelX(axisX: Double, labelWidth: Double) -> Double {
+        axisX - scaleLabelAxisPadding - max(labelWidth, 0)
+    }
+
+    public static func depthLabelCenterX(
+        axisX: Double,
+        maxScaleLabelWidth: Double,
+        titleFontSize: Double
+    ) -> Double {
+        let labelsLeftX = scaleLabelX(axisX: axisX, labelWidth: maxScaleLabelWidth)
+        // Once rotated, title thickness on X is close to its text height (roughly font size).
+        let titleHalfThickness = max(titleFontSize * 0.5, depthLabelMinimumHalfThickness)
+        return labelsLeftX - scaleLabelTitleGap - titleHalfThickness
     }
 
     public static func legendOrigin(scene: RenderScene) -> (x: Double, y: Double) {

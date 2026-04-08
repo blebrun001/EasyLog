@@ -1,3 +1,9 @@
 main_prompt.rtf
 .build/
 .cache/
+.DS_Store
+**/.DS_Store
+._*
+**/._*
+*.xcuserstate
+**/xcuserdata/

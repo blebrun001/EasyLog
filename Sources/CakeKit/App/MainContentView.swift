@@ -91,26 +91,6 @@ public struct MainContentView: View {
                 .help("Show rendering inspector")
             }
         }
-        .safeAreaInset(edge: .bottom) {
-            HStack(spacing: 10) {
-                Image(systemName: viewModel.validationIssues.isEmpty ? "checkmark.circle" : "exclamationmark.triangle")
-                    .foregroundColor(viewModel.validationIssues.isEmpty ? .secondary : .orange)
-                Text(viewModel.statusMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                Spacer(minLength: 8)
-                Text("Zoom \(Int((viewModel.zoom * 100).rounded()))%")
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(.bar)
-            .accessibilityLabel("Status")
-            .accessibilityValue(viewModel.statusMessage)
-        }
         .confirmationDialog(
             "Delete selected log?",
             isPresented: $isDeleteLogConfirmationPresented,
