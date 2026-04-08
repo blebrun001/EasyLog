@@ -65,6 +65,7 @@ func projectSettingsLegacyJSONWithPageSizeDecodesSuccessfully() throws {
     #expect(decoded.pageSize == .letterPortrait)
     #expect(decoded.baseFontSize == 12)
     #expect(decoded.symbolScale == 1.0)
+    #expect(decoded.pointFeatureIconSize == 8.0)
     #expect(decoded.depthScaleUnit == .meter)
     #expect(decoded.useAbsoluteAltitude == false)
     #expect(decoded.zeroLevelAltitudeMeters == nil)
@@ -103,6 +104,7 @@ func projectSettingsShowGridRoundTripPersistsValue() throws {
         showLegend: false,
         showScale: false,
         showLogTitle: false,
+        pointFeatureIconSize: 9.5,
         useAbsoluteAltitude: true,
         zeroLevelAltitudeMeters: 123.0
     )
@@ -112,6 +114,7 @@ func projectSettingsShowGridRoundTripPersistsValue() throws {
     #expect(decoded.showLegend == false)
     #expect(decoded.showScale == false)
     #expect(decoded.showLogTitle == false)
+    #expect(decoded.pointFeatureIconSize == 9.5)
     #expect(decoded.useAbsoluteAltitude == true)
     #expect(decoded.zeroLevelAltitudeMeters == 123.0)
 }

@@ -80,11 +80,12 @@ func pointFeaturesAppearInLegendOnlyWhenUsed() {
     )
 
     let scene = CakeRenderer().makeScene(project: project)
-    let pointLegendItems = scene.legend.filter { $0.pointSymbol != nil }
+    let pointLegendItems = scene.legend.filter { $0.pointIconToken != nil || $0.pointSymbol != nil }
 
     #expect(pointLegendItems.count == 2)
     #expect(pointLegendItems.contains(where: { $0.label.contains("Bone Fragments") }))
     #expect(pointLegendItems.contains(where: { $0.label.contains("Dissolution Traces") }))
+    #expect(pointLegendItems.allSatisfy { $0.pointIconToken != nil })
 }
 
 @Test
@@ -157,6 +158,24 @@ func higherDensityProducesMorePointSymbols() {
     let lowDensityCount = renderedUnit.pointFeatures.filter { $0.type == .archaeologicalBoneFragments }.count
     let highDensityCount = renderedUnit.pointFeatures.filter { $0.type == .archaeologicalArtifacts }.count
     #expect(highDensityCount > lowDensityCount)
+}
+
+@Test
+func pointFeatureIconSizeIsPropagatedToSceneAndRenderedPoints() {
+    let project = Project(
+        settings: ProjectSettings(pointFeatureIconSize: 11.5),
+        units: [
+            StratigraphicUnit(
+                name: "A",
+                thickness: 2,
+                lithology: "Massive sand or sandstone",
+                pointFeatures: [UnitPointFeature(type: .paleoRoots, density: 0.4)]
+            )
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.pointFeatureIconSize == 11.5)
+    #expect(scene.units.first?.pointFeatures.allSatisfy { abs($0.size - 11.5) < 0.001 } == true)
 }
 
 @Test

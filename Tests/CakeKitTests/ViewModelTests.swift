@@ -338,7 +338,9 @@ func zoomCommandsClampToConfiguredBoundsAndReset() {
     viewModel.setManualZoom(1.3)
     viewModel.resetZoom()
     #expect(viewModel.zoomMode == .fitWidth)
-    #expect(viewModel.zoom == 720 / viewModel.scene.canvasSize.width)
+    let rawFit = 720 / viewModel.scene.canvasSize.width
+    let expected = rawFit > 1 ? rawFit * 1.12 : rawFit
+    #expect(viewModel.zoom == expected)
 }
 
 @MainActor
@@ -530,7 +532,9 @@ func autoAdjustResizesUntilManualZoomSuspendsIt() async throws {
     try await Task.sleep(nanoseconds: 180_000_000)
 
     let fitZoom = viewModel.zoom
-    #expect(fitZoom == 700 / viewModel.scene.canvasSize.width)
+    let rawFit = 700 / viewModel.scene.canvasSize.width
+    let expected = rawFit > 1 ? rawFit * 1.12 : rawFit
+    #expect(fitZoom == expected)
 
     viewModel.setManualZoom(1.75)
     viewModel.updateViewportSize(CGSize(width: 300, height: 500))
@@ -638,11 +642,18 @@ func colorProfilesPersistAcrossViewModelSessions() {
 @MainActor
 @Test
 func deletingActiveProfileSwitchesToAnotherValidProfile() {
+    let suiteName = "cake-vm-preset-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
     let viewModel = ProjectViewModel(
         project: Project.sample,
         store: MockProjectStore(),
         exporter: MockExporter(),
-        fileDialogService: MockFileDialogService()
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
     )
 
     viewModel.createColorProfile(name: "A")

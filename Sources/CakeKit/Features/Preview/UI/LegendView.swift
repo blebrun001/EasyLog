@@ -21,7 +21,13 @@ public struct LegendView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(Array(legend.enumerated()), id: \.offset) { _, item in
                         HStack {
-                            SymbolSwatch(symbol: item.symbol, pointSymbol: item.pointSymbol, fillHex: item.fillHex)
+                            SymbolSwatch(
+                                symbol: item.symbol,
+                                pointIconToken: item.pointIconToken,
+                                pointSymbol: item.pointSymbol,
+                                pointColorHex: item.pointColorHex,
+                                fillHex: item.fillHex
+                            )
                             Text(item.label)
                             Spacer()
                         }
@@ -34,7 +40,9 @@ public struct LegendView: View {
 
 private struct SymbolSwatch: View {
     let symbol: SymbolPattern
+    let pointIconToken: PointFeatureIconToken?
     let pointSymbol: PointFeatureSymbol?
+    let pointColorHex: String?
     let fillHex: String?
 
     var body: some View {
@@ -42,13 +50,23 @@ private struct SymbolSwatch: View {
             context.withCGContext { cgContext in
                 let rect = CGRect(origin: .zero, size: size)
                 let fallback = NSColor.white.cgColor
-                let fill = pointSymbol == nil
+                let fill = (pointSymbol == nil && pointIconToken == nil)
                     ? ColorHex.cgColor(from: fillHex, fallback: fallback)
                     : fallback
                 cgContext.setFillColor(fill)
                 cgContext.fill(rect)
-                if let pointSymbol {
-                    SceneCGRenderer.drawPointSymbol(pointSymbol, center: CGPoint(x: rect.midX, y: rect.midY), size: 8, context: cgContext)
+                if pointIconToken != nil || pointSymbol != nil {
+                    let strokeColor = ColorHex.cgColor(from: pointColorHex, fallback: NSColor.black.cgColor)
+                    let fillColor = ColorHex.cgColor(from: pointColorHex, fallback: NSColor.white.cgColor)
+                    SceneCGRenderer.drawPointIcon(
+                        pointIconToken,
+                        fallbackSymbol: pointSymbol,
+                        center: CGPoint(x: rect.midX, y: rect.midY),
+                        size: 8,
+                        strokeColor: strokeColor,
+                        fillColor: fillColor,
+                        context: cgContext
+                    )
                 } else {
                     SceneCGRenderer.drawSymbolPattern(symbol, in: rect, context: cgContext)
                 }

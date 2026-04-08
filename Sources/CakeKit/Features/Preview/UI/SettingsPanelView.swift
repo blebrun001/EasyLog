@@ -25,6 +25,13 @@ public struct SettingsPanelView: View {
                 Slider(value: symbolScaleBinding, in: 0.35...3.0)
                     .accessibilityLabel("Symbol scale")
 
+                LabeledContent("Point icon size") {
+                    Text("\(settings.pointFeatureIconSize, specifier: "%.1f") px")
+                        .foregroundStyle(.secondary)
+                }
+                Slider(value: pointFeatureIconSizeBinding, in: 3...18)
+                    .accessibilityLabel("Point feature icon size")
+
                 Picker("Scale unit", selection: $settings.depthScaleUnit) {
                     ForEach(DepthScaleUnit.allCases) { unit in
                         Text(unit.label).tag(unit)
@@ -68,6 +75,13 @@ public struct SettingsPanelView: View {
                     settings.zeroLevelAltitudeMeters = settings.zeroLevelAltitudeMeters ?? 0
                 }
             }
+        )
+    }
+
+    private var pointFeatureIconSizeBinding: Binding<Double> {
+        Binding(
+            get: { settings.pointFeatureIconSize },
+            set: { settings.pointFeatureIconSize = snapped($0, step: 0.5, range: 3...18) }
         )
     }
 

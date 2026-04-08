@@ -6,6 +6,10 @@ public struct LithologyColorProfilesSheetView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var newProfileName: String = ""
     @State private var renameProfileText: String = ""
+    @State private var selectedLithologyCategory: USGSLithologyCategory = .coarseClastics
+    @State private var selectedLithologyCode: Int = 0
+    @State private var addPickerColor: Color = .clear
+    @State private var addHexText: String = ""
     @Environment(\.dismiss) private var dismiss
 
     public init(viewModel: ProjectViewModel) {
@@ -74,24 +78,85 @@ public struct LithologyColorProfilesSheetView: View {
                 }
             }
 
-            ProPanelSection("Lithology Mappings", subtitle: "Set color per USGS lithology code") {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 8) {
-                        ForEach(SymbologyLibrary.usgsSection37OfficialSymbols, id: \.code) { symbol in
-                            LithologyColorPresetRowView(viewModel: viewModel, symbol: symbol)
-                                .id("\(symbol.code)-\(viewModel.activeColorProfileID?.uuidString ?? "none")")
+            ProPanelSection("Lithology Mappings", subtitle: "Add custom colors by selecting category, lithology, then color") {
+                VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        fieldGroup("Category") {
+                            Picker("Category", selection: $selectedLithologyCategory) {
+                                ForEach(availableLithologyCategories, id: \.self) { category in
+                                    Text(category.label).tag(category)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .labelsHidden()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .onChange(of: selectedLithologyCategory) { _, _ in
+                                normalizeLithologySelection()
+                                clearAddColorInputs()
+                            }
+                        }
+
+                        fieldGroup("Lithology") {
+                            Picker("Lithology", selection: $selectedLithologyCode) {
+                                ForEach(lithologySymbolsInSelectedCategory, id: \.code) { symbol in
+                                    Text("\(symbol.label) (\(symbol.code))").tag(symbol.code)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .labelsHidden()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .onChange(of: selectedLithologyCode) { _, _ in
+                                clearAddColorInputs()
+                            }
+                        }
+
+                        HStack(spacing: 8) {
+                            ColorPicker("", selection: addColorBinding, supportsOpacity: false)
+                                .labelsHidden()
+                                .frame(width: 34)
+
+                            TextField("#RRGGBB", text: $addHexText)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.system(.body, design: .monospaced))
+                                .frame(width: 118)
+
+                            Button("Add Custom Color") {
+                                addCustomColorMapping()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(LithologyColorProfile.normalizedHex(addHexText) == nil || !isSelectedLithologyValid)
                         }
                     }
+                    .padding(10)
+                    .background(.quaternary.opacity(0.3), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+
+                    if activeMappingCodes.isEmpty {
+                        Text("No custom lithology mappings yet.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ScrollView {
+                            LazyVStack(alignment: .leading, spacing: 8) {
+                                ForEach(activeMappingCodes, id: \.self) { code in
+                                    LithologyColorPresetRowView(viewModel: viewModel, usgsCode: code)
+                                        .id("\(code)-\(viewModel.activeColorProfileID?.uuidString ?? "none")")
+                                }
+                            }
+                        }
+                        .frame(minHeight: 280)
+                    }
                 }
-                .frame(minHeight: 340)
             }
         }
         .padding(14)
         .onAppear {
             renameProfileText = viewModel.activeColorProfileName
+            normalizeLithologySelection()
         }
         .onChange(of: viewModel.activeColorProfileID) { _, _ in
             renameProfileText = viewModel.activeColorProfileName
+            normalizeLithologySelection()
+            clearAddColorInputs()
         }
     }
 
@@ -101,18 +166,88 @@ public struct LithologyColorProfilesSheetView: View {
             set: { viewModel.setActiveColorProfile(id: $0) }
         )
     }
+
+    private var activeProfileMappings: [Int: String] {
+        guard let activeID = viewModel.activeColorProfileID,
+              let active = viewModel.colorProfiles.first(where: { $0.id == activeID }) else {
+            return [:]
+        }
+        return active.mappings
+    }
+
+    private var activeMappingCodes: [Int] {
+        activeProfileMappings.keys.sorted()
+    }
+
+    private var availableLithologyCategories: [USGSLithologyCategory] {
+        USGSLithologyCategory.allCases.filter { !SymbologyLibrary.symbols(in: $0).isEmpty }
+    }
+
+    private var lithologySymbolsInSelectedCategory: [USGSLithologySymbol] {
+        SymbologyLibrary.symbols(in: selectedLithologyCategory)
+    }
+
+    private var isSelectedLithologyValid: Bool {
+        lithologySymbolsInSelectedCategory.contains(where: { $0.code == selectedLithologyCode })
+    }
+
+    private var addColorBinding: Binding<Color> {
+        Binding(
+            get: { addPickerColor },
+            set: { newColor in
+                addPickerColor = newColor
+                let nsColor = NSColor(newColor)
+                guard let hex = ColorHex.hex(from: nsColor) else { return }
+                addHexText = hex
+            }
+        )
+    }
+
+    private func normalizeLithologySelection() {
+        guard !availableLithologyCategories.isEmpty else { return }
+        if !availableLithologyCategories.contains(selectedLithologyCategory) {
+            selectedLithologyCategory = availableLithologyCategories[0]
+        }
+        let choices = lithologySymbolsInSelectedCategory.map(\.code)
+        guard let first = choices.first else { return }
+        if !choices.contains(selectedLithologyCode) {
+            selectedLithologyCode = first
+        }
+    }
+
+    private func clearAddColorInputs() {
+        addPickerColor = .clear
+        addHexText = ""
+    }
+
+    private func addCustomColorMapping() {
+        guard isSelectedLithologyValid else { return }
+        guard let normalized = LithologyColorProfile.normalizedHex(addHexText) else { return }
+        viewModel.setLithologyColorPreset(usgsCode: selectedLithologyCode, hex: normalized)
+        addHexText = normalized
+        if let nsColor = ColorHex.nsColor(from: normalized) {
+            addPickerColor = Color(nsColor: nsColor)
+        }
+    }
+
+    private func fieldGroup<Content: View>(_ label: String, @ViewBuilder content: () -> Content) -> some View {
+        ProField(label) {
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
 }
 
 private struct LithologyColorPresetRowView: View {
     @ObservedObject var viewModel: ProjectViewModel
-    let symbol: USGSLithologySymbol
+    let usgsCode: Int
 
     @State private var pickerColor: Color = .clear
     @State private var hexText: String = ""
 
     var body: some View {
         HStack(spacing: 8) {
-            Text("\(symbol.label) (\(symbol.code))")
+            Text("\(SymbologyLibrary.label(forUSGSCode: usgsCode)) (\(usgsCode))")
                 .lineLimit(1)
                 .truncationMode(.tail)
 
@@ -134,11 +269,11 @@ private struct LithologyColorPresetRowView: View {
             .disabled(LithologyColorProfile.normalizedHex(hexText) == nil)
 
             Button("Reset") {
-                viewModel.removeLithologyColorPreset(usgsCode: symbol.code)
+                viewModel.removeLithologyColorPreset(usgsCode: usgsCode)
                 syncFromModel()
             }
             .buttonStyle(.bordered)
-            .disabled(viewModel.presetColor(for: symbol.code) == nil)
+            .disabled(viewModel.presetColor(for: usgsCode) == nil)
         }
         .onAppear {
             syncFromModel()
@@ -152,7 +287,7 @@ private struct LithologyColorPresetRowView: View {
                 pickerColor = newColor
                 let nsColor = NSColor(newColor)
                 guard let hex = ColorHex.hex(from: nsColor) else { return }
-                viewModel.setLithologyColorPreset(usgsCode: symbol.code, hex: hex)
+                viewModel.setLithologyColorPreset(usgsCode: usgsCode, hex: hex)
                 hexText = hex
             }
         )
@@ -160,7 +295,7 @@ private struct LithologyColorPresetRowView: View {
 
     private func applyHexText() {
         guard let normalized = LithologyColorProfile.normalizedHex(hexText) else { return }
-        viewModel.setLithologyColorPreset(usgsCode: symbol.code, hex: normalized)
+        viewModel.setLithologyColorPreset(usgsCode: usgsCode, hex: normalized)
         if let nsColor = ColorHex.nsColor(from: normalized) {
             pickerColor = Color(nsColor: nsColor)
         }
@@ -168,14 +303,14 @@ private struct LithologyColorPresetRowView: View {
     }
 
     private func syncFromModel() {
-        if let presetHex = viewModel.presetColor(for: symbol.code),
+        if let presetHex = viewModel.presetColor(for: usgsCode),
            let presetColor = ColorHex.nsColor(from: presetHex) {
             pickerColor = Color(nsColor: presetColor)
             hexText = presetHex
             return
         }
 
-        let fallbackHex = SymbologyLibrary.style(forUSGSCode: symbol.code).fillHex
+        let fallbackHex = SymbologyLibrary.style(forUSGSCode: usgsCode).fillHex
         if let fallbackColor = ColorHex.nsColor(from: fallbackHex) {
             pickerColor = Color(nsColor: fallbackColor)
         } else {

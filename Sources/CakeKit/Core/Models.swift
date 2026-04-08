@@ -506,6 +506,7 @@ public struct ProjectSettings: Codable, Hashable {
     public var showLogTitle: Bool
     public var showUSGSCodesInLithologyLabels: Bool
     public var symbolScale: Double
+    public var pointFeatureIconSize: Double
     public var depthScaleUnit: DepthScaleUnit
     public var useAbsoluteAltitude: Bool
     public var zeroLevelAltitudeMeters: Double?
@@ -520,6 +521,7 @@ public struct ProjectSettings: Codable, Hashable {
         showLogTitle: Bool = true,
         showUSGSCodesInLithologyLabels: Bool = true,
         symbolScale: Double = 1.0,
+        pointFeatureIconSize: Double = 8.0,
         depthScaleUnit: DepthScaleUnit = .meter,
         useAbsoluteAltitude: Bool = false,
         zeroLevelAltitudeMeters: Double? = nil
@@ -534,6 +536,7 @@ public struct ProjectSettings: Codable, Hashable {
         self.showLogTitle = showLogTitle
         self.showUSGSCodesInLithologyLabels = showUSGSCodesInLithologyLabels
         self.symbolScale = symbolScale
+        self.pointFeatureIconSize = pointFeatureIconSize
         self.depthScaleUnit = depthScaleUnit
         self.useAbsoluteAltitude = useAbsoluteAltitude
         self.zeroLevelAltitudeMeters = zeroLevelAltitudeMeters
@@ -551,6 +554,7 @@ public struct ProjectSettings: Codable, Hashable {
         showLogTitle: Bool = true,
         showUSGSCodesInLithologyLabels: Bool = true,
         symbolScale: Double = 1.0,
+        pointFeatureIconSize: Double = 8.0,
         depthScaleUnit: DepthScaleUnit = .meter,
         useAbsoluteAltitude: Bool = false,
         zeroLevelAltitudeMeters: Double? = nil
@@ -565,6 +569,7 @@ public struct ProjectSettings: Codable, Hashable {
         self.showLogTitle = showLogTitle
         self.showUSGSCodesInLithologyLabels = showUSGSCodesInLithologyLabels
         self.symbolScale = symbolScale
+        self.pointFeatureIconSize = pointFeatureIconSize
         self.depthScaleUnit = depthScaleUnit
         self.useAbsoluteAltitude = useAbsoluteAltitude
         self.zeroLevelAltitudeMeters = zeroLevelAltitudeMeters
@@ -581,6 +586,7 @@ public struct ProjectSettings: Codable, Hashable {
         case showLogTitle
         case showUSGSCodesInLithologyLabels
         case symbolScale
+        case pointFeatureIconSize
         case depthScaleUnit
         case useAbsoluteAltitude
         case zeroLevelAltitudeMeters
@@ -598,6 +604,7 @@ public struct ProjectSettings: Codable, Hashable {
         showLogTitle = try container.decodeIfPresent(Bool.self, forKey: .showLogTitle) ?? true
         showUSGSCodesInLithologyLabels = try container.decodeIfPresent(Bool.self, forKey: .showUSGSCodesInLithologyLabels) ?? true
         symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
+        pointFeatureIconSize = try container.decodeIfPresent(Double.self, forKey: .pointFeatureIconSize) ?? 8.0
         depthScaleUnit = try container.decodeIfPresent(DepthScaleUnit.self, forKey: .depthScaleUnit) ?? .meter
         useAbsoluteAltitude = try container.decodeIfPresent(Bool.self, forKey: .useAbsoluteAltitude) ?? false
         zeroLevelAltitudeMeters = try container.decodeIfPresent(Double.self, forKey: .zeroLevelAltitudeMeters)
@@ -615,6 +622,7 @@ public struct ProjectSettings: Codable, Hashable {
         try container.encode(showLogTitle, forKey: .showLogTitle)
         try container.encode(showUSGSCodesInLithologyLabels, forKey: .showUSGSCodesInLithologyLabels)
         try container.encode(symbolScale, forKey: .symbolScale)
+        try container.encode(pointFeatureIconSize, forKey: .pointFeatureIconSize)
         try container.encode(depthScaleUnit, forKey: .depthScaleUnit)
         try container.encode(useAbsoluteAltitude, forKey: .useAbsoluteAltitude)
         try container.encodeIfPresent(zeroLevelAltitudeMeters, forKey: .zeroLevelAltitudeMeters)

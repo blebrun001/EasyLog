@@ -24,6 +24,7 @@ public struct SyntheticComparisonScene: Hashable {
     public var ticks: [ScaleTick]
     public var baseFontSize: Double
     public var symbolScale: Double
+    public var pointFeatureIconSize: Double
     public var depthScaleUnit: DepthScaleUnit
     public var axisX: Double
     public var logsTopY: Double
@@ -39,6 +40,7 @@ public struct SyntheticComparisonScene: Hashable {
         ticks: [ScaleTick],
         baseFontSize: Double,
         symbolScale: Double,
+        pointFeatureIconSize: Double,
         depthScaleUnit: DepthScaleUnit,
         axisX: Double,
         logsTopY: Double,
@@ -53,6 +55,7 @@ public struct SyntheticComparisonScene: Hashable {
         self.ticks = ticks
         self.baseFontSize = baseFontSize
         self.symbolScale = symbolScale
+        self.pointFeatureIconSize = pointFeatureIconSize
         self.depthScaleUnit = depthScaleUnit
         self.axisX = axisX
         self.logsTopY = logsTopY
@@ -70,6 +73,7 @@ public struct SyntheticComparisonScene: Hashable {
             ticks: [],
             baseFontSize: 12,
             symbolScale: 1.0,
+            pointFeatureIconSize: 8.0,
             depthScaleUnit: .meter,
             axisX: 70,
             logsTopY: 70,
@@ -101,6 +105,7 @@ enum SyntheticComparisonSceneBuilder {
         let verticalScale = max(referenceLog.settings.verticalScale, 0.001)
         let baseFontSize = referenceLog.settings.baseFontSize
         let symbolScale = referenceLog.settings.symbolScale
+        let pointFeatureIconSize = referenceLog.settings.pointFeatureIconSize
         let showsGrid = referenceLog.settings.showGrid
 
         let renderedScenes = logs.map(renderer.makeScene(project:))
@@ -151,6 +156,7 @@ enum SyntheticComparisonSceneBuilder {
                         remappedPoints.append(
                             RenderedPointFeature(
                                 type: point.type,
+                                iconToken: point.iconToken,
                                 symbol: point.symbol,
                                 colorHex: point.colorHex,
                                 centerX: cursorX + localX * width,
@@ -227,6 +233,7 @@ enum SyntheticComparisonSceneBuilder {
             ticks: ticks,
             baseFontSize: baseFontSize,
             symbolScale: symbolScale,
+            pointFeatureIconSize: pointFeatureIconSize,
             depthScaleUnit: depthUnit,
             axisX: axisX,
             logsTopY: topMargin,

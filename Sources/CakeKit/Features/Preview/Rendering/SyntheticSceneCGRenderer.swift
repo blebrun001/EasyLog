@@ -121,7 +121,13 @@ public enum SyntheticSceneCGRenderer {
 
         for item in scene.legend {
             let swatch = CGRect(x: originX, y: originY, width: SceneLayout.legendSwatchWidth, height: 18)
-            drawLegendSwatch(item: item, in: swatch, context: context, symbolScale: scene.symbolScale)
+            drawLegendSwatch(
+                item: item,
+                in: swatch,
+                context: context,
+                symbolScale: scene.symbolScale,
+                pointFeatureIconSize: scene.pointFeatureIconSize
+            )
             drawText(
                 item.label,
                 at: CGPoint(x: originX + SceneLayout.legendTextOffset, y: originY + 3),
@@ -138,8 +144,9 @@ public enum SyntheticSceneCGRenderer {
         for pointFeature in pointFeatures {
             let strokeColor = ColorHex.cgColor(from: pointFeature.colorHex, fallback: NSColor.black.cgColor)
             let fillColor = ColorHex.cgColor(from: pointFeature.colorHex, fallback: NSColor.white.cgColor)
-            SceneCGRenderer.drawPointSymbol(
-                pointFeature.symbol,
+            SceneCGRenderer.drawPointIcon(
+                pointFeature.iconToken,
+                fallbackSymbol: pointFeature.symbol,
                 center: CGPoint(x: pointFeature.centerX, y: pointFeature.centerY),
                 size: CGFloat(pointFeature.size),
                 strokeColor: strokeColor,
@@ -150,17 +157,24 @@ public enum SyntheticSceneCGRenderer {
         context.restoreGState()
     }
 
-    private static func drawLegendSwatch(item: LegendItem, in rect: CGRect, context: CGContext, symbolScale: Double) {
-        let swatchFillHex = item.pointSymbol == nil ? item.fillHex : nil
+    private static func drawLegendSwatch(
+        item: LegendItem,
+        in rect: CGRect,
+        context: CGContext,
+        symbolScale: Double,
+        pointFeatureIconSize: Double
+    ) {
+        let swatchFillHex = (item.pointSymbol == nil && item.pointIconToken == nil) ? item.fillHex : nil
         context.setFillColor(ColorHex.cgColor(from: swatchFillHex, fallback: NSColor.white.cgColor))
         context.fill(rect)
-        if let pointSymbol = item.pointSymbol {
+        if item.pointIconToken != nil || item.pointSymbol != nil {
             let strokeColor = ColorHex.cgColor(from: item.pointColorHex, fallback: NSColor.black.cgColor)
             let fillColor = ColorHex.cgColor(from: item.pointColorHex, fallback: NSColor.white.cgColor)
-            SceneCGRenderer.drawPointSymbol(
-                pointSymbol,
+            SceneCGRenderer.drawPointIcon(
+                item.pointIconToken,
+                fallbackSymbol: item.pointSymbol,
                 center: CGPoint(x: rect.midX, y: rect.midY),
-                size: 8,
+                size: min(max(CGFloat(pointFeatureIconSize), 4), 14),
                 strokeColor: strokeColor,
                 fillColor: fillColor,
                 context: context

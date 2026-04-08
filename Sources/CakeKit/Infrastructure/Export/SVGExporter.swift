@@ -192,8 +192,8 @@ public struct SVGExporter: SVGExporting {
 
                   <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="\(swatchFill)"/>
                 """
-                if let pointSymbol = item.pointSymbol {
-                    svg += "\n\(pointLegendElement(symbol: pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: 8))"
+                if item.pointIconToken != nil || item.pointSymbol != nil {
+                    svg += "\n\(pointLegendElement(iconToken: item.pointIconToken, symbol: item.pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: min(max(scene.pointFeatureIconSize, 4), 14)))"
                 } else {
                     svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSKeys: usgsPatternByKey)))\"/>"
                 }
@@ -219,7 +219,7 @@ public struct SVGExporter: SVGExporting {
         for unit in scene.units where patternKey(usgsSymbolCode: unit.usgsSymbolCode) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: unit.usgsSymbolCode)!] == nil {
             fallbackSymbols.insert(unit.symbol)
         }
-        for item in scene.legend where item.pointSymbol == nil && (patternKey(usgsSymbolCode: item.usgsSymbolCode) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: item.usgsSymbolCode)!] == nil) {
+        for item in scene.legend where item.pointSymbol == nil && item.pointIconToken == nil && (patternKey(usgsSymbolCode: item.usgsSymbolCode) == nil || usgsPatternByKey[patternKey(usgsSymbolCode: item.usgsSymbolCode)!] == nil) {
             fallbackSymbols.insert(item.symbol)
         }
         definitions.append(contentsOf: fallbackSymbols.sorted(by: { $0.rawValue < $1.rawValue }).map { patternDefinition(for: $0) })
@@ -275,6 +275,7 @@ public struct SVGExporter: SVGExporting {
 
     private func pointFeatureElement(_ pointFeature: RenderedPointFeature) -> String {
         pointLegendElement(
+            iconToken: pointFeature.iconToken,
             symbol: pointFeature.symbol,
             colorHex: pointFeature.colorHex,
             centerX: pointFeature.centerX,
@@ -283,9 +284,20 @@ public struct SVGExporter: SVGExporting {
         )
     }
 
-    private func pointLegendElement(symbol: PointFeatureSymbol, colorHex: String?, centerX: Double, centerY: Double, size: Double) -> String {
+    private func pointLegendElement(iconToken: PointFeatureIconToken?, symbol: PointFeatureSymbol?, colorHex: String?, centerX: Double, centerY: Double, size: Double) -> String {
         let half = size / 2
         let color = colorHex ?? "#111111"
+        if let iconToken,
+           let iconElement = PointFeatureIconRenderer.svgElement(
+               token: iconToken,
+               colorHex: color,
+               centerX: centerX,
+               centerY: centerY,
+               size: size
+           ) {
+            return "  \(iconElement)"
+        }
+        guard let symbol else { return "" }
         switch symbol {
         case .diamond:
             return """

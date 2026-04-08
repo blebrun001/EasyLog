@@ -61,6 +61,7 @@ public struct RenderedUnit: Identifiable, Hashable {
 /// Render-ready point feature marker placed inside a unit rectangle.
 public struct RenderedPointFeature: Hashable {
     public var type: PointFeatureType
+    public var iconToken: PointFeatureIconToken?
     public var symbol: PointFeatureSymbol
     public var colorHex: String
     public var centerX: Double
@@ -69,6 +70,7 @@ public struct RenderedPointFeature: Hashable {
 
     public init(
         type: PointFeatureType,
+        iconToken: PointFeatureIconToken? = nil,
         symbol: PointFeatureSymbol,
         colorHex: String,
         centerX: Double,
@@ -76,6 +78,7 @@ public struct RenderedPointFeature: Hashable {
         size: Double
     ) {
         self.type = type
+        self.iconToken = iconToken
         self.symbol = symbol
         self.colorHex = colorHex
         self.centerX = centerX
@@ -90,6 +93,7 @@ public struct LegendItem: Hashable {
     public var symbol: SymbolPattern
     public var usgsSymbolCode: Int?
     public var fillHex: String?
+    public var pointIconToken: PointFeatureIconToken?
     public var pointSymbol: PointFeatureSymbol?
     public var pointColorHex: String?
 
@@ -98,6 +102,7 @@ public struct LegendItem: Hashable {
         symbol: SymbolPattern,
         usgsSymbolCode: Int? = nil,
         fillHex: String? = nil,
+        pointIconToken: PointFeatureIconToken? = nil,
         pointSymbol: PointFeatureSymbol? = nil,
         pointColorHex: String? = nil
     ) {
@@ -105,6 +110,7 @@ public struct LegendItem: Hashable {
         self.symbol = symbol
         self.usgsSymbolCode = usgsSymbolCode
         self.fillHex = fillHex
+        self.pointIconToken = pointIconToken
         self.pointSymbol = pointSymbol
         self.pointColorHex = pointColorHex
     }
@@ -136,6 +142,7 @@ public struct RenderScene: Hashable {
     public var showsGrainSizeScale: Bool
     public var showsLogTitle: Bool
     public var symbolScale: Double
+    public var pointFeatureIconSize: Double
     public var depthScaleUnit: DepthScaleUnit
     public var useAbsoluteAltitude: Bool
     public var zeroLevelAltitudeMeters: Double?
@@ -154,6 +161,7 @@ public struct RenderScene: Hashable {
         showsGrainSizeScale: Bool,
         showsLogTitle: Bool,
         symbolScale: Double,
+        pointFeatureIconSize: Double,
         depthScaleUnit: DepthScaleUnit,
         useAbsoluteAltitude: Bool,
         zeroLevelAltitudeMeters: Double?
@@ -171,6 +179,7 @@ public struct RenderScene: Hashable {
         self.showsGrainSizeScale = showsGrainSizeScale
         self.showsLogTitle = showsLogTitle
         self.symbolScale = symbolScale
+        self.pointFeatureIconSize = pointFeatureIconSize
         self.depthScaleUnit = depthScaleUnit
         self.useAbsoluteAltitude = useAbsoluteAltitude
         self.zeroLevelAltitudeMeters = zeroLevelAltitudeMeters
@@ -191,6 +200,7 @@ public struct RenderScene: Hashable {
             showsGrainSizeScale: true,
             showsLogTitle: true,
             symbolScale: 1.0,
+            pointFeatureIconSize: 8.0,
             depthScaleUnit: .meter,
             useAbsoluteAltitude: false,
             zeroLevelAltitudeMeters: nil

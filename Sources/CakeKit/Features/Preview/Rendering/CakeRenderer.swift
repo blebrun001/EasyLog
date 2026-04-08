@@ -55,7 +55,8 @@ public struct CakeRenderer: LogRenderer {
             let renderedPointFeatures = makeRenderedPointFeatures(
                 for: unit.pointFeatures,
                 in: rect,
-                unitID: unit.id
+                unitID: unit.id,
+                settings: project.settings
             )
             renderedUnits.append(
                 RenderedUnit(
@@ -96,6 +97,7 @@ public struct CakeRenderer: LogRenderer {
                     let item = LegendItem(
                         label: "\(pointFeature.type.categoryLabel): \(pointFeature.type.label)",
                         symbol: .fallback,
+                        pointIconToken: PointFeatureIconCatalog.token(for: pointFeature.type),
                         pointSymbol: pointFeature.type.symbol,
                         pointColorHex: pointFeature.type.symbolColorHex
                     )
@@ -150,6 +152,7 @@ public struct CakeRenderer: LogRenderer {
             showsGrainSizeScale: project.settings.showGrainSizeScale,
             showsLogTitle: project.settings.showLogTitle,
             symbolScale: project.settings.symbolScale,
+            pointFeatureIconSize: project.settings.pointFeatureIconSize,
             depthScaleUnit: project.settings.depthScaleUnit,
             useAbsoluteAltitude: project.settings.useAbsoluteAltitude,
             zeroLevelAltitudeMeters: project.settings.zeroLevelAltitudeMeters
@@ -179,11 +182,14 @@ public struct CakeRenderer: LogRenderer {
     private func makeRenderedPointFeatures(
         for pointFeatures: [UnitPointFeature],
         in rect: RectD,
-        unitID: UUID
+        unitID: UUID,
+        settings: ProjectSettings
     ) -> [RenderedPointFeature] {
         var rendered: [RenderedPointFeature] = []
         let padding = min(8.0, max(2.0, min(rect.width, rect.height) * 0.1))
-        let size = min(7.0, max(4.0, min(rect.width, rect.height) * 0.15))
+        let requestedSize = min(max(settings.pointFeatureIconSize, 3.0), 18.0)
+        let maxSizeForUnit = max(min(rect.width, rect.height) * 0.35, 3.0)
+        let size = min(requestedSize, maxSizeForUnit)
         let usableWidth = max(rect.width - 2 * padding, 0)
         let usableHeight = max(rect.height - 2 * padding, 0)
 
@@ -211,6 +217,7 @@ public struct CakeRenderer: LogRenderer {
                 rendered.append(
                     RenderedPointFeature(
                         type: pointFeature.type,
+                        iconToken: PointFeatureIconCatalog.token(for: pointFeature.type),
                         symbol: pointFeature.type.symbol,
                         colorHex: pointFeature.type.symbolColorHex,
                         centerX: x,
