@@ -249,28 +249,39 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
 
 /// Instance of a typed point feature with normalized density.
 public struct UnitPointFeature: Identifiable, Codable, Hashable {
+    public static let defaultColorHex = "#111111"
+
     public var id: UUID
     public var type: PointFeatureType
     public var density: Double
+    public var colorHex: String?
 
-    public init(
-        id: UUID = UUID(),
-        type: PointFeatureType,
-        density: Double
-    ) {
-        self.id = id
-        self.type = type
-        self.density = Self.clampDensity(density)
+    public var resolvedColorHex: String {
+        Self.normalizedHexColor(colorHex) ?? Self.defaultColorHex
     }
 
     public init(
         id: UUID = UUID(),
         type: PointFeatureType,
-        concentration: PointFeatureConcentration
+        density: Double,
+        colorHex: String? = nil
+    ) {
+        self.id = id
+        self.type = type
+        self.density = Self.clampDensity(density)
+        self.colorHex = Self.normalizedHexColor(colorHex)
+    }
+
+    public init(
+        id: UUID = UUID(),
+        type: PointFeatureType,
+        concentration: PointFeatureConcentration,
+        colorHex: String? = nil
     ) {
         self.id = id
         self.type = type
         self.density = Self.defaultDensity(for: concentration)
+        self.colorHex = Self.normalizedHexColor(colorHex)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -278,6 +289,7 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
         case type
         case density
         case concentration
+        case colorHex
     }
 
     public init(from decoder: Decoder) throws {
@@ -292,6 +304,8 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
         } else {
             density = Self.defaultDensity(for: .low)
         }
+
+        colorHex = Self.normalizedHexColor(try container.decodeIfPresent(String.self, forKey: .colorHex))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -299,6 +313,7 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encode(type, forKey: .type)
         try container.encode(Self.clampDensity(density), forKey: .density)
+        try container.encodeIfPresent(Self.normalizedHexColor(colorHex), forKey: .colorHex)
     }
 
     private static func defaultDensity(for concentration: PointFeatureConcentration) -> Double {
@@ -312,6 +327,10 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
 
     private static func clampDensity(_ value: Double) -> Double {
         min(max(value, 0), 1)
+    }
+
+    private static func normalizedHexColor(_ raw: String?) -> String? {
+        HexColorNormalizer.normalizedHex(raw)
     }
 }
 
@@ -418,6 +437,9 @@ public struct CGSizeDTO: Codable, Hashable {
 
 /// Rendering preferences and export defaults persisted with the project.
 public struct ProjectSettings: Codable, Hashable {
+    public static let pointFeatureIconSizeRange: ClosedRange<Double> = 3...32
+    public static let legendPointFeatureIconSizeRange: ClosedRange<Double> = 4...22
+
     public var verticalScale: Double
     public var baseFontSize: Double
     public var showGrid: Bool

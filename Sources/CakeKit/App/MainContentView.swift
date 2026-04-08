@@ -278,7 +278,7 @@ private struct ViewOptionsPopover: View {
                     Text("\(settings.pointFeatureIconSize, specifier: "%.1f") px")
                         .foregroundStyle(.secondary)
                 }
-                Slider(value: pointFeatureIconSizeBinding, in: 3...18)
+                Slider(value: pointFeatureIconSizeBinding, in: ProjectSettings.pointFeatureIconSizeRange)
                     .accessibilityLabel("Point feature icon size")
 
                 Picker("Scale unit", selection: $settings.depthScaleUnit) {
@@ -332,7 +332,7 @@ private struct ViewOptionsPopover: View {
     private var pointFeatureIconSizeBinding: Binding<Double> {
         Binding(
             get: { settings.pointFeatureIconSize },
-            set: { settings.pointFeatureIconSize = snapped($0, step: 0.5, range: 3...18) }
+            set: { settings.pointFeatureIconSize = snapped($0, step: 0.5, range: ProjectSettings.pointFeatureIconSizeRange) }
         )
     }
 

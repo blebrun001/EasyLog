@@ -174,7 +174,10 @@ public enum SyntheticSceneCGRenderer {
                 item.pointIconToken,
                 fallbackSymbol: item.pointSymbol,
                 center: CGPoint(x: rect.midX, y: rect.midY),
-                size: min(max(CGFloat(pointFeatureIconSize), 4), 14),
+                size: min(
+                    max(CGFloat(pointFeatureIconSize), CGFloat(ProjectSettings.legendPointFeatureIconSizeRange.lowerBound)),
+                    CGFloat(ProjectSettings.legendPointFeatureIconSizeRange.upperBound)
+                ),
                 strokeColor: strokeColor,
                 fillColor: fillColor,
                 context: context

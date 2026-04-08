@@ -99,7 +99,7 @@ public struct CakeRenderer: LogRenderer {
                         symbol: .fallback,
                         pointIconToken: PointFeatureIconCatalog.token(for: pointFeature.type),
                         pointSymbol: pointFeature.type.symbol,
-                        pointColorHex: pointFeature.type.symbolColorHex
+                        pointColorHex: pointFeature.resolvedColorHex
                     )
                     if seenPointLegendLabels.insert(item.label).inserted {
                         pointLegendOrder.append(item)
@@ -187,7 +187,10 @@ public struct CakeRenderer: LogRenderer {
     ) -> [RenderedPointFeature] {
         var rendered: [RenderedPointFeature] = []
         let padding = min(8.0, max(2.0, min(rect.width, rect.height) * 0.1))
-        let requestedSize = min(max(settings.pointFeatureIconSize, 3.0), 18.0)
+        let requestedSize = min(
+            max(settings.pointFeatureIconSize, ProjectSettings.pointFeatureIconSizeRange.lowerBound),
+            ProjectSettings.pointFeatureIconSizeRange.upperBound
+        )
         let maxSizeForUnit = max(min(rect.width, rect.height) * 0.35, 3.0)
         let size = min(requestedSize, maxSizeForUnit)
         let usableWidth = max(rect.width - 2 * padding, 0)
@@ -219,7 +222,7 @@ public struct CakeRenderer: LogRenderer {
                         type: pointFeature.type,
                         iconToken: PointFeatureIconCatalog.token(for: pointFeature.type),
                         symbol: pointFeature.type.symbol,
-                        colorHex: pointFeature.type.symbolColorHex,
+                        colorHex: pointFeature.resolvedColorHex,
                         centerX: x,
                         centerY: y,
                         size: size

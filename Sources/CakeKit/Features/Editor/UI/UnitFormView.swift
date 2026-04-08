@@ -13,6 +13,7 @@ public struct UnitFormView: View {
     @State private var pendingLithologySelectionCode: Int?
     @State private var colorPickerSelection: Color = .clear
     @State private var lithologyHexText: String = ""
+    @State private var pointFeatureHexTextByID: [UUID: String] = [:]
     @State private var pendingPointFeatureCategory: PointFeatureCategory
     @State private var pendingPointFeatureType: PointFeatureType = PointFeatureType.allCases.first ?? .paleoMacroFossils
 
@@ -192,6 +193,7 @@ public struct UnitFormView: View {
             syncLithologyCategoryWithUnit()
             normalizeLithologySelection()
             syncColorControlsFromUnit()
+            syncPointFeatureColorControls()
             normalizePendingFeatureSelection()
         }
         .onChange(of: unit.id) { _, _ in
@@ -200,6 +202,7 @@ public struct UnitFormView: View {
             syncLithologyCategoryWithUnit()
             normalizeLithologySelection()
             syncColorControlsFromUnit()
+            syncPointFeatureColorControls()
             normalizePendingFeatureSelection()
         }
         .confirmationDialog(
@@ -399,6 +402,7 @@ public struct UnitFormView: View {
 
                 Button {
                     unit.pointFeatures.remove(at: index)
+                    syncPointFeatureColorControls()
                     normalizePendingFeatureSelection()
                 } label: {
                     Image(systemName: "trash")
@@ -419,6 +423,27 @@ public struct UnitFormView: View {
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
                     .frame(width: 44, alignment: .trailing)
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                ColorPicker("Icon Color", selection: pointFeatureColorBinding(for: index), supportsOpacity: false)
+                    .accessibilityLabel("Point feature icon color")
+
+                HStack(spacing: 8) {
+                    TextField("#RRGGBB", text: pointFeatureHexBinding(for: index))
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(.body, design: .monospaced))
+                        .accessibilityLabel("Point feature color hex")
+
+                    Button("Default") {
+                        let featureID = unit.pointFeatures[index].id
+                        unit.pointFeatures[index].colorHex = nil
+                        pointFeatureHexTextByID[featureID] = ""
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(unit.pointFeatures[index].colorHex == nil)
+                    .accessibilityHint("Resets point feature icon color to the default black")
+                }
             }
         }
         .padding(8)
@@ -479,7 +504,57 @@ public struct UnitFormView: View {
         unit.pointFeatures.append(
             UnitPointFeature(type: pendingPointFeatureType, density: 0.35)
         )
+        syncPointFeatureColorControls()
         normalizePendingFeatureSelection()
+    }
+
+    private func syncPointFeatureColorControls() {
+        var updated: [UUID: String] = [:]
+        for pointFeature in unit.pointFeatures {
+            updated[pointFeature.id] = pointFeature.colorHex ?? ""
+        }
+        pointFeatureHexTextByID = updated
+    }
+
+    private func pointFeatureColorBinding(for index: Int) -> Binding<Color> {
+        Binding(
+            get: {
+                let normalized = unit.pointFeatures[index].colorHex ?? UnitPointFeature.defaultColorHex
+                if let nsColor = ColorHex.nsColor(from: normalized) {
+                    return Color(nsColor: nsColor)
+                }
+                return .black
+            },
+            set: { newColor in
+                let featureID = unit.pointFeatures[index].id
+                let nsColor = NSColor(newColor)
+                guard let hex = ColorHex.hex(from: nsColor) else { return }
+                unit.pointFeatures[index].colorHex = hex
+                pointFeatureHexTextByID[featureID] = hex
+            }
+        )
+    }
+
+    private func pointFeatureHexBinding(for index: Int) -> Binding<String> {
+        Binding(
+            get: {
+                let featureID = unit.pointFeatures[index].id
+                return pointFeatureHexTextByID[featureID] ?? unit.pointFeatures[index].colorHex ?? ""
+            },
+            set: { raw in
+                let featureID = unit.pointFeatures[index].id
+                pointFeatureHexTextByID[featureID] = raw
+                let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+                if trimmed.isEmpty {
+                    unit.pointFeatures[index].colorHex = nil
+                    pointFeatureHexTextByID[featureID] = ""
+                    return
+                }
+                guard let normalized = ColorHex.normalizedHex(raw) else { return }
+                unit.pointFeatures[index].colorHex = normalized
+                pointFeatureHexTextByID[featureID] = normalized
+            }
+        )
     }
 
     private func parseNumber(_ raw: String) -> Double? {

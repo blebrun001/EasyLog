@@ -193,7 +193,7 @@ public struct SVGExporter: SVGExporting {
                   <rect x="\(fmt(legendX))" y="\(fmt(legendY))" width="\(fmt(SceneLayout.legendSwatchWidth))" height="18" fill="\(swatchFill)"/>
                 """
                 if item.pointIconToken != nil || item.pointSymbol != nil {
-                    svg += "\n\(pointLegendElement(iconToken: item.pointIconToken, symbol: item.pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: min(max(scene.pointFeatureIconSize, 4), 14)))"
+                    svg += "\n\(pointLegendElement(iconToken: item.pointIconToken, symbol: item.pointSymbol, colorHex: item.pointColorHex, centerX: legendX + 14, centerY: legendY + 9, size: min(max(scene.pointFeatureIconSize, ProjectSettings.legendPointFeatureIconSizeRange.lowerBound), ProjectSettings.legendPointFeatureIconSizeRange.upperBound)))"
                 } else {
                     svg += "\n  <rect x=\"\(fmt(legendX))\" y=\"\(fmt(legendY))\" width=\"\(fmt(SceneLayout.legendSwatchWidth))\" height=\"18\" fill=\"url(#\(patternID(symbol: item.symbol, usgsSymbolCode: item.usgsSymbolCode, availableUSGSKeys: usgsPatternByKey)))\"/>"
                 }

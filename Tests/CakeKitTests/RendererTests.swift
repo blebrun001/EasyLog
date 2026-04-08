@@ -179,6 +179,42 @@ func pointFeatureIconSizeIsPropagatedToSceneAndRenderedPoints() {
 }
 
 @Test
+func pointFeaturesUseBlackAsDefaultColor() {
+    let project = Project(
+        units: [
+            StratigraphicUnit(
+                name: "A",
+                thickness: 2,
+                usgsLithologyCode: usgsCode("Massive sand or sandstone"),
+                pointFeatures: [UnitPointFeature(type: .paleoRoots, density: 0.4)]
+            )
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.units.first?.pointFeatures.allSatisfy { $0.colorHex == UnitPointFeature.defaultColorHex } == true)
+    let pointLegendItems = scene.legend.filter { $0.pointIconToken != nil || $0.pointSymbol != nil }
+    #expect(pointLegendItems.first?.pointColorHex == UnitPointFeature.defaultColorHex)
+}
+
+@Test
+func pointFeatureCustomColorOverridesDefaultBlack() {
+    let project = Project(
+        units: [
+            StratigraphicUnit(
+                name: "A",
+                thickness: 2,
+                usgsLithologyCode: usgsCode("Massive sand or sandstone"),
+                pointFeatures: [UnitPointFeature(type: .paleoRoots, density: 0.4, colorHex: "ff00aa")]
+            )
+        ]
+    )
+    let scene = CakeRenderer().makeScene(project: project)
+    #expect(scene.units.first?.pointFeatures.allSatisfy { $0.colorHex == "#FF00AA" } == true)
+    let pointLegendItems = scene.legend.filter { $0.pointIconToken != nil || $0.pointSymbol != nil }
+    #expect(pointLegendItems.first?.pointColorHex == "#FF00AA")
+}
+
+@Test
 func sceneCarriesConfiguredDepthScaleUnit() {
     let project = Project(
         settings: ProjectSettings(depthScaleUnit: .centimeter),
