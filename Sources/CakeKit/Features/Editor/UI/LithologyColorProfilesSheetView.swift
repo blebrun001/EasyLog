@@ -31,6 +31,7 @@ public struct LithologyColorProfilesSheetView: View {
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
+                .help("Close color profile management")
             }
 
             ProPanelSection("Profiles", subtitle: "Create, rename, delete and select active profile") {
@@ -44,28 +45,33 @@ public struct LithologyColorProfilesSheetView: View {
                         .pickerStyle(.menu)
                         .labelsHidden()
                         .frame(maxWidth: 320, alignment: .leading)
+                        .help("Choose the active color profile")
                     }
 
                     HStack(spacing: 8) {
                         TextField("Rename active profile", text: $renameProfileText)
                             .textFieldStyle(.roundedBorder)
+                            .help("Enter a new name for the active profile")
                         Button("Rename") {
                             guard let activeID = viewModel.activeColorProfileID else { return }
                             viewModel.renameColorProfile(id: activeID, name: renameProfileText)
                             renameProfileText = viewModel.activeColorProfileName
                         }
                         .buttonStyle(.bordered)
+                        .help("Rename the active profile")
                     }
 
                     HStack(spacing: 8) {
                         TextField("New profile name", text: $newProfileName)
                             .textFieldStyle(.roundedBorder)
+                            .help("Enter a name for a new profile")
                         Button("Create") {
                             viewModel.createColorProfile(name: newProfileName)
                             newProfileName = ""
                             renameProfileText = viewModel.activeColorProfileName
                         }
                         .buttonStyle(.borderedProminent)
+                        .help("Create a new color profile")
 
                         Button("Delete Active", role: .destructive) {
                             guard let activeID = viewModel.activeColorProfileID else { return }
@@ -74,6 +80,7 @@ public struct LithologyColorProfilesSheetView: View {
                         }
                         .buttonStyle(.bordered)
                         .disabled(viewModel.colorProfiles.count <= 1)
+                        .help("Delete the active color profile")
                     }
                 }
             }
@@ -90,6 +97,7 @@ public struct LithologyColorProfilesSheetView: View {
                             .pickerStyle(.menu)
                             .labelsHidden()
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .help("Choose a lithology category")
                             .onChange(of: selectedLithologyCategory) { _, _ in
                                 normalizeLithologySelection()
                                 clearAddColorInputs()
@@ -105,6 +113,7 @@ public struct LithologyColorProfilesSheetView: View {
                             .pickerStyle(.menu)
                             .labelsHidden()
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .help("Choose a lithology to map")
                             .onChange(of: selectedLithologyCode) { _, _ in
                                 clearAddColorInputs()
                             }
@@ -114,17 +123,20 @@ public struct LithologyColorProfilesSheetView: View {
                             ColorPicker("", selection: addColorBinding, supportsOpacity: false)
                                 .labelsHidden()
                                 .frame(width: 34)
+                                .help("Pick a color for the selected lithology")
 
                             TextField("#RRGGBB", text: $addHexText)
                                 .textFieldStyle(.roundedBorder)
                                 .font(.system(.body, design: .monospaced))
                                 .frame(width: 118)
+                                .help("Enter color in hex format")
 
                             Button("Add Custom Color") {
                                 addCustomColorMapping()
                             }
                             .buttonStyle(.borderedProminent)
                             .disabled(LithologyColorProfile.normalizedHex(addHexText) == nil || !isSelectedLithologyValid)
+                            .help("Add or update the custom color mapping")
                         }
                     }
                     .padding(10)
@@ -256,17 +268,20 @@ private struct LithologyColorPresetRowView: View {
             ColorPicker("", selection: pickerBinding, supportsOpacity: false)
                 .labelsHidden()
                 .frame(width: 34)
+                .help("Pick a custom mapped color")
 
             TextField("#RRGGBB", text: $hexText)
                 .textFieldStyle(.roundedBorder)
                 .font(.system(.body, design: .monospaced))
                 .frame(width: 118)
+                .help("Enter mapped color in hex format")
 
             Button("Apply") {
                 applyHexText()
             }
             .buttonStyle(.bordered)
             .disabled(LithologyColorProfile.normalizedHex(hexText) == nil)
+            .help("Apply this mapped color")
 
             Button("Reset") {
                 viewModel.removeLithologyColorPreset(usgsCode: usgsCode)
@@ -274,6 +289,7 @@ private struct LithologyColorPresetRowView: View {
             }
             .buttonStyle(.bordered)
             .disabled(viewModel.presetColor(for: usgsCode) == nil)
+            .help("Reset to the default mapped color")
         }
         .onAppear {
             syncFromModel()

@@ -35,6 +35,7 @@ public struct UnitFormView: View {
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Unit name")
+                        .help("Enter the unit name")
                 }
 
                 fieldGroup("Thickness (m)") {
@@ -42,6 +43,7 @@ public struct UnitFormView: View {
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Thickness in meters")
+                        .help("Enter unit thickness in meters")
                 }
 
                 fieldGroup("Lithology Group") {
@@ -54,6 +56,7 @@ public struct UnitFormView: View {
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityLabel("Lithology Group")
+                    .help("Choose a lithology category")
                     .onChange(of: selectedLithologyCategory) { _, _ in
                         normalizeLithologySelection()
                     }
@@ -69,6 +72,7 @@ public struct UnitFormView: View {
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityLabel("Lithology")
+                    .help("Choose a lithology for this unit")
                 }
                 if let aliased = SymbologyLibrary.usgsLithologyAliases[unit.usgsLithologyCode] {
                     Text("Code \(unit.usgsLithologyCode) uses rendered swatch \(aliased).")
@@ -80,12 +84,14 @@ public struct UnitFormView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         ColorPicker("Custom Color", selection: lithologyColorBinding, supportsOpacity: false)
                             .accessibilityLabel("Lithology custom color")
+                            .help("Pick a custom lithology color")
 
                         HStack(spacing: 8) {
                             TextField("#RRGGBB", text: lithologyHexBinding)
                                 .textFieldStyle(.roundedBorder)
                                 .font(.system(.body, design: .monospaced))
                                 .accessibilityLabel("Lithology color hex")
+                                .help("Enter a custom lithology color in hex format")
 
                             Button("Reset to USGS") {
                                 unit.lithologyColorHex = nil
@@ -94,6 +100,7 @@ public struct UnitFormView: View {
                             .buttonStyle(.bordered)
                             .disabled(unit.lithologyColorHex == nil)
                             .accessibilityHint("Removes custom color and restores default USGS color")
+                            .help("Reset to the default USGS lithology color")
                         }
 
                         HStack(spacing: 8) {
@@ -103,11 +110,13 @@ public struct UnitFormView: View {
                             }
                             .buttonStyle(.bordered)
                             .disabled(viewModel.presetColor(for: unit.usgsLithologyCode) == nil)
+                            .help("Apply the active profile color to this unit")
 
                             Button("Color Profiles…") {
                                 showColorProfilesSheet = true
                             }
                             .buttonStyle(.bordered)
+                            .help("Open lithology color profiles")
                         }
                     }
                 }
@@ -123,6 +132,7 @@ public struct UnitFormView: View {
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .accessibilityLabel("Grain Size")
+                    .help("Choose grain size for this unit")
                 }
             }
 
@@ -153,6 +163,7 @@ public struct UnitFormView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Point feature category")
                         .disabled(availablePointFeaturesToAdd.isEmpty)
+                        .help("Choose a point feature category to add")
                         .onChange(of: pendingPointFeatureCategory) { _, _ in
                             normalizePendingFeatureSelection()
                         }
@@ -169,6 +180,7 @@ public struct UnitFormView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .accessibilityLabel("Point feature type")
                         .disabled(availablePointFeaturesToAdd.isEmpty)
+                        .help("Choose a point feature type to add")
                     }
 
                     HStack {
@@ -181,6 +193,7 @@ public struct UnitFormView: View {
                         .buttonStyle(.bordered)
                         .disabled(availablePointFeaturesToAdd.isEmpty)
                         .accessibilityHint("Adds the selected point feature to this unit")
+                        .help("Add the selected point feature")
                     }
                     }
                     .padding(10)
@@ -399,6 +412,7 @@ public struct UnitFormView: View {
                 .labelsHidden()
                 .frame(maxWidth: 120, alignment: .trailing)
                 .accessibilityLabel("Feature Type")
+                .help("Change this point feature type")
 
                 Button {
                     unit.pointFeatures.remove(at: index)
@@ -411,6 +425,7 @@ public struct UnitFormView: View {
                 .foregroundStyle(.red)
                 .accessibilityLabel("Delete feature")
                 .accessibilityHint("Removes this point feature from the unit")
+                .help("Delete this point feature")
             }
 
             HStack(spacing: 8) {
@@ -419,6 +434,7 @@ public struct UnitFormView: View {
                     .frame(width: 58, alignment: .leading)
                 Slider(value: densityBinding(for: index), in: 0...1)
                     .accessibilityLabel("Feature density")
+                    .help("Adjust feature density")
                 Text("\(Int((unit.pointFeatures[index].density * 100).rounded()))%")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
@@ -428,12 +444,14 @@ public struct UnitFormView: View {
             VStack(alignment: .leading, spacing: 8) {
                 ColorPicker("Icon Color", selection: pointFeatureColorBinding(for: index), supportsOpacity: false)
                     .accessibilityLabel("Point feature icon color")
+                    .help("Pick a custom point feature icon color")
 
                 HStack(spacing: 8) {
                     TextField("#RRGGBB", text: pointFeatureHexBinding(for: index))
                         .textFieldStyle(.roundedBorder)
                         .font(.system(.body, design: .monospaced))
                         .accessibilityLabel("Point feature color hex")
+                        .help("Enter point feature icon color in hex format")
 
                     Button("Default") {
                         let featureID = unit.pointFeatures[index].id
@@ -443,6 +461,7 @@ public struct UnitFormView: View {
                     .buttonStyle(.bordered)
                     .disabled(unit.pointFeatures[index].colorHex == nil)
                     .accessibilityHint("Resets point feature icon color to the default black")
+                    .help("Reset to the default point feature icon color")
                 }
             }
         }

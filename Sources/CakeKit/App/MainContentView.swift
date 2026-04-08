@@ -52,14 +52,19 @@ public struct MainContentView: View {
             ToolbarItemGroup {
                 Menu {
                     Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
+                        .help("Export the selected log as an SVG file")
                     Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
+                        .help("Export the selected log as a JPG file")
                     Divider()
                     Button("Export All SVG…") { viewModel.exportAllViaPanel(format: .svg) }
+                        .help("Export all logs as SVG files")
                     Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
+                        .help("Export all logs as JPG files")
                 } label: {
                     Label("Export", systemImage: "square.and.arrow.up")
                         .imageScale(.small)
                 }
+                .help("Open export options")
 
                 Button {
                     viewModel.toggleInspector()
@@ -169,6 +174,7 @@ private struct PreviewContextBar: View {
                                 .foregroundStyle(isSelected ? Color.white : Color.primary)
                         }
                         .buttonStyle(.plain)
+                        .help("Switch to this log")
                     }
                 }
                 .padding(.vertical, 2)
@@ -211,6 +217,7 @@ private struct PreviewContextBar: View {
             .labelsHidden()
             .frame(width: 190)
             .accessibilityLabel("Detail view mode")
+            .help("Choose the detail view mode")
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
@@ -230,6 +237,7 @@ private struct VisualizationToolbar: View {
                 Button(action: onResetZoom) {
                     Text("reset zoom")
                 }
+                .help("Reset the preview zoom")
             }
 
             Spacer(minLength: 8)
@@ -266,6 +274,7 @@ private struct ViewOptionsPopover: View {
                 }
                 Slider(value: verticalScaleBinding, in: 8...120)
                     .accessibilityLabel("Vertical scale")
+                    .help("Adjust vertical scale in pixels per meter")
 
                 LabeledContent("Symbol scale") {
                     Text("\(settings.symbolScale, specifier: "%.2f")x")
@@ -273,6 +282,7 @@ private struct ViewOptionsPopover: View {
                 }
                 Slider(value: symbolScaleBinding, in: 0.35...3.0)
                     .accessibilityLabel("Symbol scale")
+                    .help("Adjust symbol size scale")
 
                 LabeledContent("Point icon size") {
                     Text("\(settings.pointFeatureIconSize, specifier: "%.1f") px")
@@ -280,22 +290,30 @@ private struct ViewOptionsPopover: View {
                 }
                 Slider(value: pointFeatureIconSizeBinding, in: ProjectSettings.pointFeatureIconSizeRange)
                     .accessibilityLabel("Point feature icon size")
+                    .help("Adjust point feature icon size")
 
                 Picker("Scale unit", selection: $settings.depthScaleUnit) {
                     ForEach(DepthScaleUnit.allCases) { unit in
                         Text(unit.label).tag(unit)
                     }
                 }
+                .help("Choose depth scale units")
             }
 
             Section("Visibility") {
                 Toggle("Use absolute altitude", isOn: useAbsoluteAltitudeBinding)
                     .accessibilityLabel("Use absolute altitude")
+                    .help("Anchor depth values to absolute altitude")
                 Toggle("Show legend", isOn: $settings.showLegend)
+                    .help("Show or hide the legend")
                 Toggle("Show depth scale", isOn: $settings.showScale)
+                    .help("Show or hide the depth scale")
                 Toggle("Show grain size scale", isOn: $settings.showGrainSizeScale)
+                    .help("Show or hide the grain size scale")
                 Toggle("Show USGS codes in labels", isOn: $settings.showUSGSCodesInLithologyLabels)
+                    .help("Show or hide USGS lithology codes in labels")
                 Toggle("Show log title", isOn: $settings.showLogTitle)
+                    .help("Show or hide the log title")
             }
         }
         .formStyle(.grouped)

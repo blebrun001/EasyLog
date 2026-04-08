@@ -22,6 +22,7 @@ public struct ProjectSidebarView: View {
                         TextField("Untitled Stratigraphic Log", text: $viewModel.project.metadata.title)
                             .textFieldStyle(.roundedBorder)
                             .accessibilityLabel("Log title")
+                            .help("Enter the log title")
                     }
 
                     ProField("Zero-level altitude") {
@@ -32,6 +33,7 @@ public struct ProjectSidebarView: View {
                                 .frame(width: 150)
                                 .focused($isZeroLevelAltitudeFieldFocused)
                                 .accessibilityLabel("Zero-level altitude")
+                                .help("Set the zero-level altitude in meters")
                             Text("m")
                                 .foregroundStyle(.secondary)
                         }
@@ -57,6 +59,7 @@ public struct ProjectSidebarView: View {
                     .frame(minHeight: 210, maxHeight: 260)
                     .listStyle(.inset)
                     .accessibilityLabel("Units list")
+                    .help("Select and reorder stratigraphic units")
 
                     HStack(spacing: 8) {
                         Button {
@@ -65,6 +68,7 @@ public struct ProjectSidebarView: View {
                             Label("Add Unit", systemImage: "plus")
                         }
                         .buttonStyle(.borderedProminent)
+                        .help("Add a new unit")
 
                         Button {
                             viewModel.moveSelectedUnitUp()
@@ -73,6 +77,7 @@ public struct ProjectSidebarView: View {
                         }
                         .buttonStyle(.bordered)
                         .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == 0)
+                        .help("Move the selected unit up")
 
                         Button {
                             viewModel.moveSelectedUnitDown()
@@ -84,6 +89,7 @@ public struct ProjectSidebarView: View {
                             viewModel.selectedUnitIndex == nil
                                 || viewModel.selectedUnitIndex == viewModel.project.units.count - 1
                         )
+                        .help("Move the selected unit down")
 
                         Spacer(minLength: 8)
 
@@ -94,6 +100,7 @@ public struct ProjectSidebarView: View {
                         }
                         .buttonStyle(.bordered)
                         .disabled(viewModel.selectedUnitIndex == nil)
+                        .help("Delete the selected unit")
                     }
                 }
 
