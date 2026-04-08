@@ -172,6 +172,31 @@ func sceneCarriesConfiguredDepthScaleUnit() {
 }
 
 @Test
+func scaleLabelPlacementKeepsRightEdgeAtConstantDistanceFromAxis() {
+    let axisX = 80.0
+    let widths = [8.0, 24.0, 56.0]
+    for width in widths {
+        let x = SceneLayout.scaleLabelX(axisX: axisX, labelWidth: width)
+        #expect(abs((x + width) - (axisX - SceneLayout.scaleLabelAxisPadding)) < 0.000_001)
+    }
+}
+
+@Test
+func depthTitleMovesLeftWhenScaleLabelsGetWider() {
+    let axisX = 80.0
+    let titleFontSize = 11.0
+    let narrow = SceneLayout.depthLabelCenterX(axisX: axisX, maxScaleLabelWidth: 12, titleFontSize: titleFontSize)
+    let wide = SceneLayout.depthLabelCenterX(axisX: axisX, maxScaleLabelWidth: 64, titleFontSize: titleFontSize)
+
+    #expect(wide < narrow)
+
+    let titleHalfThickness = max(titleFontSize * 0.5, SceneLayout.depthLabelMinimumHalfThickness)
+    let wideTitleRightEdge = wide + titleHalfThickness
+    let wideLabelsLeftEdge = SceneLayout.scaleLabelX(axisX: axisX, labelWidth: 64)
+    #expect(wideTitleRightEdge <= wideLabelsLeftEdge - SceneLayout.scaleLabelTitleGap + 0.000_001)
+}
+
+@Test
 func sceneCarriesConfiguredZeroLevelAltitude() {
     let project = Project(
         settings: ProjectSettings(useAbsoluteAltitude: true, zeroLevelAltitudeMeters: 123),

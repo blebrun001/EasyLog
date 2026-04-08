@@ -23,8 +23,7 @@ let package = Package(
                 "Resources/USGS/11A02/raster",
                 "Resources/USGS/11A02/work",
                 "Resources/USGS/11A02/manifest.json",
-                "Resources/USGS/11A02/symbol-index.json",
-                "Resources/USGS/isolated"
+                "Resources/USGS/11A02/symbol-index.json"
             ],
             resources: [
                 .copy("Resources/USGS/11A02/pdf"),

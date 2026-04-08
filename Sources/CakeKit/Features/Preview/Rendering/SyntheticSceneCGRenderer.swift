@@ -54,6 +54,26 @@ public enum SyntheticSceneCGRenderer {
     }
 
     private static func drawScale(scene: SyntheticComparisonScene, in context: CGContext) {
+        let labelFontSize = scene.baseFontSize - 2
+        let titleFontSize = scene.baseFontSize - 1
+        let visibleTicks = scene.ticks.filter { $0.y >= scene.logsTopY - 0.001 && $0.y <= scene.logsBottomY + 0.001 }
+        let formattedTicks: [(tick: ScaleTick, isMajor: Bool, label: String, width: Double)] = visibleTicks.map { tick in
+            let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+            let label = SceneLayout.formatScaleDepth(
+                tick.depth,
+                unit: scene.depthScaleUnit,
+                zeroLevelAltitudeInMeters: scene.maxAltitudeMeters
+            )
+            let width = measuredTextWidth(label, fontSize: labelFontSize, bold: isMajor)
+            return (tick: tick, isMajor: isMajor, label: label, width: width)
+        }
+        let maxLabelWidth = formattedTicks.map(\.width).max() ?? 0
+        let depthLabelX = SceneLayout.depthLabelCenterX(
+            axisX: scene.axisX,
+            maxScaleLabelWidth: maxLabelWidth,
+            titleFontSize: titleFontSize
+        )
+
         context.saveGState()
         context.setStrokeColor(NSColor.black.cgColor)
         context.setLineWidth(1.0)
@@ -61,8 +81,9 @@ public enum SyntheticSceneCGRenderer {
         context.addLine(to: CGPoint(x: scene.axisX, y: scene.logsBottomY))
         context.strokePath()
 
-        for tick in scene.ticks where tick.y >= scene.logsTopY - 0.001 && tick.y <= scene.logsBottomY + 0.001 {
-            let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+        for entry in formattedTicks {
+            let tick = entry.tick
+            let isMajor = entry.isMajor
             let halfLength = isMajor ? SceneLayout.scaleMajorTickHalfLength : SceneLayout.scaleMinorTickHalfLength
             context.setLineWidth(isMajor ? 1.1 : 0.9)
             context.move(to: CGPoint(x: scene.axisX - halfLength, y: tick.y))
@@ -70,13 +91,9 @@ public enum SyntheticSceneCGRenderer {
             context.strokePath()
 
             drawText(
-                SceneLayout.formatScaleDepth(
-                    tick.depth,
-                    unit: scene.depthScaleUnit,
-                    zeroLevelAltitudeInMeters: scene.maxAltitudeMeters
-                ),
-                at: CGPoint(x: scene.axisX - SceneLayout.scaleLabelOffsetX, y: tick.y - 5),
-                size: scene.baseFontSize - 2,
+                entry.label,
+                at: CGPoint(x: SceneLayout.scaleLabelX(axisX: scene.axisX, labelWidth: entry.width), y: tick.y - 5),
+                size: labelFontSize,
                 context: context,
                 bold: isMajor
             )
@@ -85,10 +102,10 @@ public enum SyntheticSceneCGRenderer {
         drawText(
             SceneLayout.scaleAxisTitle(unit: scene.depthScaleUnit, zeroLevelAltitudeInMeters: scene.maxAltitudeMeters),
             centeredAt: CGPoint(
-                x: scene.axisX - SceneLayout.depthLabelOffsetX,
+                x: depthLabelX,
                 y: scene.logsTopY + (scene.logsBottomY - scene.logsTopY) / 2
             ),
-            size: scene.baseFontSize - 1,
+            size: titleFontSize,
             angleRadians: -.pi / 2,
             context: context
         )
@@ -214,5 +231,13 @@ public enum SyntheticSceneCGRenderer {
 
         NSGraphicsContext.restoreGraphicsState()
         context.restoreGState()
+    }
+
+    private static func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let font: NSFont = bold
+            ? .boldSystemFont(ofSize: CGFloat(fontSize))
+            : .systemFont(ofSize: CGFloat(fontSize))
+        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        return NSString(string: text).size(withAttributes: attributes).width
     }
 }

@@ -92,6 +92,26 @@ public struct SVGExporter: SVGExporting {
 
         if scene.showsScale {
             let axisX = SceneLayout.scaleAxisX(scene: scene)
+            let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
+            let labelFontSize = scene.baseFontSize - 2
+            let titleFontSize = scene.baseFontSize - 1
+            let formattedTicks: [(tick: ScaleTick, isMajor: Bool, label: String, width: Double)] = scene.ticks.map { tick in
+                let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+                let label = SceneLayout.formatScaleDepth(
+                    tick.depth,
+                    unit: scene.depthScaleUnit,
+                    zeroLevelAltitudeInMeters: scaleReferenceAltitude
+                )
+                let width = measuredTextWidth(label, fontSize: labelFontSize, bold: isMajor)
+                return (tick: tick, isMajor: isMajor, label: label, width: width)
+            }
+            let maxLabelWidth = formattedTicks.map(\.width).max() ?? 0
+            let depthLabelX = SceneLayout.depthLabelCenterX(
+                axisX: axisX,
+                maxScaleLabelWidth: maxLabelWidth,
+                titleFontSize: titleFontSize
+            )
+
             svg += """
 
               <g id="scale" stroke="#111111" fill="none" stroke-width="1">
@@ -108,21 +128,18 @@ public struct SVGExporter: SVGExporting {
             }
             svg += "\n  </g>"
 
-            svg += "\n  <g id=\"scale-labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(scene.baseFontSize - 2))\" fill=\"#111111\">"
-            let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
-            for tick in scene.ticks {
-                let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
-                let fontWeight = isMajor ? "700" : "400"
+            svg += "\n  <g id=\"scale-labels\" font-family=\"Helvetica, Arial, sans-serif\" font-size=\"\(fmt(labelFontSize))\" fill=\"#111111\">"
+            for entry in formattedTicks {
+                let fontWeight = entry.isMajor ? "700" : "400"
                 svg += """
 
-                <text x="\(fmt(axisX - SceneLayout.scaleLabelOffsetX))" y="\(fmt(tick.y + 4))" font-weight="\(fontWeight)">\(SceneLayout.formatScaleDepth(tick.depth, unit: scene.depthScaleUnit, zeroLevelAltitudeInMeters: scaleReferenceAltitude))</text>
+                <text x="\(fmt(SceneLayout.scaleLabelX(axisX: axisX, labelWidth: entry.width)))" y="\(fmt(entry.tick.y + 4))" font-weight="\(fontWeight)">\(entry.label)</text>
                 """
             }
-            let depthLabelX = axisX - SceneLayout.depthLabelOffsetX
             let depthLabelY = scene.logColumnRect.y + scene.logColumnRect.height / 2
             svg += """
 
-                <text x="\(fmt(depthLabelX))" y="\(fmt(depthLabelY))" font-size="\(fmt(scene.baseFontSize - 1))" text-anchor="middle" dominant-baseline="middle" transform="rotate(90 \(fmt(depthLabelX)) \(fmt(depthLabelY)))">\(SceneLayout.scaleAxisTitle(unit: scene.depthScaleUnit, zeroLevelAltitudeInMeters: scaleReferenceAltitude))</text>
+                <text x="\(fmt(depthLabelX))" y="\(fmt(depthLabelY))" font-size="\(fmt(titleFontSize))" text-anchor="middle" dominant-baseline="middle" transform="rotate(90 \(fmt(depthLabelX)) \(fmt(depthLabelY)))">\(SceneLayout.scaleAxisTitle(unit: scene.depthScaleUnit, zeroLevelAltitudeInMeters: scaleReferenceAltitude))</text>
               </g>
             """
         }

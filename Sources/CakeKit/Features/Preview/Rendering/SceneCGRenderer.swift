@@ -118,43 +118,58 @@ public enum SceneCGRenderer {
 
     private static func drawScale(scene: RenderScene, in context: CGContext) {
         let axisX = SceneLayout.scaleAxisX(scene: scene)
+        let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
+        let labelFontSize = scene.baseFontSize - 2
+        let titleFontSize = scene.baseFontSize - 1
+        let formattedTicks: [(tick: ScaleTick, isMajor: Bool, label: String, width: Double)] = scene.ticks.map { tick in
+            let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+            let label = SceneLayout.formatScaleDepth(
+                tick.depth,
+                unit: scene.depthScaleUnit,
+                zeroLevelAltitudeInMeters: scaleReferenceAltitude
+            )
+            let width = measuredTextWidth(label, fontSize: labelFontSize, bold: isMajor)
+            return (tick: tick, isMajor: isMajor, label: label, width: width)
+        }
+        let maxLabelWidth = formattedTicks.map(\.width).max() ?? 0
+        let depthLabelX = SceneLayout.depthLabelCenterX(
+            axisX: axisX,
+            maxScaleLabelWidth: maxLabelWidth,
+            titleFontSize: titleFontSize
+        )
+
         context.setStrokeColor(NSColor.black.cgColor)
         context.setLineWidth(1.0)
         context.move(to: CGPoint(x: axisX, y: scene.logColumnRect.y))
         context.addLine(to: CGPoint(x: axisX, y: scene.logColumnRect.y + scene.logColumnRect.height))
         context.strokePath()
 
-        for tick in scene.ticks {
-            let isMajor = SceneLayout.isMajorScaleTick(tick.depth, unit: scene.depthScaleUnit)
+        for entry in formattedTicks {
+            let tick = entry.tick
+            let isMajor = entry.isMajor
             let halfLength = isMajor ? SceneLayout.scaleMajorTickHalfLength : SceneLayout.scaleMinorTickHalfLength
             context.setLineWidth(isMajor ? 1.1 : 0.9)
             context.move(to: CGPoint(x: axisX - halfLength, y: tick.y))
             context.addLine(to: CGPoint(x: axisX + halfLength, y: tick.y))
             context.strokePath()
-            let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
             drawText(
-                SceneLayout.formatScaleDepth(
-                    tick.depth,
-                    unit: scene.depthScaleUnit,
-                    zeroLevelAltitudeInMeters: scaleReferenceAltitude
-                ),
-                at: CGPoint(x: axisX - SceneLayout.scaleLabelOffsetX, y: tick.y - 5),
-                size: scene.baseFontSize - 2,
+                entry.label,
+                at: CGPoint(x: SceneLayout.scaleLabelX(axisX: axisX, labelWidth: entry.width), y: tick.y - 5),
+                size: labelFontSize,
                 context: context,
                 bold: isMajor
             )
         }
-        let scaleReferenceAltitude = scene.useAbsoluteAltitude ? (scene.zeroLevelAltitudeMeters ?? 0) : nil
         drawText(
             SceneLayout.scaleAxisTitle(
                 unit: scene.depthScaleUnit,
                 zeroLevelAltitudeInMeters: scaleReferenceAltitude
             ),
             centeredAt: CGPoint(
-                x: axisX - SceneLayout.depthLabelOffsetX,
+                x: depthLabelX,
                 y: scene.logColumnRect.y + scene.logColumnRect.height / 2
             ),
-            size: scene.baseFontSize - 1,
+            size: titleFontSize,
             angleRadians: -.pi / 2,
             context: context
         )
