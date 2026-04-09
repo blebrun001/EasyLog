@@ -315,13 +315,17 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func selectDetailPane(_ pane: EditorPresentationState.DetailPane) {
-        if pane == .synthetic, !canOpenSyntheticView {
-            guard presentationState.selectedDetailPane != .preview else { return }
-            presentationState.selectedDetailPane = .preview
-            return
+        let targetPane: EditorPresentationState.DetailPane =
+            (pane == .synthetic && !canOpenSyntheticView) ? .preview : pane
+        guard presentationState.selectedDetailPane != targetPane else { return }
+
+        // Defers publication to the next run-loop turn to avoid mutating
+        // observable state during SwiftUI's view update pass.
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            guard self.presentationState.selectedDetailPane != targetPane else { return }
+            self.presentationState.selectedDetailPane = targetPane
         }
-        guard presentationState.selectedDetailPane != pane else { return }
-        presentationState.selectedDetailPane = pane
     }
 
     public func toggleInspector() {
