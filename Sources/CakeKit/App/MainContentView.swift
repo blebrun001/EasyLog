@@ -111,9 +111,7 @@ public struct MainContentView: View {
         Binding(
             get: { viewModel.project.settings },
             set: { newSettings in
-                var updatedProject = viewModel.project
-                updatedProject.settings = newSettings
-                viewModel.project = updatedProject
+                viewModel.updateProjectSettings(newSettings, trigger: .slider)
             }
         )
     }

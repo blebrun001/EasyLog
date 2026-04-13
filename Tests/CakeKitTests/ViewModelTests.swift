@@ -599,8 +599,9 @@ func updatingNestedProjectSettingsRefreshesScene() async throws {
     let initialScale = viewModel.scene.symbolScale
     viewModel.project.settings.symbolScale = 1.9
 
-    // Project refresh uses a 33ms debounce.
-    try await Task.sleep(nanoseconds: 120_000_000)
+    // Project refresh now uses trigger-based async debounce (text updates: 120ms).
+    // Give headroom for off-main recomputation + publication.
+    try await Task.sleep(nanoseconds: 420_000_000)
 
     #expect(initialScale != 1.9)
     #expect(viewModel.scene.symbolScale == 1.9)
@@ -630,7 +631,7 @@ func colorProfilesBootstrapWithSingleDefaultProfile() {
 
 @MainActor
 @Test
-func colorProfilesPersistAcrossViewModelSessions() {
+func colorProfilesPersistAcrossViewModelSessions() async throws {
     let suiteName = "cake-vm-preset-tests-\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!
     defer {
@@ -646,6 +647,8 @@ func colorProfilesPersistAcrossViewModelSessions() {
     )
     viewModelA.createColorProfile(name: "Carbonates")
     viewModelA.setLithologyColorPreset(usgsCode: 627, hex: "#12ab34")
+    // Persistence is debounced (300ms) to keep writes off the critical path.
+    try await Task.sleep(nanoseconds: 360_000_000)
 
     let viewModelB = ProjectViewModel(
         project: Project.sample,

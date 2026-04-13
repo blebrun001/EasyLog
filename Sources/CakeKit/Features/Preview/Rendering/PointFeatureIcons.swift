@@ -2,7 +2,7 @@ import CoreGraphics
 import Foundation
 
 /// Stable icon identifiers used to render point features.
-public enum PointFeatureIconToken: String, Codable, CaseIterable, Hashable {
+public enum PointFeatureIconToken: String, Codable, CaseIterable, Hashable, Sendable {
     case fossil
     case microscope
     case shell

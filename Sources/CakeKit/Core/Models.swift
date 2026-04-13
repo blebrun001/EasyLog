@@ -1,7 +1,7 @@
 import Foundation
 
 /// Grain-size classes used to infer log column width.
-public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable {
+public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable, Sendable {
     case clay = "clay"
     case silt = "silt"
     case sand = "sand"
@@ -26,7 +26,7 @@ public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable {
 }
 
 /// Primitive shapes used for unit point-feature symbols.
-public enum PointFeatureSymbol: String, Codable, CaseIterable, Hashable {
+public enum PointFeatureSymbol: String, Codable, CaseIterable, Hashable, Sendable {
     case diamond
     case square
     case triangle
@@ -36,7 +36,7 @@ public enum PointFeatureSymbol: String, Codable, CaseIterable, Hashable {
 }
 
 /// User-facing qualitative density level for point features.
-public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiable {
+public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiable, Sendable {
     case low
     case high
 
@@ -51,7 +51,7 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
 }
 
 /// Display unit used for depth labels on the rendered scale.
-public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable {
+public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable, Sendable {
     case meter
     case centimeter
     case millimeter
@@ -107,7 +107,7 @@ public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, 
 }
 
 /// Typed point annotations that can be attached to a stratigraphic unit.
-public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
+public enum PointFeatureType: String, Codable, CaseIterable, Identifiable, Sendable {
     case paleoMacroFossils
     case paleoMicrofossils
     case paleoShellFragments
@@ -248,7 +248,7 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable {
 }
 
 /// Instance of a typed point feature with normalized density.
-public struct UnitPointFeature: Identifiable, Codable, Hashable {
+public struct UnitPointFeature: Identifiable, Codable, Hashable, Sendable {
     public static let defaultColorHex = "#111111"
 
     public var id: UUID
@@ -335,7 +335,7 @@ public struct UnitPointFeature: Identifiable, Codable, Hashable {
 }
 
 /// One layer of the stratigraphic log.
-public struct StratigraphicUnit: Identifiable, Codable, Hashable {
+public struct StratigraphicUnit: Identifiable, Codable, Hashable, Sendable {
     public var id: UUID
     public var name: String
     public var thickness: Double
@@ -405,7 +405,7 @@ public struct StratigraphicUnit: Identifiable, Codable, Hashable {
 }
 
 /// Human/contextual metadata for a project file.
-public struct ProjectMetadata: Codable, Hashable {
+public struct ProjectMetadata: Codable, Hashable, Sendable {
     public var title: String
     public var author: String
     public var createdAt: Date
@@ -425,7 +425,7 @@ public struct ProjectMetadata: Codable, Hashable {
 }
 
 /// Codable bridge for `CGSize` to keep model pure-Foundation.
-public struct CGSizeDTO: Codable, Hashable {
+public struct CGSizeDTO: Codable, Hashable, Sendable {
     public var width: Double
     public var height: Double
 
@@ -436,7 +436,7 @@ public struct CGSizeDTO: Codable, Hashable {
 }
 
 /// Rendering preferences and export defaults persisted with the project.
-public struct ProjectSettings: Codable, Hashable {
+public struct ProjectSettings: Codable, Hashable, Sendable {
     public static let pointFeatureIconSizeRange: ClosedRange<Double> = 3...32
     public static let legendPointFeatureIconSizeRange: ClosedRange<Double> = 4...22
 
@@ -537,7 +537,7 @@ public struct ProjectSettings: Codable, Hashable {
 
 // Note: Custom field functionality has been removed from the data model.
 /// Root document persisted to disk. Contains one or more logs.
-public struct ProjectDocument: Codable, Hashable {
+public struct ProjectDocument: Codable, Hashable, Sendable {
     public var logs: [Project]
 
     public init(logs: [Project] = [Project()]) {
@@ -546,7 +546,7 @@ public struct ProjectDocument: Codable, Hashable {
 }
 
 /// Root aggregate persisted to disk and edited in the UI.
-public struct Project: Codable, Hashable {
+public struct Project: Codable, Hashable, Sendable {
     public var metadata: ProjectMetadata
     public var settings: ProjectSettings
     public var units: [StratigraphicUnit]

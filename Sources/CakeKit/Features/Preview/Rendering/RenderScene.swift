@@ -1,12 +1,12 @@
 import Foundation
 
 /// Converts domain project data into drawable scene data.
-public protocol LogRenderer {
+public protocol LogRenderer: Sendable {
     func makeScene(project: Project) -> RenderScene
 }
 
 /// Double-precision rectangle used by geometry computations.
-public struct RectD: Hashable {
+public struct RectD: Hashable, Sendable {
     public var x: Double
     public var y: Double
     public var width: Double
@@ -21,7 +21,7 @@ public struct RectD: Hashable {
 }
 
 /// Render-ready unit geometry and style metadata.
-public struct RenderedUnit: Identifiable, Hashable {
+public struct RenderedUnit: Identifiable, Hashable, Sendable {
     public var id: UUID
     public var name: String
     public var thickness: Double
@@ -59,7 +59,7 @@ public struct RenderedUnit: Identifiable, Hashable {
 }
 
 /// Render-ready point feature marker placed inside a unit rectangle.
-public struct RenderedPointFeature: Hashable {
+public struct RenderedPointFeature: Hashable, Sendable {
     public var type: PointFeatureType
     public var iconToken: PointFeatureIconToken?
     public var symbol: PointFeatureSymbol
@@ -88,7 +88,7 @@ public struct RenderedPointFeature: Hashable {
 }
 
 /// One legend line item for lithology or point-feature symbols.
-public struct LegendItem: Hashable {
+public struct LegendItem: Hashable, Sendable {
     public var label: String
     public var symbol: SymbolPattern
     public var usgsSymbolCode: Int?
@@ -117,7 +117,7 @@ public struct LegendItem: Hashable {
 }
 
 /// Depth axis tick for the current scale unit.
-public struct ScaleTick: Hashable {
+public struct ScaleTick: Hashable, Sendable {
     public var depth: Double
     public var y: Double
 
@@ -128,7 +128,7 @@ public struct ScaleTick: Hashable {
 }
 
 /// Immutable render snapshot consumed by SwiftUI preview and exporters.
-public struct RenderScene: Hashable {
+public struct RenderScene: Hashable, Sendable {
     public var title: String
     public var canvasSize: CGSizeDTO
     public var logColumnRect: RectD

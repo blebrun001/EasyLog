@@ -1,17 +1,20 @@
+import AppKit
 import SwiftUI
 
 /// Side-by-side logs aligned on a shared altitude axis.
 public struct SyntheticComparisonPopoverView: View {
-    @ObservedObject private var viewModel: ProjectViewModel
+    private let viewModel: ProjectViewModel
+    @ObservedObject private var previewState: PreviewState
     @State private var pinchBaseZoom: Double?
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
+        self._previewState = ObservedObject(wrappedValue: viewModel.previewState)
     }
 
     public var body: some View {
         Group {
-            if !viewModel.canOpenSyntheticView {
+            if !previewState.isSyntheticAvailable {
                 ProEmptyState(
                     title: "Synthetic comparison is unavailable",
                     message: "Create at least two logs and set a zero-level altitude for each log.",
@@ -21,19 +24,15 @@ public struct SyntheticComparisonPopoverView: View {
                 .padding(20)
                 .accessibilityLabel("Synthetic comparison unavailable")
             } else {
-                let scene = viewModel.makeSyntheticComparisonScene()
+                let scene = previewState.syntheticScene
                 VStack(spacing: 0) {
                     ScrollView([.horizontal, .vertical]) {
-                        Canvas { context, _ in
-                            context.withCGContext { cgContext in
-                                SyntheticSceneCGRenderer.draw(scene: scene, in: cgContext)
-                            }
-                        }
+                        syntheticCanvas(scene: scene)
                         .frame(width: scene.canvasSize.width, height: scene.canvasSize.height)
-                        .scaleEffect(viewModel.zoom, anchor: .topLeading)
+                        .scaleEffect(previewState.zoom, anchor: .topLeading)
                         .frame(
-                            width: scene.canvasSize.width * viewModel.zoom,
-                            height: scene.canvasSize.height * viewModel.zoom,
+                            width: scene.canvasSize.width * previewState.zoom,
+                            height: scene.canvasSize.height * previewState.zoom,
                             alignment: .topLeading
                         )
                         .background(Color.white, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
@@ -43,9 +42,9 @@ public struct SyntheticComparisonPopoverView: View {
                         MagnificationGesture()
                             .onChanged { value in
                                 if pinchBaseZoom == nil {
-                                    pinchBaseZoom = viewModel.zoom
+                                    pinchBaseZoom = previewState.zoom
                                 }
-                                let base = pinchBaseZoom ?? viewModel.zoom
+                                let base = pinchBaseZoom ?? previewState.zoom
                                 viewModel.setManualZoom(base * value)
                             }
                             .onEnded { _ in
@@ -54,6 +53,28 @@ public struct SyntheticComparisonPopoverView: View {
                     )
                 }
                 .accessibilityLabel("Synthetic comparison canvas")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func syntheticCanvas(scene: SyntheticComparisonScene) -> some View {
+        let rasterScale = NSScreen.main?.backingScaleFactor ?? 2
+        if let staticRaster = previewState.syntheticStaticRaster,
+           let overlayRaster = previewState.syntheticOverlayRaster {
+            ZStack(alignment: .topLeading) {
+                Image(decorative: staticRaster, scale: rasterScale, orientation: .up)
+                    .interpolation(.high)
+                    .antialiased(true)
+                Image(decorative: overlayRaster, scale: rasterScale, orientation: .up)
+                    .interpolation(.high)
+                    .antialiased(true)
+            }
+        } else {
+            Canvas { context, _ in
+                context.withCGContext { cgContext in
+                    SyntheticSceneCGRenderer.draw(scene: scene, in: cgContext)
+                }
             }
         }
     }

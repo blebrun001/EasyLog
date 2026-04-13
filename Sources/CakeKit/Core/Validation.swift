@@ -1,7 +1,7 @@
 import Foundation
 
 /// Validation message surfaced in the sidebar status area.
-public struct ValidationIssue: Identifiable, Hashable {
+public struct ValidationIssue: Identifiable, Hashable, Sendable {
     public var id: UUID = UUID()
     public var message: String
 

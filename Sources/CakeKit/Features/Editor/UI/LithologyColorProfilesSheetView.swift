@@ -28,6 +28,7 @@ public struct LithologyColorProfilesSheetView: View {
                 }
                 Spacer()
                 Button("Done") {
+                    viewModel.flushPendingColorPresetPersistence()
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
@@ -169,6 +170,9 @@ public struct LithologyColorProfilesSheetView: View {
             renameProfileText = viewModel.activeColorProfileName
             normalizeLithologySelection()
             clearAddColorInputs()
+        }
+        .onDisappear {
+            viewModel.flushPendingColorPresetPersistence()
         }
     }
 

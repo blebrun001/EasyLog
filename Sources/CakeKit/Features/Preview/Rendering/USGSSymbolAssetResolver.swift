@@ -31,6 +31,7 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
 
     private let primaryCatalog: USGSResourceCatalog?
     private let fallbackCatalog: USGSResourceCatalog?
+    private let assetByCode: [Int: USGSSymbolAsset]
 
     public init(
         bundle: Bundle = CakeKitBundle.resources,
@@ -42,6 +43,7 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
         } else {
             self.fallbackCatalog = try? USGSResourceCatalog(bundle: bundle, profile: .release)
         }
+        self.assetByCode = Self.buildAssetIndex(primary: primaryCatalog, fallback: fallbackCatalog)
     }
 
     public static func asset(for code: Int) -> USGSSymbolAsset? {
@@ -50,38 +52,11 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
 
     public func asset(for code: Int) -> USGSSymbolAsset? {
         let resolvedCode = SymbologyLibrary.renderableUSGSCode(forSelectionCode: code)
-        for catalog in catalogs {
-            guard let entry = try? catalog.preferredEntry(forCode: resolvedCode),
-                  let url = try? catalog.resolvedPDFURL(for: entry, preferIsolated: true) else {
-                continue
-            }
-            return makeAsset(entry: entry, pdfURL: url)
-        }
-        return nil
+        return assetByCode[resolvedCode]
     }
 
-    private var catalogs: [USGSResourceCatalog] {
-        [primaryCatalog, fallbackCatalog].compactMap { $0 }
-    }
-
-    private func makeAsset(entry: USGSResourceCatalog.Entry, pdfURL: URL) -> USGSSymbolAsset {
+    private static func makeAsset(entry: USGSResourceCatalog.Entry, pdfURL: URL) -> USGSSymbolAsset {
         let usesIsolatedPDF = entry.isolatedPdfPath != nil && pdfURL.path.contains("/isolated/")
-        let normalizedPageSize: CGSizeDTO
-        let normalizedRect: USGSSymbolRect
-        if usesIsolatedPDF {
-            // Isolated pages contain only one tile; use tile-local coordinates.
-            normalizedPageSize = CGSizeDTO(width: entry.symbolRect.width, height: entry.symbolRect.height)
-            normalizedRect = USGSSymbolRect(
-                x: 0,
-                y: 0,
-                width: entry.symbolRect.width,
-                height: entry.symbolRect.height
-            )
-        } else {
-            normalizedPageSize = entry.pageSizePoints
-            normalizedRect = entry.symbolRect
-        }
-
         return USGSSymbolAsset(
             symbolId: entry.symbolId,
             code: entry.code,
@@ -92,10 +67,55 @@ public final class USGSSymbolAssetResolver: @unchecked Sendable {
             epsRelativePath: entry.epsRelativePath,
             pdfRelativePath: entry.pdf.path,
             isolatedPdfRelativePath: entry.isolatedPdfPath,
-            pageSizePoints: normalizedPageSize,
-            symbolRect: normalizedRect,
+            pageSizePoints: entry.pageSizePoints,
+            symbolRect: entry.symbolRect,
             pdfURL: pdfURL,
             usesIsolatedPDF: usesIsolatedPDF
         )
+    }
+
+    private static func buildAssetIndex(
+        primary: USGSResourceCatalog?,
+        fallback: USGSResourceCatalog?
+    ) -> [Int: USGSSymbolAsset] {
+        struct Candidate {
+            let catalog: USGSResourceCatalog
+            let entry: USGSResourceCatalog.Entry
+            let rank: Int
+        }
+
+        let catalogPriority: [(USGSResourceCatalog, Int)] = [
+            primary.map { ($0, 0) },
+            fallback.map { ($0, 100) }
+        ].compactMap { $0 }
+
+        var candidatesByCode: [Int: [Candidate]] = [:]
+        for (catalog, baseRank) in catalogPriority {
+            for entry in catalog.entries {
+                guard let code = entry.code else { continue }
+                let variantRank = entry.variant == "ai8" ? 0 : 1
+                let rank = baseRank + variantRank
+                candidatesByCode[code, default: []].append(
+                    Candidate(catalog: catalog, entry: entry, rank: rank)
+                )
+            }
+        }
+
+        var resolved: [Int: USGSSymbolAsset] = [:]
+        resolved.reserveCapacity(candidatesByCode.count)
+        for (code, candidates) in candidatesByCode {
+            for candidate in candidates.sorted(by: { $0.rank < $1.rank }) {
+                if let isolatedURL = try? candidate.catalog.resolvedPDFURL(for: candidate.entry, preferIsolated: true) {
+                    resolved[code] = Self.makeAsset(entry: candidate.entry, pdfURL: isolatedURL)
+                    break
+                }
+
+                if let fullURL = try? candidate.catalog.resolvedPDFURL(for: candidate.entry, preferIsolated: false) {
+                    resolved[code] = Self.makeAsset(entry: candidate.entry, pdfURL: fullURL)
+                    break
+                }
+            }
+        }
+        return resolved
     }
 }

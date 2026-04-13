@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 
 /// One rendered log column in the synthetic multi-log comparison view.
-public struct SyntheticLogColumn: Hashable {
+public struct SyntheticLogColumn: Hashable, Sendable {
     public var logIndex: Int
     public var x: Double
     public var width: Double
@@ -17,7 +17,7 @@ public struct SyntheticLogColumn: Hashable {
 }
 
 /// Immutable render snapshot for side-by-side multi-log altitude comparison.
-public struct SyntheticComparisonScene: Hashable {
+public struct SyntheticComparisonScene: Hashable, Sendable {
     public var canvasSize: CGSizeDTO
     public var columns: [SyntheticLogColumn]
     public var legend: [LegendItem]
@@ -92,6 +92,8 @@ enum SyntheticComparisonSceneBuilder {
     private static let columnSpacing = 36.0
     private static let minLegendRightMargin = 260.0
     private static let legendTrailingPadding = 24.0
+    nonisolated(unsafe) private static var measuredTextWidthCache: [String: Double] = [:]
+    private static let measuredTextWidthLock = NSLock()
 
     static func make(
         logs: [Project],
@@ -305,10 +307,22 @@ enum SyntheticComparisonSceneBuilder {
     }
 
     private static func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let cacheKey = "\(bold ? "b" : "r")|\(fontSize)|\(text)"
+        measuredTextWidthLock.lock()
+        if let cached = measuredTextWidthCache[cacheKey] {
+            measuredTextWidthLock.unlock()
+            return cached
+        }
+        measuredTextWidthLock.unlock()
+
         let font: NSFont = bold
             ? .boldSystemFont(ofSize: CGFloat(fontSize))
             : .systemFont(ofSize: CGFloat(fontSize))
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
-        return NSString(string: text).size(withAttributes: attributes).width
+        let width = NSString(string: text).size(withAttributes: attributes).width
+        measuredTextWidthLock.lock()
+        measuredTextWidthCache[cacheKey] = width
+        measuredTextWidthLock.unlock()
+        return width
     }
 }

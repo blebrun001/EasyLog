@@ -2,7 +2,15 @@ import AppKit
 
 /// CoreGraphics raster renderer for preview canvases and JPG export.
 public enum SceneCGRenderer {
+    nonisolated(unsafe) private static var measuredTextWidthCache: [String: Double] = [:]
+    private static let measuredTextWidthLock = NSLock()
+
     public static func draw(scene: RenderScene, in context: CGContext) {
+        drawStaticLayer(scene: scene, in: context)
+        drawOverlayLayer(scene: scene, in: context)
+    }
+
+    public static func drawStaticLayer(scene: RenderScene, in context: CGContext) {
         let canvasRect = CGRect(x: 0, y: 0, width: scene.canvasSize.width, height: scene.canvasSize.height)
         context.setFillColor(NSColor.white.cgColor)
         context.fill(canvasRect)
@@ -10,7 +18,7 @@ public enum SceneCGRenderer {
         if scene.showsGrid {
             drawGrid(scene: scene, in: context)
         }
-        drawUnits(scene: scene, in: context)
+        drawUnits(scene: scene, in: context, includePointFeatures: false)
         if scene.showsScale {
             drawScale(scene: scene, in: context)
         }
@@ -23,6 +31,10 @@ public enum SceneCGRenderer {
         if scene.showsLogTitle {
             drawHeader(scene: scene, in: context)
         }
+    }
+
+    public static func drawOverlayLayer(scene: RenderScene, in context: CGContext) {
+        drawPointFeatureOverlay(scene: scene, in: context)
     }
 
     public static func drawSymbolPattern(_ symbol: SymbolPattern, in rect: CGRect, context: CGContext, symbolScale: Double = 1.0) {
@@ -82,7 +94,7 @@ public enum SceneCGRenderer {
         context.restoreGState()
     }
 
-    private static func drawUnits(scene: RenderScene, in context: CGContext) {
+    private static func drawUnits(scene: RenderScene, in context: CGContext, includePointFeatures: Bool) {
         for unit in scene.units {
             let rect = CGRect(x: unit.rect.x, y: unit.rect.y, width: unit.rect.width, height: unit.rect.height)
             let fill = ColorHex.cgColor(from: unit.fillHex, fallback: NSColor.lightGray.cgColor)
@@ -96,7 +108,9 @@ public enum SceneCGRenderer {
             } else {
                 drawSymbolPattern(unit.symbol, in: rect, context: context, symbolScale: scene.symbolScale)
             }
-            drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
+            if includePointFeatures {
+                drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
+            }
 
             context.setStrokeColor(NSColor.black.cgColor)
             context.setLineWidth(1.2)
@@ -113,6 +127,13 @@ public enum SceneCGRenderer {
                 context: context
             )
 
+        }
+    }
+
+    private static func drawPointFeatureOverlay(scene: RenderScene, in context: CGContext) {
+        for unit in scene.units {
+            let rect = CGRect(x: unit.rect.x, y: unit.rect.y, width: unit.rect.width, height: unit.rect.height)
+            drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
         }
     }
 
@@ -455,11 +476,23 @@ public enum SceneCGRenderer {
     }
 
     private static func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let cacheKey = "\(bold ? "b" : "r")|\(fontSize)|\(text)"
+        measuredTextWidthLock.lock()
+        if let cached = measuredTextWidthCache[cacheKey] {
+            measuredTextWidthLock.unlock()
+            return cached
+        }
+        measuredTextWidthLock.unlock()
+
         let font: NSFont = bold
             ? .boldSystemFont(ofSize: CGFloat(fontSize))
             : .systemFont(ofSize: CGFloat(fontSize))
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
-        return NSString(string: text).size(withAttributes: attributes).width
+        let width = NSString(string: text).size(withAttributes: attributes).width
+        measuredTextWidthLock.lock()
+        measuredTextWidthCache[cacheKey] = width
+        measuredTextWidthLock.unlock()
+        return width
     }
 
     private static func drawHeader(scene: RenderScene, in context: CGContext) {

@@ -18,11 +18,9 @@ public enum CakeKitBundle {
             return profile
         }
 
-        #if DEBUG
-        return .dev
-        #else
+        // Default to release assets unless explicitly overridden by CAKE_RESOURCE_PROFILE.
+        // This keeps rendering behavior consistent between debug and release builds.
         return .release
-        #endif
     }
 
     private final class BundleFinder {}

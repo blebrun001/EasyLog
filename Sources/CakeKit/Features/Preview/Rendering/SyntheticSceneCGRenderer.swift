@@ -2,7 +2,15 @@ import AppKit
 
 /// CoreGraphics renderer for `SyntheticComparisonScene`.
 public enum SyntheticSceneCGRenderer {
+    nonisolated(unsafe) private static var measuredTextWidthCache: [String: Double] = [:]
+    private static let measuredTextWidthLock = NSLock()
+
     public static func draw(scene: SyntheticComparisonScene, in context: CGContext) {
+        drawStaticLayer(scene: scene, in: context)
+        drawOverlayLayer(scene: scene, in: context)
+    }
+
+    public static func drawStaticLayer(scene: SyntheticComparisonScene, in context: CGContext) {
         let canvasRect = CGRect(x: 0, y: 0, width: scene.canvasSize.width, height: scene.canvasSize.height)
         context.setFillColor(NSColor.white.cgColor)
         context.fill(canvasRect)
@@ -10,9 +18,13 @@ public enum SyntheticSceneCGRenderer {
         if scene.showsGrid {
             drawGrid(scene: scene, in: context)
         }
-        drawColumns(scene: scene, in: context)
+        drawColumns(scene: scene, in: context, includePointFeatures: false)
         drawScale(scene: scene, in: context)
         drawLegend(scene: scene, in: context)
+    }
+
+    public static func drawOverlayLayer(scene: SyntheticComparisonScene, in context: CGContext) {
+        drawPointFeatureOverlay(scene: scene, in: context)
     }
 
     private static func drawGrid(scene: SyntheticComparisonScene, in context: CGContext) {
@@ -29,7 +41,7 @@ public enum SyntheticSceneCGRenderer {
         context.restoreGState()
     }
 
-    private static func drawColumns(scene: SyntheticComparisonScene, in context: CGContext) {
+    private static func drawColumns(scene: SyntheticComparisonScene, in context: CGContext, includePointFeatures: Bool) {
         for column in scene.columns {
             for unit in column.units {
                 let rect = CGRect(x: unit.rect.x, y: unit.rect.y, width: unit.rect.width, height: unit.rect.height)
@@ -45,10 +57,21 @@ public enum SyntheticSceneCGRenderer {
                     SceneCGRenderer.drawSymbolPattern(unit.symbol, in: rect, context: context, symbolScale: scene.symbolScale)
                 }
 
-                drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
+                if includePointFeatures {
+                    drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
+                }
                 context.setStrokeColor(NSColor.black.cgColor)
                 context.setLineWidth(1.2)
                 context.stroke(rect)
+            }
+        }
+    }
+
+    private static func drawPointFeatureOverlay(scene: SyntheticComparisonScene, in context: CGContext) {
+        for column in scene.columns {
+            for unit in column.units {
+                let rect = CGRect(x: unit.rect.x, y: unit.rect.y, width: unit.rect.width, height: unit.rect.height)
+                drawPointFeatures(unit.pointFeatures, clippedTo: rect, context: context)
             }
         }
     }
@@ -251,10 +274,22 @@ public enum SyntheticSceneCGRenderer {
     }
 
     private static func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
+        let cacheKey = "\(bold ? "b" : "r")|\(fontSize)|\(text)"
+        measuredTextWidthLock.lock()
+        if let cached = measuredTextWidthCache[cacheKey] {
+            measuredTextWidthLock.unlock()
+            return cached
+        }
+        measuredTextWidthLock.unlock()
+
         let font: NSFont = bold
             ? .boldSystemFont(ofSize: CGFloat(fontSize))
             : .systemFont(ofSize: CGFloat(fontSize))
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
-        return NSString(string: text).size(withAttributes: attributes).width
+        let width = NSString(string: text).size(withAttributes: attributes).width
+        measuredTextWidthLock.lock()
+        measuredTextWidthCache[cacheKey] = width
+        measuredTextWidthLock.unlock()
+        return width
     }
 }

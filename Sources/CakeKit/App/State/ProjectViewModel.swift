@@ -1,11 +1,12 @@
+import AppKit
 import Combine
 import CoreGraphics
 import Foundation
 import os
 
 /// UI-only state shared across menus, toolbar and top-level content views.
-public struct EditorPresentationState: Equatable {
-    public enum DetailPane: String, CaseIterable, Identifiable {
+public struct EditorPresentationState: Equatable, Sendable {
+    public enum DetailPane: String, CaseIterable, Identifiable, Sendable {
         case preview
         case synthetic
 
@@ -53,9 +54,15 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     @Published public private(set) var document: ProjectDocument
-    @Published public var project: Project
+    @Published public var project: Project {
+        didSet {
+            commitCurrentProjectChanges(using: project)
+            scheduleSceneRefresh(trigger: consumePendingSceneRefreshTrigger(default: .textInput))
+        }
+    }
     @Published public private(set) var selectedLogIndex: Int
     @Published public private(set) var scene: RenderScene
+    @Published public private(set) var syntheticScene: SyntheticComparisonScene
     @Published public var selectedUnitID: UUID?
     @Published public private(set) var validationIssues: [ValidationIssue] = []
     @Published public var zoom: Double
@@ -66,6 +73,8 @@ public final class ProjectViewModel: ObservableObject {
     @Published public private(set) var errorMessage: String?
     @Published public private(set) var colorProfiles: [LithologyColorProfile] = []
     @Published public private(set) var activeColorProfileID: UUID?
+    @Published public private(set) var editorState: EditorState
+    @Published public private(set) var previewState: PreviewState
 
     public private(set) var projectURL: URL?
     public var activeColorProfileName: String {
@@ -102,19 +111,29 @@ public final class ProjectViewModel: ObservableObject {
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
     private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
     private let colorPresetStore: any LithologyColorPresetPersisting
+    private let sceneComputationService: SceneComputationService
+    private let rasterCache = SceneRasterCache(maxBytes: 160 * 1024 * 1024)
     private var cancellables = Set<AnyCancellable>()
     private var viewportSize: CGSize = .zero
     private var isAutoAdjustSuspendedByManualZoom = false
     private var hasManualZoomOverride = false
     private var didApplyInitialWidthFit = false
+    private var sceneRefreshTask: Task<Void, Never>?
+    private var sceneRefreshGeneration: UInt64 = 0
+    private var pendingSceneRefreshTrigger: SceneRefreshTrigger = .textInput
     private var resizeDebounceTask: Task<Void, Never>?
+    private var previewRasterTask: Task<Void, Never>?
+    private var syntheticRasterTask: Task<Void, Never>?
+    private var colorPresetPersistTask: Task<Void, Never>?
     private let zoomLogger = Logger(subsystem: "Cake", category: "Zoom")
+    private let perfSignposter = OSSignposter(subsystem: "Cake", category: "Perf")
 
     private static let minZoom = 0.5
     private static let maxZoom = 2.5
     private static let defaultZoom = 1.0
     private static let fitWidthVisualBoost = 1.12
     private static let resizeDebounceNanoseconds: UInt64 = 120_000_000
+    private static let colorPresetPersistNanoseconds: UInt64 = 300_000_000
 
     public init(
         project: Project = .sample,
@@ -125,8 +144,11 @@ public final class ProjectViewModel: ObservableObject {
         defaults: UserDefaults = .standard,
         colorPresetStore: (any LithologyColorPresetPersisting)? = nil
     ) {
+        let initialDocument = ProjectDocument(logs: [project])
+        let initialSelectedUnitID = project.units.first?.id
+        let initialScene = renderer.makeScene(project: project)
         self.project = project
-        self.document = ProjectDocument(logs: [project])
+        self.document = initialDocument
         self.selectedLogIndex = 0
         self.renderer = renderer
         self.openProjectUseCase = OpenProjectUseCase(store: store)
@@ -139,20 +161,32 @@ public final class ProjectViewModel: ObservableObject {
         self.zoom = Self.defaultZoom
         self.zoomMode = .fitWidth
         self.autoAdjustToWindow = true
-        self.scene = renderer.makeScene(project: project)
-        self.selectedUnitID = project.units.first?.id
+        self.scene = initialScene
+        self.syntheticScene = .empty
+        self.selectedUnitID = initialSelectedUnitID
+        self.sceneComputationService = SceneComputationService(renderer: renderer)
+        self.editorState = EditorState(
+            document: initialDocument,
+            project: project,
+            selectedLogIndex: 0,
+            selectedUnitID: initialSelectedUnitID,
+            presentationState: EditorPresentationState(),
+            statusMessage: "Ready",
+            errorMessage: nil
+        )
+        self.previewState = PreviewState(
+            scene: initialScene,
+            syntheticScene: .empty,
+            validationIssues: [],
+            zoom: Self.defaultZoom,
+            zoomMode: .fitWidth,
+            isSyntheticAvailable: false
+        )
         loadColorPresetState()
+        configureStateMirrors()
 
-        $project
-            .debounce(for: .milliseconds(33), scheduler: RunLoop.main)
-            .sink { [weak self] updatedProject in
-                guard let self else { return }
-                self.commitCurrentProjectChanges(using: updatedProject)
-                self.refreshScene()
-            }
-            .store(in: &cancellables)
-
-        refreshScene()
+        setNextSceneRefreshTrigger(.structural)
+        scheduleSceneRefresh(trigger: .structural)
     }
 
     public var selectedUnitIndex: Int? {
@@ -161,31 +195,23 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func refreshScene() {
-        validationIssues = ProjectValidator.validate(project)
-        scene = renderer.makeScene(project: project)
-        applyAutoAdjustIfNeeded()
-        statusMessage = validationIssues.isEmpty ? "Scene updated" : "Scene updated with validation warnings"
+        setNextSceneRefreshTrigger(.structural)
+        scheduleSceneRefresh(trigger: .structural)
     }
 
     public func makeSyntheticComparisonScene() -> SyntheticComparisonScene {
-        let effectiveLogs = logsApplyingCurrentEdits()
-        guard effectiveLogs.count >= 2 else { return .empty }
-        guard effectiveLogs.allSatisfy({ $0.settings.zeroLevelAltitudeMeters != nil }) else { return .empty }
-        guard canOpenSyntheticView else { return .empty }
-        return SyntheticComparisonSceneBuilder.make(
-            logs: effectiveLogs,
-            selectedLogIndex: selectedLogIndex,
-            renderer: renderer
-        )
+        syntheticScene
     }
 
     public func selectLog(at index: Int) {
+        setNextSceneRefreshTrigger(.structural)
         commitCurrentProjectChanges()
         setSelectedLog(index)
         statusMessage = "Selected log \(index + 1)"
     }
 
     public func addLog() {
+        setNextSceneRefreshTrigger(.structural)
         commitCurrentProjectChanges()
         document.logs.append(Project())
         setSelectedLog(document.logs.count - 1)
@@ -195,6 +221,7 @@ public final class ProjectViewModel: ObservableObject {
 
     public func duplicateCurrentLog() {
         guard document.logs.indices.contains(selectedLogIndex) else { return }
+        setNextSceneRefreshTrigger(.structural)
         commitCurrentProjectChanges()
 
         var duplicated = document.logs[selectedLogIndex]
@@ -211,6 +238,7 @@ public final class ProjectViewModel: ObservableObject {
     public func removeLog(at index: Int) {
         guard document.logs.indices.contains(index) else { return }
         guard document.logs.count > 1 else { return }
+        setNextSceneRefreshTrigger(.structural)
         commitCurrentProjectChanges()
 
         document.logs.remove(at: index)
@@ -236,15 +264,18 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func addUnit() {
+        setNextSceneRefreshTrigger(.structural)
         selectedUnitID = addUnitUseCase.execute(project: &project)
     }
 
     public func removeSelectedUnit() {
+        setNextSceneRefreshTrigger(.structural)
         selectedUnitID = deleteSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID)
     }
 
     public func moveUnits(fromOffsets source: IndexSet, toOffset destination: Int) {
         guard !source.isEmpty else { return }
+        setNextSceneRefreshTrigger(.structural)
 
         let movedUnits = source.map { project.units[$0] }
         for index in source.sorted(by: >) {
@@ -256,6 +287,7 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func moveSelectedUnitUp() {
+        setNextSceneRefreshTrigger(.structural)
         let before = selectedUnitID
         moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .up)
         guard let current = selectedUnitID else { return }
@@ -265,6 +297,7 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func moveSelectedUnitDown() {
+        setNextSceneRefreshTrigger(.structural)
         let before = selectedUnitID
         moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .down)
         guard let current = selectedUnitID else { return }
@@ -314,18 +347,18 @@ public final class ProjectViewModel: ObservableObject {
         applyFit(mode: mode)
     }
 
+    public func updateProjectSettings(_ newSettings: ProjectSettings, trigger: SceneRefreshTrigger = .slider) {
+        setNextSceneRefreshTrigger(trigger)
+        var updatedProject = project
+        updatedProject.settings = newSettings
+        project = updatedProject
+    }
+
     public func selectDetailPane(_ pane: EditorPresentationState.DetailPane) {
         let targetPane: EditorPresentationState.DetailPane =
             (pane == .synthetic && !canOpenSyntheticView) ? .preview : pane
         guard presentationState.selectedDetailPane != targetPane else { return }
-
-        // Defers publication to the next run-loop turn to avoid mutating
-        // observable state during SwiftUI's view update pass.
-        Task { @MainActor [weak self] in
-            guard let self else { return }
-            guard self.presentationState.selectedDetailPane != targetPane else { return }
-            self.presentationState.selectedDetailPane = targetPane
-        }
+        presentationState.selectedDetailPane = targetPane
     }
 
     public func toggleInspector() {
@@ -350,9 +383,11 @@ public final class ProjectViewModel: ObservableObject {
         let normalized = CGSize(width: max(0, size.width), height: max(0, size.height))
         guard normalized != viewportSize else { return }
         let hadViewport = viewportSize.width > 0 && viewportSize.height > 0
-        zoomLogger.info(
+        #if DEBUG
+        zoomLogger.debug(
             "updateViewportSize raw=(\(size.width, format: .fixed(precision: 2)), \(size.height, format: .fixed(precision: 2))) normalized=(\(normalized.width, format: .fixed(precision: 2)), \(normalized.height, format: .fixed(precision: 2))) oldViewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) mode=\(self.zoomMode.rawValue, privacy: .public) zoom=\(self.zoom, format: .fixed(precision: 4)) autoAdjust=\(self.autoAdjustToWindow) manualOverride=\(self.hasManualZoomOverride)"
         )
+        #endif
         viewportSize = normalized
 
         // Force a one-time fit-to-width as soon as the first real viewport is known.
@@ -362,9 +397,11 @@ public final class ProjectViewModel: ObservableObject {
             isAutoAdjustSuspendedByManualZoom = false
             zoomMode = .fitWidth
             applyFit(mode: .fitWidth)
-            zoomLogger.info(
+            #if DEBUG
+            zoomLogger.debug(
                 "initial fit-width forced -> zoom=\(self.zoom, format: .fixed(precision: 4)) viewportWidth=\(self.viewportSize.width, format: .fixed(precision: 2)) canvasWidth=\(self.scene.canvasSize.width, format: .fixed(precision: 2))"
             )
+            #endif
             return
         }
 
@@ -379,6 +416,8 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func newProject() {
+        flushPendingColorPresetPersistence()
+        setNextSceneRefreshTrigger(.structural)
         let newDocument = ProjectDocument(logs: [Project()])
         document = newDocument
         setSelectedLog(0)
@@ -416,6 +455,11 @@ public final class ProjectViewModel: ObservableObject {
 
     public func clearError() {
         errorMessage = nil
+    }
+
+    public func flushPendingColorPresetPersistence() {
+        colorPresetPersistTask?.cancel()
+        persistColorPresetStateNow()
     }
 
     public func createColorProfile(name: String) {
@@ -474,12 +518,15 @@ public final class ProjectViewModel: ObservableObject {
         guard let selectedUnitIndex else { return }
         let usgsCode = project.units[selectedUnitIndex].usgsLithologyCode
         guard let presetHex = presetColor(for: usgsCode) else { return }
+        setNextSceneRefreshTrigger(.structural)
         project.units[selectedUnitIndex].lithologyColorHex = presetHex
         statusMessage = "Applied profile color to selected unit"
     }
 
     public func openProject(at url: URL) {
         do {
+            flushPendingColorPresetPersistence()
+            setNextSceneRefreshTrigger(.structural)
             let loaded = try openProjectUseCase.execute(url: url)
             document = ProjectDocument(logs: loaded.logs)
             projectURL = url
@@ -487,7 +534,6 @@ public final class ProjectViewModel: ObservableObject {
             presentationState.selectedDetailPane = .preview
             isAutoAdjustSuspendedByManualZoom = false
             hasManualZoomOverride = false
-            applyAutoAdjustIfNeeded()
             statusMessage = "Opened \(url.lastPathComponent)"
             errorMessage = nil
         } catch {
@@ -497,6 +543,7 @@ public final class ProjectViewModel: ObservableObject {
 
     public func saveProject(at url: URL) {
         do {
+            flushPendingColorPresetPersistence()
             commitCurrentProjectChanges()
             let saved = try saveProjectUseCase.execute(document: document, url: url)
             document = saved
@@ -558,15 +605,252 @@ public final class ProjectViewModel: ObservableObject {
         errorMessage = nil
     }
 
+    deinit {
+        sceneRefreshTask?.cancel()
+        resizeDebounceTask?.cancel()
+        previewRasterTask?.cancel()
+        syntheticRasterTask?.cancel()
+        colorPresetPersistTask?.cancel()
+    }
+
+    private func configureStateMirrors() {
+        $document
+            .sink { [weak self] in self?.editorState.document = $0 }
+            .store(in: &cancellables)
+        $project
+            .sink { [weak self] in self?.editorState.project = $0 }
+            .store(in: &cancellables)
+        $selectedLogIndex
+            .sink { [weak self] in self?.editorState.selectedLogIndex = $0 }
+            .store(in: &cancellables)
+        $selectedUnitID
+            .sink { [weak self] in self?.editorState.selectedUnitID = $0 }
+            .store(in: &cancellables)
+        $presentationState
+            .sink { [weak self] in self?.editorState.presentationState = $0 }
+            .store(in: &cancellables)
+        $statusMessage
+            .sink { [weak self] in self?.editorState.statusMessage = $0 }
+            .store(in: &cancellables)
+        $errorMessage
+            .sink { [weak self] in self?.editorState.errorMessage = $0 }
+            .store(in: &cancellables)
+
+        $scene
+            .sink { [weak self] in self?.previewState.scene = $0 }
+            .store(in: &cancellables)
+        $syntheticScene
+            .sink { [weak self] in self?.previewState.syntheticScene = $0 }
+            .store(in: &cancellables)
+        $validationIssues
+            .sink { [weak self] in self?.previewState.validationIssues = $0 }
+            .store(in: &cancellables)
+        $zoom
+            .sink { [weak self] in self?.previewState.zoom = $0 }
+            .store(in: &cancellables)
+        $zoomMode
+            .sink { [weak self] in self?.previewState.zoomMode = $0 }
+            .store(in: &cancellables)
+        Publishers.CombineLatest3($project, $document, $selectedLogIndex)
+            .sink { [weak self] _, _, _ in
+                guard let self else { return }
+                self.previewState.isSyntheticAvailable = self.canOpenSyntheticView
+            }
+            .store(in: &cancellables)
+    }
+
+    private func setNextSceneRefreshTrigger(_ trigger: SceneRefreshTrigger) {
+        switch (pendingSceneRefreshTrigger, trigger) {
+        case (.structural, _):
+            return
+        case (_, .structural):
+            pendingSceneRefreshTrigger = .structural
+        case (.slider, .textInput):
+            return
+        default:
+            pendingSceneRefreshTrigger = trigger
+        }
+    }
+
+    private func consumePendingSceneRefreshTrigger(default fallback: SceneRefreshTrigger) -> SceneRefreshTrigger {
+        let trigger = pendingSceneRefreshTrigger
+        pendingSceneRefreshTrigger = fallback
+        return trigger
+    }
+
+    private func scheduleSceneRefresh(trigger: SceneRefreshTrigger) {
+        sceneRefreshTask?.cancel()
+        sceneRefreshGeneration &+= 1
+        let generation = sceneRefreshGeneration
+        let snapshotProject = project
+        let snapshotLogs = logsApplyingCurrentEdits()
+        let snapshotSelectedLogIndex = selectedLogIndex
+        let shouldComputeSynthetic = snapshotLogs.count >= 2 && snapshotLogs.allSatisfy { $0.settings.zeroLevelAltitudeMeters != nil }
+        let debounce = trigger.debounceNanoseconds
+        let signpostID = perfSignposter.makeSignpostID()
+
+        sceneRefreshTask = Task { [weak self] in
+            guard let self else { return }
+            if debounce > 0 {
+                try? await Task.sleep(nanoseconds: debounce)
+            }
+            guard !Task.isCancelled else { return }
+
+            let intervalState = self.perfSignposter.beginInterval("SceneCompute", id: signpostID)
+            let sceneResult = await self.sceneComputationService.computeScene(project: snapshotProject)
+            let synthetic: SyntheticComparisonScene
+            if shouldComputeSynthetic {
+                synthetic = await self.sceneComputationService.computeSynthetic(
+                    logs: snapshotLogs,
+                    selectedLogIndex: snapshotSelectedLogIndex
+                )
+            } else {
+                synthetic = .empty
+            }
+            self.perfSignposter.endInterval("SceneCompute", intervalState)
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                guard generation == self.sceneRefreshGeneration else { return }
+                self.scene = sceneResult.scene
+                self.validationIssues = sceneResult.validationIssues
+                self.syntheticScene = synthetic
+                self.previewState.isSyntheticAvailable = shouldComputeSynthetic
+                if !shouldComputeSynthetic, self.presentationState.selectedDetailPane == .synthetic {
+                    self.presentationState.selectedDetailPane = .preview
+                }
+                self.applyAutoAdjustIfNeeded()
+                var symbolsToWarm = Set(sceneResult.visibleUSGSCodes)
+                if shouldComputeSynthetic {
+                    for column in synthetic.columns {
+                        for unit in column.units {
+                            if let code = unit.usgsSymbolCode {
+                                symbolsToWarm.insert(code)
+                            }
+                        }
+                    }
+                }
+                USGSEPSSymbolRenderer.prewarm(codes: Array(symbolsToWarm))
+                self.schedulePreviewRasterization(for: sceneResult.scene)
+                if shouldComputeSynthetic {
+                    self.scheduleSyntheticRasterization(for: synthetic)
+                } else {
+                    self.syntheticRasterTask?.cancel()
+                    self.previewState.syntheticStaticRaster = nil
+                    self.previewState.syntheticOverlayRaster = nil
+                }
+            }
+        }
+    }
+
+    private func schedulePreviewRasterization(for scene: RenderScene) {
+        previewRasterTask?.cancel()
+        let sceneHash = scene.hashValue
+        let scale = max(Int((NSScreen.main?.backingScaleFactor ?? 2).rounded()), 1)
+        let staticKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .static, mode: .preview)
+        let overlayKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .overlay, mode: .preview)
+
+        previewRasterTask = Task { [weak self] in
+            guard let self else { return }
+            let staticImage = await self.rasterImage(for: staticKey, canvas: scene.canvasSize) { context in
+                SceneCGRenderer.drawStaticLayer(scene: scene, in: context)
+            }
+            let overlayImage = await self.rasterImage(for: overlayKey, canvas: scene.canvasSize) { context in
+                SceneCGRenderer.drawOverlayLayer(scene: scene, in: context)
+            }
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                guard self.scene.hashValue == sceneHash else { return }
+                self.previewState.previewStaticRaster = staticImage
+                self.previewState.previewOverlayRaster = overlayImage
+            }
+        }
+    }
+
+    private func scheduleSyntheticRasterization(for scene: SyntheticComparisonScene) {
+        syntheticRasterTask?.cancel()
+        let sceneHash = scene.hashValue
+        let scale = max(Int((NSScreen.main?.backingScaleFactor ?? 2).rounded()), 1)
+        let staticKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .static, mode: .synthetic)
+        let overlayKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .overlay, mode: .synthetic)
+
+        syntheticRasterTask = Task { [weak self] in
+            guard let self else { return }
+            let staticImage = await self.rasterImage(for: staticKey, canvas: scene.canvasSize) { context in
+                SyntheticSceneCGRenderer.drawStaticLayer(scene: scene, in: context)
+            }
+            let overlayImage = await self.rasterImage(for: overlayKey, canvas: scene.canvasSize) { context in
+                SyntheticSceneCGRenderer.drawOverlayLayer(scene: scene, in: context)
+            }
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                guard let self else { return }
+                guard self.syntheticScene.hashValue == sceneHash else { return }
+                self.previewState.syntheticStaticRaster = staticImage
+                self.previewState.syntheticOverlayRaster = overlayImage
+            }
+        }
+    }
+
+    private func rasterImage(
+        for key: SceneRasterKey,
+        canvas: CGSizeDTO,
+        renderer: @escaping @Sendable (CGContext) -> Void
+    ) async -> CGImage? {
+        if let cached = await rasterCache.image(for: key) {
+            return cached
+        }
+        guard let rendered = Self.renderRasterImage(
+            canvas: canvas,
+            backingScale: key.backingScale,
+            renderer: renderer
+        ) else {
+            return nil
+        }
+        await rasterCache.insert(rendered, for: key)
+        return rendered
+    }
+
+    private static func renderRasterImage(
+        canvas: CGSizeDTO,
+        backingScale: Int,
+        renderer: @escaping @Sendable (CGContext) -> Void
+    ) -> CGImage? {
+        let width = max(Int(canvas.width * Double(backingScale)), 1)
+        let height = max(Int(canvas.height * Double(backingScale)), 1)
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+              let context = CGContext(
+                data: nil,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: 0,
+                space: colorSpace,
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+              )
+        else {
+            return nil
+        }
+        context.scaleBy(x: CGFloat(backingScale), y: CGFloat(backingScale))
+        // Bitmap CGContext uses a different Y-axis orientation than SwiftUI Canvas.
+        // Flip once so cached rasters match live Canvas rendering.
+        context.translateBy(x: 0, y: CGFloat(canvas.height))
+        context.scaleBy(x: 1, y: -1)
+        renderer(context)
+        return context.makeImage()
+    }
+
     private func setSelectedLog(_ index: Int) {
         guard document.logs.indices.contains(index) else { return }
         selectedLogIndex = index
+        setNextSceneRefreshTrigger(.structural)
         project = document.logs[index]
         selectedUnitID = project.units.first?.id
         if presentationState.selectedDetailPane == .synthetic, !canOpenSyntheticView {
             presentationState.selectedDetailPane = .preview
         }
-        refreshScene()
     }
 
     private func commitCurrentProjectChanges() {
@@ -689,9 +973,11 @@ public final class ProjectViewModel: ObservableObject {
             targetZoom = fitScaleForHeight()
         }
 
-        zoomLogger.info(
+        #if DEBUG
+        zoomLogger.debug(
             "applyFit mode=\(mode.rawValue, privacy: .public) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2))) target=\(targetZoom, format: .fixed(precision: 4)) clamped=\(Self.clampedAutoFitZoom(targetZoom), format: .fixed(precision: 4))"
         )
+        #endif
         zoom = Self.clampedAutoFitZoom(targetZoom)
     }
 
@@ -758,6 +1044,17 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     private func persistColorPresetState() {
+        colorPresetPersistTask?.cancel()
+        colorPresetPersistTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: Self.colorPresetPersistNanoseconds)
+            guard !Task.isCancelled else { return }
+            await MainActor.run { [weak self] in
+                self?.persistColorPresetStateNow()
+            }
+        }
+    }
+
+    private func persistColorPresetStateNow() {
         let normalized = LithologyColorPresetStore(
             profiles: colorProfiles,
             activeProfileID: activeColorProfileID

@@ -5,6 +5,7 @@ import Foundation
 public enum USGSEPSSymbolRenderer {
     private static let resolver = USGSSymbolAssetResolver.shared
     nonisolated(unsafe) private static var croppedImageCache: [String: CGImage] = [:]
+    nonisolated(unsafe) private static var rasterPageCache: [String: CGImage] = [:]
     nonisolated(unsafe) private static var pdfDocumentCache: [String: CGPDFDocument] = [:]
     nonisolated(unsafe) private static var pdfPageCache: [String: CGPDFPage] = [:]
     nonisolated(unsafe) private static var missingLoggedCodes = Set<Int>()
@@ -19,9 +20,25 @@ public enum USGSEPSSymbolRenderer {
         return draw(asset: asset, in: rect, context: context, symbolScale: symbolScale)
     }
 
+    /// Warm symbol tiles asynchronously so live preview can use cached raster tiles.
+    public static func prewarm(codes: [Int]) {
+        let unique = Array(Set(codes)).sorted()
+        guard !unique.isEmpty else { return }
+        Task.detached(priority: .utility) {
+            for code in unique {
+                warmSymbol(code: code)
+            }
+        }
+    }
+
     private static func draw(asset: USGSSymbolAsset, in rect: CGRect, context: CGContext, symbolScale: Double) -> Bool {
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
-        let page = pdfPage(for: asset)
+        guard let tileImage = cachedTileImage(asset: asset, tiledRect: tiledRect) else {
+            if let code = asset.code {
+                prewarm(codes: [code])
+            }
+            return false
+        }
 
         context.saveGState()
         context.clip(to: rect)
@@ -40,12 +57,7 @@ public enum USGSEPSSymbolRenderer {
             var x = rect.minX
             while x < rect.maxX {
                 let drawRect = CGRect(x: x, y: y, width: tileW, height: tileH)
-                if let page {
-                    drawCroppedPDF(page: page, symbolRect: tiledRect, pageSizePoints: asset.pageSizePoints, in: drawRect, context: context)
-                } else {
-                    context.restoreGState()
-                    return false
-                }
+                context.draw(tileImage, in: drawRect)
                 x += tileW
             }
             y += tileH
@@ -113,6 +125,19 @@ public enum USGSEPSSymbolRenderer {
         )
     }
 
+    private static func warmSymbol(code: Int) {
+        guard let asset = resolver.asset(for: code) else { return }
+        _ = tileImage(asset: asset)
+    }
+
+    private static func cachedTileImage(asset: USGSSymbolAsset, tiledRect: USGSSymbolRect) -> CGImage? {
+        let cacheKey = tileCacheKey(asset: asset, tiledRect: tiledRect)
+        lock.lock()
+        let cached = croppedImageCache[cacheKey]
+        lock.unlock()
+        return cached
+    }
+
     private static func tileImage(asset: USGSSymbolAsset) -> CGImage? {
         let tiledRect = insetSymbolRect(asset.symbolRect, pageSizePoints: asset.pageSizePoints)
 
@@ -134,7 +159,7 @@ public enum USGSEPSSymbolRenderer {
         page: CGPDFPage,
         tiledRect: USGSSymbolRect
     ) -> CGImage? {
-        let cacheKey = "\(asset.symbolId)#\(asset.pdfURL.path)#\(asset.pageSizePoints.width)x\(asset.pageSizePoints.height)#\(asset.symbolRect.x)-\(asset.symbolRect.y)-\(asset.symbolRect.width)-\(asset.symbolRect.height)"
+        let cacheKey = tileCacheKey(asset: asset, tiledRect: tiledRect)
         lock.lock()
         if let cached = croppedImageCache[cacheKey] {
             lock.unlock()
@@ -143,8 +168,50 @@ public enum USGSEPSSymbolRenderer {
         lock.unlock()
 
         let rasterScale: CGFloat = 6.0
-        let width = max(Int(CGFloat(tiledRect.width) * rasterScale), 16)
-        let height = max(Int(CGFloat(tiledRect.height) * rasterScale), 16)
+        guard let pageRaster = rasterizedPageImage(asset: asset, page: page, rasterScale: rasterScale) else {
+            logMissingAssetOnce(code: code, reason: "Cannot rasterize page for \(asset.pdfRelativePath)")
+            return nil
+        }
+
+        let pageHeight = CGFloat(pageRaster.height)
+        let cropRect = CGRect(
+            x: CGFloat(tiledRect.x) * rasterScale,
+            y: pageHeight - CGFloat(tiledRect.y + tiledRect.height) * rasterScale,
+            width: CGFloat(tiledRect.width) * rasterScale,
+            height: CGFloat(tiledRect.height) * rasterScale
+        ).integral
+        let pageBounds = CGRect(x: 0, y: 0, width: pageRaster.width, height: pageRaster.height)
+        let clippedRect = cropRect.intersection(pageBounds)
+        guard clippedRect.width > 1, clippedRect.height > 1,
+              let cropped = pageRaster.cropping(to: clippedRect)
+        else {
+            logMissingAssetOnce(code: code, reason: "Cannot crop raster page tile for \(asset.pdfRelativePath)")
+            return nil
+        }
+
+        lock.lock()
+        croppedImageCache[cacheKey] = cropped
+        lock.unlock()
+        return cropped
+    }
+
+    private static func rasterizedPageImage(
+        asset: USGSSymbolAsset,
+        page: CGPDFPage,
+        rasterScale: CGFloat
+    ) -> CGImage? {
+        let cacheKey = "\(asset.pdfURL.path)#\(rasterScale)"
+        lock.lock()
+        if let cached = rasterPageCache[cacheKey] {
+            lock.unlock()
+            return cached
+        }
+        lock.unlock()
+
+        let pageW = CGFloat(max(asset.pageSizePoints.width, 1))
+        let pageH = CGFloat(max(asset.pageSizePoints.height, 1))
+        let width = max(Int(pageW * rasterScale), 16)
+        let height = max(Int(pageH * rasterScale), 16)
         guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
               let bitmap = CGContext(
                 data: nil,
@@ -156,29 +223,29 @@ public enum USGSEPSSymbolRenderer {
                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
               )
         else {
-            logMissingAssetOnce(code: code, reason: "Cannot allocate bitmap for \(asset.pdfRelativePath)")
             return nil
         }
 
         bitmap.setFillColor(NSColor.clear.cgColor)
         bitmap.fill(CGRect(x: 0, y: 0, width: width, height: height))
-        drawCroppedPDF(
-            page: page,
-            symbolRect: tiledRect,
-            pageSizePoints: asset.pageSizePoints,
-            in: CGRect(x: 0, y: 0, width: width, height: height),
-            context: bitmap
-        )
-
-        guard let cropped = bitmap.makeImage() else {
-            logMissingAssetOnce(code: code, reason: "Cannot rasterize PDF tile for \(asset.pdfRelativePath)")
-            return nil
+        bitmap.saveGState()
+        bitmap.scaleBy(x: rasterScale, y: rasterScale)
+        let media = page.getBoxRect(.mediaBox)
+        if media.width > 0, media.height > 0 {
+            bitmap.scaleBy(x: pageW / media.width, y: pageH / media.height)
         }
+        bitmap.drawPDFPage(page)
+        bitmap.restoreGState()
 
+        guard let rasterPage = bitmap.makeImage() else { return nil }
         lock.lock()
-        croppedImageCache[cacheKey] = cropped
+        rasterPageCache[cacheKey] = rasterPage
         lock.unlock()
-        return cropped
+        return rasterPage
+    }
+
+    private static func tileCacheKey(asset: USGSSymbolAsset, tiledRect: USGSSymbolRect) -> String {
+        "\(asset.symbolId)#\(asset.pdfURL.path)#\(asset.pageSizePoints.width)x\(asset.pageSizePoints.height)#\(tiledRect.x)-\(tiledRect.y)-\(tiledRect.width)-\(tiledRect.height)"
     }
 
     private static func pdfPage(for asset: USGSSymbolAsset) -> CGPDFPage? {
@@ -200,64 +267,6 @@ public enum USGSEPSSymbolRenderer {
         pdfPageCache[cacheKey] = page
         lock.unlock()
         return page
-    }
-
-    private static func drawCroppedPDF(page: CGPDFPage, symbolRect: USGSSymbolRect, pageSizePoints: CGSizeDTO, in drawRect: CGRect, context: CGContext) {
-        // Isolated symbol PDFs are generated as single-tile pages in local coordinates.
-        // Render the whole page directly to avoid coordinate mismatches with source-page math.
-        if isTileLocalPage(symbolRect: symbolRect, pageSizePoints: pageSizePoints) {
-            context.saveGState()
-            context.clip(to: drawRect)
-            let box = preferredPDFBox(for: page)
-            let transform = page.getDrawingTransform(box, rect: drawRect, rotate: 0, preserveAspectRatio: false)
-            context.concatenate(transform)
-            context.drawPDFPage(page)
-            context.restoreGState()
-            return
-        }
-
-        let pageW = CGFloat(max(pageSizePoints.width, 1))
-        let pageH = CGFloat(max(pageSizePoints.height, 1))
-        let sx = drawRect.width / CGFloat(max(symbolRect.width, 0.0001))
-        let sy = drawRect.height / CGFloat(max(symbolRect.height, 0.0001))
-
-        context.saveGState()
-        context.clip(to: drawRect)
-
-        // Draw in a local, y-up coordinate space to match PDF user space.
-        context.translateBy(x: 0, y: drawRect.maxY + drawRect.minY)
-        context.scaleBy(x: 1, y: -1)
-
-        context.translateBy(
-            x: drawRect.minX - CGFloat(symbolRect.x) * sx,
-            y: drawRect.minY - CGFloat(symbolRect.y) * sy
-        )
-        context.scaleBy(x: sx, y: sy)
-
-        // Normalize page into expected point-space (usually 612x792).
-        let media = page.getBoxRect(.mediaBox)
-        if media.width > 0, media.height > 0 {
-            context.scaleBy(x: pageW / media.width, y: pageH / media.height)
-        }
-
-        context.drawPDFPage(page)
-        context.restoreGState()
-    }
-
-    private static func isTileLocalPage(symbolRect: USGSSymbolRect, pageSizePoints: CGSizeDTO) -> Bool {
-        let epsilon = 0.0001
-        return abs(symbolRect.x) < epsilon &&
-            abs(symbolRect.y) < epsilon &&
-            abs(symbolRect.width - pageSizePoints.width) < epsilon &&
-            abs(symbolRect.height - pageSizePoints.height) < epsilon
-    }
-
-    private static func preferredPDFBox(for page: CGPDFPage) -> CGPDFBox {
-        let crop = page.getBoxRect(.cropBox)
-        if crop.width > 0, crop.height > 0 {
-            return .cropBox
-        }
-        return .mediaBox
     }
 
     private static func insetSymbolRect(_ rect: USGSSymbolRect, pageSizePoints: CGSizeDTO) -> USGSSymbolRect {
