@@ -102,7 +102,13 @@ public struct RenderPreviewView: View {
     }
 
     private func usableViewport(from size: CGSize) -> CGSize {
-        CGSize(width: max(0, size.width), height: max(0, size.height))
+        let contentPadding: CGFloat = 14
+        let horizontalInsets = contentPadding * 2
+        let verticalInsets = contentPadding * 2
+        return CGSize(
+            width: max(0, size.width - horizontalInsets),
+            height: max(0, size.height - verticalInsets)
+        )
     }
 
     @ViewBuilder
