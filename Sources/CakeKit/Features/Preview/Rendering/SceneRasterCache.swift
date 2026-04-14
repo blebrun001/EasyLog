@@ -13,13 +13,13 @@ public struct SceneRasterKey: Hashable, Sendable {
     }
 
     public let sceneHash: Int
-    public let backingScale: Int
+    public let renderScaleHundredths: Int
     public let layer: Layer
     public let mode: Mode
 
-    public init(sceneHash: Int, backingScale: Int, layer: Layer, mode: Mode) {
+    public init(sceneHash: Int, renderScaleHundredths: Int, layer: Layer, mode: Mode) {
         self.sceneHash = sceneHash
-        self.backingScale = backingScale
+        self.renderScaleHundredths = renderScaleHundredths
         self.layer = layer
         self.mode = mode
     }

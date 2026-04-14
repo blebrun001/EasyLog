@@ -40,10 +40,11 @@ public struct RenderPreviewView: View {
                                 pinchBaseZoom = previewState.zoom
                             }
                             let base = pinchBaseZoom ?? previewState.zoom
-                            viewModel.setManualZoom(base * value)
+                            viewModel.setManualZoom(base * value, isInteracting: true)
                         }
                         .onEnded { _ in
                             pinchBaseZoom = nil
+                            viewModel.finalizeManualZoomInteraction()
                         }
                 )
                 .onAppear {
@@ -113,7 +114,7 @@ public struct RenderPreviewView: View {
 
     @ViewBuilder
     private func previewCanvas(scene: RenderScene) -> some View {
-        let rasterScale = NSScreen.main?.backingScaleFactor ?? 2
+        let rasterScale = previewState.previewRasterScale
         if let staticRaster = previewState.previewStaticRaster,
            let overlayRaster = previewState.previewOverlayRaster {
             ZStack(alignment: .topLeading) {

@@ -45,10 +45,11 @@ public struct SyntheticComparisonPopoverView: View {
                                     pinchBaseZoom = previewState.zoom
                                 }
                                 let base = pinchBaseZoom ?? previewState.zoom
-                                viewModel.setManualZoom(base * value)
+                                viewModel.setManualZoom(base * value, isInteracting: true)
                             }
                             .onEnded { _ in
                                 pinchBaseZoom = nil
+                                viewModel.finalizeManualZoomInteraction()
                             }
                     )
                 }
@@ -59,7 +60,7 @@ public struct SyntheticComparisonPopoverView: View {
 
     @ViewBuilder
     private func syntheticCanvas(scene: SyntheticComparisonScene) -> some View {
-        let rasterScale = NSScreen.main?.backingScaleFactor ?? 2
+        let rasterScale = previewState.syntheticRasterScale
         if let staticRaster = previewState.syntheticStaticRaster,
            let overlayRaster = previewState.syntheticOverlayRaster {
             ZStack(alignment: .topLeading) {

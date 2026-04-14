@@ -125,6 +125,7 @@ public final class ProjectViewModel: ObservableObject {
     private var previewRasterTask: Task<Void, Never>?
     private var syntheticRasterTask: Task<Void, Never>?
     private var colorPresetPersistTask: Task<Void, Never>?
+    private var isManualZoomInteractionActive = false
     private let zoomLogger = Logger(subsystem: "Cake", category: "Zoom")
     private let perfSignposter = OSSignposter(subsystem: "Cake", category: "Perf")
 
@@ -132,6 +133,7 @@ public final class ProjectViewModel: ObservableObject {
     private static let maxZoom = 2.5
     private static let defaultZoom = 1.0
     private static let fitWidthVisualBoost = 1.12
+    private static let maxRenderScale = 6.0
     private static let resizeDebounceNanoseconds: UInt64 = 120_000_000
     private static let colorPresetPersistNanoseconds: UInt64 = 300_000_000
 
@@ -180,7 +182,9 @@ public final class ProjectViewModel: ObservableObject {
             validationIssues: [],
             zoom: Self.defaultZoom,
             zoomMode: .fitWidth,
-            isSyntheticAvailable: false
+            isSyntheticAvailable: false,
+            previewRasterScale: Double(NSScreen.main?.backingScaleFactor ?? 2),
+            syntheticRasterScale: Double(NSScreen.main?.backingScaleFactor ?? 2)
         )
         loadColorPresetState()
         configureStateMirrors()
@@ -322,20 +326,33 @@ public final class ProjectViewModel: ObservableObject {
         statusMessage = "Zoom fit width"
     }
 
-    public func setManualZoom(_ value: Double) {
+    public func setManualZoom(_ value: Double, isInteracting: Bool = false) {
         let clamped = Self.clampedZoom(value)
         let didChange = abs(clamped - zoom) > 0.0001
         zoom = clamped
 
         guard didChange else { return }
+        isManualZoomInteractionActive = isInteracting
         hasManualZoomOverride = true
 
         if autoAdjustToWindow, zoomMode != .manual {
             isAutoAdjustSuspendedByManualZoom = true
+            if !isInteracting {
+                scheduleRasterizationForCurrentZoom()
+            }
             return
         }
 
         zoomMode = .manual
+        if !isInteracting {
+            scheduleRasterizationForCurrentZoom()
+        }
+    }
+
+    public func finalizeManualZoomInteraction() {
+        guard isManualZoomInteractionActive else { return }
+        isManualZoomInteractionActive = false
+        scheduleRasterizationForCurrentZoom()
     }
 
     public func setZoomMode(_ mode: ZoomMode) {
@@ -747,9 +764,21 @@ public final class ProjectViewModel: ObservableObject {
     private func schedulePreviewRasterization(for scene: RenderScene) {
         previewRasterTask?.cancel()
         let sceneHash = scene.hashValue
-        let scale = max(Int((NSScreen.main?.backingScaleFactor ?? 2).rounded()), 1)
-        let staticKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .static, mode: .preview)
-        let overlayKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .overlay, mode: .preview)
+        let renderScale = resolvedRenderScale()
+        let renderScaleHundredths = quantizedRenderScaleHundredths(renderScale)
+        let actualRenderScale = Double(renderScaleHundredths) / 100.0
+        let staticKey = SceneRasterKey(
+            sceneHash: sceneHash,
+            renderScaleHundredths: renderScaleHundredths,
+            layer: .static,
+            mode: .preview
+        )
+        let overlayKey = SceneRasterKey(
+            sceneHash: sceneHash,
+            renderScaleHundredths: renderScaleHundredths,
+            layer: .overlay,
+            mode: .preview
+        )
 
         previewRasterTask = Task { [weak self] in
             guard let self else { return }
@@ -765,6 +794,7 @@ public final class ProjectViewModel: ObservableObject {
                 guard self.scene.hashValue == sceneHash else { return }
                 self.previewState.previewStaticRaster = staticImage
                 self.previewState.previewOverlayRaster = overlayImage
+                self.previewState.previewRasterScale = actualRenderScale
             }
         }
     }
@@ -772,9 +802,21 @@ public final class ProjectViewModel: ObservableObject {
     private func scheduleSyntheticRasterization(for scene: SyntheticComparisonScene) {
         syntheticRasterTask?.cancel()
         let sceneHash = scene.hashValue
-        let scale = max(Int((NSScreen.main?.backingScaleFactor ?? 2).rounded()), 1)
-        let staticKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .static, mode: .synthetic)
-        let overlayKey = SceneRasterKey(sceneHash: sceneHash, backingScale: scale, layer: .overlay, mode: .synthetic)
+        let renderScale = resolvedRenderScale()
+        let renderScaleHundredths = quantizedRenderScaleHundredths(renderScale)
+        let actualRenderScale = Double(renderScaleHundredths) / 100.0
+        let staticKey = SceneRasterKey(
+            sceneHash: sceneHash,
+            renderScaleHundredths: renderScaleHundredths,
+            layer: .static,
+            mode: .synthetic
+        )
+        let overlayKey = SceneRasterKey(
+            sceneHash: sceneHash,
+            renderScaleHundredths: renderScaleHundredths,
+            layer: .overlay,
+            mode: .synthetic
+        )
 
         syntheticRasterTask = Task { [weak self] in
             guard let self else { return }
@@ -790,6 +832,7 @@ public final class ProjectViewModel: ObservableObject {
                 guard self.syntheticScene.hashValue == sceneHash else { return }
                 self.previewState.syntheticStaticRaster = staticImage
                 self.previewState.syntheticOverlayRaster = overlayImage
+                self.previewState.syntheticRasterScale = actualRenderScale
             }
         }
     }
@@ -804,7 +847,7 @@ public final class ProjectViewModel: ObservableObject {
         }
         guard let rendered = Self.renderRasterImage(
             canvas: canvas,
-            backingScale: key.backingScale,
+            renderScale: Double(key.renderScaleHundredths) / 100.0,
             renderer: renderer
         ) else {
             return nil
@@ -815,11 +858,11 @@ public final class ProjectViewModel: ObservableObject {
 
     private static func renderRasterImage(
         canvas: CGSizeDTO,
-        backingScale: Int,
+        renderScale: Double,
         renderer: @escaping @Sendable (CGContext) -> Void
     ) -> CGImage? {
-        let width = max(Int(canvas.width * Double(backingScale)), 1)
-        let height = max(Int(canvas.height * Double(backingScale)), 1)
+        let width = max(Int(canvas.width * renderScale), 1)
+        let height = max(Int(canvas.height * renderScale), 1)
         guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
               let context = CGContext(
                 data: nil,
@@ -833,13 +876,30 @@ public final class ProjectViewModel: ObservableObject {
         else {
             return nil
         }
-        context.scaleBy(x: CGFloat(backingScale), y: CGFloat(backingScale))
+        context.scaleBy(x: CGFloat(renderScale), y: CGFloat(renderScale))
         // Bitmap CGContext uses a different Y-axis orientation than SwiftUI Canvas.
         // Flip once so cached rasters match live Canvas rendering.
         context.translateBy(x: 0, y: CGFloat(canvas.height))
         context.scaleBy(x: 1, y: -1)
         renderer(context)
         return context.makeImage()
+    }
+
+    private func scheduleRasterizationForCurrentZoom() {
+        schedulePreviewRasterization(for: scene)
+        if canOpenSyntheticView {
+            scheduleSyntheticRasterization(for: syntheticScene)
+        }
+    }
+
+    private func resolvedRenderScale() -> Double {
+        let backingScale = max(NSScreen.main?.backingScaleFactor ?? 2.0, 1.0)
+        let zoomFactor = max(zoom, 1.0)
+        return min(backingScale * zoomFactor, Self.maxRenderScale)
+    }
+
+    private func quantizedRenderScaleHundredths(_ value: Double) -> Int {
+        max(Int((value * 100.0).rounded()), 100)
     }
 
     private func setSelectedLog(_ index: Int) {

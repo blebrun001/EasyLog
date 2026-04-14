@@ -45,6 +45,8 @@ public final class PreviewState: ObservableObject {
     @Published public var previewOverlayRaster: CGImage?
     @Published public var syntheticStaticRaster: CGImage?
     @Published public var syntheticOverlayRaster: CGImage?
+    @Published public var previewRasterScale: Double
+    @Published public var syntheticRasterScale: Double
 
     public init(
         scene: RenderScene,
@@ -52,7 +54,9 @@ public final class PreviewState: ObservableObject {
         validationIssues: [ValidationIssue],
         zoom: Double,
         zoomMode: ProjectViewModel.ZoomMode,
-        isSyntheticAvailable: Bool
+        isSyntheticAvailable: Bool,
+        previewRasterScale: Double,
+        syntheticRasterScale: Double
     ) {
         self.scene = scene
         self.syntheticScene = syntheticScene
@@ -60,5 +64,7 @@ public final class PreviewState: ObservableObject {
         self.zoom = zoom
         self.zoomMode = zoomMode
         self.isSyntheticAvailable = isSyntheticAvailable
+        self.previewRasterScale = previewRasterScale
+        self.syntheticRasterScale = syntheticRasterScale
     }
 }
