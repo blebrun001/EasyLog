@@ -17,26 +17,33 @@
 		221FD5A53B53D550F8E6BABC /* ProjectUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77326703A2EDCB6A8C7FE1DC /* ProjectUseCases.swift */; };
 		23CD684833DE2010112D6CB6 /* CakeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EDA2C815AB85C9E45CCCCF /* CakeApp.swift */; };
 		2C359786F1B8F8C03A065C8C /* Exporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C51DF6E78C69A755AB04040 /* Exporting.swift */; };
+		2F4CD78D77FD8ED3FAD7623B /* ValidationReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8921D517C96EA3C8F9D5972E /* ValidationReportTests.swift */; };
 		409A6E39AC2704581ADDE1D8 /* HexColorNormalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D364601BFEF2A069E59D2204 /* HexColorNormalizerTests.swift */; };
 		42D22E8E3C0E0D0B73E417B8 /* CakeKitBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016133356CFE3B8243C3E95E /* CakeKitBundle.swift */; };
 		4372CE63411BED3A258A24BC /* Cake.icns in Resources */ = {isa = PBXBuildFile; fileRef = D88AF3A6A58325D2451FFCF4 /* Cake.icns */; };
 		4377D9687033EAADB7B87A7F /* HexColorNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534976F91DEA0E5CFB3BF01 /* HexColorNormalizer.swift */; };
 		444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */; };
+		45461619C60C46F2D0D1776F /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB6890E660F07F95335B2AF /* ExportService.swift */; };
 		47628BDEB96535702D840C67 /* PointFeatureIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714509488543E5A9DF243BE2 /* PointFeatureIcons.swift */; };
 		4898585302421141B620430B /* ResourceCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */; };
 		553BC3F454FA2175C9CFEFDB /* LithologyColorPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13AC3A9F1100B40AD4A418E /* LithologyColorPresets.swift */; };
 		55A804825F406A549A1CE4D8 /* CakeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* CakeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		573C393D7BB0F89B9C41D799 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAA81A8042FEB97FF98DB6 /* TestSupport.swift */; };
+		57DF59672322333037D750A5 /* ThreadSafeCaches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556BA849B51EEF56C3A3A134 /* ThreadSafeCaches.swift */; };
 		594332B277340D2DC06ACFF8 /* LithologyColorProfilesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB25A61709629D67AC0C81BA /* LithologyColorProfilesSheetView.swift */; };
 		5B89C51E191D5C0C7576544B /* USGSRuntime in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C49A67FA9C299BFBB1E94 /* USGSRuntime */; };
 		5C804CB94D1551EB52C79698 /* CakeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* CakeKit.framework */; };
 		5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */; };
+		5FEA9CD94C4E3E1C90A69501 /* SceneRefreshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42288F10E3AC62E5D90A42E /* SceneRefreshService.swift */; };
 		6170B9364720079B3520CC6E /* RendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129B645DB11BB949CD32C1C5 /* RendererTests.swift */; };
 		62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */; };
 		633DB19B03C5552D944600AC /* CakeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* CakeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6891AA40A00BF6FA9CE9CA20 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169864B2603FD5F9EFB06C4 /* Models.swift */; };
+		6ABCEE7FE43C17E17C73F9DF /* ColorProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC523D1690992D0D14621C /* ColorProfileService.swift */; };
+		6DBAF49505942F0E0B45097C /* ZoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A2CEB512E8EC58113A14A /* ZoomService.swift */; };
 		76BACC69C056F4E1E5F214EE /* Symbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D25B1F6E4686681A6AF31 /* Symbology.swift */; };
 		77C2C2DDB2AFA4AFCBF8EFAE /* SceneComputationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57726820C50BD4427938CE51 /* SceneComputationService.swift */; };
+		850CBC1EE04B8B1A3A636352 /* DomainProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D420F18D7DF0530DB5DDA /* DomainProtocols.swift */; };
 		85F853C0F2907A1E98DB4C04 /* SVGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C36B1736B07D6FB0428382 /* SVGExporter.swift */; };
 		867506290785105780159E8D /* EditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E424F23985D244B39F7B8643 /* EditorState.swift */; };
 		8B6A4B263EF331ADD6624D58 /* RenderPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6F828DEA32E0401537409 /* RenderPreviewView.swift */; };
@@ -45,6 +52,7 @@
 		A581E2E90013CBB9648F3EFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63479ABF66390D1221EDA12E /* Assets.xcassets */; };
 		A68F6AB2A80CA6106C2A0EF2 /* SVGExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */; };
 		AAF21A380948460335344083 /* USGSSymbolAssetResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772F0FF730B2AEA90613582A /* USGSSymbolAssetResolver.swift */; };
+		AB5A55DD862B1055C3F69A36 /* ViewModelTuningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9277B495AC19A51D4F8A42A4 /* ViewModelTuningTests.swift */; };
 		B2253826424C913638E0C8D3 /* ProjectRoundTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4BB6EAF220268EA50FE1C /* ProjectRoundTripTests.swift */; };
 		BBF2E52203A2EC14FDD27AB7 /* RenderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C076CA97167F00E018960B /* RenderScene.swift */; };
 		BF5EE18CBEDBA832EF3CFBCA /* SyntheticComparisonPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7196FA3956DBCE083FCDE3 /* SyntheticComparisonPopoverView.swift */; };
@@ -55,9 +63,11 @@
 		CA94EBE02FFD245F850C2751 /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DDB4443C8E1FD4A13EBB8 /* ProjectStore.swift */; };
 		CC19EE6C1553D69661621A78 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */; };
 		CCC1E3EB1831278EA24EE19E /* SceneRefreshTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB220AB6B2D822595604DFF /* SceneRefreshTrigger.swift */; };
+		CF07201372061DBFD48AADC8 /* RenderTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004A5CD36BAA886F777B1A86 /* RenderTuning.swift */; };
 		D0A6235456AA02E6D63BBAA9 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56368E4811B6CBC633A3582 /* ColorHex.swift */; };
 		D3555E0BCCEACDD4D25F53F9 /* FileDialoging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AF0A3D0680E3799596650B /* FileDialoging.swift */; };
 		D38988561B2EE3606A024110 /* CakeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5383A6AB5515247B491990 /* CakeRenderer.swift */; };
+		D6CC9E383149B45A521A7D7C /* ProjectDocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997691FE1559E9CF784C1F31 /* ProjectDocumentService.swift */; };
 		DB43D006923D65DFF5A71A18 /* PointFeatureIconCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACA4024EBCB6C5E829673BD /* PointFeatureIconCatalogTests.swift */; };
 		EC626832BA123CCCD9A474D6 /* pdf in Resources */ = {isa = PBXBuildFile; fileRef = 57F9D60C9A28DA66157A1CD6 /* pdf */; };
 		EDF9836FC80BA53866811C2A /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2411694D449A876729657B1B /* LegendView.swift */; };
@@ -110,9 +120,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		004A5CD36BAA886F777B1A86 /* RenderTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderTuning.swift; sourceTree = "<group>"; };
 		016133356CFE3B8243C3E95E /* CakeKitBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CakeKitBundle.swift; sourceTree = "<group>"; };
 		03C36B1736B07D6FB0428382 /* SVGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGExporter.swift; sourceTree = "<group>"; };
 		0B5383A6AB5515247B491990 /* CakeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CakeRenderer.swift; sourceTree = "<group>"; };
+		0C7A2CEB512E8EC58113A14A /* ZoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomService.swift; sourceTree = "<group>"; };
 		129B645DB11BB949CD32C1C5 /* RendererTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTests.swift; sourceTree = "<group>"; };
 		1534976F91DEA0E5CFB3BF01 /* HexColorNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorNormalizer.swift; sourceTree = "<group>"; };
 		1A7196FA3956DBCE083FCDE3 /* SyntheticComparisonPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticComparisonPopoverView.swift; sourceTree = "<group>"; };
@@ -121,13 +133,16 @@
 		27C6F828DEA32E0401537409 /* RenderPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPreviewView.swift; sourceTree = "<group>"; };
 		2B0C49A67FA9C299BFBB1E94 /* USGSRuntime */ = {isa = PBXFileReference; lastKnownFileType = folder; name = USGSRuntime; path = Sources/CakeKit/Resources/USGSRuntime; sourceTree = SOURCE_ROOT; };
 		2C51DF6E78C69A755AB04040 /* Exporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exporting.swift; sourceTree = "<group>"; };
+		2C7D420F18D7DF0530DB5DDA /* DomainProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainProtocols.swift; sourceTree = "<group>"; };
 		3169864B2603FD5F9EFB06C4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		31AAA81A8042FEB97FF98DB6 /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
 		31C076CA97167F00E018960B /* RenderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderScene.swift; sourceTree = "<group>"; };
 		36AF0A3D0680E3799596650B /* FileDialoging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDialoging.swift; sourceTree = "<group>"; };
 		41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		466A07F4E27AF48ABBECAB85 /* CakeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CakeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4ACC523D1690992D0D14621C /* ColorProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorProfileService.swift; sourceTree = "<group>"; };
 		4C942748BDDD6B0277F768EC /* CakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		556BA849B51EEF56C3A3A134 /* ThreadSafeCaches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeCaches.swift; sourceTree = "<group>"; };
 		57726820C50BD4427938CE51 /* SceneComputationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneComputationService.swift; sourceTree = "<group>"; };
 		57F9D60C9A28DA66157A1CD6 /* pdf */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pdf; path = Sources/CakeKit/Resources/USGS/11A02/pdf; sourceTree = SOURCE_ROOT; };
 		5A3DDB4443C8E1FD4A13EBB8 /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
@@ -145,7 +160,10 @@
 		7ACA4024EBCB6C5E829673BD /* PointFeatureIconCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointFeatureIconCatalogTests.swift; sourceTree = "<group>"; };
 		80A1CCEA66186E69262EABC7 /* SyntheticSceneCGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticSceneCGRenderer.swift; sourceTree = "<group>"; };
 		88D4BB6EAF220268EA50FE1C /* ProjectRoundTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectRoundTripTests.swift; sourceTree = "<group>"; };
+		8921D517C96EA3C8F9D5972E /* ValidationReportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationReportTests.swift; sourceTree = "<group>"; };
 		8A69FEE1C01D6A5C7C75511A /* ProjectSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSidebarView.swift; sourceTree = "<group>"; };
+		9277B495AC19A51D4F8A42A4 /* ViewModelTuningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTuningTests.swift; sourceTree = "<group>"; };
+		997691FE1559E9CF784C1F31 /* ProjectDocumentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDocumentService.swift; sourceTree = "<group>"; };
 		A56368E4811B6CBC633A3582 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
 		AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCatalogTests.swift; sourceTree = "<group>"; };
 		AC1BE3DE3870F95ADCBDA3D3 /* SettingsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanelView.swift; sourceTree = "<group>"; };
@@ -157,6 +175,7 @@
 		C53A471FDF858B0B035D56C3 /* SceneRasterCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneRasterCache.swift; sourceTree = "<group>"; };
 		CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGSResourceCatalog.swift; sourceTree = "<group>"; };
 		D364601BFEF2A069E59D2204 /* HexColorNormalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorNormalizerTests.swift; sourceTree = "<group>"; };
+		D42288F10E3AC62E5D90A42E /* SceneRefreshService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneRefreshService.swift; sourceTree = "<group>"; };
 		D88AF3A6A58325D2451FFCF4 /* Cake.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Cake.icns; sourceTree = "<group>"; };
 		D9EDA2C815AB85C9E45CCCCF /* CakeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CakeApp.swift; sourceTree = "<group>"; };
 		DB25A61709629D67AC0C81BA /* LithologyColorProfilesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LithologyColorProfilesSheetView.swift; sourceTree = "<group>"; };
@@ -165,6 +184,7 @@
 		E66872177C92003CB22D7C79 /* SyntheticComparisonScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticComparisonScene.swift; sourceTree = "<group>"; };
 		E87C4E45F6F21E3D2C0A1D7A /* SceneCGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCGRenderer.swift; sourceTree = "<group>"; };
 		EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGExportTests.swift; sourceTree = "<group>"; };
+		EDB6890E660F07F95335B2AF /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		EFBEC5B0A39918FC3C8C8389 /* JPGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JPGExporter.swift; sourceTree = "<group>"; };
 		F96D597AA47015689568B569 /* ProUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUIComponents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -237,6 +257,7 @@
 				B16D25B1F6E4686681A6AF31 /* Symbology.swift */,
 				E66872177C92003CB22D7C79 /* SyntheticComparisonScene.swift */,
 				80A1CCEA66186E69262EABC7 /* SyntheticSceneCGRenderer.swift */,
+				556BA849B51EEF56C3A3A134 /* ThreadSafeCaches.swift */,
 				75765ACB568296309AE3829A /* USGSEPSSymbolRenderer.swift */,
 				772F0FF730B2AEA90613582A /* USGSSymbolAssetResolver.swift */,
 			);
@@ -302,7 +323,9 @@
 				EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */,
 				781404DE44796AF2EF9863D1 /* SymbologyTests.swift */,
 				31AAA81A8042FEB97FF98DB6 /* TestSupport.swift */,
+				8921D517C96EA3C8F9D5972E /* ValidationReportTests.swift */,
 				41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */,
+				9277B495AC19A51D4F8A42A4 /* ViewModelTuningTests.swift */,
 			);
 			path = CakeKitTests;
 			sourceTree = "<group>";
@@ -385,7 +408,13 @@
 		AD3565DC8867DB3715A6EEDB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				4ACC523D1690992D0D14621C /* ColorProfileService.swift */,
+				2C7D420F18D7DF0530DB5DDA /* DomainProtocols.swift */,
+				EDB6890E660F07F95335B2AF /* ExportService.swift */,
 				36AF0A3D0680E3799596650B /* FileDialoging.swift */,
+				997691FE1559E9CF784C1F31 /* ProjectDocumentService.swift */,
+				D42288F10E3AC62E5D90A42E /* SceneRefreshService.swift */,
+				0C7A2CEB512E8EC58113A14A /* ZoomService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -446,6 +475,7 @@
 				E424F23985D244B39F7B8643 /* EditorState.swift */,
 				C13AC3A9F1100B40AD4A418E /* LithologyColorPresets.swift */,
 				1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */,
+				004A5CD36BAA886F777B1A86 /* RenderTuning.swift */,
 				57726820C50BD4427938CE51 /* SceneComputationService.swift */,
 				5CB220AB6B2D822595604DFF /* SceneRefreshTrigger.swift */,
 			);
@@ -590,7 +620,10 @@
 				42D22E8E3C0E0D0B73E417B8 /* CakeKitBundle.swift in Sources */,
 				D38988561B2EE3606A024110 /* CakeRenderer.swift in Sources */,
 				D0A6235456AA02E6D63BBAA9 /* ColorHex.swift in Sources */,
+				6ABCEE7FE43C17E17C73F9DF /* ColorProfileService.swift in Sources */,
+				850CBC1EE04B8B1A3A636352 /* DomainProtocols.swift in Sources */,
 				867506290785105780159E8D /* EditorState.swift in Sources */,
+				45461619C60C46F2D0D1776F /* ExportService.swift in Sources */,
 				2C359786F1B8F8C03A065C8C /* Exporting.swift in Sources */,
 				D3555E0BCCEACDD4D25F53F9 /* FileDialoging.swift in Sources */,
 				4377D9687033EAADB7B87A7F /* HexColorNormalizer.swift in Sources */,
@@ -602,29 +635,34 @@
 				6891AA40A00BF6FA9CE9CA20 /* Models.swift in Sources */,
 				47628BDEB96535702D840C67 /* PointFeatureIcons.swift in Sources */,
 				9E9F1C076D86052E4018EBEC /* ProUIComponents.swift in Sources */,
+				D6CC9E383149B45A521A7D7C /* ProjectDocumentService.swift in Sources */,
 				C1B5E9DC571AF6067CBAE1D3 /* ProjectSidebarView.swift in Sources */,
 				CA94EBE02FFD245F850C2751 /* ProjectStore.swift in Sources */,
 				221FD5A53B53D550F8E6BABC /* ProjectUseCases.swift in Sources */,
 				62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */,
 				8B6A4B263EF331ADD6624D58 /* RenderPreviewView.swift in Sources */,
 				BBF2E52203A2EC14FDD27AB7 /* RenderScene.swift in Sources */,
+				CF07201372061DBFD48AADC8 /* RenderTuning.swift in Sources */,
 				444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */,
 				85F853C0F2907A1E98DB4C04 /* SVGExporter.swift in Sources */,
 				0867532368DEC81A686CB8FB /* SceneCGRenderer.swift in Sources */,
 				77C2C2DDB2AFA4AFCBF8EFAE /* SceneComputationService.swift in Sources */,
 				02452F42842E782D0299EA4B /* SceneLayout.swift in Sources */,
 				FD0F035C0D10E124EA152417 /* SceneRasterCache.swift in Sources */,
+				5FEA9CD94C4E3E1C90A69501 /* SceneRefreshService.swift in Sources */,
 				CCC1E3EB1831278EA24EE19E /* SceneRefreshTrigger.swift in Sources */,
 				18DD9BCEC706466CBFD97FBC /* SettingsPanelView.swift in Sources */,
 				76BACC69C056F4E1E5F214EE /* Symbology.swift in Sources */,
 				BF5EE18CBEDBA832EF3CFBCA /* SyntheticComparisonPopoverView.swift in Sources */,
 				13D455AEC96E69220BAE4E4E /* SyntheticComparisonScene.swift in Sources */,
 				F1E3A660A04FE7DE9102FF3F /* SyntheticSceneCGRenderer.swift in Sources */,
+				57DF59672322333037D750A5 /* ThreadSafeCaches.swift in Sources */,
 				1CC7990C7EE51761B41BFE79 /* USGSEPSSymbolRenderer.swift in Sources */,
 				5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */,
 				AAF21A380948460335344083 /* USGSSymbolAssetResolver.swift in Sources */,
 				A481E7D286E587E2FE2B68CF /* UnitFormView.swift in Sources */,
 				049E9319B85989BBE561630B /* Validation.swift in Sources */,
+				6DBAF49505942F0E0B45097C /* ZoomService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,7 +687,9 @@
 				A68F6AB2A80CA6106C2A0EF2 /* SVGExportTests.swift in Sources */,
 				C0816BF8C965B82908A7EFE1 /* SymbologyTests.swift in Sources */,
 				573C393D7BB0F89B9C41D799 /* TestSupport.swift in Sources */,
+				2F4CD78D77FD8ED3FAD7623B /* ValidationReportTests.swift in Sources */,
 				CC19EE6C1553D69661621A78 /* ViewModelTests.swift in Sources */,
+				AB5A55DD862B1055C3F69A36 /* ViewModelTuningTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

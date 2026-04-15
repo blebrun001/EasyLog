@@ -4,12 +4,7 @@ import Foundation
 /// Draws USGS EPS-derived symbols by tiling/cropping cached PDF pages.
 public enum USGSEPSSymbolRenderer {
     private static let resolver = USGSSymbolAssetResolver.shared
-    nonisolated(unsafe) private static var croppedImageCache: [String: CGImage] = [:]
-    nonisolated(unsafe) private static var rasterPageCache: [String: CGImage] = [:]
-    nonisolated(unsafe) private static var pdfDocumentCache: [String: CGPDFDocument] = [:]
-    nonisolated(unsafe) private static var pdfPageCache: [String: CGPDFPage] = [:]
-    nonisolated(unsafe) private static var missingLoggedCodes = Set<Int>()
-    private static let lock = NSLock()
+    private static let cache = SymbolRenderCache()
     private static let swatchBorderInsetPoints: CGFloat = 1.2
 
     @discardableResult
@@ -132,10 +127,7 @@ public enum USGSEPSSymbolRenderer {
 
     private static func cachedTileImage(asset: USGSSymbolAsset, tiledRect: USGSSymbolRect) -> CGImage? {
         let cacheKey = tileCacheKey(asset: asset, tiledRect: tiledRect)
-        lock.lock()
-        let cached = croppedImageCache[cacheKey]
-        lock.unlock()
-        return cached
+        return cache.cachedCroppedImage(for: cacheKey)
     }
 
     private static func tileImage(asset: USGSSymbolAsset) -> CGImage? {
@@ -160,12 +152,9 @@ public enum USGSEPSSymbolRenderer {
         tiledRect: USGSSymbolRect
     ) -> CGImage? {
         let cacheKey = tileCacheKey(asset: asset, tiledRect: tiledRect)
-        lock.lock()
-        if let cached = croppedImageCache[cacheKey] {
-            lock.unlock()
+        if let cached = cache.cachedCroppedImage(for: cacheKey) {
             return cached
         }
-        lock.unlock()
 
         let rasterScale: CGFloat = 6.0
         guard let pageRaster = rasterizedPageImage(asset: asset, page: page, rasterScale: rasterScale) else {
@@ -189,9 +178,7 @@ public enum USGSEPSSymbolRenderer {
             return nil
         }
 
-        lock.lock()
-        croppedImageCache[cacheKey] = cropped
-        lock.unlock()
+        cache.storeCroppedImage(cropped, for: cacheKey)
         return cropped
     }
 
@@ -201,12 +188,9 @@ public enum USGSEPSSymbolRenderer {
         rasterScale: CGFloat
     ) -> CGImage? {
         let cacheKey = "\(asset.pdfURL.path)#\(rasterScale)"
-        lock.lock()
-        if let cached = rasterPageCache[cacheKey] {
-            lock.unlock()
+        if let cached = cache.cachedRasterPage(for: cacheKey) {
             return cached
         }
-        lock.unlock()
 
         let pageW = CGFloat(max(asset.pageSizePoints.width, 1))
         let pageH = CGFloat(max(asset.pageSizePoints.height, 1))
@@ -238,9 +222,7 @@ public enum USGSEPSSymbolRenderer {
         bitmap.restoreGState()
 
         guard let rasterPage = bitmap.makeImage() else { return nil }
-        lock.lock()
-        rasterPageCache[cacheKey] = rasterPage
-        lock.unlock()
+        cache.storeRasterPage(rasterPage, for: cacheKey)
         return rasterPage
     }
 
@@ -250,22 +232,16 @@ public enum USGSEPSSymbolRenderer {
 
     private static func pdfPage(for asset: USGSSymbolAsset) -> CGPDFPage? {
         let cacheKey = asset.pdfURL.path
-        lock.lock()
-        if let page = pdfPageCache[cacheKey] {
-            lock.unlock()
+        if let page = cache.cachedPDFPage(for: cacheKey) {
             return page
         }
-        lock.unlock()
 
         guard let doc = CGPDFDocument(asset.pdfURL as CFURL),
               let page = doc.page(at: 1) else {
             return nil
         }
 
-        lock.lock()
-        pdfDocumentCache[cacheKey] = doc
-        pdfPageCache[cacheKey] = page
-        lock.unlock()
+        cache.storePDFDocument(doc, page: page, for: cacheKey)
         return page
     }
 
@@ -285,9 +261,7 @@ public enum USGSEPSSymbolRenderer {
     }
 
     private static func logMissingAssetOnce(code: Int, reason: String) {
-        lock.lock()
-        defer { lock.unlock() }
-        guard missingLoggedCodes.insert(code).inserted else { return }
+        guard cache.logMissingCodeOnce(code) else { return }
         fputs("[USGSEPSSymbolRenderer] fallback for code \(code): \(reason)\n", stderr)
     }
 }

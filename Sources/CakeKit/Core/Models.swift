@@ -469,16 +469,19 @@ public struct ProjectSettings: Codable, Hashable, Sendable {
         useAbsoluteAltitude: Bool = false,
         zeroLevelAltitudeMeters: Double? = nil
     ) {
-        self.verticalScale = verticalScale
-        self.baseFontSize = baseFontSize
+        self.verticalScale = max(verticalScale, 0.1)
+        self.baseFontSize = max(baseFontSize, 1)
         self.showGrid = showGrid
         self.showLegend = showLegend
         self.showScale = showScale
         self.showGrainSizeScale = showGrainSizeScale
         self.showLogTitle = showLogTitle
         self.showUSGSCodesInLithologyLabels = showUSGSCodesInLithologyLabels
-        self.symbolScale = symbolScale
-        self.pointFeatureIconSize = pointFeatureIconSize
+        self.symbolScale = max(symbolScale, 0.05)
+        self.pointFeatureIconSize = min(
+            max(pointFeatureIconSize, Self.pointFeatureIconSizeRange.lowerBound),
+            Self.pointFeatureIconSizeRange.upperBound
+        )
         self.depthScaleUnit = depthScaleUnit
         self.useAbsoluteAltitude = useAbsoluteAltitude
         self.zeroLevelAltitudeMeters = zeroLevelAltitudeMeters
@@ -502,16 +505,17 @@ public struct ProjectSettings: Codable, Hashable, Sendable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        verticalScale = try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25
-        baseFontSize = try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12
+        verticalScale = max(try container.decodeIfPresent(Double.self, forKey: .verticalScale) ?? 25, 0.1)
+        baseFontSize = max(try container.decodeIfPresent(Double.self, forKey: .baseFontSize) ?? 12, 1)
         showGrid = try container.decodeIfPresent(Bool.self, forKey: .showGrid) ?? false
         showLegend = try container.decodeIfPresent(Bool.self, forKey: .showLegend) ?? true
         showScale = try container.decodeIfPresent(Bool.self, forKey: .showScale) ?? true
         showGrainSizeScale = try container.decodeIfPresent(Bool.self, forKey: .showGrainSizeScale) ?? true
         showLogTitle = try container.decodeIfPresent(Bool.self, forKey: .showLogTitle) ?? true
         showUSGSCodesInLithologyLabels = try container.decodeIfPresent(Bool.self, forKey: .showUSGSCodesInLithologyLabels) ?? true
-        symbolScale = try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0
-        pointFeatureIconSize = try container.decodeIfPresent(Double.self, forKey: .pointFeatureIconSize) ?? 8.0
+        symbolScale = max(try container.decodeIfPresent(Double.self, forKey: .symbolScale) ?? 1.0, 0.05)
+        let rawIconSize = try container.decodeIfPresent(Double.self, forKey: .pointFeatureIconSize) ?? 8.0
+        pointFeatureIconSize = min(max(rawIconSize, Self.pointFeatureIconSizeRange.lowerBound), Self.pointFeatureIconSizeRange.upperBound)
         depthScaleUnit = try container.decodeIfPresent(DepthScaleUnit.self, forKey: .depthScaleUnit) ?? .meter
         useAbsoluteAltitude = try container.decodeIfPresent(Bool.self, forKey: .useAbsoluteAltitude) ?? false
         zeroLevelAltitudeMeters = try container.decodeIfPresent(Double.self, forKey: .zeroLevelAltitudeMeters)

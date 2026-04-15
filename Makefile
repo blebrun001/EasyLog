@@ -1,7 +1,7 @@
 BUILD_PATH ?= $(HOME)/Library/Caches/Cake-build
 RESOURCE_PROFILE ?= dev
 
-.PHONY: build-resources build test release ci
+.PHONY: build-resources build test release quality ci
 
 build-resources:
 	./scripts/build-resources.sh $(RESOURCE_PROFILE)
@@ -17,6 +17,9 @@ release:
 	RESOURCE_PROFILE=release ./scripts/build-resources.sh release
 	CAKE_RESOURCE_PROFILE=release swift build -c release --build-path "$(BUILD_PATH)"
 
+quality:
+	./scripts/quality-gate.sh
+
 ci:
 	./scripts/check-large-assets.sh
-	$(MAKE) test
+	$(MAKE) quality

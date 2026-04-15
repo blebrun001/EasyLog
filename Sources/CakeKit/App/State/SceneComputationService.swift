@@ -43,3 +43,5 @@ public actor SceneComputationService {
         )
     }
 }
+
+extension SceneComputationService: SceneComputing {}

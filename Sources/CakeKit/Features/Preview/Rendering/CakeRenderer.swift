@@ -7,8 +7,7 @@ public struct CakeRenderer: LogRenderer {
 
     private let minimumRightMargin = 120.0
     private let legendTrailingPadding = 24.0
-    nonisolated(unsafe) private static var measuredTextWidthCache: [String: Double] = [:]
-    private static let measuredTextWidthLock = NSLock()
+    private static let measuredTextWidthCache = TextWidthCache()
 
     private struct LithologyLegendKey: Hashable {
         let label: String
@@ -175,21 +174,16 @@ public struct CakeRenderer: LogRenderer {
 
     private func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
         let cacheKey = "\(bold ? "b" : "r")|\(fontSize)|\(text)"
-        Self.measuredTextWidthLock.lock()
-        if let cached = Self.measuredTextWidthCache[cacheKey] {
-            Self.measuredTextWidthLock.unlock()
+        if let cached = Self.measuredTextWidthCache.value(for: cacheKey) {
             return cached
         }
-        Self.measuredTextWidthLock.unlock()
 
         let font: NSFont = bold
             ? .boldSystemFont(ofSize: CGFloat(fontSize))
             : .systemFont(ofSize: CGFloat(fontSize))
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
         let width = NSString(string: text).size(withAttributes: attributes).width
-        Self.measuredTextWidthLock.lock()
-        Self.measuredTextWidthCache[cacheKey] = width
-        Self.measuredTextWidthLock.unlock()
+        Self.measuredTextWidthCache.insert(width, for: cacheKey)
         return width
     }
 

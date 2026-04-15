@@ -4,6 +4,21 @@ import CoreGraphics
 import Foundation
 import os
 
+private struct ProjectStoreAdapter: ProjectPersisting {
+    let store: any ProjectStore
+
+    func load(url: URL) throws -> ProjectDocument { try store.load(url: url) }
+    func save(_ document: ProjectDocument, to url: URL) throws { try store.save(document, to: url) }
+}
+
+private struct ExporterAdapter: Exporting {
+    let exporter: any Exporter
+
+    func export(scene: RenderScene, to url: URL, options: ExportOptions) throws {
+        try exporter.export(scene: scene, to: url, options: options)
+    }
+}
+
 /// UI-only state shared across menus, toolbar and top-level content views.
 public struct EditorPresentationState: Equatable, Sendable {
     public enum DetailPane: String, CaseIterable, Identifiable, Sendable {
@@ -92,8 +107,7 @@ public final class ProjectViewModel: ObservableObject {
         canOpenSyntheticView ? [.preview, .synthetic] : [.preview]
     }
     public var canOpenSyntheticView: Bool {
-        let effectiveLogs = logsApplyingCurrentEdits()
-        return effectiveLogs.count >= 2 && effectiveLogs.allSatisfy { $0.settings.zeroLevelAltitudeMeters != nil }
+        sceneRefreshService.canOpenSynthetic(logs: logsApplyingCurrentEdits())
     }
     public var canRemoveCurrentLog: Bool {
         document.logs.count > 1
@@ -103,21 +117,24 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     private let renderer: LogRenderer
-    private let openProjectUseCase: OpenProjectUseCase
-    private let saveProjectUseCase: SaveProjectUseCase
-    private let exportProjectUseCase: ExportProjectUseCase
+    private let documentService: ProjectDocumentService
+    private let exportService: ExportService
     private let fileDialogService: FileDialoging
     private let addUnitUseCase = AddUnitUseCase()
     private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
     private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
+    private let zoomService = ZoomService()
+    private let colorProfileService = ColorProfileService()
     private let colorPresetStore: any LithologyColorPresetPersisting
+    private let sceneRefreshService = SceneRefreshService()
     private let sceneComputationService: SceneComputationService
-    private let rasterCache = SceneRasterCache(maxBytes: 160 * 1024 * 1024)
+    private let rasterCache: SceneRasterCache
+    private let tuning: RenderTuning
     private var cancellables = Set<AnyCancellable>()
     private var viewportSize: CGSize = .zero
     private var isAutoAdjustSuspendedByManualZoom = false
     private var hasManualZoomOverride = false
-    private var didApplyInitialWidthFit = false
+    private var didApplyInitialWindowFit = false
     private var sceneRefreshTask: Task<Void, Never>?
     private var sceneRefreshGeneration: UInt64 = 0
     private var pendingSceneRefreshTrigger: SceneRefreshTrigger = .textInput
@@ -129,14 +146,6 @@ public final class ProjectViewModel: ObservableObject {
     private let zoomLogger = Logger(subsystem: "Cake", category: "Zoom")
     private let perfSignposter = OSSignposter(subsystem: "Cake", category: "Perf")
 
-    private static let minZoom = 0.5
-    private static let maxZoom = 2.5
-    private static let defaultZoom = 1.0
-    private static let fitWidthVisualBoost = 1.12
-    private static let maxRenderScale = 6.0
-    private static let resizeDebounceNanoseconds: UInt64 = 120_000_000
-    private static let colorPresetPersistNanoseconds: UInt64 = 300_000_000
-
     public init(
         project: Project = .sample,
         renderer: LogRenderer = CakeRenderer(),
@@ -144,7 +153,10 @@ public final class ProjectViewModel: ObservableObject {
         exporter: Exporter = CompositeExporter(),
         fileDialogService: FileDialoging = AppKitFileDialogService(),
         defaults: UserDefaults = .standard,
-        colorPresetStore: (any LithologyColorPresetPersisting)? = nil
+        colorPresetStore: (any LithologyColorPresetPersisting)? = nil,
+        tuning: RenderTuning = .default,
+        sceneComputationService: SceneComputationService? = nil,
+        rasterCache: SceneRasterCache? = nil
     ) {
         let initialDocument = ProjectDocument(logs: [project])
         let initialSelectedUnitID = project.units.first?.id
@@ -153,20 +165,21 @@ public final class ProjectViewModel: ObservableObject {
         self.document = initialDocument
         self.selectedLogIndex = 0
         self.renderer = renderer
-        self.openProjectUseCase = OpenProjectUseCase(store: store)
-        self.saveProjectUseCase = SaveProjectUseCase(store: store)
-        self.exportProjectUseCase = ExportProjectUseCase(exporter: exporter)
+        self.documentService = ProjectDocumentService(persister: ProjectStoreAdapter(store: store))
+        self.exportService = ExportService(exporter: ExporterAdapter(exporter: exporter))
         self.fileDialogService = fileDialogService
         self.colorPresetStore = colorPresetStore ?? UserDefaultsLithologyColorPresetStore(defaults: defaults)
-        // Launch defaults are always width-fitted to avoid opening in a stale manual zoom
+        self.tuning = tuning
+        // Launch defaults are always window-fitted to avoid opening in a stale manual zoom
         // state when the zoom-mode selector is hidden from the UI.
-        self.zoom = Self.defaultZoom
-        self.zoomMode = .fitWidth
+        self.zoom = tuning.defaultZoom
+        self.zoomMode = .fitWindow
         self.autoAdjustToWindow = true
         self.scene = initialScene
         self.syntheticScene = .empty
         self.selectedUnitID = initialSelectedUnitID
-        self.sceneComputationService = SceneComputationService(renderer: renderer)
+        self.sceneComputationService = sceneComputationService ?? SceneComputationService(renderer: renderer)
+        self.rasterCache = rasterCache ?? SceneRasterCache(maxBytes: tuning.rasterCacheMaxBytes)
         self.editorState = EditorState(
             document: initialDocument,
             project: project,
@@ -180,8 +193,8 @@ public final class ProjectViewModel: ObservableObject {
             scene: initialScene,
             syntheticScene: .empty,
             validationIssues: [],
-            zoom: Self.defaultZoom,
-            zoomMode: .fitWidth,
+            zoom: tuning.defaultZoom,
+            zoomMode: .fitWindow,
             isSyntheticAvailable: false,
             previewRasterScale: Double(NSScreen.main?.backingScaleFactor ?? 2),
             syntheticRasterScale: Double(NSScreen.main?.backingScaleFactor ?? 2)
@@ -332,7 +345,7 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func setManualZoom(_ value: Double, isInteracting: Bool = false) {
-        let clamped = Self.clampedZoom(value)
+        let clamped = zoomService.clampedZoom(value, tuning: tuning)
         let didChange = abs(clamped - zoom) > 0.0001
         zoom = clamped
 
@@ -412,23 +425,25 @@ public final class ProjectViewModel: ObservableObject {
         #endif
         viewportSize = normalized
 
-        // Force a one-time fit-to-width as soon as the first real viewport is known.
-        if !didApplyInitialWidthFit, viewportSize.width > 0 {
-            didApplyInitialWidthFit = true
+        // Force a one-time auto-fit as soon as the first real viewport is known.
+        if !didApplyInitialWindowFit, viewportSize.width > 0 {
+            didApplyInitialWindowFit = true
             hasManualZoomOverride = false
             isAutoAdjustSuspendedByManualZoom = false
-            zoomMode = .fitWidth
-            applyFit(mode: .fitWidth)
+            if zoomMode == .manual {
+                zoomMode = .fitWindow
+            }
+            applyFit(mode: zoomMode)
             #if DEBUG
             zoomLogger.debug(
-                "initial fit-width forced -> zoom=\(self.zoom, format: .fixed(precision: 4)) viewportWidth=\(self.viewportSize.width, format: .fixed(precision: 2)) canvasWidth=\(self.scene.canvasSize.width, format: .fixed(precision: 2))"
+                "initial auto-fit forced mode=\(self.zoomMode.rawValue, privacy: .public) -> zoom=\(self.zoom, format: .fixed(precision: 4)) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2)))"
             )
             #endif
             return
         }
 
         // Apply fit immediately on first measurable viewport so initial launch
-        // starts at the expected width-fitted zoom instead of waiting for debounce.
+        // starts at the expected window-fitted zoom instead of waiting for debounce.
         if !hadViewport {
             applyAutoAdjustIfNeeded()
             return
@@ -485,7 +500,10 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func createColorProfile(name: String) {
-        let resolved = uniqueColorProfileName(base: LithologyColorProfile.normalizedName(name))
+        let resolved = colorProfileService.uniqueProfileName(
+            base: LithologyColorProfile.normalizedName(name),
+            existingProfiles: colorProfiles
+        )
         let profile = LithologyColorProfile(name: resolved)
         colorProfiles.append(profile)
         activeColorProfileID = profile.id
@@ -494,8 +512,9 @@ public final class ProjectViewModel: ObservableObject {
 
     public func renameColorProfile(id: UUID, name: String) {
         guard let index = colorProfiles.firstIndex(where: { $0.id == id }) else { return }
-        let resolved = uniqueColorProfileName(
+        let resolved = colorProfileService.uniqueProfileName(
             base: LithologyColorProfile.normalizedName(name, fallback: colorProfiles[index].name),
+            existingProfiles: colorProfiles,
             excludingID: id
         )
         colorProfiles[index].name = resolved
@@ -549,7 +568,7 @@ public final class ProjectViewModel: ObservableObject {
         do {
             flushPendingColorPresetPersistence()
             setNextSceneRefreshTrigger(.structural)
-            let loaded = try openProjectUseCase.execute(url: url)
+            let loaded = try documentService.open(url: url)
             document = ProjectDocument(logs: loaded.logs)
             projectURL = url
             setSelectedLog(0)
@@ -567,7 +586,7 @@ public final class ProjectViewModel: ObservableObject {
         do {
             flushPendingColorPresetPersistence()
             commitCurrentProjectChanges()
-            let saved = try saveProjectUseCase.execute(document: document, url: url)
+            let saved = try documentService.save(document, to: url)
             document = saved
             setSelectedLog(min(selectedLogIndex, max(saved.logs.count - 1, 0)))
             projectURL = url
@@ -580,7 +599,7 @@ public final class ProjectViewModel: ObservableObject {
 
     public func exportProject(to url: URL, format: ExportFormat, dpi: Double = 300) {
         do {
-            try exportProjectUseCase.execute(scene: scene, url: url, format: format, dpi: dpi)
+            try exportService.export(scene: scene, to: url, format: format, dpi: dpi)
             statusMessage = "Exported \(url.lastPathComponent)"
             errorMessage = nil
         } catch {
@@ -606,7 +625,7 @@ public final class ProjectViewModel: ObservableObject {
             )
 
             do {
-                try exportProjectUseCase.execute(scene: scene, url: destinationURL, format: format, dpi: dpi)
+                try exportService.export(scene: scene, to: destinationURL, format: format, dpi: dpi)
                 successCount += 1
             } catch {
                 failureDetails.append("\(destinationURL.lastPathComponent): \(error.localizedDescription)")
@@ -682,16 +701,10 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     private func setNextSceneRefreshTrigger(_ trigger: SceneRefreshTrigger) {
-        switch (pendingSceneRefreshTrigger, trigger) {
-        case (.structural, _):
-            return
-        case (_, .structural):
-            pendingSceneRefreshTrigger = .structural
-        case (.slider, .textInput):
-            return
-        default:
-            pendingSceneRefreshTrigger = trigger
-        }
+        pendingSceneRefreshTrigger = sceneRefreshService.mergedTrigger(
+            current: pendingSceneRefreshTrigger,
+            incoming: trigger
+        )
     }
 
     private func consumePendingSceneRefreshTrigger(default fallback: SceneRefreshTrigger) -> SceneRefreshTrigger {
@@ -707,7 +720,7 @@ public final class ProjectViewModel: ObservableObject {
         let snapshotProject = project
         let snapshotLogs = logsApplyingCurrentEdits()
         let snapshotSelectedLogIndex = selectedLogIndex
-        let shouldComputeSynthetic = snapshotLogs.count >= 2 && snapshotLogs.allSatisfy { $0.settings.zeroLevelAltitudeMeters != nil }
+        let shouldComputeSynthetic = sceneRefreshService.canOpenSynthetic(logs: snapshotLogs)
         let debounce = trigger.debounceNanoseconds
         let signpostID = perfSignposter.makeSignpostID()
 
@@ -899,8 +912,7 @@ public final class ProjectViewModel: ObservableObject {
 
     private func resolvedRenderScale() -> Double {
         let backingScale = max(NSScreen.main?.backingScaleFactor ?? 2.0, 1.0)
-        let zoomFactor = max(zoom, 1.0)
-        return min(backingScale * zoomFactor, Self.maxRenderScale)
+        return zoomService.resolvedRenderScale(backingScale: backingScale, zoom: zoom, tuning: tuning)
     }
 
     private func quantizedRenderScaleHundredths(_ value: Double) -> Int {
@@ -1007,8 +1019,9 @@ public final class ProjectViewModel: ObservableObject {
 
     private func scheduleAutoAdjust() {
         resizeDebounceTask?.cancel()
+        let debounce = tuning.resizeDebounceNanoseconds
         resizeDebounceTask = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: Self.resizeDebounceNanoseconds)
+            try? await Task.sleep(nanoseconds: debounce)
             guard !Task.isCancelled else { return }
             self?.applyAutoAdjustIfNeeded()
         }
@@ -1040,30 +1053,27 @@ public final class ProjectViewModel: ObservableObject {
 
         #if DEBUG
         zoomLogger.debug(
-            "applyFit mode=\(mode.rawValue, privacy: .public) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2))) target=\(targetZoom, format: .fixed(precision: 4)) clamped=\(Self.clampedAutoFitZoom(targetZoom), format: .fixed(precision: 4))"
+            "applyFit mode=\(mode.rawValue, privacy: .public) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2))) target=\(targetZoom, format: .fixed(precision: 4)) clamped=\(self.zoomService.clampedAutoFitZoom(targetZoom, tuning: self.tuning), format: .fixed(precision: 4))"
         )
         #endif
-        zoom = Self.clampedAutoFitZoom(targetZoom)
+        zoom = zoomService.clampedAutoFitZoom(targetZoom, tuning: tuning)
     }
 
     private func fitScaleForWidth(applyingVisualBoost: Bool) -> Double {
-        guard scene.canvasSize.width > 0 else { return Self.defaultZoom }
-        let base = viewportSize.width / scene.canvasSize.width
-        guard applyingVisualBoost, base > 1 else { return base }
-        return base * Self.fitWidthVisualBoost
+        zoomService.fitScaleForWidth(
+            viewportWidth: viewportSize.width,
+            canvasWidth: scene.canvasSize.width,
+            applyingVisualBoost: applyingVisualBoost,
+            tuning: tuning
+        )
     }
 
     private func fitScaleForHeight() -> Double {
-        guard scene.canvasSize.height > 0 else { return Self.defaultZoom }
-        return viewportSize.height / scene.canvasSize.height
-    }
-
-    private static func clampedZoom(_ value: Double) -> Double {
-        min(max(value, minZoom), maxZoom)
-    }
-
-    private static func clampedAutoFitZoom(_ value: Double) -> Double {
-        max(value, minZoom)
+        zoomService.fitScaleForHeight(
+            viewportHeight: viewportSize.height,
+            canvasHeight: scene.canvasSize.height,
+            tuning: tuning
+        )
     }
 
     private var activeColorProfile: LithologyColorProfile? {
@@ -1080,28 +1090,6 @@ public final class ProjectViewModel: ObservableObject {
         persistColorPresetState()
     }
 
-    private func uniqueColorProfileName(base: String, excludingID: UUID? = nil) -> String {
-        let baseName = LithologyColorProfile.normalizedName(base)
-        let existing = Set(
-            colorProfiles
-                .filter { $0.id != excludingID }
-                .map { $0.name.lowercased() }
-        )
-
-        if !existing.contains(baseName.lowercased()) {
-            return baseName
-        }
-
-        var suffix = 2
-        while true {
-            let candidate = "\(baseName) \(suffix)"
-            if !existing.contains(candidate.lowercased()) {
-                return candidate
-            }
-            suffix += 1
-        }
-    }
-
     private func loadColorPresetState() {
         let stored = colorPresetStore.load()
         colorProfiles = stored.profiles
@@ -1110,8 +1098,9 @@ public final class ProjectViewModel: ObservableObject {
 
     private func persistColorPresetState() {
         colorPresetPersistTask?.cancel()
+        let debounce = tuning.colorPresetPersistNanoseconds
         colorPresetPersistTask = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: Self.colorPresetPersistNanoseconds)
+            try? await Task.sleep(nanoseconds: debounce)
             guard !Task.isCancelled else { return }
             await MainActor.run { [weak self] in
                 self?.persistColorPresetStateNow()
@@ -1120,7 +1109,7 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     private func persistColorPresetStateNow() {
-        let normalized = LithologyColorPresetStore(
+        let normalized = colorProfileService.normalizedStore(
             profiles: colorProfiles,
             activeProfileID: activeColorProfileID
         )

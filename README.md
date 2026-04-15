@@ -39,6 +39,17 @@ CAKE_RESOURCE_PROFILE=dev swift run CakeApp
 make test
 ```
 
+## Quality Gates
+
+```bash
+make quality
+```
+
+This runs:
+- forbidden-pattern checks (`fatalError`, force-casts/force-try)
+- duplication detection (warning mode by default)
+- full `swift test`
+
 ## Example Data
 
 Use the sample project at `Examples/sample-project.json`.
@@ -51,3 +62,9 @@ Set `CAKE_RESOURCE_PROFILE` to choose symbol resources:
 - `release` for production assets
 
 If not set, Cake uses `dev` in debug builds and `release` otherwise.
+
+## Architecture Notes (ADR)
+
+See `docs/adr/` for design decisions:
+- rendering cache concurrency strategy
+- centralized render tuning configuration

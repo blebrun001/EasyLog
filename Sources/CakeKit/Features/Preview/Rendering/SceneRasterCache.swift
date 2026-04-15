@@ -88,3 +88,5 @@ public actor SceneRasterCache {
         }
     }
 }
+
+extension SceneRasterCache: RasterCaching {}

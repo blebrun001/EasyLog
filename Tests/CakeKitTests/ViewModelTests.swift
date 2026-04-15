@@ -362,7 +362,7 @@ func zoomCommandsClampToConfiguredBoundsAndReset() {
 
 @MainActor
 @Test
-func defaultZoomModeIsFitWidth() {
+func defaultZoomModeIsFitWindow() {
     let suiteName = "cake-tests-\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!
     defer {
@@ -377,12 +377,12 @@ func defaultZoomModeIsFitWidth() {
         defaults: defaults
     )
 
-    #expect(viewModel.zoomMode == .fitWidth)
+    #expect(viewModel.zoomMode == .fitWindow)
 }
 
 @MainActor
 @Test
-func firstViewportUpdateAppliesFitWidthImmediatelyByDefault() {
+func firstViewportUpdateAppliesFitWindowImmediatelyByDefault() {
     let suiteName = "cake-tests-\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!
     defer {
@@ -399,12 +399,17 @@ func firstViewportUpdateAppliesFitWidthImmediatelyByDefault() {
 
     let viewport = CGSize(width: 760, height: 500)
     viewModel.updateViewportSize(viewport)
-    #expect(viewModel.zoom > viewport.width / viewModel.scene.canvasSize.width)
+    #expect(viewModel.zoomMode == .fitWindow)
+    let expected = min(
+        viewport.width / viewModel.scene.canvasSize.width,
+        viewport.height / viewModel.scene.canvasSize.height
+    )
+    #expect(abs(viewModel.zoom - expected) < 0.0001)
 }
 
 @MainActor
 @Test
-func startupIgnoresStalePersistedManualZoomAndUsesFitWidth() {
+func startupIgnoresStalePersistedManualZoomAndUsesFitWindow() {
     let suiteName = "cake-tests-\(UUID().uuidString)"
     let defaults = UserDefaults(suiteName: suiteName)!
     defer {
@@ -423,10 +428,14 @@ func startupIgnoresStalePersistedManualZoomAndUsesFitWidth() {
         defaults: defaults
     )
 
-    #expect(viewModel.zoomMode == .fitWidth)
+    #expect(viewModel.zoomMode == .fitWindow)
     let viewport = CGSize(width: 760, height: 500)
     viewModel.updateViewportSize(viewport)
-    #expect(viewModel.zoom > viewport.width / viewModel.scene.canvasSize.width)
+    let expected = min(
+        viewport.width / viewModel.scene.canvasSize.width,
+        viewport.height / viewModel.scene.canvasSize.height
+    )
+    #expect(abs(viewModel.zoom - expected) < 0.0001)
 }
 
 @MainActor

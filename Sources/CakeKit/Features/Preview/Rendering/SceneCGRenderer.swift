@@ -2,8 +2,7 @@ import AppKit
 
 /// CoreGraphics raster renderer for preview canvases and JPG export.
 public enum SceneCGRenderer {
-    nonisolated(unsafe) private static var measuredTextWidthCache: [String: Double] = [:]
-    private static let measuredTextWidthLock = NSLock()
+    private static let measuredTextWidthCache = TextWidthCache()
 
     public static func draw(scene: RenderScene, in context: CGContext) {
         drawStaticLayer(scene: scene, in: context)
@@ -477,21 +476,16 @@ public enum SceneCGRenderer {
 
     private static func measuredTextWidth(_ text: String, fontSize: Double, bold: Bool) -> Double {
         let cacheKey = "\(bold ? "b" : "r")|\(fontSize)|\(text)"
-        measuredTextWidthLock.lock()
-        if let cached = measuredTextWidthCache[cacheKey] {
-            measuredTextWidthLock.unlock()
+        if let cached = measuredTextWidthCache.value(for: cacheKey) {
             return cached
         }
-        measuredTextWidthLock.unlock()
 
         let font: NSFont = bold
             ? .boldSystemFont(ofSize: CGFloat(fontSize))
             : .systemFont(ofSize: CGFloat(fontSize))
         let attributes: [NSAttributedString.Key: Any] = [.font: font]
         let width = NSString(string: text).size(withAttributes: attributes).width
-        measuredTextWidthLock.lock()
-        measuredTextWidthCache[cacheKey] = width
-        measuredTextWidthLock.unlock()
+        measuredTextWidthCache.insert(width, for: cacheKey)
         return width
     }
 

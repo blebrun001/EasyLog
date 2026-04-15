@@ -29,5 +29,5 @@ jobs:
       - name: Enforce large-file policy
         run: ./scripts/check-large-assets.sh
 
-      - name: Test
-        run: make test
+      - name: Quality Gates
+        run: make quality

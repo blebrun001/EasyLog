@@ -48,3 +48,5 @@ public struct CompositeExporter: Exporter {
         }
     }
 }
+
+extension CompositeExporter: Exporting {}

@@ -54,3 +54,5 @@ public struct JSONProjectStore: ProjectStore {
         try data.write(to: url, options: .atomic)
     }
 }
+
+extension JSONProjectStore: ProjectPersisting {}
