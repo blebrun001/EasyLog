@@ -1,21 +1,51 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Generates macOS app icon assets from a procedurally built source graphic.
-# Output: `Cake.icns` + `Assets.xcassets/AppIcon.appiconset`.
+# Generates macOS app icon assets from a source PNG.
+# Output: `Sources/CakeApp/Resources/Cake.icns` +
+#         `Sources/CakeApp/Resources/Assets.xcassets/AppIcon.appiconset`.
+# Usage:
+#   ./scripts/generate_cake_icon.sh [optional-source-png-path]
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="$ROOT_DIR/Sources/CakeApp/Resources"
 ASSETS_DIR="$OUT_DIR/Assets.xcassets"
 APPICON_DIR="$ASSETS_DIR/AppIcon.appiconset"
-ICONSET_DIR="$ROOT_DIR/.build/Cake.iconset"
 ICNS_PATH="$OUT_DIR/Cake.icns"
+ICONSET_DIR="$ROOT_DIR/.build/Cake.iconset"
 
-mkdir -p "$OUT_DIR"
-mkdir -p "$ASSETS_DIR"
-rm -rf "$ICONSET_DIR"
-rm -rf "$APPICON_DIR"
-mkdir -p "$ICONSET_DIR"
-mkdir -p "$APPICON_DIR"
+DEFAULT_SOURCE="$OUT_DIR/IconSource/newicon.png"
+SOURCE_PATH="${1:-$DEFAULT_SOURCE}"
+if [[ "$SOURCE_PATH" != /* ]]; then
+  SOURCE_PATH="$ROOT_DIR/$SOURCE_PATH"
+fi
+
+if [[ ! -f "$SOURCE_PATH" ]]; then
+  echo "Source icon not found: $SOURCE_PATH" >&2
+  exit 1
+fi
+
+source_width="$(sips -g pixelWidth "$SOURCE_PATH" | awk '/pixelWidth/ {print $2}')"
+source_height="$(sips -g pixelHeight "$SOURCE_PATH" | awk '/pixelHeight/ {print $2}')"
+
+if [[ -z "$source_width" || -z "$source_height" ]]; then
+  echo "Unable to read source image dimensions: $SOURCE_PATH" >&2
+  exit 1
+fi
+
+if [[ "$source_width" != "$source_height" ]]; then
+  echo "Source image must be square. Got ${source_width}x${source_height}: $SOURCE_PATH" >&2
+  exit 1
+fi
+
+mkdir -p "$OUT_DIR" "$ASSETS_DIR"
+rm -rf "$ICONSET_DIR" "$APPICON_DIR"
+mkdir -p "$ICONSET_DIR" "$APPICON_DIR"
+
+cleanup() {
+  rm -rf "$ICONSET_DIR"
+}
+trap cleanup EXIT
 
 cat > "$ASSETS_DIR/Contents.json" <<'JSON'
 {
@@ -26,105 +56,10 @@ cat > "$ASSETS_DIR/Contents.json" <<'JSON'
 }
 JSON
 
-SWIFT_RENDERER="$ROOT_DIR/.build/render_cake_icon.swift"
-cat > "$SWIFT_RENDERER" <<'SWIFT'
-import AppKit
-import Foundation
-
-if CommandLine.arguments.count != 3 {
-    fputs("Usage: swift render.swift <size> <output_path>\n", stderr)
-    exit(1)
-}
-
-guard let sizeValue = Double(CommandLine.arguments[1]), sizeValue > 0 else {
-    fputs("Invalid size\n", stderr)
-    exit(1)
-}
-
-let outputPath = CommandLine.arguments[2]
-let pixelSize = Int(sizeValue)
-let canvasSize = NSSize(width: Double(pixelSize), height: Double(pixelSize))
-let canvasRect = NSRect(origin: .zero, size: canvasSize)
-let inset = sizeValue * 0.04
-let iconRect = canvasRect.insetBy(dx: inset, dy: inset)
-let cornerRadius = sizeValue * 0.22
-
-guard
-    let bitmap = NSBitmapImageRep(
-        bitmapDataPlanes: nil,
-        pixelsWide: pixelSize,
-        pixelsHigh: pixelSize,
-        bitsPerSample: 8,
-        samplesPerPixel: 4,
-        hasAlpha: true,
-        isPlanar: false,
-        colorSpaceName: .deviceRGB,
-        bytesPerRow: 0,
-        bitsPerPixel: 0
-    )
-else {
-    fputs("Failed to allocate bitmap\n", stderr)
-    exit(1)
-}
-
-guard let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
-    fputs("Failed to create graphics context\n", stderr)
-    exit(1)
-}
-NSGraphicsContext.saveGraphicsState()
-NSGraphicsContext.current = context
-
-NSColor.clear.setFill()
-canvasRect.fill()
-
-let gradient = NSGradient(
-    starting: NSColor(calibratedRed: 0.97, green: 0.91, blue: 0.80, alpha: 1.0),
-    ending: NSColor(calibratedRed: 0.84, green: 0.71, blue: 0.53, alpha: 1.0)
-)!
-let roundedRect = NSBezierPath(roundedRect: iconRect, xRadius: cornerRadius, yRadius: cornerRadius)
-gradient.draw(in: roundedRect, angle: 90)
-
-NSColor(calibratedWhite: 0.0, alpha: 0.12).setStroke()
-roundedRect.lineWidth = max(1, sizeValue * 0.02)
-roundedRect.stroke()
-
-let baseFont = NSFont.systemFont(ofSize: sizeValue * 0.78)
-let paragraphStyle = NSMutableParagraphStyle()
-paragraphStyle.alignment = .center
-
-let attributes: [NSAttributedString.Key: Any] = [
-    .font: baseFont,
-    .paragraphStyle: paragraphStyle,
-    .foregroundColor: NSColor(calibratedWhite: 0.16, alpha: 1.0)
-]
-
-let emoji = "🍰" as NSString
-let textSize = emoji.size(withAttributes: attributes)
-let drawPoint = NSPoint(
-    x: (sizeValue - textSize.width) / 2.0,
-    y: (sizeValue - textSize.height) / 2.0
-)
-emoji.draw(at: drawPoint, withAttributes: attributes)
-NSGraphicsContext.restoreGraphicsState()
-
-guard let pngData = bitmap.representation(using: .png, properties: [:]) else {
-    fputs("Failed to render PNG\n", stderr)
-    exit(1)
-}
-
-let outputURL = URL(fileURLWithPath: outputPath)
-do {
-    try pngData.write(to: outputURL, options: .atomic)
-} catch {
-    fputs("Failed to write PNG: \(error)\n", stderr)
-    exit(1)
-}
-SWIFT
-
 render_png() {
-    local px="$1"
-    local file="$2"
-    swift "$SWIFT_RENDERER" "$px" "$ICONSET_DIR/$file"
+  local px="$1"
+  local file="$2"
+  sips -s format png -z "$px" "$px" "$SOURCE_PATH" --out "$ICONSET_DIR/$file" >/dev/null
 }
 
 render_png 16 icon_16x16.png
@@ -172,5 +107,6 @@ cat > "$APPICON_DIR/Contents.json" <<'JSON'
 }
 JSON
 
+echo "Generated from: $SOURCE_PATH"
 echo "Generated: $ICNS_PATH"
 echo "Generated: $APPICON_DIR"
