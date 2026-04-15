@@ -353,9 +353,10 @@ func zoomCommandsClampToConfiguredBoundsAndReset() {
     viewModel.updateViewportSize(CGSize(width: 720, height: 500))
     viewModel.setManualZoom(1.3)
     viewModel.resetZoom()
-    #expect(viewModel.zoomMode == .fitWidth)
-    let rawFit = 720 / viewModel.scene.canvasSize.width
-    let expected = rawFit > 1 ? rawFit * 1.12 : rawFit
+    #expect(viewModel.zoomMode == .fitWindow)
+    let widthFit = 720 / viewModel.scene.canvasSize.width
+    let heightFit = 500 / viewModel.scene.canvasSize.height
+    let expected = min(widthFit, heightFit)
     #expect(viewModel.zoom == expected)
 }
 
@@ -471,6 +472,34 @@ func fitToWindowComputesZoomFromViewportSize() {
     let viewport = CGSize(width: 540, height: 420)
     viewModel.updateViewportSize(viewport)
     viewModel.setZoomMode(.fitWindow)
+
+    let expected = min(
+        viewport.width / viewModel.scene.canvasSize.width,
+        viewport.height / viewModel.scene.canvasSize.height
+    )
+    #expect(abs(viewModel.zoom - expected) < 0.0001)
+}
+
+@MainActor
+@Test
+func fitToWindowDoesNotApplyFitWidthVisualBoost() {
+    let suiteName = "cake-tests-\(UUID().uuidString)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defer {
+        defaults.removePersistentDomain(forName: suiteName)
+    }
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(),
+        defaults: defaults
+    )
+
+    let viewport = CGSize(width: 720, height: 500)
+    viewModel.updateViewportSize(viewport)
+    viewModel.fitToWindow()
 
     let expected = min(
         viewport.width / viewModel.scene.canvasSize.width,

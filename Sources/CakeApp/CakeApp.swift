@@ -53,13 +53,6 @@ struct CakeApp: App {
                     .keyboardShortcut("i", modifiers: [.command, .option])
             }
 
-            CommandGroup(after: .toolbar) {
-                if viewModel.canResetManualZoom {
-                    Button("reset zoom") { viewModel.resetZoom() }
-                        .keyboardShortcut("0", modifiers: [.command])
-                }
-            }
-
             CommandGroup(after: .pasteboard) {
                 Button("New Log") { viewModel.addLog() }
                     .keyboardShortcut("n", modifiers: [.command, .shift])
@@ -84,6 +77,13 @@ struct CakeApp: App {
             }
 
             CommandMenu("View") {
+                Section("Zoom") {
+                    Button("Zoom In") { viewModel.zoomIn() }
+                    Button("Zoom Out") { viewModel.zoomOut() }
+                    Button("Fit Window") { viewModel.fitToWindow() }
+                    Button("Reset Zoom") { viewModel.resetZoom() }
+                }
+
                 Picker("Detail View", selection: detailPaneBinding) {
                     ForEach(EditorPresentationState.DetailPane.allCases) { pane in
                         Text(pane.label)

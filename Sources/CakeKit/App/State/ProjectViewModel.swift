@@ -320,10 +320,15 @@ public final class ProjectViewModel: ObservableObject {
         statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
     }
 
+    public func fitToWindow() {
+        setZoomMode(.fitWindow)
+        statusMessage = "Zoom fit window"
+    }
+
     public func resetZoom() {
         hasManualZoomOverride = false
-        setZoomMode(.fitWidth)
-        statusMessage = "Zoom fit width"
+        setZoomMode(.fitWindow)
+        statusMessage = "Zoom fit window"
     }
 
     public func setManualZoom(_ value: Double, isInteracting: Bool = false) {
@@ -1024,11 +1029,11 @@ public final class ProjectViewModel: ObservableObject {
         case .manual:
             return
         case .fitWindow:
-            let widthZoom = fitScaleForWidth()
+            let widthZoom = fitScaleForWidth(applyingVisualBoost: false)
             let heightZoom = fitScaleForHeight()
             targetZoom = min(widthZoom, heightZoom)
         case .fitWidth:
-            targetZoom = fitScaleForWidth()
+            targetZoom = fitScaleForWidth(applyingVisualBoost: true)
         case .fitHeight:
             targetZoom = fitScaleForHeight()
         }
@@ -1041,10 +1046,10 @@ public final class ProjectViewModel: ObservableObject {
         zoom = Self.clampedAutoFitZoom(targetZoom)
     }
 
-    private func fitScaleForWidth() -> Double {
+    private func fitScaleForWidth(applyingVisualBoost: Bool) -> Double {
         guard scene.canvasSize.width > 0 else { return Self.defaultZoom }
         let base = viewportSize.width / scene.canvasSize.width
-        guard base > 1 else { return base }
+        guard applyingVisualBoost, base > 1 else { return base }
         return base * Self.fitWidthVisualBoost
     }
 

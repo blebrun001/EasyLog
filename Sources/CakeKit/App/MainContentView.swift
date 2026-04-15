@@ -29,7 +29,10 @@ public struct MainContentView: View {
                 )
 
                 VisualizationToolbar(
-                    isResetZoomVisible: viewModel.canResetManualZoom,
+                    zoom: viewModel.zoom,
+                    onSetManualZoom: viewModel.setManualZoom,
+                    onFinalizeManualZoomInteraction: viewModel.finalizeManualZoomInteraction,
+                    onFitWindow: viewModel.fitToWindow,
                     onResetZoom: viewModel.resetZoom,
                     isOptionsPopoverPresented: $isOptionsPopoverPresented,
                     settings: settingsBinding
@@ -209,19 +212,52 @@ private struct PreviewContextBar: View {
 }
 
 private struct VisualizationToolbar: View {
-    let isResetZoomVisible: Bool
+    let zoom: Double
+    let onSetManualZoom: (Double, Bool) -> Void
+    let onFinalizeManualZoomInteraction: () -> Void
+    let onFitWindow: () -> Void
     let onResetZoom: () -> Void
     @Binding var isOptionsPopoverPresented: Bool
     @Binding var settings: ProjectSettings
+    @State private var isEditingZoomSlider = false
 
     var body: some View {
         HStack(spacing: 10) {
-            if isResetZoomVisible {
-                Button(action: onResetZoom) {
-                    Text("reset zoom")
+            Text("Zoom")
+                .font(.subheadline.weight(.semibold))
+
+            Slider(
+                value: Binding(
+                    get: { zoom },
+                    set: { onSetManualZoom($0, isEditingZoomSlider) }
+                ),
+                in: 0.5...2.5,
+                onEditingChanged: { isEditing in
+                    isEditingZoomSlider = isEditing
+                    if !isEditing {
+                        onFinalizeManualZoomInteraction()
+                    }
                 }
-                .help("Reset the preview zoom")
+            ) {
+                Text("Zoom")
             }
+            .frame(width: 180)
+            .help("Adjust preview zoom")
+
+            Text("\(Int((zoom * 100).rounded()))%")
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+                .frame(width: 52, alignment: .trailing)
+
+            Button(action: onFitWindow) {
+                Text("Fit Window")
+            }
+            .help("Fit the preview to the current window")
+
+            Button(action: onResetZoom) {
+                Text("Reset Zoom")
+            }
+            .help("Reset the preview zoom")
 
             Spacer(minLength: 8)
 
