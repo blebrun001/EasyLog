@@ -4,7 +4,7 @@
   <img src="Sources/EasyLogApp/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512.png" alt="EasyLog app icon" width="180" />
 </p>
 
-EasyLog is a macOS app to create clear stratigraphic logs from structured geological data.
+EasyLog is a macOS app for producing academic-quality stratigraphic logs simply and efficiently.
 
 ## What You Can Do
 
