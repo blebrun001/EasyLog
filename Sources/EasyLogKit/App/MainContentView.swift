@@ -223,9 +223,6 @@ private struct VisualizationToolbar: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Text("Zoom")
-                .font(.subheadline.weight(.semibold))
-
             Slider(
                 value: Binding(
                     get: { zoom },

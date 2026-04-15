@@ -8,8 +8,17 @@ struct EasyLogApp: App {
     @StateObject private var viewModel = ProjectViewModel()
 
     private func showAboutPanel() {
+        let version = appVersion
+        let credits = """
+        Version \(version)
+        Licence: GNU General Public License v3.0 (GPL-3.0)
+        Auteur: Brice Lebrun
+        """
+
         NSApp.orderFrontStandardAboutPanel(options: [
-            .applicationIcon: NSApp.applicationIconImage as Any
+            .applicationIcon: NSApp.applicationIconImage as Any,
+            .applicationVersion: version,
+            .credits: NSAttributedString(string: credits)
         ])
     }
 
@@ -100,5 +109,14 @@ struct EasyLogApp: App {
             get: { viewModel.selectedDetailPane },
             set: { viewModel.selectDetailPane($0) }
         )
+    }
+
+    private var appVersion: String {
+        let info = Bundle.main.infoDictionary
+        if let shortVersion = info?["CFBundleShortVersionString"] as? String,
+           !shortVersion.isEmpty {
+            return shortVersion
+        }
+        return "Unknown"
     }
 }

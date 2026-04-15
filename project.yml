@@ -44,6 +44,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.iphes.easylogapp
         GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: 1.1.2
+        CURRENT_PROJECT_VERSION: 1
         PRODUCT_NAME: EasyLogApp
         SWIFT_EMIT_LOC_STRINGS: NO
 
