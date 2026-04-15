@@ -1,9 +1,9 @@
 # Keep large source assets in LFS for future additions.
 # USGS resources are versioned as regular Git files (not Git LFS pointers).
 # Keeping them out of LFS avoids false "modified" states caused by clean/smudge filters.
-Sources/CakeKit/Resources/USGS/**/*.eps -filter -diff -merge -text
-Sources/CakeKit/Resources/USGS/**/*.pdf -filter -diff -merge -text
-Sources/CakeKit/Resources/USGS/**/*.png -filter -diff -merge -text
+Sources/EasyLogKit/Resources/USGS/**/*.eps -filter -diff -merge -text
+Sources/EasyLogKit/Resources/USGS/**/*.pdf -filter -diff -merge -text
+Sources/EasyLogKit/Resources/USGS/**/*.png -filter -diff -merge -text
 
 # Generic heavy binary extensions.
 *.psd filter=lfs diff=lfs merge=lfs -text

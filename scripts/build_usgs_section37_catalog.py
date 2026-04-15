@@ -2,7 +2,7 @@
 """Build canonical FGDC Section 37 catalog for runtime/UI.
 
 Output:
-- Sources/CakeKit/Resources/USGSRuntime/Section37Catalog.json
+- Sources/EasyLogKit/Resources/USGSRuntime/Section37Catalog.json
 """
 
 from __future__ import annotations
@@ -12,9 +12,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SYMBOLOGY_PATH = ROOT / "Sources/CakeKit/Features/Preview/Rendering/Symbology.swift"
-INDEX_PATH = ROOT / "Sources/CakeKit/Resources/USGS/11A02/symbol-index.json"
-OUT_PATH = ROOT / "Sources/CakeKit/Resources/USGSRuntime/Section37Catalog.json"
+SYMBOLOGY_PATH = ROOT / "Sources/EasyLogKit/Features/Preview/Rendering/Symbology.swift"
+INDEX_PATH = ROOT / "Sources/EasyLogKit/Resources/USGS/11A02/symbol-index.json"
+OUT_PATH = ROOT / "Sources/EasyLogKit/Resources/USGSRuntime/Section37Catalog.json"
 
 
 def parse_official_symbols_and_aliases() -> tuple[list[dict[str, object]], dict[int, int]]:

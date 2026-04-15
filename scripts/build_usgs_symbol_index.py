@@ -7,7 +7,7 @@ from pathlib import Path
 # Parses EPS files and emits `symbol-index.json` used at runtime to map
 # USGS symbol-id -> asset paths + artboard/symbol rectangle metadata.
 ROOT = Path(__file__).resolve().parent.parent
-BASE = ROOT / "Sources/CakeKit/Resources/USGS/11A02"
+BASE = ROOT / "Sources/EasyLogKit/Resources/USGS/11A02"
 OUT = BASE / "symbol-index.json"
 
 CODE_LABEL_RE = re.compile(r"\((\d{3})\\r\) Tj")

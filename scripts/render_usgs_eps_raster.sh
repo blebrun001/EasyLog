@@ -4,7 +4,7 @@ set -euo pipefail
 # Rasterizes EPS symbols to PNG using Ghostscript for fast preview loading.
 # Use `USGS_RASTER_DPI` to tune quality/size trade-offs.
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BASE_DIR="$ROOT_DIR/Sources/CakeKit/Resources/USGS/11A02"
+BASE_DIR="$ROOT_DIR/Sources/EasyLogKit/Resources/USGS/11A02"
 GS_BIN="$(command -v gs || true)"
 DPI="${USGS_RASTER_DPI:-600}"
 

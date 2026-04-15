@@ -1,22 +1,22 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
-// Defines the package graph: CakeKit library + CakeApp executable.
-// CakeKit bundles only runtime-ready USGS assets (not raw authoring EPS files).
+// Defines the package graph: EasyLogKit library + EasyLogApp executable.
+// EasyLogKit bundles only runtime-ready USGS assets (not raw authoring EPS files).
 let package = Package(
-    name: "Cake",
+    name: "EasyLog",
     platforms: [
         // Keep SwiftPM on the highest named API constant while Xcode target is set to 26.0.
         .macOS(.v15)
     ],
     products: [
-        .library(name: "CakeKit", targets: ["CakeKit"]),
-        .executable(name: "CakeApp", targets: ["CakeApp"])
+        .library(name: "EasyLogKit", targets: ["EasyLogKit"]),
+        .executable(name: "EasyLogApp", targets: ["EasyLogApp"])
     ],
     targets: [
         .target(
-            name: "CakeKit",
-            path: "Sources/CakeKit",
+            name: "EasyLogKit",
+            path: "Sources/EasyLogKit",
             exclude: [
                 "Resources/USGS/11A02/ai8",
                 "Resources/USGS/11A02/cs2",
@@ -32,18 +32,18 @@ let package = Package(
             ]
         ),
         .executableTarget(
-            name: "CakeApp",
-            dependencies: ["CakeKit"],
-            path: "Sources/CakeApp",
+            name: "EasyLogApp",
+            dependencies: ["EasyLogKit"],
+            path: "Sources/EasyLogApp",
             resources: [
                 .copy("Resources/Assets.xcassets"),
-                .copy("Resources/Cake.icns")
+                .copy("Resources/EasyLog.icns")
             ]
         ),
         .testTarget(
-            name: "CakeKitTests",
-            dependencies: ["CakeKit"],
-            path: "Tests/CakeKitTests"
+            name: "EasyLogKitTests",
+            dependencies: ["EasyLogKit"],
+            path: "Tests/EasyLogKitTests"
         )
     ]
 )

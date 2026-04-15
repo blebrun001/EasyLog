@@ -19,12 +19,12 @@ case "$MODE" in
   light)
     git sparse-checkout set \
       .github \
-      Sources/CakeApp \
-      Sources/CakeKit/App \
-      Sources/CakeKit/Core \
-      Sources/CakeKit/Features \
-      Sources/CakeKit/Infrastructure \
-      Sources/CakeKit/Resources/USGSRuntime \
+      Sources/EasyLogApp \
+      Sources/EasyLogKit/App \
+      Sources/EasyLogKit/Core \
+      Sources/EasyLogKit/Features \
+      Sources/EasyLogKit/Infrastructure \
+      Sources/EasyLogKit/Resources/USGSRuntime \
       Tests \
       scripts \
       Package.swift \

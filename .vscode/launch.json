@@ -4,21 +4,21 @@
             "type": "swift",
             "request": "launch",
             "args": [],
-            "cwd": "${workspaceFolder:Cake}",
-            "name": "Debug CakeApp",
-            "target": "CakeApp",
+            "cwd": "${workspaceFolder:EasyLog}",
+            "name": "Debug EasyLogApp",
+            "target": "EasyLogApp",
             "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug CakeApp"
+            "preLaunchTask": "swift: Build Debug EasyLogApp"
         },
         {
             "type": "swift",
             "request": "launch",
             "args": [],
-            "cwd": "${workspaceFolder:Cake}",
-            "name": "Release CakeApp",
-            "target": "CakeApp",
+            "cwd": "${workspaceFolder:EasyLog}",
+            "name": "Release EasyLogApp",
+            "target": "EasyLogApp",
             "configuration": "release",
-            "preLaunchTask": "swift: Build Release CakeApp"
+            "preLaunchTask": "swift: Build Release EasyLogApp"
         }
     ]
 }

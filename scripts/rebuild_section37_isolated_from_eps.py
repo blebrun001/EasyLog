@@ -2,7 +2,7 @@
 """Rebuild Section 37 isolated PDFs from native EPS-derived symbol rectangles.
 
 Source of truth:
-- Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.release.json
+- Sources/EasyLogKit/Resources/USGSRuntime/ResourceCatalog.release.json
 """
 
 from __future__ import annotations
@@ -12,8 +12,8 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CATALOG_PATH = ROOT / "Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.release.json"
-RESOURCES = ROOT / "Sources/CakeKit/Resources"
+CATALOG_PATH = ROOT / "Sources/EasyLogKit/Resources/USGSRuntime/ResourceCatalog.release.json"
+RESOURCES = ROOT / "Sources/EasyLogKit/Resources"
 CROP_SWIFT = ROOT / "scripts/crop_pdf_symbol.swift"
 CROP_BIN = ROOT / ".cache/usgs_11a02/bin/crop_pdf_symbol"
 

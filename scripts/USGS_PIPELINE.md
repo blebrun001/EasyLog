@@ -1,6 +1,6 @@
 # USGS Symbol Pipeline
 
-This pipeline keeps Cake's USGS symbol resources consistent across preview and export.
+This pipeline keeps EasyLog's USGS symbol resources consistent across preview and export.
 
 ## Standard Run
 

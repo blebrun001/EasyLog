@@ -2,8 +2,8 @@
 """Build a unified runtime USGS 11A02 symbol catalog (PDF-only).
 
 Outputs:
-- Sources/CakeKit/Resources/USGSRuntime/ResourceCatalog.<profile>.json
-- Sources/CakeKit/Resources/isolated/*.pdf (one cropped symbol per PDF)
+- Sources/EasyLogKit/Resources/USGSRuntime/ResourceCatalog.<profile>.json
+- Sources/EasyLogKit/Resources/isolated/*.pdf (one cropped symbol per PDF)
 """
 
 from __future__ import annotations
@@ -19,11 +19,11 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-USGS_BASE = ROOT / "Sources/CakeKit/Resources/USGS/11A02"
+USGS_BASE = ROOT / "Sources/EasyLogKit/Resources/USGS/11A02"
 INDEX_PATH = USGS_BASE / "symbol-index.json"
-OUT_BASE = ROOT / "Sources/CakeKit/Resources/USGSRuntime"
-ISOLATED_BASE = ROOT / "Sources/CakeKit/Resources/isolated"
-SYMBOLOGY_PATH = ROOT / "Sources/CakeKit/Features/Preview/Rendering/Symbology.swift"
+OUT_BASE = ROOT / "Sources/EasyLogKit/Resources/USGSRuntime"
+ISOLATED_BASE = ROOT / "Sources/EasyLogKit/Resources/isolated"
+SYMBOLOGY_PATH = ROOT / "Sources/EasyLogKit/Features/Preview/Rendering/Symbology.swift"
 SWIFT_CROP_SOURCE = ROOT / "scripts/crop_pdf_symbol.swift"
 SWIFT_CROP_BINARY = ROOT / ".cache/usgs_11a02/bin/crop_pdf_symbol"
 
@@ -54,7 +54,7 @@ def parse_official_codes_and_aliases() -> tuple[set[int], dict[int, int]]:
 
 
 def relative_source_path(path: Path) -> str:
-    return path.relative_to(ROOT).as_posix().replace("Sources/CakeKit/Resources/", "")
+    return path.relative_to(ROOT).as_posix().replace("Sources/EasyLogKit/Resources/", "")
 
 
 def build_entries_from_index() -> list[dict[str, Any]]:
@@ -77,7 +77,7 @@ def build_entries_from_index() -> list[dict[str, Any]]:
             continue
         variant = "ai8" if item.get("ai8") else "cs2"
 
-        pdf_abs = ROOT / "Sources/CakeKit/Resources" / variant_entry["pdfFile"]
+        pdf_abs = ROOT / "Sources/EasyLogKit/Resources" / variant_entry["pdfFile"]
         if not pdf_abs.exists():
             continue
         cached = pdf_meta_cache.get(pdf_abs)

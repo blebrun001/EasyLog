@@ -5,7 +5,7 @@ set -euo pipefail
 # local manifest used by the symbol resolver.
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BASE_URL="https://pubs.usgs.gov/tm/2006/11A02/"
-TARGET_DIR="$ROOT_DIR/Sources/CakeKit/Resources/USGS/11A02"
+TARGET_DIR="$ROOT_DIR/Sources/EasyLogKit/Resources/USGS/11A02"
 DOWNLOAD_DIR="$ROOT_DIR/.cache/usgs_11a02/downloads"
 WORK_DIR="$ROOT_DIR/.cache/usgs_11a02/work"
 MANIFEST_PATH="$TARGET_DIR/manifest.json"

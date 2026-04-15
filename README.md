@@ -1,10 +1,10 @@
-# Cake
+# EasyLog
 
 <p align="center">
-  <img src="Sources/CakeApp/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512.png" alt="Cake app icon" width="180" />
+  <img src="Sources/EasyLogApp/Resources/Assets.xcassets/AppIcon.appiconset/icon_512x512.png" alt="EasyLog app icon" width="180" />
 </p>
 
-Cake is a macOS app to create clear stratigraphic logs from structured geological data.
+EasyLog is a macOS app to create clear stratigraphic logs from structured geological data.
 
 ## What You Can Do
 
@@ -26,45 +26,12 @@ Cake is a macOS app to create clear stratigraphic logs from structured geologica
 4. Validate the result visually.
 5. Export one log or all logs.
 
-## Run
+## Installation
 
-```bash
-make build
-CAKE_RESOURCE_PROFILE=dev swift run CakeApp
-```
+1. Download the `.dmg` from the [latest release](https://github.com/blebrun001/EasyLog/releases/latest).
+2. Open the downloaded file.
+3. Drag `EasyLog.app` to `Applications`.
 
-## Test
+## Symbology Source
 
-```bash
-make test
-```
-
-## Quality Gates
-
-```bash
-make quality
-```
-
-This runs:
-- forbidden-pattern checks (`fatalError`, force-casts/force-try)
-- duplication detection (warning mode by default)
-- full `swift test`
-
-## Example Data
-
-Use the sample project at `Examples/sample-project.json`.
-
-## Resource Profiles
-
-Set `CAKE_RESOURCE_PROFILE` to choose symbol resources:
-
-- `dev` for development assets
-- `release` for production assets
-
-If not set, Cake uses `dev` in debug builds and `release` otherwise.
-
-## Architecture Notes (ADR)
-
-See `docs/adr/` for design decisions:
-- rendering cache concurrency strategy
-- centralized render tuning configuration
+The symbologies used in EasyLog are directly sourced from the symbols provided by the USGS.

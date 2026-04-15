@@ -1,6 +1,6 @@
 # XcodeGen project definition mirroring the Swift Package modules.
 # Keep this file as the single source of truth for Xcode project regeneration.
-name: Cake
+name: EasyLog
 options:
   createIntermediateGroups: true
 settings:
@@ -8,66 +8,66 @@ settings:
     SWIFT_VERSION: 6.0
     MACOSX_DEPLOYMENT_TARGET: 26.0
 targets:
-  CakeKit:
+  EasyLogKit:
     type: framework
     platform: macOS
     sources:
-      - Sources/CakeKit/App
-      - Sources/CakeKit/Core
-      - Sources/CakeKit/Features
-      - Sources/CakeKit/Infrastructure
-      - path: Sources/CakeKit/Resources/USGS/11A02/pdf
+      - Sources/EasyLogKit/App
+      - Sources/EasyLogKit/Core
+      - Sources/EasyLogKit/Features
+      - Sources/EasyLogKit/Infrastructure
+      - path: Sources/EasyLogKit/Resources/USGS/11A02/pdf
         buildPhase: resources
         type: folder
-      - path: Sources/CakeKit/Resources/isolated
+      - path: Sources/EasyLogKit/Resources/isolated
         buildPhase: resources
         type: folder
-      - path: Sources/CakeKit/Resources/USGSRuntime
+      - path: Sources/EasyLogKit/Resources/USGSRuntime
         buildPhase: resources
         type: folder
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit
+        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.easylogkit
         GENERATE_INFOPLIST_FILE: YES
 
-  CakeApp:
+  EasyLogApp:
     type: application
     platform: macOS
     sources:
-      - Sources/CakeApp
+      - Sources/EasyLogApp
     resources:
-      - Sources/CakeApp/Resources/Assets.xcassets
-      - Sources/CakeApp/Resources/Cake.icns
+      - Sources/EasyLogApp/Resources/Assets.xcassets
+      - Sources/EasyLogApp/Resources/EasyLog.icns
     dependencies:
-      - target: CakeKit
+      - target: EasyLogKit
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakeapp
+        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.easylogapp
         GENERATE_INFOPLIST_FILE: YES
-        PRODUCT_NAME: CakeApp
+        PRODUCT_NAME: EasyLogApp
         SWIFT_EMIT_LOC_STRINGS: NO
 
-  CakeKitTests:
+  EasyLogKitTests:
     type: bundle.unit-test
     platform: macOS
     sources:
-      - Tests/CakeKitTests
+      - Tests/EasyLogKitTests
     dependencies:
-      - target: CakeKit
+      - target: EasyLogKit
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
-        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.cakekit.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.iphes.easylogkit.tests
 
 schemes:
-  CakeApp:
+  EasyLogApp:
     build:
       targets:
-        CakeKit: all
-        CakeApp: all
+        EasyLogKit: all
+        EasyLogApp: all
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - CakeKitTests
+        - EasyLogKitTests
