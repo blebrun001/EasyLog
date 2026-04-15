@@ -13,5 +13,8 @@ fi
 echo "[quality] checking duplication"
 ./scripts/check-duplication.sh
 
-echo "[quality] swift test"
-swift test
+echo "[quality] swift test (with coverage)"
+swift test --enable-code-coverage
+
+echo "[quality] coverage threshold"
+./scripts/check-coverage.sh
