@@ -1,0 +1,241 @@
+{
+  "" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary.dia",
+    "emit-module-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary-emit-module.dia",
+    "pch" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKit-primary.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/MainContentView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/MainContentView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/MainContentView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/MainContentView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/ColorProfileService.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ColorProfileService.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ColorProfileService.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ColorProfileService.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/DomainProtocols.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/DomainProtocols.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/DomainProtocols.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/DomainProtocols.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/ExportService.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ExportService.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ExportService.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ExportService.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/FileDialoging.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/FileDialoging.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/FileDialoging.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/FileDialoging.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/ProjectDocumentService.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectDocumentService.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectDocumentService.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectDocumentService.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/SceneRefreshService.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/ZoomService.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ZoomService.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ZoomService.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ZoomService.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/EditorState.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EditorState.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EditorState.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EditorState.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/LithologyColorPresets.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LithologyColorPresets.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LithologyColorPresets.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LithologyColorPresets.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/ProjectViewModel.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectViewModel.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectViewModel.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectViewModel.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/RenderTuning.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderTuning.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderTuning.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderTuning.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/SceneComputationService.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/SceneRefreshTrigger.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/UI/ProUIComponents.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProUIComponents.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProUIComponents.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProUIComponents.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/UseCases/ProjectUseCases.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectUseCases.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectUseCases.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectUseCases.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Core/HexColorNormalizer.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Core/Models.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Models.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Models.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Models.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Core/Validation.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Validation.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Validation.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Validation.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Editor/UI/LithologyColorProfilesSheetView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LithologyColorProfilesSheetView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LithologyColorProfilesSheetView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LithologyColorProfilesSheetView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Editor/UI/ProjectSidebarView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectSidebarView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectSidebarView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectSidebarView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Editor/UI/UnitFormView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/UnitFormView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/UnitFormView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/UnitFormView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/EasyLogRenderer.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogRenderer.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogRenderer.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogRenderer.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/PointFeatureIcons.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/PointFeatureIcons.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/PointFeatureIcons.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/PointFeatureIcons.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/RenderScene.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderScene.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderScene.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderScene.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SceneCGRenderer.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SceneLayout.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneLayout.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneLayout.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneLayout.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SceneRasterCache.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/Symbology.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Symbology.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Symbology.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Symbology.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SyntheticComparisonScene.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticComparisonScene.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticComparisonScene.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticComparisonScene.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SyntheticSceneCGRenderer.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticSceneCGRenderer.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticSceneCGRenderer.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticSceneCGRenderer.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/ThreadSafeCaches.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ThreadSafeCaches.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ThreadSafeCaches.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ThreadSafeCaches.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/USGSEPSSymbolRenderer.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/USGSSymbolAssetResolver.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/UI/LegendView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LegendView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LegendView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/LegendView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/UI/RenderPreviewView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderPreviewView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderPreviewView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/RenderPreviewView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/UI/SettingsPanelView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/UI/SyntheticComparisonPopoverView.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticComparisonPopoverView.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticComparisonPopoverView.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SyntheticComparisonPopoverView.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Export/Exporting.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Exporting.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Exporting.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/Exporting.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Export/JPGExporter.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/JPGExporter.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/JPGExporter.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/JPGExporter.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Export/SVGExporter.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SVGExporter.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SVGExporter.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/SVGExporter.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Persistence/ProjectStore.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectStore.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectStore.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ProjectStore.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Resources/ResourceProvider.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ResourceProvider.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ResourceProvider.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ResourceProvider.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Resources/USGSResourceCatalog.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Utils/ColorHex.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ColorHex.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ColorHex.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/ColorHex.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Utils/EasyLogKitBundle.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKitBundle.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKitBundle.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/arm64/EasyLogKitBundle.o"
+  }
+}

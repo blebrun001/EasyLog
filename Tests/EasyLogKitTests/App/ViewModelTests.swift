@@ -73,6 +73,52 @@ func exportProjectPassesRequestedFormatAndDPI() {
 
 @MainActor
 @Test
+func saveProjectViaPanelIfNeededPrefersExistingProjectURL() {
+    let store = MockProjectStore()
+    let existingURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "easylog-existing-\(UUID().uuidString).json")
+    let fallbackDialogURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "easylog-dialog-\(UUID().uuidString).json")
+
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: store,
+        exporter: MockExporter(),
+        fileDialogService: MockFileDialogService(saveURL: fallbackDialogURL),
+        defaults: isolatedDefaults(prefix: "easylog-vm")
+    )
+
+    viewModel.saveProject(at: existingURL)
+    viewModel.project.metadata.title = "Updated title"
+    viewModel.saveProjectViaPanelIfNeeded()
+
+    #expect(store.lastSavedURL == existingURL)
+    #expect(viewModel.projectURL == existingURL)
+}
+
+@MainActor
+@Test
+func exportViaPanelUsesDialogDestinationAndFormat() {
+    let exporter = MockExporter()
+    let exportURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "easylog-panel-\(UUID().uuidString).svg")
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: exporter,
+        fileDialogService: MockFileDialogService(exportURL: exportURL),
+        defaults: isolatedDefaults(prefix: "easylog-vm")
+    )
+
+    viewModel.exportViaPanel(format: .svg, dpi: 180)
+
+    #expect(exporter.lastURL == exportURL)
+    #expect(exporter.lastFormat == .svg)
+    #expect(exporter.lastDPI == 180)
+}
+
+@MainActor
+@Test
 func addAndDuplicateLogSelectNewTabsAndKeepIndependentData() {
     let viewModel = ProjectViewModel(
         project: Project.sample,

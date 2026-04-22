@@ -589,7 +589,7 @@ public struct UnitFormView: View {
 
     private static let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.locale = .current
+        formatter.locale = Locale(identifier: "en_US")
         formatter.numberStyle = .decimal
         formatter.usesGroupingSeparator = false
         formatter.minimumFractionDigits = 0

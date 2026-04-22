@@ -1,0 +1,12 @@
+{
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Utils/EasyLogKitBundle.swift" : {
+    "abi-baseline-json" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit.abi.json",
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit-primary.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit-primary.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit-primary.dia",
+    "objc-header" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit-Swift.h",
+    "swiftdoc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit.swiftdoc",
+    "swiftmodule" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit.swiftmodule",
+    "swiftsourceinfo" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogKit.build/Objects-normal/x86_64/EasyLogKit.swiftsourceinfo"
+  }
+}

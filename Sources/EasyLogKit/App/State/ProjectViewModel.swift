@@ -4,6 +4,11 @@ import CoreGraphics
 import Foundation
 import os
 
+public enum EasyLogPreferencesKey {
+    public static let showsInspectorOnLaunch = "easylog.preferences.showsInspectorOnLaunch"
+    public static let defaultDetailPane = "easylog.preferences.defaultDetailPane"
+}
+
 private struct ProjectStoreAdapter: ProjectPersisting {
     let store: any ProjectStore
 
@@ -11,11 +16,557 @@ private struct ProjectStoreAdapter: ProjectPersisting {
     func save(_ document: ProjectDocument, to url: URL) throws { try store.save(document, to: url) }
 }
 
+@MainActor
+internal final class SceneOrchestrator {
+    private let stateStore: ProjectViewModelStateStore
+    private let context: ProjectViewModelContext
+
+    init(stateStore: ProjectViewModelStateStore, context: ProjectViewModelContext) {
+        self.stateStore = stateStore
+        self.context = context
+    }
+
+    func refreshScene() {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.scheduleSceneRefresh(trigger: .structural)
+    }
+
+    func selectDetailPane(_ pane: EditorPresentationState.DetailPane) {
+        let vm = stateStore.viewModel
+        let targetPane: EditorPresentationState.DetailPane =
+            (pane == .synthetic && !vm.canOpenSyntheticView) ? .preview : pane
+        guard vm.presentationState.selectedDetailPane != targetPane else { return }
+        vm.presentationState.selectedDetailPane = targetPane
+    }
+
+    func toggleInspector() {
+        stateStore.viewModel.presentationState.isInspectorPresented.toggle()
+    }
+
+    func setInspectorPresented(_ isPresented: Bool) {
+        stateStore.viewModel.presentationState.isInspectorPresented = isPresented
+    }
+}
+
+@MainActor
+internal final class ZoomOrchestrator {
+    private let stateStore: ProjectViewModelStateStore
+    private let context: ProjectViewModelContext
+
+    init(stateStore: ProjectViewModelStateStore, context: ProjectViewModelContext) {
+        self.stateStore = stateStore
+        self.context = context
+    }
+
+    func zoomIn() {
+        let vm = stateStore.viewModel
+        setManualZoom(vm.zoom + 0.1, isInteracting: false)
+        vm.statusMessage = "Zoom \(Int((vm.zoom * 100).rounded()))%"
+    }
+
+    func zoomOut() {
+        let vm = stateStore.viewModel
+        setManualZoom(vm.zoom - 0.1, isInteracting: false)
+        vm.statusMessage = "Zoom \(Int((vm.zoom * 100).rounded()))%"
+    }
+
+    func fitToWindow() {
+        let vm = stateStore.viewModel
+        setZoomMode(.fitWindow)
+        vm.statusMessage = "Zoom fit window"
+    }
+
+    func resetZoom() {
+        let vm = stateStore.viewModel
+        vm.hasManualZoomOverride = false
+        setZoomMode(.fitWindow)
+        vm.statusMessage = "Zoom fit window"
+    }
+
+    func setManualZoom(_ value: Double, isInteracting: Bool) {
+        let vm = stateStore.viewModel
+        let clamped = context.zoomService.clampedZoom(value, tuning: context.tuning)
+        let didChange = abs(clamped - vm.zoom) > 0.0001
+        vm.zoom = clamped
+
+        guard didChange else { return }
+        vm.isManualZoomInteractionActive = isInteracting
+        vm.hasManualZoomOverride = true
+
+        if vm.autoAdjustToWindow, vm.zoomMode != .manual {
+            vm.isAutoAdjustSuspendedByManualZoom = true
+            if !isInteracting {
+                vm.scheduleRasterizationForCurrentZoom()
+            }
+            return
+        }
+
+        vm.zoomMode = .manual
+        if !isInteracting {
+            vm.scheduleRasterizationForCurrentZoom()
+        }
+    }
+
+    func finalizeManualZoomInteraction() {
+        let vm = stateStore.viewModel
+        guard vm.isManualZoomInteractionActive else { return }
+        vm.isManualZoomInteractionActive = false
+        vm.scheduleRasterizationForCurrentZoom()
+    }
+
+    func setZoomMode(_ mode: ProjectViewModel.ZoomMode) {
+        let vm = stateStore.viewModel
+        vm.zoomMode = mode
+
+        guard mode != .manual else { return }
+        vm.hasManualZoomOverride = false
+        vm.isAutoAdjustSuspendedByManualZoom = false
+        vm.applyFit(mode: mode)
+    }
+
+    func setAutoAdjustToWindow(_ enabled: Bool) {
+        let vm = stateStore.viewModel
+        vm.autoAdjustToWindow = enabled
+
+        if enabled {
+            vm.hasManualZoomOverride = false
+            vm.isAutoAdjustSuspendedByManualZoom = false
+            vm.applyAutoAdjustIfNeeded()
+        }
+    }
+
+    func updateViewportSize(_ size: CGSize) {
+        let vm = stateStore.viewModel
+        let normalized = CGSize(width: max(0, size.width), height: max(0, size.height))
+        guard normalized != vm.viewportSize else { return }
+        let hadViewport = vm.viewportSize.width > 0 && vm.viewportSize.height > 0
+        #if DEBUG
+        context.zoomLogger.debug(
+            "updateViewportSize raw=(\(size.width, format: .fixed(precision: 2)), \(size.height, format: .fixed(precision: 2))) normalized=(\(normalized.width, format: .fixed(precision: 2)), \(normalized.height, format: .fixed(precision: 2))) oldViewport=(\(vm.viewportSize.width, format: .fixed(precision: 2)), \(vm.viewportSize.height, format: .fixed(precision: 2))) mode=\(vm.zoomMode.rawValue, privacy: .public) zoom=\(vm.zoom, format: .fixed(precision: 4)) autoAdjust=\(vm.autoAdjustToWindow) manualOverride=\(vm.hasManualZoomOverride)"
+        )
+        #endif
+        vm.viewportSize = normalized
+
+        if !vm.didApplyInitialWindowFit, vm.viewportSize.width > 0 {
+            vm.didApplyInitialWindowFit = true
+            vm.hasManualZoomOverride = false
+            vm.isAutoAdjustSuspendedByManualZoom = false
+            if vm.zoomMode == .manual {
+                vm.zoomMode = .fitWindow
+            }
+            vm.applyFit(mode: vm.zoomMode)
+            #if DEBUG
+            context.zoomLogger.debug(
+                "initial auto-fit forced mode=\(vm.zoomMode.rawValue, privacy: .public) -> zoom=\(vm.zoom, format: .fixed(precision: 4)) viewport=(\(vm.viewportSize.width, format: .fixed(precision: 2)), \(vm.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(vm.scene.canvasSize.width, format: .fixed(precision: 2)), \(vm.scene.canvasSize.height, format: .fixed(precision: 2)))"
+            )
+            #endif
+            return
+        }
+
+        if !hadViewport {
+            vm.applyAutoAdjustIfNeeded()
+            return
+        }
+
+        vm.scheduleAutoAdjust()
+    }
+}
+
+@MainActor
+internal final class ProjectDocumentOrchestrator {
+    private let stateStore: ProjectViewModelStateStore
+    private let context: ProjectViewModelContext
+
+    init(stateStore: ProjectViewModelStateStore, context: ProjectViewModelContext) {
+        self.stateStore = stateStore
+        self.context = context
+    }
+
+    func selectLog(at index: Int) {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.commitCurrentProjectChanges()
+        vm.setSelectedLog(index)
+        vm.statusMessage = "Selected log \(index + 1)"
+    }
+
+    func addLog() {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.commitCurrentProjectChanges()
+        vm.document.logs.append(Project())
+        vm.setSelectedLog(vm.document.logs.count - 1)
+        vm.presentationState.selectedDetailPane = .preview
+        vm.statusMessage = "Added new log"
+    }
+
+    func duplicateCurrentLog() {
+        let vm = stateStore.viewModel
+        guard vm.document.logs.indices.contains(vm.selectedLogIndex) else { return }
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.commitCurrentProjectChanges()
+
+        var duplicated = vm.document.logs[vm.selectedLogIndex]
+        let existingTitles = vm.document.logs.map { $0.metadata.title }
+        duplicated.metadata.title = vm.duplicatedLogTitle(for: duplicated.metadata.title, existingTitles: existingTitles)
+
+        let insertIndex = vm.selectedLogIndex + 1
+        vm.document.logs.insert(duplicated, at: insertIndex)
+        vm.setSelectedLog(insertIndex)
+        vm.presentationState.selectedDetailPane = .preview
+        vm.statusMessage = "Duplicated current log"
+    }
+
+    func removeLog(at index: Int) {
+        let vm = stateStore.viewModel
+        guard vm.document.logs.indices.contains(index) else { return }
+        guard vm.document.logs.count > 1 else { return }
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.commitCurrentProjectChanges()
+
+        vm.document.logs.remove(at: index)
+
+        let nextIndex: Int
+        if vm.selectedLogIndex > index {
+            nextIndex = vm.selectedLogIndex - 1
+        } else if vm.selectedLogIndex == index {
+            nextIndex = min(index, vm.document.logs.count - 1)
+        } else {
+            nextIndex = vm.selectedLogIndex
+        }
+
+        vm.setSelectedLog(nextIndex)
+        if !vm.canOpenSyntheticView {
+            vm.presentationState.selectedDetailPane = .preview
+        }
+        vm.statusMessage = "Removed log \(index + 1)"
+    }
+
+    func removeCurrentLog() {
+        let vm = stateStore.viewModel
+        removeLog(at: vm.selectedLogIndex)
+    }
+
+    func addUnit() {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.selectedUnitID = context.addUnitUseCase.execute(project: &vm.project)
+    }
+
+    func removeSelectedUnit() {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.selectedUnitID = context.deleteSelectedUnitUseCase.execute(project: &vm.project, selectedUnitID: vm.selectedUnitID)
+    }
+
+    func moveUnits(fromOffsets source: IndexSet, toOffset destination: Int) {
+        let vm = stateStore.viewModel
+        guard !source.isEmpty else { return }
+        vm.setNextSceneRefreshTrigger(.structural)
+
+        let movedUnits = source.map { vm.project.units[$0] }
+        for index in source.sorted(by: >) {
+            vm.project.units.remove(at: index)
+        }
+        let adjustedDestination = destination - source.filter { $0 < destination }.count
+        vm.project.units.insert(contentsOf: movedUnits, at: adjustedDestination)
+        vm.statusMessage = "Reordered units"
+    }
+
+    func moveSelectedUnitUp() {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        let before = vm.selectedUnitID
+        context.moveSelectedUnitUseCase.execute(project: &vm.project, selectedUnitID: vm.selectedUnitID, direction: .up)
+        guard let current = vm.selectedUnitID else { return }
+        if before == current, vm.project.units.first?.id != current {
+            vm.statusMessage = "Moved selected unit up"
+        }
+    }
+
+    func moveSelectedUnitDown() {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(.structural)
+        let before = vm.selectedUnitID
+        context.moveSelectedUnitUseCase.execute(project: &vm.project, selectedUnitID: vm.selectedUnitID, direction: .down)
+        guard let current = vm.selectedUnitID else { return }
+        if before == current, vm.project.units.last?.id != current {
+            vm.statusMessage = "Moved selected unit down"
+        }
+    }
+
+    func updateProjectSettings(_ newSettings: ProjectSettings, trigger: SceneRefreshTrigger) {
+        let vm = stateStore.viewModel
+        vm.setNextSceneRefreshTrigger(trigger)
+        var updatedProject = vm.project
+        updatedProject.settings = newSettings
+        vm.project = updatedProject
+    }
+
+    func newProject() {
+        let vm = stateStore.viewModel
+        vm.flushPendingColorPresetPersistence()
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.document = ProjectDocument(logs: [Project()])
+        vm.setSelectedLog(0)
+        vm.projectURL = nil
+        vm.presentationState = EditorPresentationState()
+        vm.isAutoAdjustSuspendedByManualZoom = false
+        vm.hasManualZoomOverride = false
+        vm.statusMessage = "New project"
+        vm.errorMessage = nil
+    }
+
+    func openProjectViaPanel() {
+        guard let url = context.fileDialogService.chooseProjectToOpen() else { return }
+        openProject(at: url)
+    }
+
+    func saveProjectViaPanelIfNeeded() {
+        let vm = stateStore.viewModel
+        if let existingURL = vm.projectURL {
+            saveProject(at: existingURL)
+            return
+        }
+        guard let url = context.fileDialogService.chooseProjectToSave() else { return }
+        saveProject(at: url)
+    }
+
+    func openProject(at url: URL) {
+        let vm = stateStore.viewModel
+        do {
+            vm.flushPendingColorPresetPersistence()
+            vm.setNextSceneRefreshTrigger(.structural)
+            let loaded = try context.documentService.open(url: url)
+            vm.document = ProjectDocument(logs: loaded.logs)
+            vm.projectURL = url
+            vm.setSelectedLog(0)
+            vm.presentationState.selectedDetailPane = .preview
+            vm.isAutoAdjustSuspendedByManualZoom = false
+            vm.hasManualZoomOverride = false
+            vm.statusMessage = "Opened \(url.lastPathComponent)"
+            vm.errorMessage = nil
+        } catch {
+            vm.errorMessage = "Could not open project: \(error.localizedDescription). Check that the JSON file is valid and try again."
+        }
+    }
+
+    func saveProject(at url: URL) {
+        let vm = stateStore.viewModel
+        do {
+            vm.flushPendingColorPresetPersistence()
+            vm.commitCurrentProjectChanges()
+            let saved = try context.documentService.save(vm.document, to: url)
+            vm.document = saved
+            vm.setSelectedLog(min(vm.selectedLogIndex, max(saved.logs.count - 1, 0)))
+            vm.projectURL = url
+            vm.statusMessage = "Saved \(url.lastPathComponent)"
+            vm.errorMessage = nil
+        } catch {
+            vm.errorMessage = "Could not save project: \(error.localizedDescription). Verify write permissions and try again."
+        }
+    }
+}
+
+@MainActor
+internal final class ExportOrchestrator {
+    private let stateStore: ProjectViewModelStateStore
+    private let context: ProjectViewModelContext
+
+    init(stateStore: ProjectViewModelStateStore, context: ProjectViewModelContext) {
+        self.stateStore = stateStore
+        self.context = context
+    }
+
+    func exportViaPanel(format: ExportFormat, dpi: Double) {
+        guard let url = context.fileDialogService.chooseExportDestination(format: format) else { return }
+        exportProject(to: url, format: format, dpi: dpi)
+    }
+
+    func exportAllViaPanel(format: ExportFormat, dpi: Double) {
+        guard let directoryURL = context.fileDialogService.chooseExportDirectory() else { return }
+        exportAllProjects(to: directoryURL, format: format, dpi: dpi)
+    }
+
+    func exportProject(to url: URL, format: ExportFormat, dpi: Double) {
+        let vm = stateStore.viewModel
+        do {
+            try context.exportService.export(scene: vm.scene, to: url, format: format, dpi: dpi)
+            vm.statusMessage = "Exported \(url.lastPathComponent)"
+            vm.errorMessage = nil
+        } catch {
+            vm.errorMessage = "Could not export file: \(error.localizedDescription). Choose a writable location and retry."
+        }
+    }
+
+    func exportAllProjects(to directoryURL: URL, format: ExportFormat, dpi: Double) {
+        let vm = stateStore.viewModel
+        vm.commitCurrentProjectChanges()
+
+        var successCount = 0
+        var failureDetails: [String] = []
+        var reservedFilenames = Set<String>()
+
+        for (index, log) in vm.document.logs.enumerated() {
+            let scene = context.renderer.makeScene(project: log)
+            let basename = vm.preferredExportBaseName(for: log.metadata.title, index: index)
+            let destinationURL = vm.uniqueExportURL(
+                in: directoryURL,
+                basename: basename,
+                format: format,
+                reservedNames: &reservedFilenames
+            )
+
+            do {
+                try context.exportService.export(scene: scene, to: destinationURL, format: format, dpi: dpi)
+                successCount += 1
+            } catch {
+                failureDetails.append("\(destinationURL.lastPathComponent): \(error.localizedDescription)")
+            }
+        }
+
+        let total = vm.document.logs.count
+        if successCount == 0 {
+            vm.errorMessage = "Could not export any logs. \(failureDetails.first ?? "Choose a writable location and retry.")"
+            return
+        }
+
+        if failureDetails.isEmpty {
+            vm.statusMessage = "Exported \(successCount) logs to \(directoryURL.lastPathComponent)"
+        } else {
+            vm.statusMessage = "Exported \(successCount)/\(total) logs to \(directoryURL.lastPathComponent)"
+        }
+        vm.errorMessage = nil
+    }
+}
+
+@MainActor
+internal final class ColorPresetOrchestrator {
+    private let stateStore: ProjectViewModelStateStore
+    private let context: ProjectViewModelContext
+
+    init(stateStore: ProjectViewModelStateStore, context: ProjectViewModelContext) {
+        self.stateStore = stateStore
+        self.context = context
+    }
+
+    func clearError() {
+        stateStore.viewModel.errorMessage = nil
+    }
+
+    func flushPendingColorPresetPersistence() {
+        let vm = stateStore.viewModel
+        vm.colorPresetPersistTask?.cancel()
+        vm.persistColorPresetStateNow()
+    }
+
+    func createColorProfile(name: String) {
+        let vm = stateStore.viewModel
+        let resolved = context.colorProfileService.uniqueProfileName(
+            base: LithologyColorProfile.normalizedName(name),
+            existingProfiles: vm.colorProfiles
+        )
+        let profile = LithologyColorProfile(name: resolved)
+        vm.colorProfiles.append(profile)
+        vm.activeColorProfileID = profile.id
+        vm.persistColorPresetState()
+    }
+
+    func renameColorProfile(id: UUID, name: String) {
+        let vm = stateStore.viewModel
+        guard let index = vm.colorProfiles.firstIndex(where: { $0.id == id }) else { return }
+        let resolved = context.colorProfileService.uniqueProfileName(
+            base: LithologyColorProfile.normalizedName(name, fallback: vm.colorProfiles[index].name),
+            existingProfiles: vm.colorProfiles,
+            excludingID: id
+        )
+        vm.colorProfiles[index].name = resolved
+        vm.persistColorPresetState()
+    }
+
+    func deleteColorProfile(id: UUID) {
+        let vm = stateStore.viewModel
+        guard vm.colorProfiles.count > 1 else { return }
+        guard let index = vm.colorProfiles.firstIndex(where: { $0.id == id }) else { return }
+
+        vm.colorProfiles.remove(at: index)
+        if vm.activeColorProfileID == id {
+            vm.activeColorProfileID = vm.colorProfiles.first?.id
+        }
+        vm.persistColorPresetState()
+    }
+
+    func setActiveColorProfile(id: UUID) {
+        let vm = stateStore.viewModel
+        guard vm.colorProfiles.contains(where: { $0.id == id }) else { return }
+        vm.activeColorProfileID = id
+        vm.persistColorPresetState()
+    }
+
+    func setLithologyColorPreset(usgsCode: Int, hex: String) {
+        let vm = stateStore.viewModel
+        guard let normalized = LithologyColorProfile.normalizedHex(hex) else { return }
+        vm.mutateActiveColorProfile { profile in
+            profile.mappings[usgsCode] = normalized
+        }
+    }
+
+    func removeLithologyColorPreset(usgsCode: Int) {
+        let vm = stateStore.viewModel
+        vm.mutateActiveColorProfile { profile in
+            profile.mappings.removeValue(forKey: usgsCode)
+        }
+    }
+
+    func presetColor(for usgsCode: Int) -> String? {
+        stateStore.viewModel.activeColorProfile?.mappings[usgsCode]
+    }
+
+    func applyPresetToSelectedUnit() {
+        let vm = stateStore.viewModel
+        guard let selectedUnitIndex = vm.selectedUnitIndex else { return }
+        let usgsCode = vm.project.units[selectedUnitIndex].usgsLithologyCode
+        guard let presetHex = presetColor(for: usgsCode) else { return }
+        vm.setNextSceneRefreshTrigger(.structural)
+        vm.project.units[selectedUnitIndex].lithologyColorHex = presetHex
+        vm.statusMessage = "Applied profile color to selected unit"
+    }
+}
+
 private struct ExporterAdapter: Exporting {
     let exporter: any Exporter
 
     func export(scene: RenderScene, to url: URL, options: ExportOptions) throws {
         try exporter.export(scene: scene, to: url, options: options)
+    }
+}
+
+internal struct ProjectViewModelContext {
+    let renderer: LogRenderer
+    let documentService: ProjectDocumentService
+    let exportService: ExportService
+    let fileDialogService: FileDialoging
+    let addUnitUseCase: AddUnitUseCase
+    let deleteSelectedUnitUseCase: DeleteSelectedUnitUseCase
+    let moveSelectedUnitUseCase: MoveSelectedUnitUseCase
+    let zoomService: ZoomService
+    let colorProfileService: ColorProfileService
+    let colorPresetStore: any LithologyColorPresetPersisting
+    let sceneRefreshService: SceneRefreshService
+    let sceneComputationService: SceneComputationService
+    let rasterCache: SceneRasterCache
+    let tuning: RenderTuning
+    let zoomLogger: Logger
+    let perfSignposter: OSSignposter
+}
+
+@MainActor
+internal final class ProjectViewModelStateStore {
+    fileprivate unowned let viewModel: ProjectViewModel
+
+    init(viewModel: ProjectViewModel) {
+        self.viewModel = viewModel
     }
 }
 
@@ -68,30 +619,32 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    @Published public private(set) var document: ProjectDocument
+    @Published public fileprivate(set) var document: ProjectDocument
     @Published public var project: Project {
         didSet {
             commitCurrentProjectChanges(using: project)
             scheduleSceneRefresh(trigger: consumePendingSceneRefreshTrigger(default: .textInput))
         }
     }
-    @Published public private(set) var selectedLogIndex: Int
-    @Published public private(set) var scene: RenderScene
-    @Published public private(set) var syntheticScene: SyntheticComparisonScene
+    @Published public fileprivate(set) var selectedLogIndex: Int
+    @Published public fileprivate(set) var scene: RenderScene
+    @Published public fileprivate(set) var syntheticScene: SyntheticComparisonScene
     @Published public var selectedUnitID: UUID?
-    @Published public private(set) var validationIssues: [ValidationIssue] = []
+    @Published public fileprivate(set) var validationIssues: [ValidationIssue] = []
     @Published public var zoom: Double
-    @Published public private(set) var zoomMode: ZoomMode
-    @Published public private(set) var autoAdjustToWindow: Bool
-    @Published public private(set) var presentationState = EditorPresentationState()
-    @Published public private(set) var statusMessage: String = "Ready"
-    @Published public private(set) var errorMessage: String?
-    @Published public private(set) var colorProfiles: [LithologyColorProfile] = []
-    @Published public private(set) var activeColorProfileID: UUID?
-    @Published public private(set) var editorState: EditorState
-    @Published public private(set) var previewState: PreviewState
+    @Published public fileprivate(set) var zoomMode: ZoomMode
+    @Published public fileprivate(set) var autoAdjustToWindow: Bool
+    @Published public fileprivate(set) var presentationState = EditorPresentationState()
+    @Published public fileprivate(set) var statusMessage: String = "Ready"
+    @Published public fileprivate(set) var errorMessage: String?
+    @Published public fileprivate(set) var colorProfiles: [LithologyColorProfile] = []
+    @Published public fileprivate(set) var activeColorProfileID: UUID?
+    @Published public fileprivate(set) var showsInspectorOnLaunchPreference: Bool
+    @Published public fileprivate(set) var defaultDetailPanePreference: EditorPresentationState.DetailPane
+    @Published public fileprivate(set) var editorState: EditorState
+    @Published public fileprivate(set) var previewState: PreviewState
 
-    public private(set) var projectURL: URL?
+    public fileprivate(set) var projectURL: URL?
     public var activeColorProfileName: String {
         activeColorProfile?.name ?? ""
     }
@@ -116,35 +669,43 @@ public final class ProjectViewModel: ObservableObject {
         hasManualZoomOverride
     }
 
-    private let renderer: LogRenderer
-    private let documentService: ProjectDocumentService
-    private let exportService: ExportService
-    private let fileDialogService: FileDialoging
-    private let addUnitUseCase = AddUnitUseCase()
-    private let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
-    private let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
-    private let zoomService = ZoomService()
-    private let colorProfileService = ColorProfileService()
-    private let colorPresetStore: any LithologyColorPresetPersisting
-    private let sceneRefreshService = SceneRefreshService()
-    private let sceneComputationService: SceneComputationService
-    private let rasterCache: SceneRasterCache
-    private let tuning: RenderTuning
-    private var cancellables = Set<AnyCancellable>()
-    private var viewportSize: CGSize = .zero
-    private var isAutoAdjustSuspendedByManualZoom = false
-    private var hasManualZoomOverride = false
-    private var didApplyInitialWindowFit = false
-    private var sceneRefreshTask: Task<Void, Never>?
-    private var sceneRefreshGeneration: UInt64 = 0
-    private var pendingSceneRefreshTrigger: SceneRefreshTrigger = .textInput
-    private var resizeDebounceTask: Task<Void, Never>?
-    private var previewRasterTask: Task<Void, Never>?
-    private var syntheticRasterTask: Task<Void, Never>?
-    private var colorPresetPersistTask: Task<Void, Never>?
-    private var isManualZoomInteractionActive = false
-    private let zoomLogger = Logger(subsystem: "EasyLog", category: "Zoom")
-    private let perfSignposter = OSSignposter(subsystem: "EasyLog", category: "Perf")
+    fileprivate let renderer: LogRenderer
+    fileprivate let documentService: ProjectDocumentService
+    fileprivate let exportService: ExportService
+    fileprivate let fileDialogService: FileDialoging
+    fileprivate let addUnitUseCase = AddUnitUseCase()
+    fileprivate let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
+    fileprivate let moveSelectedUnitUseCase = MoveSelectedUnitUseCase()
+    fileprivate let zoomService = ZoomService()
+    fileprivate let colorProfileService = ColorProfileService()
+    fileprivate let colorPresetStore: any LithologyColorPresetPersisting
+    fileprivate let sceneRefreshService = SceneRefreshService()
+    fileprivate let sceneComputationService: SceneComputationService
+    fileprivate let rasterCache: SceneRasterCache
+    fileprivate let tuning: RenderTuning
+    fileprivate let userDefaults: UserDefaults
+    fileprivate var cancellables = Set<AnyCancellable>()
+    fileprivate var viewportSize: CGSize = .zero
+    fileprivate var isAutoAdjustSuspendedByManualZoom = false
+    fileprivate var hasManualZoomOverride = false
+    fileprivate var didApplyInitialWindowFit = false
+    fileprivate var sceneRefreshTask: Task<Void, Never>?
+    fileprivate var sceneRefreshGeneration: UInt64 = 0
+    fileprivate var pendingSceneRefreshTrigger: SceneRefreshTrigger = .textInput
+    fileprivate var resizeDebounceTask: Task<Void, Never>?
+    fileprivate var previewRasterTask: Task<Void, Never>?
+    fileprivate var syntheticRasterTask: Task<Void, Never>?
+    fileprivate var colorPresetPersistTask: Task<Void, Never>?
+    fileprivate var isManualZoomInteractionActive = false
+    fileprivate let zoomLogger = Logger(subsystem: "EasyLog", category: "Zoom")
+    fileprivate let perfSignposter = OSSignposter(subsystem: "EasyLog", category: "Perf")
+    fileprivate let context: ProjectViewModelContext
+    fileprivate lazy var stateStore = ProjectViewModelStateStore(viewModel: self)
+    fileprivate lazy var projectDocumentOrchestrator = ProjectDocumentOrchestrator(stateStore: stateStore, context: context)
+    fileprivate lazy var sceneOrchestrator = SceneOrchestrator(stateStore: stateStore, context: context)
+    fileprivate lazy var zoomOrchestrator = ZoomOrchestrator(stateStore: stateStore, context: context)
+    fileprivate lazy var exportOrchestrator = ExportOrchestrator(stateStore: stateStore, context: context)
+    fileprivate lazy var colorPresetOrchestrator = ColorPresetOrchestrator(stateStore: stateStore, context: context)
 
     public init(
         project: Project = .sample,
@@ -158,6 +719,7 @@ public final class ProjectViewModel: ObservableObject {
         sceneComputationService: SceneComputationService? = nil,
         rasterCache: SceneRasterCache? = nil
     ) {
+        let initialPresentationState = Self.initialPresentationState(from: defaults)
         let initialDocument = ProjectDocument(logs: [project])
         let initialSelectedUnitID = project.units.first?.id
         let initialScene = renderer.makeScene(project: project)
@@ -178,14 +740,36 @@ public final class ProjectViewModel: ObservableObject {
         self.scene = initialScene
         self.syntheticScene = .empty
         self.selectedUnitID = initialSelectedUnitID
+        self.presentationState = initialPresentationState
+        self.showsInspectorOnLaunchPreference = initialPresentationState.isInspectorPresented
+        self.defaultDetailPanePreference = initialPresentationState.selectedDetailPane
+        self.userDefaults = defaults
         self.sceneComputationService = sceneComputationService ?? SceneComputationService(renderer: renderer)
         self.rasterCache = rasterCache ?? SceneRasterCache(maxBytes: tuning.rasterCacheMaxBytes)
+        self.context = ProjectViewModelContext(
+            renderer: renderer,
+            documentService: self.documentService,
+            exportService: self.exportService,
+            fileDialogService: fileDialogService,
+            addUnitUseCase: self.addUnitUseCase,
+            deleteSelectedUnitUseCase: self.deleteSelectedUnitUseCase,
+            moveSelectedUnitUseCase: self.moveSelectedUnitUseCase,
+            zoomService: self.zoomService,
+            colorProfileService: self.colorProfileService,
+            colorPresetStore: self.colorPresetStore,
+            sceneRefreshService: self.sceneRefreshService,
+            sceneComputationService: self.sceneComputationService,
+            rasterCache: self.rasterCache,
+            tuning: tuning,
+            zoomLogger: self.zoomLogger,
+            perfSignposter: self.perfSignposter
+        )
         self.editorState = EditorState(
             document: initialDocument,
             project: project,
             selectedLogIndex: 0,
             selectedUnitID: initialSelectedUnitID,
-            presentationState: EditorPresentationState(),
+            presentationState: initialPresentationState,
             statusMessage: "Ready",
             errorMessage: nil
         )
@@ -212,8 +796,7 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func refreshScene() {
-        setNextSceneRefreshTrigger(.structural)
-        scheduleSceneRefresh(trigger: .structural)
+        sceneOrchestrator.refreshScene()
     }
 
     public func makeSyntheticComparisonScene() -> SyntheticComparisonScene {
@@ -221,429 +804,183 @@ public final class ProjectViewModel: ObservableObject {
     }
 
     public func selectLog(at index: Int) {
-        setNextSceneRefreshTrigger(.structural)
-        commitCurrentProjectChanges()
-        setSelectedLog(index)
-        statusMessage = "Selected log \(index + 1)"
+        projectDocumentOrchestrator.selectLog(at: index)
     }
 
     public func addLog() {
-        setNextSceneRefreshTrigger(.structural)
-        commitCurrentProjectChanges()
-        document.logs.append(Project())
-        setSelectedLog(document.logs.count - 1)
-        presentationState.selectedDetailPane = .preview
-        statusMessage = "Added new log"
+        projectDocumentOrchestrator.addLog()
     }
 
     public func duplicateCurrentLog() {
-        guard document.logs.indices.contains(selectedLogIndex) else { return }
-        setNextSceneRefreshTrigger(.structural)
-        commitCurrentProjectChanges()
-
-        var duplicated = document.logs[selectedLogIndex]
-        let existingTitles = document.logs.map { $0.metadata.title }
-        duplicated.metadata.title = duplicatedLogTitle(for: duplicated.metadata.title, existingTitles: existingTitles)
-
-        let insertIndex = selectedLogIndex + 1
-        document.logs.insert(duplicated, at: insertIndex)
-        setSelectedLog(insertIndex)
-        presentationState.selectedDetailPane = .preview
-        statusMessage = "Duplicated current log"
+        projectDocumentOrchestrator.duplicateCurrentLog()
     }
 
     public func removeLog(at index: Int) {
-        guard document.logs.indices.contains(index) else { return }
-        guard document.logs.count > 1 else { return }
-        setNextSceneRefreshTrigger(.structural)
-        commitCurrentProjectChanges()
-
-        document.logs.remove(at: index)
-
-        let nextIndex: Int
-        if selectedLogIndex > index {
-            nextIndex = selectedLogIndex - 1
-        } else if selectedLogIndex == index {
-            nextIndex = min(index, document.logs.count - 1)
-        } else {
-            nextIndex = selectedLogIndex
-        }
-
-        setSelectedLog(nextIndex)
-        if !canOpenSyntheticView {
-            presentationState.selectedDetailPane = .preview
-        }
-        statusMessage = "Removed log \(index + 1)"
+        projectDocumentOrchestrator.removeLog(at: index)
     }
 
     public func removeCurrentLog() {
-        removeLog(at: selectedLogIndex)
+        projectDocumentOrchestrator.removeCurrentLog()
     }
 
     public func addUnit() {
-        setNextSceneRefreshTrigger(.structural)
-        selectedUnitID = addUnitUseCase.execute(project: &project)
+        projectDocumentOrchestrator.addUnit()
     }
 
     public func removeSelectedUnit() {
-        setNextSceneRefreshTrigger(.structural)
-        selectedUnitID = deleteSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID)
+        projectDocumentOrchestrator.removeSelectedUnit()
     }
 
     public func moveUnits(fromOffsets source: IndexSet, toOffset destination: Int) {
-        guard !source.isEmpty else { return }
-        setNextSceneRefreshTrigger(.structural)
-
-        let movedUnits = source.map { project.units[$0] }
-        for index in source.sorted(by: >) {
-            project.units.remove(at: index)
-        }
-        let adjustedDestination = destination - source.filter { $0 < destination }.count
-        project.units.insert(contentsOf: movedUnits, at: adjustedDestination)
-        statusMessage = "Reordered units"
+        projectDocumentOrchestrator.moveUnits(fromOffsets: source, toOffset: destination)
     }
 
     public func moveSelectedUnitUp() {
-        setNextSceneRefreshTrigger(.structural)
-        let before = selectedUnitID
-        moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .up)
-        guard let current = selectedUnitID else { return }
-        if before == current, project.units.first?.id != current {
-            statusMessage = "Moved selected unit up"
-        }
+        projectDocumentOrchestrator.moveSelectedUnitUp()
     }
 
     public func moveSelectedUnitDown() {
-        setNextSceneRefreshTrigger(.structural)
-        let before = selectedUnitID
-        moveSelectedUnitUseCase.execute(project: &project, selectedUnitID: selectedUnitID, direction: .down)
-        guard let current = selectedUnitID else { return }
-        if before == current, project.units.last?.id != current {
-            statusMessage = "Moved selected unit down"
-        }
+        projectDocumentOrchestrator.moveSelectedUnitDown()
     }
 
     public func zoomIn() {
-        setManualZoom(zoom + 0.1)
-        statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
+        zoomOrchestrator.zoomIn()
     }
 
     public func zoomOut() {
-        setManualZoom(zoom - 0.1)
-        statusMessage = "Zoom \(Int((zoom * 100).rounded()))%"
+        zoomOrchestrator.zoomOut()
     }
 
     public func fitToWindow() {
-        setZoomMode(.fitWindow)
-        statusMessage = "Zoom fit window"
+        zoomOrchestrator.fitToWindow()
     }
 
     public func resetZoom() {
-        hasManualZoomOverride = false
-        setZoomMode(.fitWindow)
-        statusMessage = "Zoom fit window"
+        zoomOrchestrator.resetZoom()
     }
 
     public func setManualZoom(_ value: Double, isInteracting: Bool = false) {
-        let clamped = zoomService.clampedZoom(value, tuning: tuning)
-        let didChange = abs(clamped - zoom) > 0.0001
-        zoom = clamped
-
-        guard didChange else { return }
-        isManualZoomInteractionActive = isInteracting
-        hasManualZoomOverride = true
-
-        if autoAdjustToWindow, zoomMode != .manual {
-            isAutoAdjustSuspendedByManualZoom = true
-            if !isInteracting {
-                scheduleRasterizationForCurrentZoom()
-            }
-            return
-        }
-
-        zoomMode = .manual
-        if !isInteracting {
-            scheduleRasterizationForCurrentZoom()
-        }
+        zoomOrchestrator.setManualZoom(value, isInteracting: isInteracting)
     }
 
     public func finalizeManualZoomInteraction() {
-        guard isManualZoomInteractionActive else { return }
-        isManualZoomInteractionActive = false
-        scheduleRasterizationForCurrentZoom()
+        zoomOrchestrator.finalizeManualZoomInteraction()
     }
 
     public func setZoomMode(_ mode: ZoomMode) {
-        zoomMode = mode
-
-        guard mode != .manual else { return }
-        hasManualZoomOverride = false
-        isAutoAdjustSuspendedByManualZoom = false
-        applyFit(mode: mode)
+        zoomOrchestrator.setZoomMode(mode)
     }
 
     public func updateProjectSettings(_ newSettings: ProjectSettings, trigger: SceneRefreshTrigger = .slider) {
-        setNextSceneRefreshTrigger(trigger)
-        var updatedProject = project
-        updatedProject.settings = newSettings
-        project = updatedProject
+        projectDocumentOrchestrator.updateProjectSettings(newSettings, trigger: trigger)
     }
 
     public func selectDetailPane(_ pane: EditorPresentationState.DetailPane) {
-        let targetPane: EditorPresentationState.DetailPane =
-            (pane == .synthetic && !canOpenSyntheticView) ? .preview : pane
-        guard presentationState.selectedDetailPane != targetPane else { return }
-        presentationState.selectedDetailPane = targetPane
+        sceneOrchestrator.selectDetailPane(pane)
     }
 
     public func toggleInspector() {
-        presentationState.isInspectorPresented.toggle()
+        sceneOrchestrator.toggleInspector()
     }
 
     public func setInspectorPresented(_ isPresented: Bool) {
-        presentationState.isInspectorPresented = isPresented
+        sceneOrchestrator.setInspectorPresented(isPresented)
+    }
+
+    public func setShowsInspectorOnLaunchPreference(_ isEnabled: Bool) {
+        showsInspectorOnLaunchPreference = isEnabled
+        userDefaults.set(isEnabled, forKey: EasyLogPreferencesKey.showsInspectorOnLaunch)
+        setInspectorPresented(isEnabled)
+    }
+
+    public func setDefaultDetailPanePreference(_ pane: EditorPresentationState.DetailPane) {
+        defaultDetailPanePreference = pane
+        userDefaults.set(pane.rawValue, forKey: EasyLogPreferencesKey.defaultDetailPane)
+        selectDetailPane(pane)
     }
 
     public func setAutoAdjustToWindow(_ enabled: Bool) {
-        autoAdjustToWindow = enabled
-
-        if enabled {
-            hasManualZoomOverride = false
-            isAutoAdjustSuspendedByManualZoom = false
-            applyAutoAdjustIfNeeded()
-        }
+        zoomOrchestrator.setAutoAdjustToWindow(enabled)
     }
 
     public func updateViewportSize(_ size: CGSize) {
-        let normalized = CGSize(width: max(0, size.width), height: max(0, size.height))
-        guard normalized != viewportSize else { return }
-        let hadViewport = viewportSize.width > 0 && viewportSize.height > 0
-        #if DEBUG
-        zoomLogger.debug(
-            "updateViewportSize raw=(\(size.width, format: .fixed(precision: 2)), \(size.height, format: .fixed(precision: 2))) normalized=(\(normalized.width, format: .fixed(precision: 2)), \(normalized.height, format: .fixed(precision: 2))) oldViewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) mode=\(self.zoomMode.rawValue, privacy: .public) zoom=\(self.zoom, format: .fixed(precision: 4)) autoAdjust=\(self.autoAdjustToWindow) manualOverride=\(self.hasManualZoomOverride)"
-        )
-        #endif
-        viewportSize = normalized
-
-        // Force a one-time auto-fit as soon as the first real viewport is known.
-        if !didApplyInitialWindowFit, viewportSize.width > 0 {
-            didApplyInitialWindowFit = true
-            hasManualZoomOverride = false
-            isAutoAdjustSuspendedByManualZoom = false
-            if zoomMode == .manual {
-                zoomMode = .fitWindow
-            }
-            applyFit(mode: zoomMode)
-            #if DEBUG
-            zoomLogger.debug(
-                "initial auto-fit forced mode=\(self.zoomMode.rawValue, privacy: .public) -> zoom=\(self.zoom, format: .fixed(precision: 4)) viewport=(\(self.viewportSize.width, format: .fixed(precision: 2)), \(self.viewportSize.height, format: .fixed(precision: 2))) canvas=(\(self.scene.canvasSize.width, format: .fixed(precision: 2)), \(self.scene.canvasSize.height, format: .fixed(precision: 2)))"
-            )
-            #endif
-            return
-        }
-
-        // Apply fit immediately on first measurable viewport so initial launch
-        // starts at the expected window-fitted zoom instead of waiting for debounce.
-        if !hadViewport {
-            applyAutoAdjustIfNeeded()
-            return
-        }
-
-        scheduleAutoAdjust()
+        zoomOrchestrator.updateViewportSize(size)
     }
 
     public func newProject() {
-        flushPendingColorPresetPersistence()
-        setNextSceneRefreshTrigger(.structural)
-        let newDocument = ProjectDocument(logs: [Project()])
-        document = newDocument
-        setSelectedLog(0)
-        projectURL = nil
-        presentationState = EditorPresentationState()
-        isAutoAdjustSuspendedByManualZoom = false
-        hasManualZoomOverride = false
-        statusMessage = "New project"
-        errorMessage = nil
+        projectDocumentOrchestrator.newProject()
     }
 
     public func openProjectViaPanel() {
-        guard let url = fileDialogService.chooseProjectToOpen() else { return }
-        openProject(at: url)
+        projectDocumentOrchestrator.openProjectViaPanel()
     }
 
     public func saveProjectViaPanelIfNeeded() {
-        if let existingURL = projectURL {
-            saveProject(at: existingURL)
-            return
-        }
-        guard let url = fileDialogService.chooseProjectToSave() else { return }
-        saveProject(at: url)
+        projectDocumentOrchestrator.saveProjectViaPanelIfNeeded()
     }
 
     public func exportViaPanel(format: ExportFormat, dpi: Double = 300) {
-        guard let url = fileDialogService.chooseExportDestination(format: format) else { return }
-        exportProject(to: url, format: format, dpi: dpi)
+        exportOrchestrator.exportViaPanel(format: format, dpi: dpi)
     }
 
     public func exportAllViaPanel(format: ExportFormat, dpi: Double = 300) {
-        guard let directoryURL = fileDialogService.chooseExportDirectory() else { return }
-        exportAllProjects(to: directoryURL, format: format, dpi: dpi)
+        exportOrchestrator.exportAllViaPanel(format: format, dpi: dpi)
     }
 
     public func clearError() {
-        errorMessage = nil
+        colorPresetOrchestrator.clearError()
     }
 
     public func flushPendingColorPresetPersistence() {
-        colorPresetPersistTask?.cancel()
-        persistColorPresetStateNow()
+        colorPresetOrchestrator.flushPendingColorPresetPersistence()
     }
 
     public func createColorProfile(name: String) {
-        let resolved = colorProfileService.uniqueProfileName(
-            base: LithologyColorProfile.normalizedName(name),
-            existingProfiles: colorProfiles
-        )
-        let profile = LithologyColorProfile(name: resolved)
-        colorProfiles.append(profile)
-        activeColorProfileID = profile.id
-        persistColorPresetState()
+        colorPresetOrchestrator.createColorProfile(name: name)
     }
 
     public func renameColorProfile(id: UUID, name: String) {
-        guard let index = colorProfiles.firstIndex(where: { $0.id == id }) else { return }
-        let resolved = colorProfileService.uniqueProfileName(
-            base: LithologyColorProfile.normalizedName(name, fallback: colorProfiles[index].name),
-            existingProfiles: colorProfiles,
-            excludingID: id
-        )
-        colorProfiles[index].name = resolved
-        persistColorPresetState()
+        colorPresetOrchestrator.renameColorProfile(id: id, name: name)
     }
 
     public func deleteColorProfile(id: UUID) {
-        guard colorProfiles.count > 1 else { return }
-        guard let index = colorProfiles.firstIndex(where: { $0.id == id }) else { return }
-
-        colorProfiles.remove(at: index)
-        if activeColorProfileID == id {
-            activeColorProfileID = colorProfiles.first?.id
-        }
-        persistColorPresetState()
+        colorPresetOrchestrator.deleteColorProfile(id: id)
     }
 
     public func setActiveColorProfile(id: UUID) {
-        guard colorProfiles.contains(where: { $0.id == id }) else { return }
-        activeColorProfileID = id
-        persistColorPresetState()
+        colorPresetOrchestrator.setActiveColorProfile(id: id)
     }
 
     public func setLithologyColorPreset(usgsCode: Int, hex: String) {
-        guard let normalized = LithologyColorProfile.normalizedHex(hex) else { return }
-        mutateActiveColorProfile { profile in
-            profile.mappings[usgsCode] = normalized
-        }
+        colorPresetOrchestrator.setLithologyColorPreset(usgsCode: usgsCode, hex: hex)
     }
 
     public func removeLithologyColorPreset(usgsCode: Int) {
-        mutateActiveColorProfile { profile in
-            profile.mappings.removeValue(forKey: usgsCode)
-        }
+        colorPresetOrchestrator.removeLithologyColorPreset(usgsCode: usgsCode)
     }
 
     public func presetColor(for usgsCode: Int) -> String? {
-        activeColorProfile?.mappings[usgsCode]
+        colorPresetOrchestrator.presetColor(for: usgsCode)
     }
 
     public func applyPresetToSelectedUnit() {
-        guard let selectedUnitIndex else { return }
-        let usgsCode = project.units[selectedUnitIndex].usgsLithologyCode
-        guard let presetHex = presetColor(for: usgsCode) else { return }
-        setNextSceneRefreshTrigger(.structural)
-        project.units[selectedUnitIndex].lithologyColorHex = presetHex
-        statusMessage = "Applied profile color to selected unit"
+        colorPresetOrchestrator.applyPresetToSelectedUnit()
     }
 
     public func openProject(at url: URL) {
-        do {
-            flushPendingColorPresetPersistence()
-            setNextSceneRefreshTrigger(.structural)
-            let loaded = try documentService.open(url: url)
-            document = ProjectDocument(logs: loaded.logs)
-            projectURL = url
-            setSelectedLog(0)
-            presentationState.selectedDetailPane = .preview
-            isAutoAdjustSuspendedByManualZoom = false
-            hasManualZoomOverride = false
-            statusMessage = "Opened \(url.lastPathComponent)"
-            errorMessage = nil
-        } catch {
-            errorMessage = "Could not open project: \(error.localizedDescription). Check that the JSON file is valid and try again."
-        }
+        projectDocumentOrchestrator.openProject(at: url)
     }
 
     public func saveProject(at url: URL) {
-        do {
-            flushPendingColorPresetPersistence()
-            commitCurrentProjectChanges()
-            let saved = try documentService.save(document, to: url)
-            document = saved
-            setSelectedLog(min(selectedLogIndex, max(saved.logs.count - 1, 0)))
-            projectURL = url
-            statusMessage = "Saved \(url.lastPathComponent)"
-            errorMessage = nil
-        } catch {
-            errorMessage = "Could not save project: \(error.localizedDescription). Verify write permissions and try again."
-        }
+        projectDocumentOrchestrator.saveProject(at: url)
     }
 
     public func exportProject(to url: URL, format: ExportFormat, dpi: Double = 300) {
-        do {
-            try exportService.export(scene: scene, to: url, format: format, dpi: dpi)
-            statusMessage = "Exported \(url.lastPathComponent)"
-            errorMessage = nil
-        } catch {
-            errorMessage = "Could not export file: \(error.localizedDescription). Choose a writable location and retry."
-        }
+        exportOrchestrator.exportProject(to: url, format: format, dpi: dpi)
     }
 
     public func exportAllProjects(to directoryURL: URL, format: ExportFormat, dpi: Double = 300) {
-        commitCurrentProjectChanges()
-
-        var successCount = 0
-        var failureDetails: [String] = []
-        var reservedFilenames = Set<String>()
-
-        for (index, log) in document.logs.enumerated() {
-            let scene = renderer.makeScene(project: log)
-            let basename = preferredExportBaseName(for: log.metadata.title, index: index)
-            let destinationURL = uniqueExportURL(
-                in: directoryURL,
-                basename: basename,
-                format: format,
-                reservedNames: &reservedFilenames
-            )
-
-            do {
-                try exportService.export(scene: scene, to: destinationURL, format: format, dpi: dpi)
-                successCount += 1
-            } catch {
-                failureDetails.append("\(destinationURL.lastPathComponent): \(error.localizedDescription)")
-            }
-        }
-
-        let total = document.logs.count
-        if successCount == 0 {
-            errorMessage = "Could not export any logs. \(failureDetails.first ?? "Choose a writable location and retry.")"
-            return
-        }
-
-        if failureDetails.isEmpty {
-            statusMessage = "Exported \(successCount) logs to \(directoryURL.lastPathComponent)"
-        } else {
-            statusMessage = "Exported \(successCount)/\(total) logs to \(directoryURL.lastPathComponent)"
-        }
-        errorMessage = nil
+        exportOrchestrator.exportAllProjects(to: directoryURL, format: format, dpi: dpi)
     }
 
     deinit {
@@ -654,7 +991,7 @@ public final class ProjectViewModel: ObservableObject {
         colorPresetPersistTask?.cancel()
     }
 
-    private func configureStateMirrors() {
+    fileprivate func configureStateMirrors() {
         $document
             .sink { [weak self] in self?.editorState.document = $0 }
             .store(in: &cancellables)
@@ -700,20 +1037,20 @@ public final class ProjectViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    private func setNextSceneRefreshTrigger(_ trigger: SceneRefreshTrigger) {
+    fileprivate func setNextSceneRefreshTrigger(_ trigger: SceneRefreshTrigger) {
         pendingSceneRefreshTrigger = sceneRefreshService.mergedTrigger(
             current: pendingSceneRefreshTrigger,
             incoming: trigger
         )
     }
 
-    private func consumePendingSceneRefreshTrigger(default fallback: SceneRefreshTrigger) -> SceneRefreshTrigger {
+    fileprivate func consumePendingSceneRefreshTrigger(default fallback: SceneRefreshTrigger) -> SceneRefreshTrigger {
         let trigger = pendingSceneRefreshTrigger
         pendingSceneRefreshTrigger = fallback
         return trigger
     }
 
-    private func scheduleSceneRefresh(trigger: SceneRefreshTrigger) {
+    fileprivate func scheduleSceneRefresh(trigger: SceneRefreshTrigger) {
         sceneRefreshTask?.cancel()
         sceneRefreshGeneration &+= 1
         let generation = sceneRefreshGeneration
@@ -779,7 +1116,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func schedulePreviewRasterization(for scene: RenderScene) {
+    fileprivate func schedulePreviewRasterization(for scene: RenderScene) {
         previewRasterTask?.cancel()
         let sceneHash = scene.hashValue
         let renderScale = resolvedRenderScale()
@@ -817,7 +1154,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func scheduleSyntheticRasterization(for scene: SyntheticComparisonScene) {
+    fileprivate func scheduleSyntheticRasterization(for scene: SyntheticComparisonScene) {
         syntheticRasterTask?.cancel()
         let sceneHash = scene.hashValue
         let renderScale = resolvedRenderScale()
@@ -855,7 +1192,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func rasterImage(
+    fileprivate func rasterImage(
         for key: SceneRasterKey,
         canvas: CGSizeDTO,
         renderer: @escaping @Sendable (CGContext) -> Void
@@ -874,7 +1211,7 @@ public final class ProjectViewModel: ObservableObject {
         return rendered
     }
 
-    private static func renderRasterImage(
+    fileprivate static func renderRasterImage(
         canvas: CGSizeDTO,
         renderScale: Double,
         renderer: @escaping @Sendable (CGContext) -> Void
@@ -903,23 +1240,23 @@ public final class ProjectViewModel: ObservableObject {
         return context.makeImage()
     }
 
-    private func scheduleRasterizationForCurrentZoom() {
+    fileprivate func scheduleRasterizationForCurrentZoom() {
         schedulePreviewRasterization(for: scene)
         if canOpenSyntheticView {
             scheduleSyntheticRasterization(for: syntheticScene)
         }
     }
 
-    private func resolvedRenderScale() -> Double {
+    fileprivate func resolvedRenderScale() -> Double {
         let backingScale = max(NSScreen.main?.backingScaleFactor ?? 2.0, 1.0)
         return zoomService.resolvedRenderScale(backingScale: backingScale, zoom: zoom, tuning: tuning)
     }
 
-    private func quantizedRenderScaleHundredths(_ value: Double) -> Int {
+    fileprivate func quantizedRenderScaleHundredths(_ value: Double) -> Int {
         max(Int((value * 100.0).rounded()), 100)
     }
 
-    private func setSelectedLog(_ index: Int) {
+    fileprivate func setSelectedLog(_ index: Int) {
         guard document.logs.indices.contains(index) else { return }
         selectedLogIndex = index
         setNextSceneRefreshTrigger(.structural)
@@ -930,16 +1267,16 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func commitCurrentProjectChanges() {
+    fileprivate func commitCurrentProjectChanges() {
         commitCurrentProjectChanges(using: project)
     }
 
-    private func commitCurrentProjectChanges(using updatedProject: Project) {
+    fileprivate func commitCurrentProjectChanges(using updatedProject: Project) {
         guard document.logs.indices.contains(selectedLogIndex) else { return }
         document.logs[selectedLogIndex] = updatedProject
     }
 
-    private func logsApplyingCurrentEdits() -> [Project] {
+    fileprivate func logsApplyingCurrentEdits() -> [Project] {
         var effectiveLogs = document.logs
         if effectiveLogs.indices.contains(selectedLogIndex) {
             effectiveLogs[selectedLogIndex] = project
@@ -947,7 +1284,7 @@ public final class ProjectViewModel: ObservableObject {
         return effectiveLogs
     }
 
-    private func duplicatedLogTitle(for sourceTitle: String, existingTitles: [String]) -> String {
+    fileprivate func duplicatedLogTitle(for sourceTitle: String, existingTitles: [String]) -> String {
         let trimmed = sourceTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         let base = trimmed.isEmpty ? "Untitled Stratigraphic Log" : trimmed
         let preferred = "\(base) Copy"
@@ -967,7 +1304,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func preferredExportBaseName(for title: String, index: Int) -> String {
+    fileprivate func preferredExportBaseName(for title: String, index: Int) -> String {
         let slug = slugified(title)
         if slug.isEmpty {
             return "log-\(index + 1)"
@@ -975,7 +1312,7 @@ public final class ProjectViewModel: ObservableObject {
         return slug
     }
 
-    private func slugified(_ value: String) -> String {
+    fileprivate func slugified(_ value: String) -> String {
         let lowercase = value.lowercased()
         var scalars: [UnicodeScalar] = []
         var previousWasHyphen = false
@@ -995,7 +1332,7 @@ public final class ProjectViewModel: ObservableObject {
         return slug
     }
 
-    private func uniqueExportURL(
+    fileprivate func uniqueExportURL(
         in directoryURL: URL,
         basename: String,
         format: ExportFormat,
@@ -1017,7 +1354,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func scheduleAutoAdjust() {
+    fileprivate func scheduleAutoAdjust() {
         resizeDebounceTask?.cancel()
         let debounce = tuning.resizeDebounceNanoseconds
         resizeDebounceTask = Task { [weak self] in
@@ -1027,14 +1364,14 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func applyAutoAdjustIfNeeded() {
+    fileprivate func applyAutoAdjustIfNeeded() {
         guard autoAdjustToWindow else { return }
         guard !isAutoAdjustSuspendedByManualZoom else { return }
         guard zoomMode != .manual else { return }
         applyFit(mode: zoomMode)
     }
 
-    private func applyFit(mode: ZoomMode) {
+    fileprivate func applyFit(mode: ZoomMode) {
         guard viewportSize.width > 0, viewportSize.height > 0 else { return }
 
         let targetZoom: Double
@@ -1059,7 +1396,7 @@ public final class ProjectViewModel: ObservableObject {
         zoom = zoomService.clampedAutoFitZoom(targetZoom, tuning: tuning)
     }
 
-    private func fitScaleForWidth(applyingVisualBoost: Bool) -> Double {
+    fileprivate func fitScaleForWidth(applyingVisualBoost: Bool) -> Double {
         zoomService.fitScaleForWidth(
             viewportWidth: viewportSize.width,
             canvasWidth: scene.canvasSize.width,
@@ -1068,7 +1405,7 @@ public final class ProjectViewModel: ObservableObject {
         )
     }
 
-    private func fitScaleForHeight() -> Double {
+    fileprivate func fitScaleForHeight() -> Double {
         zoomService.fitScaleForHeight(
             viewportHeight: viewportSize.height,
             canvasHeight: scene.canvasSize.height,
@@ -1076,12 +1413,12 @@ public final class ProjectViewModel: ObservableObject {
         )
     }
 
-    private var activeColorProfile: LithologyColorProfile? {
+    fileprivate var activeColorProfile: LithologyColorProfile? {
         guard let activeColorProfileID else { return nil }
         return colorProfiles.first(where: { $0.id == activeColorProfileID })
     }
 
-    private func mutateActiveColorProfile(_ mutate: (inout LithologyColorProfile) -> Void) {
+    fileprivate func mutateActiveColorProfile(_ mutate: (inout LithologyColorProfile) -> Void) {
         guard let activeColorProfileID,
               let index = colorProfiles.firstIndex(where: { $0.id == activeColorProfileID }) else { return }
 
@@ -1090,13 +1427,13 @@ public final class ProjectViewModel: ObservableObject {
         persistColorPresetState()
     }
 
-    private func loadColorPresetState() {
+    fileprivate func loadColorPresetState() {
         let stored = colorPresetStore.load()
         colorProfiles = stored.profiles
         activeColorProfileID = stored.activeProfileID
     }
 
-    private func persistColorPresetState() {
+    fileprivate func persistColorPresetState() {
         colorPresetPersistTask?.cancel()
         let debounce = tuning.colorPresetPersistNanoseconds
         colorPresetPersistTask = Task { [weak self] in
@@ -1108,7 +1445,7 @@ public final class ProjectViewModel: ObservableObject {
         }
     }
 
-    private func persistColorPresetStateNow() {
+    fileprivate func persistColorPresetStateNow() {
         let normalized = colorProfileService.normalizedStore(
             profiles: colorProfiles,
             activeProfileID: activeColorProfileID
@@ -1116,5 +1453,15 @@ public final class ProjectViewModel: ObservableObject {
         colorProfiles = normalized.profiles
         activeColorProfileID = normalized.activeProfileID
         colorPresetStore.save(normalized)
+    }
+
+    fileprivate static func initialPresentationState(from defaults: UserDefaults) -> EditorPresentationState {
+        let inspectorOnLaunch = (defaults.object(forKey: EasyLogPreferencesKey.showsInspectorOnLaunch) as? Bool) ?? false
+        let detailPaneRaw = defaults.string(forKey: EasyLogPreferencesKey.defaultDetailPane)
+        let detailPane = EditorPresentationState.DetailPane(rawValue: detailPaneRaw ?? "") ?? .preview
+        return EditorPresentationState(
+            selectedDetailPane: detailPane,
+            isInspectorPresented: inspectorOnLaunch
+        )
     }
 }

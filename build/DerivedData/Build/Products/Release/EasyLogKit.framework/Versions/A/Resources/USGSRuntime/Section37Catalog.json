@@ -1,0 +1,713 @@
+{
+  "schemaVersion": 1,
+  "source": "FGDC Section 37 Lithologic Patterns",
+  "officialCount": 117,
+  "availableAssetCount": 116,
+  "aliases": {
+    "718": 719
+  },
+  "entries": [
+    {
+      "code": 601,
+      "label": "Gravel or conglomerate (1st option)",
+      "renderCode": 601,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 602,
+      "label": "Gravel or conglomerate (2nd option)",
+      "renderCode": 602,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 603,
+      "label": "Crossbedded gravel or conglomerate",
+      "renderCode": 603,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 605,
+      "label": "Breccia (1st option)",
+      "renderCode": 605,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 606,
+      "label": "Breccia (2nd option)",
+      "renderCode": 606,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 607,
+      "label": "Massive sand or sandstone",
+      "renderCode": 607,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 608,
+      "label": "Bedded sand or sandstone",
+      "renderCode": 608,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 609,
+      "label": "Crossbedded sand or sandstone (1st option)",
+      "renderCode": 609,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 610,
+      "label": "Crossbedded sand or sandstone (2nd option)",
+      "renderCode": 610,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 611,
+      "label": "Ripple-bedded sand or sandstone",
+      "renderCode": 611,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 612,
+      "label": "Argillaceous or shaly sandstone",
+      "renderCode": 612,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 613,
+      "label": "Calcareous sandstone",
+      "renderCode": 613,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 614,
+      "label": "Dolomitic sandstone",
+      "renderCode": 614,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 616,
+      "label": "Silt, siltstone, or shaly silt",
+      "renderCode": 616,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 617,
+      "label": "Calcareous siltstone",
+      "renderCode": 617,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 618,
+      "label": "Dolomitic siltstone",
+      "renderCode": 618,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 619,
+      "label": "Sandy or silty shale",
+      "renderCode": 619,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 620,
+      "label": "Clay or clay shale",
+      "renderCode": 620,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 621,
+      "label": "Cherty shale",
+      "renderCode": 621,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 622,
+      "label": "Dolomitic shale",
+      "renderCode": 622,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 623,
+      "label": "Calcareous shale or marl",
+      "renderCode": 623,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 624,
+      "label": "Carbonaceous shale",
+      "renderCode": 624,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 625,
+      "label": "Oil shale",
+      "renderCode": 625,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 626,
+      "label": "Chalk",
+      "renderCode": 626,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 627,
+      "label": "Limestone",
+      "renderCode": 627,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 628,
+      "label": "Clastic limestone",
+      "renderCode": 628,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 629,
+      "label": "Fossiliferous clastic limestone",
+      "renderCode": 629,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 630,
+      "label": "Nodular or irregularly bedded limestone",
+      "renderCode": 630,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 631,
+      "label": "Limestone, irregular (burrow?) fillings of saccharoidal dolomite",
+      "renderCode": 631,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 632,
+      "label": "Crossbedded limestone",
+      "renderCode": 632,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 633,
+      "label": "Cherty crossbedded limestone",
+      "renderCode": 633,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 634,
+      "label": "Cherty and sandy crossbedded clastic limestone",
+      "renderCode": 634,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 635,
+      "label": "Oolitic limestone",
+      "renderCode": 635,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 636,
+      "label": "Sandy limestone",
+      "renderCode": 636,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 637,
+      "label": "Silty limestone",
+      "renderCode": 637,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 638,
+      "label": "Argillaceous or shaly limestone",
+      "renderCode": 638,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 639,
+      "label": "Cherty limestone (1st option)",
+      "renderCode": 639,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 640,
+      "label": "Cherty limestone (2nd option)",
+      "renderCode": 640,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 641,
+      "label": "Dolomitic limestone, limy dolostone, or limy dolomite",
+      "renderCode": 641,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 642,
+      "label": "Dolostone or dolomite",
+      "renderCode": 642,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 643,
+      "label": "Crossbedded dolostone or dolomite",
+      "renderCode": 643,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 644,
+      "label": "Oolitic dolostone or dolomite",
+      "renderCode": 644,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 645,
+      "label": "Sandy dolostone or dolomite",
+      "renderCode": 645,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 646,
+      "label": "Silty dolostone or dolomite",
+      "renderCode": 646,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 647,
+      "label": "Argillaceous or shaly dolostone or dolomite",
+      "renderCode": 647,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 648,
+      "label": "Cherty dolostone or dolomite",
+      "renderCode": 648,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 649,
+      "label": "Bedded chert (1st option)",
+      "renderCode": 649,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 650,
+      "label": "Bedded chert (2nd option)",
+      "renderCode": 650,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 651,
+      "label": "Fossiliferous bedded chert",
+      "renderCode": 651,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 652,
+      "label": "Fossiliferous rock",
+      "renderCode": 652,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 653,
+      "label": "Diatomaceous rock",
+      "renderCode": 653,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 654,
+      "label": "Subgraywacke",
+      "renderCode": 654,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 655,
+      "label": "Crossbedded subgraywacke",
+      "renderCode": 655,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 656,
+      "label": "Ripple-bedded subgraywacke",
+      "renderCode": 656,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 657,
+      "label": "Peat",
+      "renderCode": 657,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 658,
+      "label": "Coal",
+      "renderCode": 658,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 659,
+      "label": "Bony coal or impure coal",
+      "renderCode": 659,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 660,
+      "label": "Underclay",
+      "renderCode": 660,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 661,
+      "label": "Flint clay",
+      "renderCode": 661,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 662,
+      "label": "Bentonite",
+      "renderCode": 662,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 663,
+      "label": "Glauconite",
+      "renderCode": 663,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 664,
+      "label": "Limonite",
+      "renderCode": 664,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 665,
+      "label": "Siderite",
+      "renderCode": 665,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 666,
+      "label": "Phosphatic-nodular rock",
+      "renderCode": 666,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 667,
+      "label": "Gypsum",
+      "renderCode": 667,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 668,
+      "label": "Salt",
+      "renderCode": 668,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 669,
+      "label": "Interbedded sandstone and siltstone",
+      "renderCode": 669,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 670,
+      "label": "Interbedded sandstone and shale",
+      "renderCode": 670,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 671,
+      "label": "Interbedded ripple-bedded sandstone and shale",
+      "renderCode": 671,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 672,
+      "label": "Interbedded shale and silty limestone (shale dominant)",
+      "renderCode": 672,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 673,
+      "label": "Interbedded shale and limestone (shale dominant) (1st option)",
+      "renderCode": 673,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 674,
+      "label": "Interbedded shale and limestone (shale dominant) (2nd option)",
+      "renderCode": 674,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 675,
+      "label": "Interbedded calcareous shale and limestone (shale dominant)",
+      "renderCode": 675,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 676,
+      "label": "Interbedded silty limestone and shale",
+      "renderCode": 676,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 677,
+      "label": "Interbedded limestone and shale (1st option)",
+      "renderCode": 677,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 678,
+      "label": "Interbedded limestone and shale (2nd option)",
+      "renderCode": 678,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 679,
+      "label": "Interbedded limestone and shale (limestone dominant)",
+      "renderCode": 679,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 680,
+      "label": "Interbedded limestone and calcareous shale",
+      "renderCode": 680,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 681,
+      "label": "Till or diamicton (1st option)",
+      "renderCode": 681,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 682,
+      "label": "Till or diamicton (2nd option)",
+      "renderCode": 682,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 683,
+      "label": "Till or diamicton (3rd option)",
+      "renderCode": 683,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 684,
+      "label": "Loess (1st option)",
+      "renderCode": 684,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 685,
+      "label": "Loess (2nd option)",
+      "renderCode": 685,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 686,
+      "label": "Loess (3rd option)",
+      "renderCode": 686,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 701,
+      "label": "Metamorphism",
+      "renderCode": 701,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 702,
+      "label": "Quartzite",
+      "renderCode": 702,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 703,
+      "label": "Slate",
+      "renderCode": 703,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 704,
+      "label": "Schistose or gneissoid granite",
+      "renderCode": 704,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 705,
+      "label": "Schist",
+      "renderCode": 705,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 706,
+      "label": "Contorted schist",
+      "renderCode": 706,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 707,
+      "label": "Schist and gneiss",
+      "renderCode": 707,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 708,
+      "label": "Gneiss",
+      "renderCode": 708,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 709,
+      "label": "Contorted gneiss",
+      "renderCode": 709,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 710,
+      "label": "Soapstone, talc, or serpentinite",
+      "renderCode": 710,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 711,
+      "label": "Tuffaceous rock",
+      "renderCode": 711,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 712,
+      "label": "Crystal tuff",
+      "renderCode": 712,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 713,
+      "label": "Devitrified tuff",
+      "renderCode": 713,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 714,
+      "label": "Volcanic breccia and tuff",
+      "renderCode": 714,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 715,
+      "label": "Volcanic breccia or agglomerate",
+      "renderCode": 715,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 716,
+      "label": "Zeolitic rock",
+      "renderCode": 716,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 717,
+      "label": "Basaltic flows",
+      "renderCode": 717,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 718,
+      "label": "Granite (1st option)",
+      "renderCode": 719,
+      "hasDirectAsset": false
+    },
+    {
+      "code": 719,
+      "label": "Granite (2nd option)",
+      "renderCode": 719,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 720,
+      "label": "Banded igneous rock",
+      "renderCode": 720,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 721,
+      "label": "Igneous rock (1st option)",
+      "renderCode": 721,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 722,
+      "label": "Igneous rock (2nd option)",
+      "renderCode": 722,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 723,
+      "label": "Igneous rock (3rd option)",
+      "renderCode": 723,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 724,
+      "label": "Igneous rock (4th option)",
+      "renderCode": 724,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 725,
+      "label": "Igneous rock (5th option)",
+      "renderCode": 725,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 726,
+      "label": "Igneous rock (6th option)",
+      "renderCode": 726,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 727,
+      "label": "Igneous rock (7th option)",
+      "renderCode": 727,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 728,
+      "label": "Igneous rock (8th option)",
+      "renderCode": 728,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 729,
+      "label": "Porphyritic rock (1st option)",
+      "renderCode": 729,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 730,
+      "label": "Porphyritic rock (2nd option)",
+      "renderCode": 730,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 731,
+      "label": "Vitrophyre",
+      "renderCode": 731,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 732,
+      "label": "Quartz",
+      "renderCode": 732,
+      "hasDirectAsset": true
+    },
+    {
+      "code": 733,
+      "label": "Ore",
+      "renderCode": 733,
+      "hasDirectAsset": true
+    }
+  ]
+}

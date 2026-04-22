@@ -1,10 +1,10 @@
+import AppKit
 import SwiftUI
 
 /// Main split view that hosts the editor sidebar and live render panel.
 public struct MainContentView: View {
     @ObservedObject private var viewModel: ProjectViewModel
     @State private var isDeleteLogConfirmationPresented = false
-    @State private var isOptionsPopoverPresented = false
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
@@ -13,7 +13,7 @@ public struct MainContentView: View {
     public var body: some View {
         NavigationSplitView {
             ProjectSidebarView(viewModel: viewModel)
-                .navigationSplitViewColumnWidth(min: 340, ideal: 420, max: 560)
+                .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
         } detail: {
             VStack(spacing: 0) {
                 PreviewContextBar(
@@ -33,9 +33,8 @@ public struct MainContentView: View {
                     onSetManualZoom: viewModel.setManualZoom,
                     onFinalizeManualZoomInteraction: viewModel.finalizeManualZoomInteraction,
                     onFitWindow: viewModel.fitToWindow,
-                    onResetZoom: viewModel.resetZoom,
-                    isOptionsPopoverPresented: $isOptionsPopoverPresented,
-                    settings: settingsBinding
+                    onToggleSidebar: toggleSidebar,
+                    onToggleInspector: viewModel.toggleInspector
                 )
 
                 Group {
@@ -68,6 +67,11 @@ public struct MainContentView: View {
                 }
                 .help("Open export options")
             }
+        }
+        .toolbarRole(.editor)
+        .inspector(isPresented: inspectorBinding) {
+            InspectorPanelView(settings: settingsBinding)
+                .inspectorColumnWidth(min: 240, ideal: 300, max: 380)
         }
         .confirmationDialog(
             "Delete selected log?",
@@ -117,6 +121,17 @@ public struct MainContentView: View {
                 viewModel.updateProjectSettings(newSettings, trigger: .slider)
             }
         )
+    }
+
+    private var inspectorBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.isInspectorPresented },
+            set: { viewModel.setInspectorPresented($0) }
+        )
+    }
+
+    private func toggleSidebar() {
+        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
     }
 
     private func tabTitle(for log: Project, index: Int) -> String {
@@ -172,12 +187,16 @@ private struct PreviewContextBar: View {
                     Label("New Log", systemImage: "plus")
                 }
                 .labelStyle(.iconOnly)
+                .frame(minWidth: 44, minHeight: 44)
+                .contentShape(Rectangle())
                 .help("Create a new log")
 
                 Button(action: onDuplicateLog) {
                     Label("Duplicate Log", systemImage: "square.on.square")
                 }
                 .labelStyle(.iconOnly)
+                .frame(minWidth: 44, minHeight: 44)
+                .contentShape(Rectangle())
                 .disabled(logs.isEmpty)
                 .help("Duplicate selected log")
 
@@ -185,6 +204,8 @@ private struct PreviewContextBar: View {
                     Label("Delete Log", systemImage: "trash")
                 }
                 .labelStyle(.iconOnly)
+                .frame(minWidth: 44, minHeight: 44)
+                .contentShape(Rectangle())
                 .disabled(!canRemoveCurrentLog)
                 .help("Delete selected log")
 
@@ -216,9 +237,8 @@ private struct VisualizationToolbar: View {
     let onSetManualZoom: (Double, Bool) -> Void
     let onFinalizeManualZoomInteraction: () -> Void
     let onFitWindow: () -> Void
-    let onResetZoom: () -> Void
-    @Binding var isOptionsPopoverPresented: Bool
-    @Binding var settings: ProjectSettings
+    let onToggleSidebar: () -> Void
+    let onToggleInspector: () -> Void
     @State private var isEditingZoomSlider = false
 
     var body: some View {
@@ -251,23 +271,15 @@ private struct VisualizationToolbar: View {
             }
             .help("Fit the preview to the current window")
 
-            Button(action: onResetZoom) {
-                Text("Reset Zoom")
-            }
-            .help("Reset the preview zoom")
-
             Spacer(minLength: 8)
 
-            Button {
-                isOptionsPopoverPresented.toggle()
+            Menu {
+                Button("Toggle Sidebar", action: onToggleSidebar)
+                Button("Toggle Inspector", action: onToggleInspector)
             } label: {
-                Label("Options", systemImage: "slider.horizontal.3")
+                Label("Panels", systemImage: "rectangle.split.3x1")
             }
-            .popover(isPresented: $isOptionsPopoverPresented, arrowEdge: .top) {
-                ViewOptionsPopover(settings: $settings)
-                    .frame(minWidth: 360)
-            }
-            .help("Show advanced view options")
+            .help("Show or hide the sidebar and inspector panels")
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
@@ -278,7 +290,7 @@ private struct VisualizationToolbar: View {
     }
 }
 
-private struct ViewOptionsPopover: View {
+private struct InspectorPanelView: View {
     @Binding var settings: ProjectSettings
 
     var body: some View {
@@ -333,8 +345,9 @@ private struct ViewOptionsPopover: View {
             }
         }
         .formStyle(.grouped)
-        .padding(12)
-        .accessibilityLabel("View options")
+        .padding(.horizontal, 12)
+        .padding(.bottom, 12)
+        .accessibilityLabel("Inspector panel")
     }
 
     private var verticalScaleBinding: Binding<Double> {

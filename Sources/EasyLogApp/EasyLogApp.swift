@@ -6,13 +6,14 @@ import SwiftUI
 /// SwiftUI application entry point and dependency composition root.
 struct EasyLogApp: App {
     @StateObject private var viewModel = ProjectViewModel()
+    private let enforcedEnglishLocale = Locale(identifier: "en_US")
 
     private func showAboutPanel() {
         let version = appVersion
         let credits = """
         Version \(version)
-        Licence: GNU General Public License v3.0 (GPL-3.0)
-        Auteur: Brice Lebrun
+        License: GNU General Public License v3.0 (GPL-3.0)
+        Author: Brice Lebrun
         """
 
         NSApp.orderFrontStandardAboutPanel(options: [
@@ -26,9 +27,13 @@ struct EasyLogApp: App {
         WindowGroup {
             MainContentView(viewModel: viewModel)
                 .frame(minWidth: 1080, minHeight: 700)
+                .environment(\.locale, enforcedEnglishLocale)
         }
-        .windowToolbarStyle(.unifiedCompact(showsTitle: false))
+        .windowStyle(.automatic)
+        .windowToolbarStyle(.unified)
         .windowResizability(.contentMinSize)
+        .defaultSize(width: 1280, height: 840)
+        .defaultPosition(.center)
         .commands {
             CommandGroup(replacing: .appInfo) {
                 Button("About EasyLog") {
@@ -57,8 +62,8 @@ struct EasyLogApp: App {
                 Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
             }
 
-            CommandGroup(replacing: .toolbar) {
-                Button("Show Inspector") { viewModel.toggleInspector() }
+            CommandGroup(after: .sidebar) {
+                Button("Toggle Inspector") { viewModel.toggleInspector() }
                     .keyboardShortcut("i", modifiers: [.command, .option])
             }
 
@@ -74,7 +79,7 @@ struct EasyLogApp: App {
                 Button("Add Unit") { viewModel.addUnit() }
                     .keyboardShortcut("u", modifiers: [.command, .shift])
                 Button("Delete Selected Unit") { viewModel.removeSelectedUnit() }
-                    .keyboardShortcut(.delete, modifiers: [])
+                    .keyboardShortcut(.delete, modifiers: [.command, .option])
                     .disabled(viewModel.selectedUnitIndex == nil)
                 Divider()
                 Button("Move Unit Up") { viewModel.moveSelectedUnitUp() }
@@ -88,9 +93,11 @@ struct EasyLogApp: App {
             CommandMenu("View") {
                 Section("Zoom") {
                     Button("Zoom In") { viewModel.zoomIn() }
+                        .keyboardShortcut("=", modifiers: [.command])
                     Button("Zoom Out") { viewModel.zoomOut() }
+                        .keyboardShortcut("-", modifiers: [.command])
                     Button("Fit Window") { viewModel.fitToWindow() }
-                    Button("Reset Zoom") { viewModel.resetZoom() }
+                        .keyboardShortcut("0", modifiers: [.command])
                 }
 
                 Picker("Detail View", selection: detailPaneBinding) {
@@ -101,6 +108,12 @@ struct EasyLogApp: App {
                     }
                 }
             }
+        }
+
+        Settings {
+            AppSettingsView(viewModel: viewModel)
+                .frame(minWidth: 420, minHeight: 260)
+                .environment(\.locale, enforcedEnglishLocale)
         }
     }
 
@@ -118,5 +131,56 @@ struct EasyLogApp: App {
             return shortVersion
         }
         return "Unknown"
+    }
+}
+
+private struct AppSettingsView: View {
+    @ObservedObject var viewModel: ProjectViewModel
+
+    var body: some View {
+        Form {
+            Section("General") {
+                Toggle("Show inspector on launch", isOn: inspectorOnLaunchBinding)
+                Picker("Default detail view", selection: defaultDetailPaneBinding) {
+                    ForEach(EditorPresentationState.DetailPane.allCases) { pane in
+                        Text(pane.label).tag(pane)
+                    }
+                }
+            }
+
+            Section("Lithology Colors") {
+                Picker("Active color profile", selection: activeColorProfileBinding) {
+                    ForEach(viewModel.colorProfiles) { profile in
+                        Text(profile.name).tag(profile.id)
+                    }
+                }
+                Text("Applies globally to new and existing projects.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .formStyle(.grouped)
+        .padding(12)
+    }
+
+    private var inspectorOnLaunchBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.showsInspectorOnLaunchPreference },
+            set: { viewModel.setShowsInspectorOnLaunchPreference($0) }
+        )
+    }
+
+    private var defaultDetailPaneBinding: Binding<EditorPresentationState.DetailPane> {
+        Binding(
+            get: { viewModel.defaultDetailPanePreference },
+            set: { viewModel.setDefaultDetailPanePreference($0) }
+        )
+    }
+
+    private var activeColorProfileBinding: Binding<UUID> {
+        Binding(
+            get: { viewModel.activeColorProfileID ?? viewModel.colorProfiles.first?.id ?? UUID() },
+            set: { viewModel.setActiveColorProfile(id: $0) }
+        )
     }
 }

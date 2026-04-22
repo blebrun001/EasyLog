@@ -1,0 +1,21 @@
+{
+  "" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary.dia",
+    "emit-module-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary-emit-module.dia",
+    "pch" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp-primary.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogApp/EasyLogApp.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/EasyLogApp.o"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Release/EasyLogApp.build/Objects-normal/x86_64/GeneratedAssetSymbols.o"
+  }
+}

@@ -57,7 +57,7 @@ public struct ProjectSidebarView: View {
                         .onMove(perform: viewModel.moveUnits)
                     }
                     .frame(minHeight: 210, maxHeight: 260)
-                    .listStyle(.inset)
+                    .listStyle(.sidebar)
                     .accessibilityLabel("Units list")
                     .help("Select and reorder stratigraphic units")
 
@@ -65,26 +65,29 @@ public struct ProjectSidebarView: View {
                         Button {
                             viewModel.addUnit()
                         } label: {
-                            Label("Add Unit", systemImage: "plus")
+                            Image(systemName: "plus")
                         }
                         .buttonStyle(.borderedProminent)
+                        .accessibilityLabel("Add unit")
                         .help("Add a new unit")
 
                         Button {
                             viewModel.moveSelectedUnitUp()
                         } label: {
-                            Label("Move Up", systemImage: "arrow.up")
+                            Image(systemName: "arrow.up")
                         }
                         .buttonStyle(.bordered)
+                        .accessibilityLabel("Move unit up")
                         .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == 0)
                         .help("Move the selected unit up")
 
                         Button {
                             viewModel.moveSelectedUnitDown()
                         } label: {
-                            Label("Move Down", systemImage: "arrow.down")
+                            Image(systemName: "arrow.down")
                         }
                         .buttonStyle(.bordered)
+                        .accessibilityLabel("Move unit down")
                         .disabled(
                             viewModel.selectedUnitIndex == nil
                                 || viewModel.selectedUnitIndex == viewModel.project.units.count - 1
@@ -96,9 +99,10 @@ public struct ProjectSidebarView: View {
                         Button(role: .destructive) {
                             isDeleteUnitConfirmationPresented = true
                         } label: {
-                            Label("Delete Unit", systemImage: "trash")
+                            Image(systemName: "trash")
                         }
                         .buttonStyle(.bordered)
+                        .accessibilityLabel("Delete unit")
                         .disabled(viewModel.selectedUnitIndex == nil)
                         .help("Delete the selected unit")
                     }
@@ -184,7 +188,7 @@ public struct ProjectSidebarView: View {
 
     private static let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.locale = .current
+        formatter.locale = Locale(identifier: "en_US")
         formatter.numberStyle = .decimal
         formatter.usesGroupingSeparator = false
         formatter.minimumFractionDigits = 0
