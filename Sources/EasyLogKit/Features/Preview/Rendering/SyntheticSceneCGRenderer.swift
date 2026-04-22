@@ -139,7 +139,7 @@ public enum SyntheticSceneCGRenderer {
         let maxColumnRight = scene.columns.map { $0.x + $0.width }.max() ?? (firstColumn.x + firstColumn.width)
         let originX = maxColumnRight + SceneLayout.legendOffsetFromLog
         var originY = scene.logsTopY + 10
-        drawText("Legend", at: CGPoint(x: originX, y: originY - 22), size: scene.baseFontSize + 1, context: context, bold: true)
+        drawText(SceneLayout.legendTitle(), at: CGPoint(x: originX, y: originY - 22), size: scene.baseFontSize + 1, context: context, bold: true)
 
         for item in scene.legend {
             let swatch = CGRect(x: originX, y: originY, width: SceneLayout.legendSwatchWidth, height: 18)

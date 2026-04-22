@@ -1,14 +1,18 @@
 import Foundation
 
 private enum ValidationL10n {
+    private static let localizer = LocalizationService(
+        defaults: .standard,
+        bundle: EasyLogKitBundle.resources,
+        fallback: fallback
+    )
+
     static func text(_ key: String) -> String {
-        let value = String(localized: String.LocalizationValue(key), bundle: EasyLogKitBundle.resources)
-        return value == key ? fallback[key] ?? key : value
+        localizer.text(key)
     }
 
     static func format(_ key: String, _ args: CVarArg...) -> String {
-        let format = text(key)
-        return String(format: format, locale: Locale.current, arguments: args)
+        localizer.format(key, args)
     }
 
     private static let fallback: [String: String] = [

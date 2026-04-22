@@ -28,26 +28,26 @@ public struct UnitFormView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            ProPanelSection("Unit Details", subtitle: "Core stratigraphic attributes") {
+            ProPanelSection(l10n("Unit Details"), subtitle: l10n("Core stratigraphic attributes")) {
 
-                fieldGroup("Name") {
+                fieldGroup(l10n("Name")) {
                     TextField("", text: $unit.name)
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityLabel("Unit name")
-                        .help("Enter the unit name")
+                        .accessibilityLabel(l10n("Unit name"))
+                        .help(l10n("Enter the unit name"))
                 }
 
-                fieldGroup("Thickness (m)") {
+                fieldGroup(l10n("Thickness (m)")) {
                     TextField("", text: thicknessBinding)
                         .textFieldStyle(.roundedBorder)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityLabel("Thickness in meters")
-                        .help("Enter unit thickness in meters")
+                        .accessibilityLabel(l10n("Thickness in meters"))
+                        .help(l10n("Enter unit thickness in meters"))
                 }
 
-                fieldGroup("Lithology Group") {
-                    Picker("Lithology Group", selection: $selectedLithologyCategory) {
+                fieldGroup(l10n("Lithology Group")) {
+                    Picker(l10n("Lithology Group"), selection: $selectedLithologyCategory) {
                         ForEach(availableLithologyCategories, id: \.self) { category in
                             Text(category.label).tag(category)
                         }
@@ -55,15 +55,15 @@ public struct UnitFormView: View {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .accessibilityLabel("Lithology Group")
-                    .help("Choose a lithology category")
+                    .accessibilityLabel(l10n("Lithology Group"))
+                    .help(l10n("Choose a lithology category"))
                     .onChange(of: selectedLithologyCategory) { _, _ in
                         normalizeLithologySelection()
                     }
                 }
 
-                fieldGroup("Lithology") {
-                    Picker("Lithology", selection: lithologyBinding) {
+                fieldGroup(l10n("Lithology")) {
+                    Picker(l10n("Lithology"), selection: lithologyBinding) {
                         ForEach(lithologySymbolsInSelectedCategory, id: \.code) { symbol in
                             Text("\(symbol.label) (\(symbol.code))").tag(symbol.code)
                         }
@@ -71,8 +71,8 @@ public struct UnitFormView: View {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .accessibilityLabel("Lithology")
-                    .help("Choose a lithology for this unit")
+                    .accessibilityLabel(l10n("Lithology"))
+                    .help(l10n("Choose a lithology for this unit"))
                 }
                 if let aliased = SymbologyLibrary.usgsLithologyAliases[unit.usgsLithologyCode] {
                     Text("Code \(unit.usgsLithologyCode) uses rendered swatch \(aliased).")
@@ -80,50 +80,50 @@ public struct UnitFormView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                fieldGroup("Lithology Color") {
+                fieldGroup(l10n("Lithology Color")) {
                     VStack(alignment: .leading, spacing: 8) {
-                        ColorPicker("Custom Color", selection: lithologyColorBinding, supportsOpacity: false)
-                            .accessibilityLabel("Lithology custom color")
-                            .help("Pick a custom lithology color")
+                        ColorPicker(l10n("Custom Color"), selection: lithologyColorBinding, supportsOpacity: false)
+                            .accessibilityLabel(l10n("Lithology custom color"))
+                            .help(l10n("Pick a custom lithology color"))
 
                         HStack(spacing: 8) {
                             TextField("#RRGGBB", text: lithologyHexBinding)
                                 .textFieldStyle(.roundedBorder)
                                 .font(.system(.body, design: .monospaced))
-                                .accessibilityLabel("Lithology color hex")
-                                .help("Enter a custom lithology color in hex format")
+                                .accessibilityLabel(l10n("Lithology color hex"))
+                                .help(l10n("Enter a custom lithology color in hex format"))
 
-                            Button("Reset to USGS") {
+                            Button(l10n("Reset to USGS")) {
                                 unit.lithologyColorHex = nil
                                 syncColorControlsFromUnit()
                             }
                             .buttonStyle(.bordered)
                             .disabled(unit.lithologyColorHex == nil)
-                            .accessibilityHint("Removes custom color and restores default USGS color")
-                            .help("Reset to the default USGS lithology color")
+                            .accessibilityHint(l10n("Removes custom color and restores default USGS color"))
+                            .help(l10n("Reset to the default USGS lithology color"))
                         }
 
                         HStack(spacing: 8) {
-                            Button("Apply Profile Color") {
+                            Button(l10n("Apply Profile Color")) {
                                 viewModel.applyPresetToSelectedUnit()
                                 syncColorControlsFromUnit()
                             }
                             .buttonStyle(.bordered)
                             .disabled(viewModel.presetColor(for: unit.usgsLithologyCode) == nil)
-                            .help("Apply the active profile color to this unit")
+                            .help(l10n("Apply the active profile color to this unit"))
 
-                            Button("Color Profiles…") {
+                            Button(l10n("Color Profiles…")) {
                                 showColorProfilesSheet = true
                             }
                             .buttonStyle(.bordered)
-                            .help("Open lithology color profiles")
+                            .help(l10n("Open lithology color profiles"))
                         }
                     }
                 }
 
-                fieldGroup("Grain Size") {
-                    Picker("Grain Size", selection: grainSizeBinding) {
-                        Text("Unset").tag(nil as USGSGrainSize?)
+                fieldGroup(l10n("Grain Size")) {
+                    Picker(l10n("Grain Size"), selection: grainSizeBinding) {
+                        Text(l10n("Unset")).tag(nil as USGSGrainSize?)
                         ForEach(USGSGrainSize.allCases, id: \.self) { size in
                             Text(size.label).tag(Optional(size))
                         }
@@ -131,12 +131,12 @@ public struct UnitFormView: View {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .accessibilityLabel("Grain Size")
-                    .help("Choose grain size for this unit")
+                    .accessibilityLabel(l10n("Grain Size"))
+                    .help(l10n("Choose grain size for this unit"))
                 }
             }
 
-            ProPanelSection("Point Features", subtitle: "Additional symbols and density") {
+            ProPanelSection(l10n("Point Features"), subtitle: l10n("Additional symbols and density")) {
                 ProBadge("\(unit.pointFeatures.count)")
             } content: {
 
@@ -149,11 +149,11 @@ public struct UnitFormView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Add Feature")
+                        Text(l10n("Add Feature"))
                             .font(.subheadline.weight(.semibold))
 
-                    fieldGroup("Category") {
-                        Picker("Category", selection: $pendingPointFeatureCategory) {
+                    fieldGroup(l10n("Category")) {
+                        Picker(l10n("Category"), selection: $pendingPointFeatureCategory) {
                             ForEach(availablePointFeatureCategories, id: \.self) { category in
                                 Text(category.label).tag(category)
                             }
@@ -161,16 +161,16 @@ public struct UnitFormView: View {
                         .pickerStyle(.menu)
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityLabel("Point feature category")
+                        .accessibilityLabel(l10n("Point feature category"))
                         .disabled(availablePointFeaturesToAdd.isEmpty)
-                        .help("Choose a point feature category to add")
+                        .help(l10n("Choose a point feature category to add"))
                         .onChange(of: pendingPointFeatureCategory) { _, _ in
                             normalizePendingFeatureSelection()
                         }
                     }
 
-                    fieldGroup("Feature Type") {
-                        Picker("Feature Type", selection: $pendingPointFeatureType) {
+                    fieldGroup(l10n("Feature Type")) {
+                        Picker(l10n("Feature Type"), selection: $pendingPointFeatureType) {
                             ForEach(availablePointFeaturesInSelectedCategory, id: \.self) { featureType in
                                 Text(featureType.label).tag(featureType)
                             }
@@ -178,9 +178,9 @@ public struct UnitFormView: View {
                         .pickerStyle(.menu)
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .accessibilityLabel("Point feature type")
+                        .accessibilityLabel(l10n("Point feature type"))
                         .disabled(availablePointFeaturesToAdd.isEmpty)
-                        .help("Choose a point feature type to add")
+                        .help(l10n("Choose a point feature type to add"))
                     }
 
                     HStack {
@@ -188,12 +188,12 @@ public struct UnitFormView: View {
                         Button {
                             addPendingPointFeature()
                         } label: {
-                            Label("Add Feature", systemImage: "plus")
+                            Label(l10n("Add Feature"), systemImage: "plus")
                         }
                         .buttonStyle(.bordered)
                         .disabled(availablePointFeaturesToAdd.isEmpty)
-                        .accessibilityHint("Adds the selected point feature to this unit")
-                        .help("Add the selected point feature")
+                        .accessibilityHint(l10n("Adds the selected point feature to this unit"))
+                        .help(l10n("Add the selected point feature"))
                     }
                     }
                     .padding(10)
@@ -219,22 +219,26 @@ public struct UnitFormView: View {
             normalizePendingFeatureSelection()
         }
         .confirmationDialog(
-            "Keep custom color?",
+            l10n("Keep custom color?"),
             isPresented: $showLithologyColorChangeDialog,
             titleVisibility: .visible
         ) {
-            Button("Keep custom color") {
+            Button(l10n("Keep custom color")) {
                 applyPendingLithologySelection(resetColor: false)
             }
-            Button("Reset to USGS color", role: .destructive) {
+            Button(l10n("Reset to USGS color"), role: .destructive) {
                 applyPendingLithologySelection(resetColor: true)
             }
-            Button("Cancel", role: .cancel) {
+            Button(l10n("Cancel"), role: .cancel) {
                 pendingLithologySelectionCode = nil
                 selectedLithologyCode = unit.usgsLithologyCode
             }
         } message: {
-            Text("Changing lithology while a custom color is set can either keep your custom color or restore the default USGS fill.")
+            Text(
+                l10n(
+                    "Changing lithology while a custom color is set can either keep your custom color or restore the default USGS fill."
+                )
+            )
         }
         .sheet(isPresented: $showColorProfilesSheet) {
             LithologyColorProfilesSheetView(viewModel: viewModel)
@@ -411,8 +415,8 @@ public struct UnitFormView: View {
                 .pickerStyle(.menu)
                 .labelsHidden()
                 .frame(maxWidth: 120, alignment: .trailing)
-                .accessibilityLabel("Feature Type")
-                .help("Change this point feature type")
+                .accessibilityLabel(l10n("Feature Type"))
+                .help(l10n("Change this point feature type"))
 
                 Button {
                     unit.pointFeatures.remove(at: index)
@@ -423,18 +427,18 @@ public struct UnitFormView: View {
                 }
                 .buttonStyle(.borderless)
                 .foregroundStyle(.red)
-                .accessibilityLabel("Delete feature")
-                .accessibilityHint("Removes this point feature from the unit")
-                .help("Delete this point feature")
+                .accessibilityLabel(l10n("Delete feature"))
+                .accessibilityHint(l10n("Removes this point feature from the unit"))
+                .help(l10n("Delete this point feature"))
             }
 
             HStack(spacing: 8) {
-                Text("Density")
+                Text(l10n("Density"))
                     .font(.subheadline)
                     .frame(width: 58, alignment: .leading)
                 Slider(value: densityBinding(for: index), in: 0...1)
-                    .accessibilityLabel("Feature density")
-                    .help("Adjust feature density")
+                    .accessibilityLabel(l10n("Feature density"))
+                    .help(l10n("Adjust feature density"))
                 Text("\(Int((unit.pointFeatures[index].density * 100).rounded()))%")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
@@ -442,26 +446,26 @@ public struct UnitFormView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                ColorPicker("Icon Color", selection: pointFeatureColorBinding(for: index), supportsOpacity: false)
-                    .accessibilityLabel("Point feature icon color")
-                    .help("Pick a custom point feature icon color")
+                ColorPicker(l10n("Icon Color"), selection: pointFeatureColorBinding(for: index), supportsOpacity: false)
+                    .accessibilityLabel(l10n("Point feature icon color"))
+                    .help(l10n("Pick a custom point feature icon color"))
 
                 HStack(spacing: 8) {
                     TextField("#RRGGBB", text: pointFeatureHexBinding(for: index))
                         .textFieldStyle(.roundedBorder)
                         .font(.system(.body, design: .monospaced))
-                        .accessibilityLabel("Point feature color hex")
-                        .help("Enter point feature icon color in hex format")
+                        .accessibilityLabel(l10n("Point feature color hex"))
+                        .help(l10n("Enter point feature icon color in hex format"))
 
-                    Button("Default") {
+                    Button(l10n("Default")) {
                         let featureID = unit.pointFeatures[index].id
                         unit.pointFeatures[index].colorHex = nil
                         pointFeatureHexTextByID[featureID] = ""
                     }
                     .buttonStyle(.bordered)
                     .disabled(unit.pointFeatures[index].colorHex == nil)
-                    .accessibilityHint("Resets point feature icon color to the default black")
-                    .help("Reset to the default point feature icon color")
+                    .accessibilityHint(l10n("Resets point feature icon color to the default black"))
+                    .help(l10n("Reset to the default point feature icon color"))
                 }
             }
         }
@@ -596,4 +600,8 @@ public struct UnitFormView: View {
         formatter.maximumFractionDigits = 3
         return formatter
     }()
+
+    private func l10n(_ key: String) -> String {
+        String(localized: String.LocalizationValue(key), bundle: EasyLogKitBundle.resources)
+    }
 }

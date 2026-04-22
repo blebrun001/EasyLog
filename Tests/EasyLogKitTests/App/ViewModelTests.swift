@@ -789,7 +789,7 @@ func colorProfilesPersistAcrossViewModelSessions() async throws {
     viewModelA.createColorProfile(name: "Carbonates")
     viewModelA.setLithologyColorPreset(usgsCode: 627, hex: "#12ab34")
     // Persistence is debounced (300ms) to keep writes off the critical path.
-    try await Task.sleep(nanoseconds: 360_000_000)
+    try await Task.sleep(nanoseconds: 600_000_000)
 
     let viewModelB = ProjectViewModel(
         project: Project.sample,

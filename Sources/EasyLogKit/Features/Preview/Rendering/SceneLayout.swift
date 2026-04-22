@@ -2,6 +2,18 @@ import Foundation
 
 /// Shared layout constants and label formatting helpers for renderers/exporters.
 public enum SceneLayout {
+    private static let localizationFallback: [String: String] = [
+        "render.legend.title": "Legend",
+        "render.grainScale.title": "Grain Size",
+        "render.grainScale.fine": "Fine",
+        "render.grainScale.silt": "Silt",
+        "render.grainScale.sand": "Sand",
+        "render.grainScale.coarse": "Coarse",
+        "render.unit.untitled": "Untitled Unit",
+        "render.axis.altitude": "Altitude (%@)",
+        "render.axis.depth": "Depth (%@)"
+    ]
+
     public static let legendOffsetFromLog = 170.0
     public static let legendTextOffset = 36.0
     public static let legendRowHeight = 26.0
@@ -65,14 +77,18 @@ public enum SceneLayout {
     }
 
     public static func representativeGrainScaleMarks(scene: RenderScene) -> [(label: String, x: Double)] {
+        representativeGrainScaleMarks(scene: scene, localizer: defaultLocalizer())
+    }
+
+    public static func representativeGrainScaleMarks(scene: RenderScene, localizer: LocalizationService) -> [(label: String, x: Double)] {
         let marks: [(label: String, grainSize: USGSGrainSize)] = [
-            ("Silt", .silt),
-            ("Sand", .sand),
-            ("Coarse", .boulder)
+            (grainScaleSiltLabel(localizer: localizer), .silt),
+            (grainScaleSandLabel(localizer: localizer), .sand),
+            (grainScaleCoarseLabel(localizer: localizer), .boulder)
         ]
         let minX = scene.logColumnRect.x
         let maxX = scene.logColumnRect.x + scene.logColumnRect.width
-        var result: [(label: String, x: Double)] = [("Fine", minX)]
+        var result: [(label: String, x: Double)] = [(grainScaleFineLabel(localizer: localizer), minX)]
 
         for mark in marks {
             let x = min(max(minX + grainSizeWidth(for: mark.grainSize), minX), maxX)
@@ -82,14 +98,18 @@ public enum SceneLayout {
             result.append((label: mark.label, x: x))
         }
         if result.last?.x != maxX {
-            result.append((label: "Coarse", x: maxX))
+            result.append((label: grainScaleCoarseLabel(localizer: localizer), x: maxX))
         }
         return result
     }
 
     public static func unitPrimaryLabel(_ unit: RenderedUnit) -> String {
+        unitPrimaryLabel(unit, localizer: defaultLocalizer())
+    }
+
+    public static func unitPrimaryLabel(_ unit: RenderedUnit, localizer: LocalizationService) -> String {
         let trimmed = unit.name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? "Untitled Unit" : trimmed
+        return trimmed.isEmpty ? localizer.text("render.unit.untitled") : trimmed
     }
 
     public static func unitSecondaryLabel(_ unit: RenderedUnit) -> String? {
@@ -117,10 +137,70 @@ public enum SceneLayout {
     }
 
     public static func scaleAxisTitle(unit: DepthScaleUnit, zeroLevelAltitudeInMeters: Double?) -> String {
+        scaleAxisTitle(unit: unit, zeroLevelAltitudeInMeters: zeroLevelAltitudeInMeters, localizer: defaultLocalizer())
+    }
+
+    public static func scaleAxisTitle(
+        unit: DepthScaleUnit,
+        zeroLevelAltitudeInMeters: Double?,
+        localizer: LocalizationService
+    ) -> String {
         if zeroLevelAltitudeInMeters != nil {
-            return "Altitude (\(unit.symbol))"
+            return localizer.format("render.axis.altitude", unit.symbol)
         }
-        return "Depth (\(unit.symbol))"
+        return localizer.format("render.axis.depth", unit.symbol)
+    }
+
+    public static func legendTitle() -> String {
+        legendTitle(localizer: defaultLocalizer())
+    }
+
+    public static func legendTitle(localizer: LocalizationService) -> String {
+        localizer.text("render.legend.title")
+    }
+
+    public static func grainScaleTitle() -> String {
+        grainScaleTitle(localizer: defaultLocalizer())
+    }
+
+    public static func grainScaleTitle(localizer: LocalizationService) -> String {
+        localizer.text("render.grainScale.title")
+    }
+
+    public static func grainScaleFineLabel() -> String {
+        grainScaleFineLabel(localizer: defaultLocalizer())
+    }
+
+    public static func grainScaleFineLabel(localizer: LocalizationService) -> String {
+        localizer.text("render.grainScale.fine")
+    }
+
+    public static func grainScaleSiltLabel() -> String {
+        grainScaleSiltLabel(localizer: defaultLocalizer())
+    }
+
+    public static func grainScaleSiltLabel(localizer: LocalizationService) -> String {
+        localizer.text("render.grainScale.silt")
+    }
+
+    public static func grainScaleSandLabel() -> String {
+        grainScaleSandLabel(localizer: defaultLocalizer())
+    }
+
+    public static func grainScaleSandLabel(localizer: LocalizationService) -> String {
+        localizer.text("render.grainScale.sand")
+    }
+
+    public static func grainScaleCoarseLabel() -> String {
+        grainScaleCoarseLabel(localizer: defaultLocalizer())
+    }
+
+    public static func grainScaleCoarseLabel(localizer: LocalizationService) -> String {
+        localizer.text("render.grainScale.coarse")
+    }
+
+    private static func defaultLocalizer() -> LocalizationService {
+        LocalizationService(defaults: .standard, bundle: EasyLogKitBundle.resources, fallback: localizationFallback)
     }
 
     public static func isMajorScaleTick(_ depthInMeters: Double, unit: DepthScaleUnit) -> Bool {

@@ -26,13 +26,17 @@ import UniformTypeIdentifiers
 
 /// Default `NSOpenPanel`/`NSSavePanel` implementation used by EasyLogApp.
 public struct AppKitFileDialogService: FileDialoging {
-    public init() {}
+    private let localizer: LocalizationService
+
+    public init(defaults: UserDefaults = .standard) {
+        self.localizer = LocalizationService(defaults: defaults, bundle: EasyLogKitBundle.resources)
+    }
 
     public func chooseProjectToOpen() -> URL? {
         let panel = NSOpenPanel()
-        panel.title = String(localized: "panel.openProject.title", bundle: EasyLogKitBundle.resources)
-        panel.message = String(localized: "panel.openProject.message", bundle: EasyLogKitBundle.resources)
-        panel.prompt = String(localized: "panel.openProject.prompt", bundle: EasyLogKitBundle.resources)
+        panel.title = localizer.text("panel.openProject.title")
+        panel.message = localizer.text("panel.openProject.message")
+        panel.prompt = localizer.text("panel.openProject.prompt")
         panel.allowedContentTypes = [.json]
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
@@ -43,9 +47,9 @@ public struct AppKitFileDialogService: FileDialoging {
 
     public func chooseProjectToSave() -> URL? {
         let panel = NSSavePanel()
-        panel.title = String(localized: "panel.saveProject.title", bundle: EasyLogKitBundle.resources)
-        panel.message = String(localized: "panel.saveProject.message", bundle: EasyLogKitBundle.resources)
-        panel.prompt = String(localized: "panel.saveProject.prompt", bundle: EasyLogKitBundle.resources)
+        panel.title = localizer.text("panel.saveProject.title")
+        panel.message = localizer.text("panel.saveProject.message")
+        panel.prompt = localizer.text("panel.saveProject.prompt")
         panel.allowedContentTypes = [.json]
         panel.nameFieldStringValue = "easylog-project.json"
         guard panel.runModal() == .OK else { return nil }
@@ -54,9 +58,9 @@ public struct AppKitFileDialogService: FileDialoging {
 
     public func chooseExportDestination() -> ExportDestinationSelection? {
         let panel = NSSavePanel()
-        panel.title = String(localized: "panel.exportFile.title", bundle: EasyLogKitBundle.resources)
-        panel.message = String(localized: "panel.exportFile.message", bundle: EasyLogKitBundle.resources)
-        panel.prompt = String(localized: "panel.exportFile.prompt", bundle: EasyLogKitBundle.resources)
+        panel.title = localizer.text("panel.exportFile.title")
+        panel.message = localizer.text("panel.exportFile.message")
+        panel.prompt = localizer.text("panel.exportFile.prompt")
         var allowedTypes: [UTType] = [.jpeg]
         if let svg = UTType(filenameExtension: "svg") {
             allowedTypes.insert(svg, at: 0)
@@ -75,9 +79,9 @@ public struct AppKitFileDialogService: FileDialoging {
 
     public func chooseExportDirectory() -> URL? {
         let panel = NSOpenPanel()
-        panel.title = String(localized: "panel.exportDirectory.title", bundle: EasyLogKitBundle.resources)
-        panel.message = String(localized: "panel.exportDirectory.message", bundle: EasyLogKitBundle.resources)
-        panel.prompt = String(localized: "panel.exportDirectory.prompt", bundle: EasyLogKitBundle.resources)
+        panel.title = localizer.text("panel.exportDirectory.title")
+        panel.message = localizer.text("panel.exportDirectory.message")
+        panel.prompt = localizer.text("panel.exportDirectory.prompt")
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false

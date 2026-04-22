@@ -17,36 +17,36 @@ public struct ProjectSidebarView: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                ProPanelSection("Log Context", subtitle: "Metadata and reference altitude") {
-                    ProField("Log title") {
-                        TextField("Untitled Stratigraphic Log", text: $viewModel.project.metadata.title)
+                ProPanelSection(l10n("Log Context"), subtitle: l10n("Metadata and reference altitude")) {
+                    ProField(l10n("Log title")) {
+                        TextField(l10n("Untitled Stratigraphic Log"), text: $viewModel.project.metadata.title)
                             .textFieldStyle(.roundedBorder)
-                            .accessibilityLabel("Log title")
-                            .help("Enter the log title")
+                            .accessibilityLabel(l10n("Log title"))
+                            .help(l10n("Enter the log title"))
                     }
 
-                    ProField("Zero-level altitude") {
+                    ProField(l10n("Zero-level altitude")) {
                         HStack(spacing: 8) {
                             TextField("0", text: zeroLevelAltitudeBinding)
                                 .textFieldStyle(.roundedBorder)
                                 .multilineTextAlignment(.trailing)
                                 .frame(width: 150)
                                 .focused($isZeroLevelAltitudeFieldFocused)
-                                .accessibilityLabel("Zero-level altitude")
-                                .help("Set the zero-level altitude in meters")
+                                .accessibilityLabel(l10n("Zero-level altitude"))
+                                .help(l10n("Set the zero-level altitude in meters"))
                             Text("m")
                                 .foregroundStyle(.secondary)
                         }
                     }
                 }
 
-                ProPanelSection("Units", subtitle: "Ordered stratigraphic sequence") {
+                ProPanelSection(l10n("Units"), subtitle: l10n("Ordered stratigraphic sequence")) {
                     ProBadge("\(viewModel.project.units.count)")
                 } content: {
                     List(selection: $viewModel.selectedUnitID) {
                         ForEach(viewModel.project.units) { unit in
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(unit.name.isEmpty ? "Untitled Unit" : unit.name)
+                                Text(unit.name.isEmpty ? l10n("Untitled Unit") : unit.name)
                                     .lineLimit(1)
                                 Text("\(unit.thickness, specifier: "%.2f") m")
                                     .font(.caption)
@@ -58,8 +58,8 @@ public struct ProjectSidebarView: View {
                     }
                     .frame(minHeight: 210, maxHeight: 260)
                     .listStyle(.sidebar)
-                    .accessibilityLabel("Units list")
-                    .help("Select and reorder stratigraphic units")
+                    .accessibilityLabel(l10n("Units list"))
+                    .help(l10n("Select and reorder stratigraphic units"))
 
                     HStack(spacing: 8) {
                         Button {
@@ -68,8 +68,8 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "plus")
                         }
                         .buttonStyle(.borderedProminent)
-                        .accessibilityLabel("Add unit")
-                        .help("Add a new unit")
+                        .accessibilityLabel(l10n("Add unit"))
+                        .help(l10n("Add a new unit"))
 
                         Button {
                             viewModel.moveSelectedUnitUp()
@@ -77,9 +77,9 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "arrow.up")
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel("Move unit up")
+                        .accessibilityLabel(l10n("Move unit up"))
                         .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == 0)
-                        .help("Move the selected unit up")
+                        .help(l10n("Move the selected unit up"))
 
                         Button {
                             viewModel.moveSelectedUnitDown()
@@ -87,12 +87,12 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "arrow.down")
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel("Move unit down")
+                        .accessibilityLabel(l10n("Move unit down"))
                         .disabled(
                             viewModel.selectedUnitIndex == nil
                                 || viewModel.selectedUnitIndex == viewModel.project.units.count - 1
                         )
-                        .help("Move the selected unit down")
+                        .help(l10n("Move the selected unit down"))
 
                         Spacer(minLength: 8)
 
@@ -102,20 +102,23 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "trash")
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel("Delete unit")
+                        .accessibilityLabel(l10n("Delete unit"))
                         .disabled(viewModel.selectedUnitIndex == nil)
-                        .help("Delete the selected unit")
+                        .help(l10n("Delete the selected unit"))
                     }
                 }
 
-                ProPanelSection("Selected Unit", subtitle: "Edit lithology, grain size and point features") {
+                ProPanelSection(
+                    l10n("Selected Unit"),
+                    subtitle: l10n("Edit lithology, grain size and point features")
+                ) {
                     if let index = viewModel.selectedUnitIndex {
                         UnitFormView(unit: $viewModel.project.units[index], viewModel: viewModel)
                             .id(viewModel.project.units[index].id)
                     } else {
                         ProEmptyState(
-                            title: "No Unit Selected",
-                            message: "Select a unit in the list to edit its properties.",
+                            title: l10n("No Unit Selected"),
+                            message: l10n("Select a unit in the list to edit its properties."),
                             systemImage: "square.and.pencil"
                         )
                     }
@@ -136,16 +139,16 @@ public struct ProjectSidebarView: View {
             syncZeroLevelAltitudeTextFromModel()
         }
         .confirmationDialog(
-            "Delete selected unit?",
+            l10n("Delete selected unit?"),
             isPresented: $isDeleteUnitConfirmationPresented,
             titleVisibility: .visible
         ) {
-            Button("Delete Unit", role: .destructive) {
+            Button(l10n("Delete Unit"), role: .destructive) {
                 viewModel.removeSelectedUnit()
             }
-            Button("Cancel", role: .cancel) {}
+            Button(l10n("Cancel"), role: .cancel) {}
         } message: {
-            Text("This action removes the selected unit from the current log.")
+            Text(l10n("This action removes the selected unit from the current log."))
         }
     }
 
@@ -195,4 +198,8 @@ public struct ProjectSidebarView: View {
         formatter.maximumFractionDigits = 3
         return formatter
     }()
+
+    private func l10n(_ key: String) -> String {
+        LocalizationService(defaults: .standard, bundle: EasyLogKitBundle.resources).text(key)
+    }
 }

@@ -24,7 +24,7 @@ func svgExportContainsCoreGroupsAndGridWhenEnabled() throws {
     #expect(content.contains("<g id=\"scale\""))
     #expect(content.contains("<g id=\"legend\">"))
     #expect(content.contains("<g id=\"grid\""))
-    #expect(content.contains("Depth (m)"))
+    #expect(content.contains(SceneLayout.scaleAxisTitle(unit: .meter, zeroLevelAltitudeInMeters: nil)))
 }
 
 @Test
@@ -92,6 +92,6 @@ func svgExportUsesAltitudeAxisLabelWhenZeroLevelAltitudeIsConfigured() throws {
     try exporter.export(scene: scene, to: outputURL, canvas: scene.canvasSize)
     let content = try String(contentsOf: outputURL, encoding: .utf8)
 
-    #expect(content.contains("Altitude (m)"))
-    #expect(!content.contains("Depth (m)"))
+    #expect(content.contains(SceneLayout.scaleAxisTitle(unit: .meter, zeroLevelAltitudeInMeters: 123)))
+    #expect(!content.contains(SceneLayout.scaleAxisTitle(unit: .meter, zeroLevelAltitudeInMeters: nil)))
 }

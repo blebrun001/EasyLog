@@ -84,8 +84,11 @@ public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable, Sendabl
 }
 
 private func localized(_ key: String, fallback: String) -> String {
-    let value = String(localized: String.LocalizationValue(key), bundle: EasyLogKitBundle.resources)
-    return value == key ? fallback : value
+    LocalizationService(
+        defaults: .standard,
+        bundle: EasyLogKitBundle.resources,
+        fallback: [key: fallback]
+    ).text(key)
 }
 
 /// Grouping taxonomy for unit point features.

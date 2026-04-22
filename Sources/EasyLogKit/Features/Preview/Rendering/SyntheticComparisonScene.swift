@@ -296,7 +296,7 @@ enum SyntheticComparisonSceneBuilder {
 
     private static func requiredRightMarginForLegend(legend: [LegendItem], baseFontSize: Double) -> Double {
         let labelFontSize = max(baseFontSize - 1, 1)
-        let titleWidth = measuredTextWidth("Legend", fontSize: baseFontSize + 1, bold: true)
+        let titleWidth = measuredTextWidth(SceneLayout.legendTitle(), fontSize: baseFontSize + 1, bold: true)
         let maxLabelWidth = legend
             .map { measuredTextWidth($0.label, fontSize: labelFontSize, bold: false) }
             .max() ?? 0

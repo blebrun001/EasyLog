@@ -1,0 +1,1006 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02452F42842E782D0299EA4B /* SceneLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C05F756A8D250C6197752A /* SceneLayout.swift */; };
+		03DC12BE7ABD61D66D0EDC39 /* isolated in Resources */ = {isa = PBXBuildFile; fileRef = 637951BA1962F8D793272805 /* isolated */; };
+		049E9319B85989BBE561630B /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD43A16B9843CA6574A82719 /* Validation.swift */; };
+		0867532368DEC81A686CB8FB /* SceneCGRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87C4E45F6F21E3D2C0A1D7A /* SceneCGRenderer.swift */; };
+		13D455AEC96E69220BAE4E4E /* SyntheticComparisonScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66872177C92003CB22D7C79 /* SyntheticComparisonScene.swift */; };
+		18DD9BCEC706466CBFD97FBC /* SettingsPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1BE3DE3870F95ADCBDA3D3 /* SettingsPanelView.swift */; };
+		1CC7990C7EE51761B41BFE79 /* USGSEPSSymbolRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75765ACB568296309AE3829A /* USGSEPSSymbolRenderer.swift */; };
+		221FD5A53B53D550F8E6BABC /* ProjectUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77326703A2EDCB6A8C7FE1DC /* ProjectUseCases.swift */; };
+		23CD684833DE2010112D6CB6 /* EasyLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EDA2C815AB85C9E45CCCCF /* EasyLogApp.swift */; };
+		2C359786F1B8F8C03A065C8C /* Exporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C51DF6E78C69A755AB04040 /* Exporting.swift */; };
+		2F4CD78D77FD8ED3FAD7623B /* ValidationReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8921D517C96EA3C8F9D5972E /* ValidationReportTests.swift */; };
+		409A6E39AC2704581ADDE1D8 /* HexColorNormalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D364601BFEF2A069E59D2204 /* HexColorNormalizerTests.swift */; };
+		42D22E8E3C0E0D0B73E417B8 /* EasyLogKitBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016133356CFE3B8243C3E95E /* EasyLogKitBundle.swift */; };
+		4372CE63411BED3A258A24BC /* EasyLog.icns in Resources */ = {isa = PBXBuildFile; fileRef = D88AF3A6A58325D2451FFCF4 /* EasyLog.icns */; };
+		4377D9687033EAADB7B87A7F /* HexColorNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1534976F91DEA0E5CFB3BF01 /* HexColorNormalizer.swift */; };
+		444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */; };
+		45461619C60C46F2D0D1776F /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB6890E660F07F95335B2AF /* ExportService.swift */; };
+		47628BDEB96535702D840C67 /* PointFeatureIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714509488543E5A9DF243BE2 /* PointFeatureIcons.swift */; };
+		4898585302421141B620430B /* ResourceCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */; };
+		553BC3F454FA2175C9CFEFDB /* LithologyColorPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13AC3A9F1100B40AD4A418E /* LithologyColorPresets.swift */; };
+		55A804825F406A549A1CE4D8 /* EasyLogKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		573C393D7BB0F89B9C41D799 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAA81A8042FEB97FF98DB6 /* TestSupport.swift */; };
+		57DF59672322333037D750A5 /* ThreadSafeCaches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556BA849B51EEF56C3A3A134 /* ThreadSafeCaches.swift */; };
+		594332B277340D2DC06ACFF8 /* LithologyColorProfilesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB25A61709629D67AC0C81BA /* LithologyColorProfilesSheetView.swift */; };
+		5B89C51E191D5C0C7576544B /* USGSRuntime in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C49A67FA9C299BFBB1E94 /* USGSRuntime */; };
+		5C804CB94D1551EB52C79698 /* EasyLogKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */; };
+		5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */; };
+		5FEA9CD94C4E3E1C90A69501 /* SceneRefreshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42288F10E3AC62E5D90A42E /* SceneRefreshService.swift */; };
+		6170B9364720079B3520CC6E /* RendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129B645DB11BB949CD32C1C5 /* RendererTests.swift */; };
+		62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */; };
+		633DB19B03C5552D944600AC /* EasyLogKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6891AA40A00BF6FA9CE9CA20 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3169864B2603FD5F9EFB06C4 /* Models.swift */; };
+		6ABCEE7FE43C17E17C73F9DF /* ColorProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC523D1690992D0D14621C /* ColorProfileService.swift */; };
+		6DBAF49505942F0E0B45097C /* ZoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A2CEB512E8EC58113A14A /* ZoomService.swift */; };
+		76BACC69C056F4E1E5F214EE /* Symbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D25B1F6E4686681A6AF31 /* Symbology.swift */; };
+		77C2C2DDB2AFA4AFCBF8EFAE /* SceneComputationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57726820C50BD4427938CE51 /* SceneComputationService.swift */; };
+		850CBC1EE04B8B1A3A636352 /* DomainProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7D420F18D7DF0530DB5DDA /* DomainProtocols.swift */; };
+		85F853C0F2907A1E98DB4C04 /* SVGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C36B1736B07D6FB0428382 /* SVGExporter.swift */; };
+		867506290785105780159E8D /* EditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E424F23985D244B39F7B8643 /* EditorState.swift */; };
+		8B6A4B263EF331ADD6624D58 /* RenderPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C6F828DEA32E0401537409 /* RenderPreviewView.swift */; };
+		9E9F1C076D86052E4018EBEC /* ProUIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F96D597AA47015689568B569 /* ProUIComponents.swift */; };
+		A481E7D286E587E2FE2B68CF /* UnitFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B928F8F34F0446429554B105 /* UnitFormView.swift */; };
+		A581E2E90013CBB9648F3EFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63479ABF66390D1221EDA12E /* Assets.xcassets */; };
+		A68F6AB2A80CA6106C2A0EF2 /* SVGExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */; };
+		AAF21A380948460335344083 /* USGSSymbolAssetResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772F0FF730B2AEA90613582A /* USGSSymbolAssetResolver.swift */; };
+		AB5A55DD862B1055C3F69A36 /* ViewModelTuningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9277B495AC19A51D4F8A42A4 /* ViewModelTuningTests.swift */; };
+		B2253826424C913638E0C8D3 /* ProjectRoundTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D4BB6EAF220268EA50FE1C /* ProjectRoundTripTests.swift */; };
+		BBF2E52203A2EC14FDD27AB7 /* RenderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C076CA97167F00E018960B /* RenderScene.swift */; };
+		BF5EE18CBEDBA832EF3CFBCA /* SyntheticComparisonPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7196FA3956DBCE083FCDE3 /* SyntheticComparisonPopoverView.swift */; };
+		C0816BF8C965B82908A7EFE1 /* SymbologyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781404DE44796AF2EF9863D1 /* SymbologyTests.swift */; };
+		C1B5E9DC571AF6067CBAE1D3 /* ProjectSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A69FEE1C01D6A5C7C75511A /* ProjectSidebarView.swift */; };
+		C476D13B4B49F96A454583EC /* LithologyColorPresetStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7128BE1636CD31A3A153BCB2 /* LithologyColorPresetStoreTests.swift */; };
+		C5426D595562BC170ABAD5BF /* EasyLogKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */; };
+		CA94EBE02FFD245F850C2751 /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DDB4443C8E1FD4A13EBB8 /* ProjectStore.swift */; };
+		CC19EE6C1553D69661621A78 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */; };
+		CCC1E3EB1831278EA24EE19E /* SceneRefreshTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB220AB6B2D822595604DFF /* SceneRefreshTrigger.swift */; };
+		CF07201372061DBFD48AADC8 /* RenderTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004A5CD36BAA886F777B1A86 /* RenderTuning.swift */; };
+		D0A6235456AA02E6D63BBAA9 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56368E4811B6CBC633A3582 /* ColorHex.swift */; };
+		D3555E0BCCEACDD4D25F53F9 /* FileDialoging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36AF0A3D0680E3799596650B /* FileDialoging.swift */; };
+		D38988561B2EE3606A024110 /* EasyLogRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5383A6AB5515247B491990 /* EasyLogRenderer.swift */; };
+		D6CC9E383149B45A521A7D7C /* ProjectDocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997691FE1559E9CF784C1F31 /* ProjectDocumentService.swift */; };
+		DB43D006923D65DFF5A71A18 /* PointFeatureIconCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACA4024EBCB6C5E829673BD /* PointFeatureIconCatalogTests.swift */; };
+		EC626832BA123CCCD9A474D6 /* pdf in Resources */ = {isa = PBXBuildFile; fileRef = 57F9D60C9A28DA66157A1CD6 /* pdf */; };
+		EDF9836FC80BA53866811C2A /* LegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2411694D449A876729657B1B /* LegendView.swift */; };
+		F02303DF3E9CDE627A201773 /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B771B0A5F6C652381C559 /* MainContentView.swift */; };
+		F0FE924CFD6928BCE8FB403B /* JPGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBEC5B0A39918FC3C8C8389 /* JPGExporter.swift */; };
+		F1E3A660A04FE7DE9102FF3F /* SyntheticSceneCGRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A1CCEA66186E69262EABC7 /* SyntheticSceneCGRenderer.swift */; };
+		FD0F035C0D10E124EA152417 /* SceneRasterCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53A471FDF858B0B035D56C3 /* SceneRasterCache.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		406AFA284F2C079DA2AF7BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42B4458E0EE4FE7A0F78240D;
+			remoteInfo = EasyLogKit;
+		};
+		AC156013575EDCE9314AF91C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42B4458E0EE4FE7A0F78240D;
+			remoteInfo = EasyLogKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		85773AE997007BCA3AA5F7DD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				633DB19B03C5552D944600AC /* EasyLogKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E8D4DA0D50727C0041C86A24 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				55A804825F406A549A1CE4D8 /* EasyLogKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		004A5CD36BAA886F777B1A86 /* RenderTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderTuning.swift; sourceTree = "<group>"; };
+		016133356CFE3B8243C3E95E /* EasyLogKitBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyLogKitBundle.swift; sourceTree = "<group>"; };
+		03C36B1736B07D6FB0428382 /* SVGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGExporter.swift; sourceTree = "<group>"; };
+		0B5383A6AB5515247B491990 /* EasyLogRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyLogRenderer.swift; sourceTree = "<group>"; };
+		0C7A2CEB512E8EC58113A14A /* ZoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomService.swift; sourceTree = "<group>"; };
+		129B645DB11BB949CD32C1C5 /* RendererTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTests.swift; sourceTree = "<group>"; };
+		1534976F91DEA0E5CFB3BF01 /* HexColorNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorNormalizer.swift; sourceTree = "<group>"; };
+		1A7196FA3956DBCE083FCDE3 /* SyntheticComparisonPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticComparisonPopoverView.swift; sourceTree = "<group>"; };
+		1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViewModel.swift; sourceTree = "<group>"; };
+		2411694D449A876729657B1B /* LegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendView.swift; sourceTree = "<group>"; };
+		27C6F828DEA32E0401537409 /* RenderPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderPreviewView.swift; sourceTree = "<group>"; };
+		2B0C49A67FA9C299BFBB1E94 /* USGSRuntime */ = {isa = PBXFileReference; lastKnownFileType = folder; name = USGSRuntime; path = Sources/EasyLogKit/Resources/USGSRuntime; sourceTree = SOURCE_ROOT; };
+		2C51DF6E78C69A755AB04040 /* Exporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exporting.swift; sourceTree = "<group>"; };
+		2C7D420F18D7DF0530DB5DDA /* DomainProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainProtocols.swift; sourceTree = "<group>"; };
+		3169864B2603FD5F9EFB06C4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		31AAA81A8042FEB97FF98DB6 /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		31C076CA97167F00E018960B /* RenderScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderScene.swift; sourceTree = "<group>"; };
+		36AF0A3D0680E3799596650B /* FileDialoging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDialoging.swift; sourceTree = "<group>"; };
+		41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EasyLogKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4ACC523D1690992D0D14621C /* ColorProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorProfileService.swift; sourceTree = "<group>"; };
+		4C942748BDDD6B0277F768EC /* EasyLogApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyLogApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		556BA849B51EEF56C3A3A134 /* ThreadSafeCaches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeCaches.swift; sourceTree = "<group>"; };
+		57726820C50BD4427938CE51 /* SceneComputationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneComputationService.swift; sourceTree = "<group>"; };
+		57F9D60C9A28DA66157A1CD6 /* pdf */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pdf; path = Sources/EasyLogKit/Resources/USGS/11A02/pdf; sourceTree = SOURCE_ROOT; };
+		5A3DDB4443C8E1FD4A13EBB8 /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
+		5CB220AB6B2D822595604DFF /* SceneRefreshTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneRefreshTrigger.swift; sourceTree = "<group>"; };
+		5E9B771B0A5F6C652381C559 /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
+		63479ABF66390D1221EDA12E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		637951BA1962F8D793272805 /* isolated */ = {isa = PBXFileReference; lastKnownFileType = folder; name = isolated; path = Sources/EasyLogKit/Resources/isolated; sourceTree = SOURCE_ROOT; };
+		6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceProvider.swift; sourceTree = "<group>"; };
+		7128BE1636CD31A3A153BCB2 /* LithologyColorPresetStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LithologyColorPresetStoreTests.swift; sourceTree = "<group>"; };
+		714509488543E5A9DF243BE2 /* PointFeatureIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointFeatureIcons.swift; sourceTree = "<group>"; };
+		75765ACB568296309AE3829A /* USGSEPSSymbolRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGSEPSSymbolRenderer.swift; sourceTree = "<group>"; };
+		772F0FF730B2AEA90613582A /* USGSSymbolAssetResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGSSymbolAssetResolver.swift; sourceTree = "<group>"; };
+		77326703A2EDCB6A8C7FE1DC /* ProjectUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectUseCases.swift; sourceTree = "<group>"; };
+		781404DE44796AF2EF9863D1 /* SymbologyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbologyTests.swift; sourceTree = "<group>"; };
+		7ACA4024EBCB6C5E829673BD /* PointFeatureIconCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointFeatureIconCatalogTests.swift; sourceTree = "<group>"; };
+		80A1CCEA66186E69262EABC7 /* SyntheticSceneCGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticSceneCGRenderer.swift; sourceTree = "<group>"; };
+		88D4BB6EAF220268EA50FE1C /* ProjectRoundTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectRoundTripTests.swift; sourceTree = "<group>"; };
+		8921D517C96EA3C8F9D5972E /* ValidationReportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationReportTests.swift; sourceTree = "<group>"; };
+		8A69FEE1C01D6A5C7C75511A /* ProjectSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSidebarView.swift; sourceTree = "<group>"; };
+		9277B495AC19A51D4F8A42A4 /* ViewModelTuningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTuningTests.swift; sourceTree = "<group>"; };
+		997691FE1559E9CF784C1F31 /* ProjectDocumentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDocumentService.swift; sourceTree = "<group>"; };
+		A56368E4811B6CBC633A3582 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCatalogTests.swift; sourceTree = "<group>"; };
+		AC1BE3DE3870F95ADCBDA3D3 /* SettingsPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanelView.swift; sourceTree = "<group>"; };
+		AD43A16B9843CA6574A82719 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		B16D25B1F6E4686681A6AF31 /* Symbology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbology.swift; sourceTree = "<group>"; };
+		B928F8F34F0446429554B105 /* UnitFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitFormView.swift; sourceTree = "<group>"; };
+		C13AC3A9F1100B40AD4A418E /* LithologyColorPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LithologyColorPresets.swift; sourceTree = "<group>"; };
+		C1C05F756A8D250C6197752A /* SceneLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLayout.swift; sourceTree = "<group>"; };
+		C53A471FDF858B0B035D56C3 /* SceneRasterCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneRasterCache.swift; sourceTree = "<group>"; };
+		CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGSResourceCatalog.swift; sourceTree = "<group>"; };
+		D364601BFEF2A069E59D2204 /* HexColorNormalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorNormalizerTests.swift; sourceTree = "<group>"; };
+		D42288F10E3AC62E5D90A42E /* SceneRefreshService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneRefreshService.swift; sourceTree = "<group>"; };
+		D88AF3A6A58325D2451FFCF4 /* EasyLog.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EasyLog.icns; sourceTree = "<group>"; };
+		D9EDA2C815AB85C9E45CCCCF /* EasyLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyLogApp.swift; sourceTree = "<group>"; };
+		DB25A61709629D67AC0C81BA /* LithologyColorProfilesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LithologyColorProfilesSheetView.swift; sourceTree = "<group>"; };
+		E2AFB2347816645ADD8E044B /* EasyLogKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyLogKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E424F23985D244B39F7B8643 /* EditorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorState.swift; sourceTree = "<group>"; };
+		E66872177C92003CB22D7C79 /* SyntheticComparisonScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticComparisonScene.swift; sourceTree = "<group>"; };
+		E87C4E45F6F21E3D2C0A1D7A /* SceneCGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneCGRenderer.swift; sourceTree = "<group>"; };
+		EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGExportTests.swift; sourceTree = "<group>"; };
+		EDB6890E660F07F95335B2AF /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		EFBEC5B0A39918FC3C8C8389 /* JPGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JPGExporter.swift; sourceTree = "<group>"; };
+		F96D597AA47015689568B569 /* ProUIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProUIComponents.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		17E5DD8E17CDAD6D6F4697CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5426D595562BC170ABAD5BF /* EasyLogKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE633D80C58CC9B486AD3677 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C804CB94D1551EB52C79698 /* EasyLogKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0946D5EDAAC8B73294E39EBA /* 11A02 */ = {
+			isa = PBXGroup;
+			children = (
+				57F9D60C9A28DA66157A1CD6 /* pdf */,
+			);
+			path = 11A02;
+			sourceTree = "<group>";
+		};
+		0D61A7FEE59436C866BD71AB = {
+			isa = PBXGroup;
+			children = (
+				4216C65A21D7B5C1E48B332A /* Sources */,
+				8E4A89895E7666A1CCEB2292 /* Tests */,
+				22AF6C6E46D2722F4706CE34 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		145017CA182334B642A92060 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				2FC38B4567AD69AA46A76A47 /* Rendering */,
+				7ADB239EC36960E9220AF729 /* UI */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
+		22AF6C6E46D2722F4706CE34 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C942748BDDD6B0277F768EC /* EasyLogApp.app */,
+				466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */,
+				E2AFB2347816645ADD8E044B /* EasyLogKitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2FC38B4567AD69AA46A76A47 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				0B5383A6AB5515247B491990 /* EasyLogRenderer.swift */,
+				714509488543E5A9DF243BE2 /* PointFeatureIcons.swift */,
+				31C076CA97167F00E018960B /* RenderScene.swift */,
+				E87C4E45F6F21E3D2C0A1D7A /* SceneCGRenderer.swift */,
+				C1C05F756A8D250C6197752A /* SceneLayout.swift */,
+				C53A471FDF858B0B035D56C3 /* SceneRasterCache.swift */,
+				B16D25B1F6E4686681A6AF31 /* Symbology.swift */,
+				E66872177C92003CB22D7C79 /* SyntheticComparisonScene.swift */,
+				80A1CCEA66186E69262EABC7 /* SyntheticSceneCGRenderer.swift */,
+				556BA849B51EEF56C3A3A134 /* ThreadSafeCaches.swift */,
+				75765ACB568296309AE3829A /* USGSEPSSymbolRenderer.swift */,
+				772F0FF730B2AEA90613582A /* USGSSymbolAssetResolver.swift */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
+		4216C65A21D7B5C1E48B332A /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B304390DEFBAF1E12C02171C /* EasyLogApp */,
+				DAD6EB7815627A131DA71FCE /* EasyLogKit */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		45A614DAF974BF7B3255AF75 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F96D597AA47015689568B569 /* ProUIComponents.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		461178974177AAB83F36EBE4 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DB25A61709629D67AC0C81BA /* LithologyColorProfilesSheetView.swift */,
+				8A69FEE1C01D6A5C7C75511A /* ProjectSidebarView.swift */,
+				B928F8F34F0446429554B105 /* UnitFormView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		4BF8F0352CD379FF6CD374B1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1534976F91DEA0E5CFB3BF01 /* HexColorNormalizer.swift */,
+				3169864B2603FD5F9EFB06C4 /* Models.swift */,
+				AD43A16B9843CA6574A82719 /* Validation.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		6103397F1F9646B4C7CD177A /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				2C51DF6E78C69A755AB04040 /* Exporting.swift */,
+				EFBEC5B0A39918FC3C8C8389 /* JPGExporter.swift */,
+				03C36B1736B07D6FB0428382 /* SVGExporter.swift */,
+			);
+			path = Export;
+			sourceTree = "<group>";
+		};
+		698CA16A1FA94DC2DF109117 /* EasyLogKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				D364601BFEF2A069E59D2204 /* HexColorNormalizerTests.swift */,
+				7128BE1636CD31A3A153BCB2 /* LithologyColorPresetStoreTests.swift */,
+				7ACA4024EBCB6C5E829673BD /* PointFeatureIconCatalogTests.swift */,
+				88D4BB6EAF220268EA50FE1C /* ProjectRoundTripTests.swift */,
+				129B645DB11BB949CD32C1C5 /* RendererTests.swift */,
+				AA22FD908AF12E2D7B836372 /* ResourceCatalogTests.swift */,
+				EA142F43D22E98AE2D7D6B92 /* SVGExportTests.swift */,
+				781404DE44796AF2EF9863D1 /* SymbologyTests.swift */,
+				31AAA81A8042FEB97FF98DB6 /* TestSupport.swift */,
+				8921D517C96EA3C8F9D5972E /* ValidationReportTests.swift */,
+				41C7772A7CEAC3B78B9773F7 /* ViewModelTests.swift */,
+				9277B495AC19A51D4F8A42A4 /* ViewModelTuningTests.swift */,
+			);
+			path = EasyLogKitTests;
+			sourceTree = "<group>";
+		};
+		700E6B0F5F6DEF733413BB70 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				63479ABF66390D1221EDA12E /* Assets.xcassets */,
+				D88AF3A6A58325D2451FFCF4 /* EasyLog.icns */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7ADB239EC36960E9220AF729 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2411694D449A876729657B1B /* LegendView.swift */,
+				27C6F828DEA32E0401537409 /* RenderPreviewView.swift */,
+				AC1BE3DE3870F95ADCBDA3D3 /* SettingsPanelView.swift */,
+				1A7196FA3956DBCE083FCDE3 /* SyntheticComparisonPopoverView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		869D830CDD5E1F98D4A5504F /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5E9B771B0A5F6C652381C559 /* MainContentView.swift */,
+				AD3565DC8867DB3715A6EEDB /* Services */,
+				E8960DCA309FE21B2742F586 /* State */,
+				45A614DAF974BF7B3255AF75 /* UI */,
+				99256E09217D58296C26E275 /* UseCases */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		89D99389C4AE7267D1A51B6F /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DDB4443C8E1FD4A13EBB8 /* ProjectStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		8E4A89895E7666A1CCEB2292 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				698CA16A1FA94DC2DF109117 /* EasyLogKitTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		9831405D938BC721BCB83595 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				637951BA1962F8D793272805 /* isolated */,
+				2B0C49A67FA9C299BFBB1E94 /* USGSRuntime */,
+				F6C675D0832FAD9480C51456 /* USGS */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		99256E09217D58296C26E275 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				77326703A2EDCB6A8C7FE1DC /* ProjectUseCases.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		A716B526D2B560A5892B12EF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				016133356CFE3B8243C3E95E /* EasyLogKitBundle.swift */,
+				A56368E4811B6CBC633A3582 /* ColorHex.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		AD3565DC8867DB3715A6EEDB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4ACC523D1690992D0D14621C /* ColorProfileService.swift */,
+				2C7D420F18D7DF0530DB5DDA /* DomainProtocols.swift */,
+				EDB6890E660F07F95335B2AF /* ExportService.swift */,
+				36AF0A3D0680E3799596650B /* FileDialoging.swift */,
+				997691FE1559E9CF784C1F31 /* ProjectDocumentService.swift */,
+				D42288F10E3AC62E5D90A42E /* SceneRefreshService.swift */,
+				0C7A2CEB512E8EC58113A14A /* ZoomService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B1DDAA5F726787C579237A9C /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				E8A3C29309E467484E4A5737 /* Editor */,
+				145017CA182334B642A92060 /* Preview */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B304390DEFBAF1E12C02171C /* EasyLogApp */ = {
+			isa = PBXGroup;
+			children = (
+				D9EDA2C815AB85C9E45CCCCF /* EasyLogApp.swift */,
+				700E6B0F5F6DEF733413BB70 /* Resources */,
+			);
+			path = EasyLogApp;
+			sourceTree = "<group>";
+		};
+		BDE419CFE447D3EE7BF8BE3C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6B586D0E40490E73EC4C9A35 /* ResourceProvider.swift */,
+				CB9A4C3EF49B0060C7160310 /* USGSResourceCatalog.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CC57FC0233D4AD6D0A1908D2 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				6103397F1F9646B4C7CD177A /* Export */,
+				89D99389C4AE7267D1A51B6F /* Persistence */,
+				BDE419CFE447D3EE7BF8BE3C /* Resources */,
+				A716B526D2B560A5892B12EF /* Utils */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		DAD6EB7815627A131DA71FCE /* EasyLogKit */ = {
+			isa = PBXGroup;
+			children = (
+				869D830CDD5E1F98D4A5504F /* App */,
+				4BF8F0352CD379FF6CD374B1 /* Core */,
+				B1DDAA5F726787C579237A9C /* Features */,
+				CC57FC0233D4AD6D0A1908D2 /* Infrastructure */,
+				9831405D938BC721BCB83595 /* Resources */,
+			);
+			path = EasyLogKit;
+			sourceTree = "<group>";
+		};
+		E8960DCA309FE21B2742F586 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				E424F23985D244B39F7B8643 /* EditorState.swift */,
+				C13AC3A9F1100B40AD4A418E /* LithologyColorPresets.swift */,
+				1ABE943501C10F9522B8D0FC /* ProjectViewModel.swift */,
+				004A5CD36BAA886F777B1A86 /* RenderTuning.swift */,
+				57726820C50BD4427938CE51 /* SceneComputationService.swift */,
+				5CB220AB6B2D822595604DFF /* SceneRefreshTrigger.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		E8A3C29309E467484E4A5737 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				461178974177AAB83F36EBE4 /* UI */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
+		F6C675D0832FAD9480C51456 /* USGS */ = {
+			isa = PBXGroup;
+			children = (
+				0946D5EDAAC8B73294E39EBA /* 11A02 */,
+			);
+			path = USGS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42B4458E0EE4FE7A0F78240D /* EasyLogKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6DA7E8CA696DD71D40582D40 /* Build configuration list for PBXNativeTarget "EasyLogKit" */;
+			buildPhases = (
+				21C8B19E71248BD07228AE45 /* Sources */,
+				BEDC62166E62D7DDC72194AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EasyLogKit;
+			packageProductDependencies = (
+			);
+			productName = EasyLogKit;
+			productReference = 466A07F4E27AF48ABBECAB85 /* EasyLogKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		66D7B54EB5157B37BAEC5F83 /* EasyLogKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CEAD8427D3C66A0DCC98775 /* Build configuration list for PBXNativeTarget "EasyLogKitTests" */;
+			buildPhases = (
+				FE9CC43971C8C8E7210D89B8 /* Sources */,
+				AE633D80C58CC9B486AD3677 /* Frameworks */,
+				85773AE997007BCA3AA5F7DD /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				173A166DB64CE2C2668978AA /* PBXTargetDependency */,
+			);
+			name = EasyLogKitTests;
+			packageProductDependencies = (
+			);
+			productName = EasyLogKitTests;
+			productReference = E2AFB2347816645ADD8E044B /* EasyLogKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6B3D2AEE01D9883BB192A1CB /* EasyLogApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AC1EEDB933240687B7E43B8 /* Build configuration list for PBXNativeTarget "EasyLogApp" */;
+			buildPhases = (
+				70E46BEFEE5E3DDCA9449758 /* Sources */,
+				45A24793BAC1DD494C28643C /* Resources */,
+				17E5DD8E17CDAD6D6F4697CA /* Frameworks */,
+				E8D4DA0D50727C0041C86A24 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D147FAC9DB11E48ACBB7E783 /* PBXTargetDependency */,
+			);
+			name = EasyLogApp;
+			packageProductDependencies = (
+			);
+			productName = EasyLogApp;
+			productReference = 4C942748BDDD6B0277F768EC /* EasyLogApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAA9F9B983CE55D38B2F125B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2630;
+			};
+			buildConfigurationList = E7FAEEC4302D535402308E4C /* Build configuration list for PBXProject "EasyLog" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 0D61A7FEE59436C866BD71AB;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 22AF6C6E46D2722F4706CE34 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6B3D2AEE01D9883BB192A1CB /* EasyLogApp */,
+				42B4458E0EE4FE7A0F78240D /* EasyLogKit */,
+				66D7B54EB5157B37BAEC5F83 /* EasyLogKitTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		45A24793BAC1DD494C28643C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A581E2E90013CBB9648F3EFD /* Assets.xcassets in Resources */,
+				4372CE63411BED3A258A24BC /* EasyLog.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEDC62166E62D7DDC72194AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B89C51E191D5C0C7576544B /* USGSRuntime in Resources */,
+				03DC12BE7ABD61D66D0EDC39 /* isolated in Resources */,
+				EC626832BA123CCCD9A474D6 /* pdf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		21C8B19E71248BD07228AE45 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42D22E8E3C0E0D0B73E417B8 /* EasyLogKitBundle.swift in Sources */,
+				D38988561B2EE3606A024110 /* EasyLogRenderer.swift in Sources */,
+				D0A6235456AA02E6D63BBAA9 /* ColorHex.swift in Sources */,
+				6ABCEE7FE43C17E17C73F9DF /* ColorProfileService.swift in Sources */,
+				850CBC1EE04B8B1A3A636352 /* DomainProtocols.swift in Sources */,
+				867506290785105780159E8D /* EditorState.swift in Sources */,
+				45461619C60C46F2D0D1776F /* ExportService.swift in Sources */,
+				2C359786F1B8F8C03A065C8C /* Exporting.swift in Sources */,
+				D3555E0BCCEACDD4D25F53F9 /* FileDialoging.swift in Sources */,
+				4377D9687033EAADB7B87A7F /* HexColorNormalizer.swift in Sources */,
+				F0FE924CFD6928BCE8FB403B /* JPGExporter.swift in Sources */,
+				EDF9836FC80BA53866811C2A /* LegendView.swift in Sources */,
+				553BC3F454FA2175C9CFEFDB /* LithologyColorPresets.swift in Sources */,
+				594332B277340D2DC06ACFF8 /* LithologyColorProfilesSheetView.swift in Sources */,
+				F02303DF3E9CDE627A201773 /* MainContentView.swift in Sources */,
+				6891AA40A00BF6FA9CE9CA20 /* Models.swift in Sources */,
+				47628BDEB96535702D840C67 /* PointFeatureIcons.swift in Sources */,
+				9E9F1C076D86052E4018EBEC /* ProUIComponents.swift in Sources */,
+				D6CC9E383149B45A521A7D7C /* ProjectDocumentService.swift in Sources */,
+				C1B5E9DC571AF6067CBAE1D3 /* ProjectSidebarView.swift in Sources */,
+				CA94EBE02FFD245F850C2751 /* ProjectStore.swift in Sources */,
+				221FD5A53B53D550F8E6BABC /* ProjectUseCases.swift in Sources */,
+				62583DD85FA176B9C4512B1A /* ProjectViewModel.swift in Sources */,
+				8B6A4B263EF331ADD6624D58 /* RenderPreviewView.swift in Sources */,
+				BBF2E52203A2EC14FDD27AB7 /* RenderScene.swift in Sources */,
+				CF07201372061DBFD48AADC8 /* RenderTuning.swift in Sources */,
+				444A6033AB0763A8014A7EAD /* ResourceProvider.swift in Sources */,
+				85F853C0F2907A1E98DB4C04 /* SVGExporter.swift in Sources */,
+				0867532368DEC81A686CB8FB /* SceneCGRenderer.swift in Sources */,
+				77C2C2DDB2AFA4AFCBF8EFAE /* SceneComputationService.swift in Sources */,
+				02452F42842E782D0299EA4B /* SceneLayout.swift in Sources */,
+				FD0F035C0D10E124EA152417 /* SceneRasterCache.swift in Sources */,
+				5FEA9CD94C4E3E1C90A69501 /* SceneRefreshService.swift in Sources */,
+				CCC1E3EB1831278EA24EE19E /* SceneRefreshTrigger.swift in Sources */,
+				18DD9BCEC706466CBFD97FBC /* SettingsPanelView.swift in Sources */,
+				76BACC69C056F4E1E5F214EE /* Symbology.swift in Sources */,
+				BF5EE18CBEDBA832EF3CFBCA /* SyntheticComparisonPopoverView.swift in Sources */,
+				13D455AEC96E69220BAE4E4E /* SyntheticComparisonScene.swift in Sources */,
+				F1E3A660A04FE7DE9102FF3F /* SyntheticSceneCGRenderer.swift in Sources */,
+				57DF59672322333037D750A5 /* ThreadSafeCaches.swift in Sources */,
+				1CC7990C7EE51761B41BFE79 /* USGSEPSSymbolRenderer.swift in Sources */,
+				5EC62F32E7F5EC40B453991D /* USGSResourceCatalog.swift in Sources */,
+				AAF21A380948460335344083 /* USGSSymbolAssetResolver.swift in Sources */,
+				A481E7D286E587E2FE2B68CF /* UnitFormView.swift in Sources */,
+				049E9319B85989BBE561630B /* Validation.swift in Sources */,
+				6DBAF49505942F0E0B45097C /* ZoomService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70E46BEFEE5E3DDCA9449758 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23CD684833DE2010112D6CB6 /* EasyLogApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE9CC43971C8C8E7210D89B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				409A6E39AC2704581ADDE1D8 /* HexColorNormalizerTests.swift in Sources */,
+				C476D13B4B49F96A454583EC /* LithologyColorPresetStoreTests.swift in Sources */,
+				DB43D006923D65DFF5A71A18 /* PointFeatureIconCatalogTests.swift in Sources */,
+				B2253826424C913638E0C8D3 /* ProjectRoundTripTests.swift in Sources */,
+				6170B9364720079B3520CC6E /* RendererTests.swift in Sources */,
+				4898585302421141B620430B /* ResourceCatalogTests.swift in Sources */,
+				A68F6AB2A80CA6106C2A0EF2 /* SVGExportTests.swift in Sources */,
+				C0816BF8C965B82908A7EFE1 /* SymbologyTests.swift in Sources */,
+				573C393D7BB0F89B9C41D799 /* TestSupport.swift in Sources */,
+				2F4CD78D77FD8ED3FAD7623B /* ValidationReportTests.swift in Sources */,
+				CC19EE6C1553D69661621A78 /* ViewModelTests.swift in Sources */,
+				AB5A55DD862B1055C3F69A36 /* ViewModelTuningTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		173A166DB64CE2C2668978AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 42B4458E0EE4FE7A0F78240D /* EasyLogKit */;
+			targetProxy = AC156013575EDCE9314AF91C /* PBXContainerItemProxy */;
+		};
+		D147FAC9DB11E48ACBB7E783 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 42B4458E0EE4FE7A0F78240D /* EasyLogKit */;
+			targetProxy = 406AFA284F2C079DA2AF7BD5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		60B6F619A322D89A32656F2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphes.easylogkit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		6AF012ADA9CEC3BC06E08341 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.1.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphes.easylogapp;
+				PRODUCT_NAME = EasyLogApp;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+			};
+			name = Release;
+		};
+		70C20AE5E8D029A82E2B15B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphes.easylogkit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		764DA9F1900F4232C55E0D77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.1.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphes.easylogkit.tests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C01BD67412F7D01E7E374409 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		DF1AF29773B1746FF73266E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphes.easylogkit.tests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F7770844F3B732A8F6817F4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		FE426ADF183588FBA3AB1643 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.1.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.iphes.easylogapp;
+				PRODUCT_NAME = EasyLogApp;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0CEAD8427D3C66A0DCC98775 /* Build configuration list for PBXNativeTarget "EasyLogKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				764DA9F1900F4232C55E0D77 /* Debug */,
+				DF1AF29773B1746FF73266E1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6AC1EEDB933240687B7E43B8 /* Build configuration list for PBXNativeTarget "EasyLogApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE426ADF183588FBA3AB1643 /* Debug */,
+				6AF012ADA9CEC3BC06E08341 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6DA7E8CA696DD71D40582D40 /* Build configuration list for PBXNativeTarget "EasyLogKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60B6F619A322D89A32656F2B /* Debug */,
+				70C20AE5E8D029A82E2B15B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E7FAEEC4302D535402308E4C /* Build configuration list for PBXProject "EasyLog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7770844F3B732A8F6817F4C /* Debug */,
+				C01BD67412F7D01E7E374409 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAA9F9B983CE55D38B2F125B /* Project object */;
+}

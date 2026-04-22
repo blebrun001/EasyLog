@@ -164,7 +164,7 @@ public struct SVGExporter: SVGExporting {
             svg += """
 
               <g id="grain-size-labels" font-family="Helvetica, Arial, sans-serif" fill="#111111">
-                <text x="\(fmt(minX))" y="\(fmt(axisY + SceneLayout.grainScaleLabelOffsetY + (scene.baseFontSize - 1) + 8))" font-size="\(fmt(scene.baseFontSize - 1))">Grain Size</text>
+                <text x="\(fmt(minX))" y="\(fmt(axisY + SceneLayout.grainScaleLabelOffsetY + (scene.baseFontSize - 1) + 8))" font-size="\(fmt(scene.baseFontSize - 1))">\(xmlEscape(SceneLayout.grainScaleTitle()))</text>
             """
             for label in grainScaleLabelPlacements(scene: scene, minX: minX, maxX: maxX, fontSize: labelFontSize) {
                 svg += """
@@ -184,7 +184,7 @@ public struct SVGExporter: SVGExporting {
             svg += """
 
               <g id="legend">
-                <text x="\(fmt(legendX))" y="\(fmt(legendY - 10))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize + 1))" font-weight="700">Legend</text>
+                <text x="\(fmt(legendX))" y="\(fmt(legendY - 10))" font-family="Helvetica, Arial, sans-serif" font-size="\(fmt(scene.baseFontSize + 1))" font-weight="700">\(xmlEscape(SceneLayout.legendTitle()))</text>
             """
             for item in scene.legend {
                 let swatchFill = xmlEscape(item.fillHex ?? "#ffffff")
@@ -441,11 +441,11 @@ public struct SVGExporter: SVGExporting {
 
     private func grainLabelPriority(_ label: String) -> Int {
         switch label {
-        case "Fine", "Coarse":
+        case SceneLayout.grainScaleFineLabel(), SceneLayout.grainScaleCoarseLabel():
             return 3
-        case "Silt":
+        case SceneLayout.grainScaleSiltLabel():
             return 2
-        case "Sand":
+        case SceneLayout.grainScaleSandLabel():
             return 1
         default:
             return 1

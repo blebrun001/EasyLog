@@ -199,7 +199,7 @@ public enum SceneCGRenderer {
         let legendOrigin = SceneLayout.legendOrigin(scene: scene)
         let originX = legendOrigin.x
         var originY = legendOrigin.y
-        drawText("Legend", at: CGPoint(x: originX, y: originY - 22), size: scene.baseFontSize + 1, context: context, bold: true)
+        drawText(SceneLayout.legendTitle(), at: CGPoint(x: originX, y: originY - 22), size: scene.baseFontSize + 1, context: context, bold: true)
 
         for item in scene.legend {
             let swatch = CGRect(x: originX, y: originY, width: SceneLayout.legendSwatchWidth, height: 18)
@@ -385,7 +385,7 @@ public enum SceneCGRenderer {
         }
 
         drawText(
-            "Grain Size",
+            SceneLayout.grainScaleTitle(),
             at: CGPoint(
                 x: minX,
                 y: axisY + SceneLayout.grainScaleLabelOffsetY + (scene.baseFontSize - 1) + 8
@@ -463,11 +463,11 @@ public enum SceneCGRenderer {
 
     private static func grainLabelPriority(_ label: String) -> Int {
         switch label {
-        case "Fine", "Coarse":
+        case SceneLayout.grainScaleFineLabel(), SceneLayout.grainScaleCoarseLabel():
             return 3
-        case "Silt":
+        case SceneLayout.grainScaleSiltLabel():
             return 2
-        case "Sand":
+        case SceneLayout.grainScaleSandLabel():
             return 1
         default:
             return 1
