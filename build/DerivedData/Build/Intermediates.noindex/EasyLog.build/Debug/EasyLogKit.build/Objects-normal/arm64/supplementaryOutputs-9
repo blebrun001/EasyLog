@@ -1,0 +1,30 @@
+{
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/SceneRefreshService.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshService.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/SceneRefreshTrigger.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRefreshTrigger.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/Symbology.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Symbology.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Symbology.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Symbology.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Symbology.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Symbology.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/UI/SettingsPanelView.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SettingsPanelView.swiftdeps"
+  }
+}

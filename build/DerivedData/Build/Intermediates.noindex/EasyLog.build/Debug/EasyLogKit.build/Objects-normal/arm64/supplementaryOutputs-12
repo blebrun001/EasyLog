@@ -1,0 +1,23 @@
+{
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/ZoomService.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/ZoomService.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/ZoomService.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/ZoomService.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/ZoomService.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/ZoomService.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Core/Validation.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Validation.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Validation.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Validation.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Validation.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/Validation.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Editor/UI/UnitFormView.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/UnitFormView.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/UnitFormView.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/UnitFormView.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/UnitFormView.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/UnitFormView.swiftdeps"
+  }
+}

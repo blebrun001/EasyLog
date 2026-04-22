@@ -52,15 +52,15 @@ public struct MainContentView: View {
         .toolbar {
             ToolbarItemGroup {
                 Menu {
-                    Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
-                        .help("Export the selected log as an SVG file")
-                    Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
-                        .help("Export the selected log as a JPG file")
+                    Button("Export…") { viewModel.exportViaPanel() }
+                        .help("Export the selected log")
                     Divider()
                     Button("Export All SVG…") { viewModel.exportAllViaPanel(format: .svg) }
                         .help("Export all logs as SVG files")
                     Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
                         .help("Export all logs as JPG files")
+                    Button("Export All CSV…") { viewModel.exportAllViaPanel(format: .csv) }
+                        .help("Export all logs as CSV files")
                 } label: {
                     Label("Export", systemImage: "square.and.arrow.up")
                         .imageScale(.small)

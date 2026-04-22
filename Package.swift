@@ -26,6 +26,7 @@ let package = Package(
                 "Resources/USGS/11A02/symbol-index.json"
             ],
             resources: [
+                .process("Resources/Localizable.xcstrings"),
                 .copy("Resources/USGS/11A02/pdf"),
                 .copy("Resources/isolated"),
                 .copy("Resources/USGSRuntime")
@@ -37,7 +38,8 @@ let package = Package(
             path: "Sources/EasyLogApp",
             resources: [
                 .copy("Resources/Assets.xcassets"),
-                .copy("Resources/EasyLog.icns")
+                .copy("Resources/EasyLog.icns"),
+                .process("Resources/Localizable.xcstrings")
             ]
         ),
         .testTarget(

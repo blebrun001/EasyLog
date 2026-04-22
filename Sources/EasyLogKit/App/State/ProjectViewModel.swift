@@ -4,9 +4,53 @@ import CoreGraphics
 import Foundation
 import os
 
+private enum L10n {
+    static func text(_ key: String) -> String {
+        let value = String(localized: String.LocalizationValue(key), bundle: EasyLogKitBundle.resources)
+        return value == key ? fallback[key] ?? key : value
+    }
+
+    static func format(_ key: String, _ args: CVarArg...) -> String {
+        let format = text(key)
+        return String(format: format, locale: Locale.current, arguments: args)
+    }
+
+    private static let fallback: [String: String] = [
+        "status.ready": "Ready",
+        "status.zoom.percent": "Zoom %d%%",
+        "status.zoom.fitWindow": "Zoom fit window",
+        "status.log.selected": "Selected log %d",
+        "status.log.added": "Added new log",
+        "status.log.duplicated": "Duplicated current log",
+        "status.log.removed": "Removed log %d",
+        "status.units.reordered": "Reordered units",
+        "status.unit.movedUp": "Moved selected unit up",
+        "status.unit.movedDown": "Moved selected unit down",
+        "status.project.new": "New project",
+        "status.project.opened": "Opened %@",
+        "status.project.saved": "Saved %@",
+        "status.export.file": "Exported %@",
+        "status.export.logs.all": "Exported %d logs to %@",
+        "status.export.logs.partial": "Exported %d/%d logs to %@",
+        "status.unit.profileColorApplied": "Applied profile color to selected unit",
+        "error.project.open": "Could not open project: %@. Check that the JSON file is valid and try again.",
+        "error.project.save": "Could not save project: %@. Verify write permissions and try again.",
+        "error.export.file": "Could not export file: %@. Choose a writable location and retry.",
+        "error.export.retry": "Choose a writable location and retry.",
+        "error.export.all": "Could not export any logs. %@",
+        "detailPane.singleLog": "Single Log",
+        "detailPane.synthetic": "Synthetic",
+        "zoomMode.manual": "Manual",
+        "zoomMode.fitWindow": "Fit Window",
+        "zoomMode.fitWidth": "Fit Width",
+        "zoomMode.fitHeight": "Fit Height"
+    ]
+}
+
 public enum EasyLogPreferencesKey {
     public static let showsInspectorOnLaunch = "easylog.preferences.showsInspectorOnLaunch"
     public static let defaultDetailPane = "easylog.preferences.defaultDetailPane"
+    public static let appLanguage = "easylog.preferences.appLanguage"
 }
 
 private struct ProjectStoreAdapter: ProjectPersisting {
@@ -62,26 +106,26 @@ internal final class ZoomOrchestrator {
     func zoomIn() {
         let vm = stateStore.viewModel
         setManualZoom(vm.zoom + 0.1, isInteracting: false)
-        vm.statusMessage = "Zoom \(Int((vm.zoom * 100).rounded()))%"
+        vm.statusMessage = L10n.format("status.zoom.percent", Int((vm.zoom * 100).rounded()))
     }
 
     func zoomOut() {
         let vm = stateStore.viewModel
         setManualZoom(vm.zoom - 0.1, isInteracting: false)
-        vm.statusMessage = "Zoom \(Int((vm.zoom * 100).rounded()))%"
+        vm.statusMessage = L10n.format("status.zoom.percent", Int((vm.zoom * 100).rounded()))
     }
 
     func fitToWindow() {
         let vm = stateStore.viewModel
         setZoomMode(.fitWindow)
-        vm.statusMessage = "Zoom fit window"
+        vm.statusMessage = L10n.text("status.zoom.fitWindow")
     }
 
     func resetZoom() {
         let vm = stateStore.viewModel
         vm.hasManualZoomOverride = false
         setZoomMode(.fitWindow)
-        vm.statusMessage = "Zoom fit window"
+        vm.statusMessage = L10n.text("status.zoom.fitWindow")
     }
 
     func setManualZoom(_ value: Double, isInteracting: Bool) {
@@ -188,7 +232,7 @@ internal final class ProjectDocumentOrchestrator {
         vm.setNextSceneRefreshTrigger(.structural)
         vm.commitCurrentProjectChanges()
         vm.setSelectedLog(index)
-        vm.statusMessage = "Selected log \(index + 1)"
+        vm.statusMessage = L10n.format("status.log.selected", index + 1)
     }
 
     func addLog() {
@@ -198,7 +242,7 @@ internal final class ProjectDocumentOrchestrator {
         vm.document.logs.append(Project())
         vm.setSelectedLog(vm.document.logs.count - 1)
         vm.presentationState.selectedDetailPane = .preview
-        vm.statusMessage = "Added new log"
+        vm.statusMessage = L10n.text("status.log.added")
     }
 
     func duplicateCurrentLog() {
@@ -215,7 +259,7 @@ internal final class ProjectDocumentOrchestrator {
         vm.document.logs.insert(duplicated, at: insertIndex)
         vm.setSelectedLog(insertIndex)
         vm.presentationState.selectedDetailPane = .preview
-        vm.statusMessage = "Duplicated current log"
+        vm.statusMessage = L10n.text("status.log.duplicated")
     }
 
     func removeLog(at index: Int) {
@@ -240,7 +284,7 @@ internal final class ProjectDocumentOrchestrator {
         if !vm.canOpenSyntheticView {
             vm.presentationState.selectedDetailPane = .preview
         }
-        vm.statusMessage = "Removed log \(index + 1)"
+        vm.statusMessage = L10n.format("status.log.removed", index + 1)
     }
 
     func removeCurrentLog() {
@@ -271,7 +315,7 @@ internal final class ProjectDocumentOrchestrator {
         }
         let adjustedDestination = destination - source.filter { $0 < destination }.count
         vm.project.units.insert(contentsOf: movedUnits, at: adjustedDestination)
-        vm.statusMessage = "Reordered units"
+        vm.statusMessage = L10n.text("status.units.reordered")
     }
 
     func moveSelectedUnitUp() {
@@ -281,7 +325,7 @@ internal final class ProjectDocumentOrchestrator {
         context.moveSelectedUnitUseCase.execute(project: &vm.project, selectedUnitID: vm.selectedUnitID, direction: .up)
         guard let current = vm.selectedUnitID else { return }
         if before == current, vm.project.units.first?.id != current {
-            vm.statusMessage = "Moved selected unit up"
+            vm.statusMessage = L10n.text("status.unit.movedUp")
         }
     }
 
@@ -292,7 +336,7 @@ internal final class ProjectDocumentOrchestrator {
         context.moveSelectedUnitUseCase.execute(project: &vm.project, selectedUnitID: vm.selectedUnitID, direction: .down)
         guard let current = vm.selectedUnitID else { return }
         if before == current, vm.project.units.last?.id != current {
-            vm.statusMessage = "Moved selected unit down"
+            vm.statusMessage = L10n.text("status.unit.movedDown")
         }
     }
 
@@ -314,7 +358,7 @@ internal final class ProjectDocumentOrchestrator {
         vm.presentationState = EditorPresentationState()
         vm.isAutoAdjustSuspendedByManualZoom = false
         vm.hasManualZoomOverride = false
-        vm.statusMessage = "New project"
+        vm.statusMessage = L10n.text("status.project.new")
         vm.errorMessage = nil
     }
 
@@ -345,10 +389,10 @@ internal final class ProjectDocumentOrchestrator {
             vm.presentationState.selectedDetailPane = .preview
             vm.isAutoAdjustSuspendedByManualZoom = false
             vm.hasManualZoomOverride = false
-            vm.statusMessage = "Opened \(url.lastPathComponent)"
+            vm.statusMessage = L10n.format("status.project.opened", url.lastPathComponent)
             vm.errorMessage = nil
         } catch {
-            vm.errorMessage = "Could not open project: \(error.localizedDescription). Check that the JSON file is valid and try again."
+            vm.errorMessage = L10n.format("error.project.open", error.localizedDescription)
         }
     }
 
@@ -361,10 +405,10 @@ internal final class ProjectDocumentOrchestrator {
             vm.document = saved
             vm.setSelectedLog(min(vm.selectedLogIndex, max(saved.logs.count - 1, 0)))
             vm.projectURL = url
-            vm.statusMessage = "Saved \(url.lastPathComponent)"
+            vm.statusMessage = L10n.format("status.project.saved", url.lastPathComponent)
             vm.errorMessage = nil
         } catch {
-            vm.errorMessage = "Could not save project: \(error.localizedDescription). Verify write permissions and try again."
+            vm.errorMessage = L10n.format("error.project.save", error.localizedDescription)
         }
     }
 }
@@ -379,9 +423,9 @@ internal final class ExportOrchestrator {
         self.context = context
     }
 
-    func exportViaPanel(format: ExportFormat, dpi: Double) {
-        guard let url = context.fileDialogService.chooseExportDestination(format: format) else { return }
-        exportProject(to: url, format: format, dpi: dpi)
+    func exportViaPanel(dpi: Double) {
+        guard let selection = context.fileDialogService.chooseExportDestination() else { return }
+        exportProject(to: selection.url, format: selection.format, dpi: dpi)
     }
 
     func exportAllViaPanel(format: ExportFormat, dpi: Double) {
@@ -392,11 +436,16 @@ internal final class ExportOrchestrator {
     func exportProject(to url: URL, format: ExportFormat, dpi: Double) {
         let vm = stateStore.viewModel
         do {
-            try context.exportService.export(scene: vm.scene, to: url, format: format, dpi: dpi)
-            vm.statusMessage = "Exported \(url.lastPathComponent)"
+            switch format {
+            case .csv:
+                try context.csvLogExporter.export(project: vm.project, to: url)
+            case .svg, .jpg:
+                try context.exportService.export(scene: vm.scene, to: url, format: format, dpi: dpi)
+            }
+            vm.statusMessage = L10n.format("status.export.file", url.lastPathComponent)
             vm.errorMessage = nil
         } catch {
-            vm.errorMessage = "Could not export file: \(error.localizedDescription). Choose a writable location and retry."
+            vm.errorMessage = L10n.format("error.export.file", error.localizedDescription)
         }
     }
 
@@ -409,7 +458,6 @@ internal final class ExportOrchestrator {
         var reservedFilenames = Set<String>()
 
         for (index, log) in vm.document.logs.enumerated() {
-            let scene = context.renderer.makeScene(project: log)
             let basename = vm.preferredExportBaseName(for: log.metadata.title, index: index)
             let destinationURL = vm.uniqueExportURL(
                 in: directoryURL,
@@ -419,7 +467,13 @@ internal final class ExportOrchestrator {
             )
 
             do {
-                try context.exportService.export(scene: scene, to: destinationURL, format: format, dpi: dpi)
+                switch format {
+                case .csv:
+                    try context.csvLogExporter.export(project: log, to: destinationURL)
+                case .svg, .jpg:
+                    let scene = context.renderer.makeScene(project: log)
+                    try context.exportService.export(scene: scene, to: destinationURL, format: format, dpi: dpi)
+                }
                 successCount += 1
             } catch {
                 failureDetails.append("\(destinationURL.lastPathComponent): \(error.localizedDescription)")
@@ -428,14 +482,15 @@ internal final class ExportOrchestrator {
 
         let total = vm.document.logs.count
         if successCount == 0 {
-            vm.errorMessage = "Could not export any logs. \(failureDetails.first ?? "Choose a writable location and retry.")"
+            let fallback = L10n.text("error.export.retry")
+            vm.errorMessage = L10n.format("error.export.all", failureDetails.first ?? fallback)
             return
         }
 
         if failureDetails.isEmpty {
-            vm.statusMessage = "Exported \(successCount) logs to \(directoryURL.lastPathComponent)"
+            vm.statusMessage = L10n.format("status.export.logs.all", successCount, directoryURL.lastPathComponent)
         } else {
-            vm.statusMessage = "Exported \(successCount)/\(total) logs to \(directoryURL.lastPathComponent)"
+            vm.statusMessage = L10n.format("status.export.logs.partial", successCount, total, directoryURL.lastPathComponent)
         }
         vm.errorMessage = nil
     }
@@ -530,7 +585,7 @@ internal final class ColorPresetOrchestrator {
         guard let presetHex = presetColor(for: usgsCode) else { return }
         vm.setNextSceneRefreshTrigger(.structural)
         vm.project.units[selectedUnitIndex].lithologyColorHex = presetHex
-        vm.statusMessage = "Applied profile color to selected unit"
+        vm.statusMessage = L10n.text("status.unit.profileColorApplied")
     }
 }
 
@@ -546,6 +601,7 @@ internal struct ProjectViewModelContext {
     let renderer: LogRenderer
     let documentService: ProjectDocumentService
     let exportService: ExportService
+    let csvLogExporter: any CSVLogExporting
     let fileDialogService: FileDialoging
     let addUnitUseCase: AddUnitUseCase
     let deleteSelectedUnitUseCase: DeleteSelectedUnitUseCase
@@ -580,8 +636,8 @@ public struct EditorPresentationState: Equatable, Sendable {
 
         public var label: String {
             switch self {
-            case .preview: "Single Log"
-            case .synthetic: "Synthetic"
+            case .preview: L10n.text("detailPane.singleLog")
+            case .synthetic: L10n.text("detailPane.synthetic")
             }
         }
     }
@@ -611,10 +667,10 @@ public final class ProjectViewModel: ObservableObject {
 
         public var label: String {
             switch self {
-            case .manual: "Manual"
-            case .fitWindow: "Fit Window"
-            case .fitWidth: "Fit Width"
-            case .fitHeight: "Fit Height"
+            case .manual: L10n.text("zoomMode.manual")
+            case .fitWindow: L10n.text("zoomMode.fitWindow")
+            case .fitWidth: L10n.text("zoomMode.fitWidth")
+            case .fitHeight: L10n.text("zoomMode.fitHeight")
             }
         }
     }
@@ -635,7 +691,7 @@ public final class ProjectViewModel: ObservableObject {
     @Published public fileprivate(set) var zoomMode: ZoomMode
     @Published public fileprivate(set) var autoAdjustToWindow: Bool
     @Published public fileprivate(set) var presentationState = EditorPresentationState()
-    @Published public fileprivate(set) var statusMessage: String = "Ready"
+    @Published public fileprivate(set) var statusMessage: String = L10n.text("status.ready")
     @Published public fileprivate(set) var errorMessage: String?
     @Published public fileprivate(set) var colorProfiles: [LithologyColorProfile] = []
     @Published public fileprivate(set) var activeColorProfileID: UUID?
@@ -672,6 +728,7 @@ public final class ProjectViewModel: ObservableObject {
     fileprivate let renderer: LogRenderer
     fileprivate let documentService: ProjectDocumentService
     fileprivate let exportService: ExportService
+    fileprivate let csvLogExporter: any CSVLogExporting
     fileprivate let fileDialogService: FileDialoging
     fileprivate let addUnitUseCase = AddUnitUseCase()
     fileprivate let deleteSelectedUnitUseCase = DeleteSelectedUnitUseCase()
@@ -712,6 +769,7 @@ public final class ProjectViewModel: ObservableObject {
         renderer: LogRenderer = EasyLogRenderer(),
         store: ProjectStore = JSONProjectStore(),
         exporter: Exporter = CompositeExporter(),
+        csvLogExporter: any CSVLogExporting = CSVLogExporter(),
         fileDialogService: FileDialoging = AppKitFileDialogService(),
         defaults: UserDefaults = .standard,
         colorPresetStore: (any LithologyColorPresetPersisting)? = nil,
@@ -729,6 +787,7 @@ public final class ProjectViewModel: ObservableObject {
         self.renderer = renderer
         self.documentService = ProjectDocumentService(persister: ProjectStoreAdapter(store: store))
         self.exportService = ExportService(exporter: ExporterAdapter(exporter: exporter))
+        self.csvLogExporter = csvLogExporter
         self.fileDialogService = fileDialogService
         self.colorPresetStore = colorPresetStore ?? UserDefaultsLithologyColorPresetStore(defaults: defaults)
         self.tuning = tuning
@@ -750,6 +809,7 @@ public final class ProjectViewModel: ObservableObject {
             renderer: renderer,
             documentService: self.documentService,
             exportService: self.exportService,
+            csvLogExporter: self.csvLogExporter,
             fileDialogService: fileDialogService,
             addUnitUseCase: self.addUnitUseCase,
             deleteSelectedUnitUseCase: self.deleteSelectedUnitUseCase,
@@ -770,7 +830,7 @@ public final class ProjectViewModel: ObservableObject {
             selectedLogIndex: 0,
             selectedUnitID: initialSelectedUnitID,
             presentationState: initialPresentationState,
-            statusMessage: "Ready",
+            statusMessage: L10n.text("status.ready"),
             errorMessage: nil
         )
         self.previewState = PreviewState(
@@ -919,8 +979,8 @@ public final class ProjectViewModel: ObservableObject {
         projectDocumentOrchestrator.saveProjectViaPanelIfNeeded()
     }
 
-    public func exportViaPanel(format: ExportFormat, dpi: Double = 300) {
-        exportOrchestrator.exportViaPanel(format: format, dpi: dpi)
+    public func exportViaPanel(dpi: Double = 300) {
+        exportOrchestrator.exportViaPanel(dpi: dpi)
     }
 
     public func exportAllViaPanel(format: ExportFormat, dpi: Double = 300) {

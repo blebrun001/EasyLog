@@ -1,0 +1,30 @@
+{
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/Services/FileDialoging.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/FileDialoging.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/FileDialoging.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/FileDialoging.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/FileDialoging.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/FileDialoging.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Core/HexColorNormalizer.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/HexColorNormalizer.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/UI/LegendView.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/LegendView.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/LegendView.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/LegendView.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/LegendView.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/LegendView.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Export/JPGExporter.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/JPGExporter.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/JPGExporter.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/JPGExporter.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/JPGExporter.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/JPGExporter.swiftdeps"
+  }
+}

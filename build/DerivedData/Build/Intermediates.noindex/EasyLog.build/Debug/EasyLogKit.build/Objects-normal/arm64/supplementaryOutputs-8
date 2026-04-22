@@ -1,0 +1,30 @@
+{
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/App/State/SceneComputationService.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneComputationService.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SceneCGRenderer.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneCGRenderer.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SceneLayout.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneLayout.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneLayout.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneLayout.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneLayout.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneLayout.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/SceneRasterCache.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/SceneRasterCache.swiftdeps"
+  }
+}

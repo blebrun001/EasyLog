@@ -1,0 +1,23 @@
+{
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/USGSEPSSymbolRenderer.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSEPSSymbolRenderer.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Features/Preview/Rendering/USGSSymbolAssetResolver.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSSymbolAssetResolver.swiftdeps"
+  },
+  "/Users/brice/Documents/Iphes/EasyLog/Sources/EasyLogKit/Infrastructure/Resources/USGSResourceCatalog.swift" : {
+    "const-values" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.swiftconstvalues",
+    "dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.d",
+    "diagnostics" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.dia",
+    "object" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.o",
+    "swift-dependencies" : "/Users/brice/Documents/Iphes/EasyLog/build/DerivedData/Build/Intermediates.noindex/EasyLog.build/Debug/EasyLogKit.build/Objects-normal/arm64/USGSResourceCatalog.swiftdeps"
+  }
+}

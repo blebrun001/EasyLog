@@ -14,13 +14,13 @@ public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable, Sendable
 
     public var label: String {
         switch self {
-        case .clay: return "Clay"
-        case .silt: return "Silt"
-        case .sand: return "Sand"
-        case .granule: return "Granule"
-        case .pebble: return "Pebble"
-        case .cobble: return "Cobble"
-        case .boulder: return "Boulder"
+        case .clay: return localized("grainSize.clay", fallback: "Clay")
+        case .silt: return localized("grainSize.silt", fallback: "Silt")
+        case .sand: return localized("grainSize.sand", fallback: "Sand")
+        case .granule: return localized("grainSize.granule", fallback: "Granule")
+        case .pebble: return localized("grainSize.pebble", fallback: "Pebble")
+        case .cobble: return localized("grainSize.cobble", fallback: "Cobble")
+        case .boulder: return localized("grainSize.boulder", fallback: "Boulder")
         }
     }
 }
@@ -44,8 +44,8 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
 
     public var label: String {
         switch self {
-        case .low: return "Low"
-        case .high: return "High"
+        case .low: return localized("concentration.low", fallback: "Low")
+        case .high: return localized("concentration.high", fallback: "High")
         }
     }
 }
@@ -60,9 +60,9 @@ public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable, Sendabl
 
     public var label: String {
         switch self {
-        case .meter: return "Meters"
-        case .centimeter: return "Centimeters"
-        case .millimeter: return "Millimeters"
+        case .meter: return localized("depthUnit.meters", fallback: "Meters")
+        case .centimeter: return localized("depthUnit.centimeters", fallback: "Centimeters")
+        case .millimeter: return localized("depthUnit.millimeters", fallback: "Millimeters")
         }
     }
 
@@ -81,6 +81,11 @@ public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable, Sendabl
         case .millimeter: return 1000
         }
     }
+}
+
+private func localized(_ key: String, fallback: String) -> String {
+    let value = String(localized: String.LocalizationValue(key), bundle: EasyLogKitBundle.resources)
+    return value == key ? fallback : value
 }
 
 /// Grouping taxonomy for unit point features.

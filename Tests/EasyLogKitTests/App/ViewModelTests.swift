@@ -106,15 +106,40 @@ func exportViaPanelUsesDialogDestinationAndFormat() {
         project: Project.sample,
         store: MockProjectStore(),
         exporter: exporter,
-        fileDialogService: MockFileDialogService(exportURL: exportURL),
+        fileDialogService: MockFileDialogService(
+            exportSelection: ExportDestinationSelection(url: exportURL, format: .svg)
+        ),
         defaults: isolatedDefaults(prefix: "easylog-vm")
     )
 
-    viewModel.exportViaPanel(format: .svg, dpi: 180)
+    viewModel.exportViaPanel(dpi: 180)
 
     #expect(exporter.lastURL == exportURL)
     #expect(exporter.lastFormat == .svg)
     #expect(exporter.lastDPI == 180)
+}
+
+@MainActor
+@Test
+func exportViaPanelCSVWritesCurrentLogAsTableRows() throws {
+    let exporter = MockExporter()
+    let exportURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "easylog-panel-\(UUID().uuidString).csv")
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: exporter,
+        fileDialogService: MockFileDialogService(
+            exportSelection: ExportDestinationSelection(url: exportURL, format: .csv)
+        ),
+        defaults: isolatedDefaults(prefix: "easylog-vm")
+    )
+
+    viewModel.exportViaPanel(dpi: 180)
+
+    #expect(exporter.requests.isEmpty)
+    let contents = try String(contentsOf: exportURL, encoding: .utf8)
+    #expect(contents.contains("log_title;us_index;us_name;thickness_m;lithology_code;lithology_label;grain_size;point_features_count;point_features_labels"))
 }
 
 @MainActor
@@ -371,6 +396,38 @@ func exportAllProjectsEmitsOneFilePerLogAndResolvesFilenameCollisions() {
     #expect(exporter.requests.count == 2)
     #expect(Set(exporter.requests.map(\.url.lastPathComponent)).count == 2)
     #expect(exporter.requests.allSatisfy { $0.url.pathExtension == "svg" })
+}
+
+@MainActor
+@Test
+func exportAllProjectsCSVEmitsOneFilePerLogAndResolvesFilenameCollisions() throws {
+    let exporter = MockExporter()
+    let viewModel = ProjectViewModel(
+        project: Project.sample,
+        store: MockProjectStore(),
+        exporter: exporter,
+        fileDialogService: MockFileDialogService(),
+        defaults: isolatedDefaults(prefix: "easylog-vm")
+    )
+
+    viewModel.project.metadata.title = "Same Name"
+    viewModel.addLog()
+    viewModel.project.metadata.title = "Same Name"
+
+    let folder = URL(fileURLWithPath: NSTemporaryDirectory())
+        .appending(path: "easylog-export-all-csv-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+
+    viewModel.exportAllProjects(to: folder, format: .csv, dpi: 300)
+
+    #expect(exporter.requests.isEmpty)
+    let files = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+    let csvFiles = files.filter { $0.pathExtension.lowercased() == "csv" }
+    #expect(csvFiles.count == 2)
+    #expect(Set(csvFiles.map { $0.lastPathComponent.lowercased() }).count == 2)
+
+    let firstFile = try String(contentsOf: csvFiles[0], encoding: .utf8)
+    #expect(firstFile.contains("log_title;us_index;us_name;thickness_m;lithology_code;lithology_label;grain_size;point_features_count;point_features_labels"))
 }
 
 @MainActor
@@ -859,7 +916,7 @@ private final class MockExporter: Exporter {
 private struct MockFileDialogService: FileDialoging {
     var openURL: URL? = nil
     var saveURL: URL? = nil
-    var exportURL: URL? = nil
+    var exportSelection: ExportDestinationSelection? = nil
     var exportDirectoryURL: URL? = nil
 
     func chooseProjectToOpen() -> URL? {
@@ -870,8 +927,8 @@ private struct MockFileDialogService: FileDialoging {
         saveURL
     }
 
-    func chooseExportDestination(format: ExportFormat) -> URL? {
-        exportURL
+    func chooseExportDestination() -> ExportDestinationSelection? {
+        exportSelection
     }
 
     func chooseExportDirectory() -> URL? {

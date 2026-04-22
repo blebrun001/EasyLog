@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'EasyLogApp' in project 'EasyLog'
+➜ Explicit dependency on target 'EasyLogKit' in project 'EasyLog'
+Target 'EasyLogKit' in project 'EasyLog' (no dependencies)

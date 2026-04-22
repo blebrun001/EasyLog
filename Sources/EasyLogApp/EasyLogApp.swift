@@ -2,18 +2,42 @@ import AppKit
 import EasyLogKit
 import SwiftUI
 
+private enum AppLanguage: String, CaseIterable, Identifiable {
+    case english = "en"
+    case french = "fr"
+    case castellano = "es"
+    case catala = "ca"
+    case greek = "el"
+
+    var id: String { rawValue }
+
+    var locale: Locale {
+        Locale(identifier: rawValue)
+    }
+
+    var displayName: String {
+        switch self {
+        case .english: return "English"
+        case .french: return "Français"
+        case .castellano: return "Castellano"
+        case .catala: return "Català"
+        case .greek: return "Ελληνικά"
+        }
+    }
+}
+
 @main
 /// SwiftUI application entry point and dependency composition root.
 struct EasyLogApp: App {
     @StateObject private var viewModel = ProjectViewModel()
-    private let enforcedEnglishLocale = Locale(identifier: "en_US")
+    @AppStorage(EasyLogPreferencesKey.appLanguage) private var appLanguageCode = AppLanguage.english.rawValue
 
     private func showAboutPanel() {
         let version = appVersion
         let credits = """
-        Version \(version)
-        License: GNU General Public License v3.0 (GPL-3.0)
-        Author: Brice Lebrun
+        \(String(localized: "Version")) \(version)
+        \(String(localized: "License")): GNU General Public License v3.0 (GPL-3.0)
+        \(String(localized: "Author")): Brice Lebrun
         """
 
         NSApp.orderFrontStandardAboutPanel(options: [
@@ -27,7 +51,7 @@ struct EasyLogApp: App {
         WindowGroup {
             MainContentView(viewModel: viewModel)
                 .frame(minWidth: 1080, minHeight: 700)
-                .environment(\.locale, enforcedEnglishLocale)
+                .environment(\.locale, selectedLanguage.locale)
         }
         .windowStyle(.automatic)
         .windowToolbarStyle(.unified)
@@ -55,11 +79,11 @@ struct EasyLogApp: App {
 
             CommandGroup(after: .saveItem) {
                 Divider()
-                Button("Export SVG…") { viewModel.exportViaPanel(format: .svg) }
-                Button("Export JPG…") { viewModel.exportViaPanel(format: .jpg) }
+                Button("Export…") { viewModel.exportViaPanel() }
                 Divider()
                 Button("Export All SVG…") { viewModel.exportAllViaPanel(format: .svg) }
                 Button("Export All JPG…") { viewModel.exportAllViaPanel(format: .jpg) }
+                Button("Export All CSV…") { viewModel.exportAllViaPanel(format: .csv) }
             }
 
             CommandGroup(after: .sidebar) {
@@ -111,10 +135,14 @@ struct EasyLogApp: App {
         }
 
         Settings {
-            AppSettingsView(viewModel: viewModel)
+            AppSettingsView(viewModel: viewModel, selectedLanguageCode: $appLanguageCode)
                 .frame(minWidth: 420, minHeight: 260)
-                .environment(\.locale, enforcedEnglishLocale)
+                .environment(\.locale, selectedLanguage.locale)
         }
+    }
+
+    private var selectedLanguage: AppLanguage {
+        AppLanguage(rawValue: appLanguageCode) ?? .english
     }
 
     private var detailPaneBinding: Binding<EditorPresentationState.DetailPane> {
@@ -130,15 +158,28 @@ struct EasyLogApp: App {
            !shortVersion.isEmpty {
             return shortVersion
         }
+        if let buildVersion = info?["CFBundleVersion"] as? String,
+           !buildVersion.isEmpty {
+            return buildVersion
+        }
         return "Unknown"
     }
 }
 
 private struct AppSettingsView: View {
     @ObservedObject var viewModel: ProjectViewModel
+    @Binding var selectedLanguageCode: String
 
     var body: some View {
         Form {
+            Section("Language") {
+                Picker("App language", selection: $selectedLanguageCode) {
+                    ForEach(AppLanguage.allCases) { language in
+                        Text(verbatim: language.displayName).tag(language.rawValue)
+                    }
+                }
+            }
+
             Section("General") {
                 Toggle("Show inspector on launch", isOn: inspectorOnLaunchBinding)
                 Picker("Default detail view", selection: defaultDetailPaneBinding) {

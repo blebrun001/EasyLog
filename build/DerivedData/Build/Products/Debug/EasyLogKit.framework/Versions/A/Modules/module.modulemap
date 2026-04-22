@@ -1,0 +1,3 @@
+framework module EasyLogKit {
+  header "EasyLogKit-Swift.h"
+}
