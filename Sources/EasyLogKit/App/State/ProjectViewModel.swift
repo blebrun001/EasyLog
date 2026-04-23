@@ -5,18 +5,14 @@ import Foundation
 import os
 
 private enum L10n {
-    private static let localizer = LocalizationService(
-        defaults: .standard,
-        bundle: EasyLogKitBundle.resources,
-        fallback: fallback
-    )
+    private static let locale = Locale(identifier: "en_US_POSIX")
 
     static func text(_ key: String) -> String {
-        localizer.text(key)
+        fallback[key] ?? key
     }
 
     static func format(_ key: String, _ args: CVarArg...) -> String {
-        localizer.format(key, args)
+        String(format: fallback[key] ?? key, locale: locale, arguments: args)
     }
 
     private static let fallback: [String: String] = [
@@ -54,7 +50,6 @@ private enum L10n {
 public enum EasyLogPreferencesKey {
     public static let showsInspectorOnLaunch = "easylog.preferences.showsInspectorOnLaunch"
     public static let defaultDetailPane = "easylog.preferences.defaultDetailPane"
-    public static let appLanguage = "easylog.preferences.appLanguage"
 }
 
 private struct ProjectStoreAdapter: ProjectPersisting {

@@ -16,6 +16,7 @@ EasyLog is a macOS app for producing academic-quality stratigraphic logs simply 
 - Export results as:
   - `SVG` for editable vector output
   - `JPG` for raster output
+  - `CSV` (analytical v2) with project metadata, per-unit depths, lithology details, and point-feature aggregates
   - `Export All` for batch export of every log
 
 ## Typical Workflow

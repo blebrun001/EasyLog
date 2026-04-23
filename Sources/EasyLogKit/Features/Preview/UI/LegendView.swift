@@ -35,8 +35,7 @@ public struct LegendView: View {
                 }
             }
         }
-    }
-}
+    }}
 
 private struct SymbolSwatch: View {
     let symbol: SymbolPattern

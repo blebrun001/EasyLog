@@ -3,52 +3,53 @@ import SwiftUI
 /// Left-hand editor panel for metadata, unit list, and selected unit form.
 public struct ProjectSidebarView: View {
     @ObservedObject private var viewModel: ProjectViewModel
+    private let numberIO = LocalizedNumberIO(defaults: .standard)
     @State private var zeroLevelAltitudeText: String
     @State private var isDeleteUnitConfirmationPresented = false
     @FocusState private var isZeroLevelAltitudeFieldFocused: Bool
 
     public init(viewModel: ProjectViewModel) {
         self.viewModel = viewModel
-        self._zeroLevelAltitudeText = State(
-            initialValue: Self.altitudeText(from: viewModel.project.settings.zeroLevelAltitudeMeters)
-        )
+        let numberIO = LocalizedNumberIO(defaults: .standard)
+        let initialAltitudeText = viewModel.project.settings.zeroLevelAltitudeMeters.map { numberIO.format($0) } ?? ""
+        self._zeroLevelAltitudeText = State(initialValue: initialAltitudeText)
     }
 
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
-                ProPanelSection(l10n("Log Context"), subtitle: l10n("Metadata and reference altitude")) {
-                    ProField(l10n("Log title")) {
-                        TextField(l10n("Untitled Stratigraphic Log"), text: $viewModel.project.metadata.title)
+                ProPanelSection("Log Context", subtitle: "Metadata and reference altitude") {
+                    ProField("Log title") {
+                        TextField("Untitled Stratigraphic Log", text: $viewModel.project.metadata.title)
                             .textFieldStyle(.roundedBorder)
-                            .accessibilityLabel(l10n("Log title"))
-                            .help(l10n("Enter the log title"))
+                            .accessibilityLabel("Log title")
+                            .help("Enter the log title")
                     }
 
-                    ProField(l10n("Zero-level altitude")) {
+                    ProField("Zero-level altitude") {
                         HStack(spacing: 8) {
                             TextField("0", text: zeroLevelAltitudeBinding)
                                 .textFieldStyle(.roundedBorder)
                                 .multilineTextAlignment(.trailing)
                                 .frame(width: 150)
                                 .focused($isZeroLevelAltitudeFieldFocused)
-                                .accessibilityLabel(l10n("Zero-level altitude"))
-                                .help(l10n("Set the zero-level altitude in meters"))
+                                .accessibilityLabel("Zero-level altitude")
+                                .help("Set the zero-level altitude in meters")
                             Text("m")
                                 .foregroundStyle(.secondary)
                         }
                     }
                 }
 
-                ProPanelSection(l10n("Units"), subtitle: l10n("Ordered stratigraphic sequence")) {
+                ProPanelSection("Units", subtitle: "Ordered stratigraphic sequence") {
                     ProBadge("\(viewModel.project.units.count)")
                 } content: {
                     List(selection: $viewModel.selectedUnitID) {
                         ForEach(viewModel.project.units) { unit in
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(unit.name.isEmpty ? l10n("Untitled Unit") : unit.name)
+                                Text(unit.name.isEmpty ? "Untitled Unit" : unit.name)
                                     .lineLimit(1)
-                                Text("\(unit.thickness, specifier: "%.2f") m")
+                                Text("\(numberIO.format(unit.thickness, minFractionDigits: 2, maxFractionDigits: 2)) m")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -58,8 +59,8 @@ public struct ProjectSidebarView: View {
                     }
                     .frame(minHeight: 210, maxHeight: 260)
                     .listStyle(.sidebar)
-                    .accessibilityLabel(l10n("Units list"))
-                    .help(l10n("Select and reorder stratigraphic units"))
+                    .accessibilityLabel("Units list")
+                    .help("Select and reorder stratigraphic units")
 
                     HStack(spacing: 8) {
                         Button {
@@ -68,8 +69,8 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "plus")
                         }
                         .buttonStyle(.borderedProminent)
-                        .accessibilityLabel(l10n("Add unit"))
-                        .help(l10n("Add a new unit"))
+                        .accessibilityLabel("Add unit")
+                        .help("Add a new unit")
 
                         Button {
                             viewModel.moveSelectedUnitUp()
@@ -77,9 +78,9 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "arrow.up")
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel(l10n("Move unit up"))
+                        .accessibilityLabel("Move unit up")
                         .disabled(viewModel.selectedUnitIndex == nil || viewModel.selectedUnitIndex == 0)
-                        .help(l10n("Move the selected unit up"))
+                        .help("Move the selected unit up")
 
                         Button {
                             viewModel.moveSelectedUnitDown()
@@ -87,12 +88,12 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "arrow.down")
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel(l10n("Move unit down"))
+                        .accessibilityLabel("Move unit down")
                         .disabled(
                             viewModel.selectedUnitIndex == nil
                                 || viewModel.selectedUnitIndex == viewModel.project.units.count - 1
                         )
-                        .help(l10n("Move the selected unit down"))
+                        .help("Move the selected unit down")
 
                         Spacer(minLength: 8)
 
@@ -102,23 +103,23 @@ public struct ProjectSidebarView: View {
                             Image(systemName: "trash")
                         }
                         .buttonStyle(.bordered)
-                        .accessibilityLabel(l10n("Delete unit"))
+                        .accessibilityLabel("Delete unit")
                         .disabled(viewModel.selectedUnitIndex == nil)
-                        .help(l10n("Delete the selected unit"))
+                        .help("Delete the selected unit")
                     }
                 }
 
                 ProPanelSection(
-                    l10n("Selected Unit"),
-                    subtitle: l10n("Edit lithology, grain size and point features")
+                    "Selected Unit",
+                    subtitle: "Edit lithology, grain size and point features"
                 ) {
                     if let index = viewModel.selectedUnitIndex {
                         UnitFormView(unit: $viewModel.project.units[index], viewModel: viewModel)
                             .id(viewModel.project.units[index].id)
                     } else {
                         ProEmptyState(
-                            title: l10n("No Unit Selected"),
-                            message: l10n("Select a unit in the list to edit its properties."),
+                            title: "No Unit Selected",
+                            message: "Select a unit in the list to edit its properties.",
                             systemImage: "square.and.pencil"
                         )
                     }
@@ -139,16 +140,16 @@ public struct ProjectSidebarView: View {
             syncZeroLevelAltitudeTextFromModel()
         }
         .confirmationDialog(
-            l10n("Delete selected unit?"),
+            "Delete selected unit?",
             isPresented: $isDeleteUnitConfirmationPresented,
             titleVisibility: .visible
         ) {
-            Button(l10n("Delete Unit"), role: .destructive) {
+            Button("Delete Unit", role: .destructive) {
                 viewModel.removeSelectedUnit()
             }
-            Button(l10n("Cancel"), role: .cancel) {}
+            Button("Cancel", role: .cancel) {}
         } message: {
-            Text(l10n("This action removes the selected unit from the current log."))
+            Text("This action removes the selected unit from the current log.")
         }
     }
 
@@ -170,36 +171,18 @@ public struct ProjectSidebarView: View {
     }
 
     private func syncZeroLevelAltitudeTextFromModel() {
-        zeroLevelAltitudeText = Self.altitudeText(from: viewModel.project.settings.zeroLevelAltitudeMeters)
+        zeroLevelAltitudeText = altitudeText(from: viewModel.project.settings.zeroLevelAltitudeMeters)
     }
 
     private func parseNumber(_ raw: String) -> Double? {
-        if let value = Self.numberFormatter.number(from: raw)?.doubleValue {
-            return value
-        }
-        return Double(raw.replacingOccurrences(of: ",", with: "."))
+        numberIO.parse(raw)
     }
 
-    private static func formatNumber(_ value: Double) -> String {
-        Self.numberFormatter.string(from: NSNumber(value: value)) ?? String(value)
+    private func formatNumber(_ value: Double) -> String {
+        numberIO.format(value)
     }
 
-    private static func altitudeText(from value: Double?) -> String {
+    private func altitudeText(from value: Double?) -> String {
         guard let value else { return "" }
         return formatNumber(value)
-    }
-
-    private static let numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "en_US")
-        formatter.numberStyle = .decimal
-        formatter.usesGroupingSeparator = false
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 3
-        return formatter
-    }()
-
-    private func l10n(_ key: String) -> String {
-        LocalizationService(defaults: .standard, bundle: EasyLogKitBundle.resources).text(key)
-    }
-}
+    }}

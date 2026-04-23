@@ -12,15 +12,18 @@ public enum USGSGrainSize: String, Codable, CaseIterable, Identifiable, Sendable
 
     public var id: String { rawValue }
 
+    // GEOLOGY POLICY:
+    // Geological labels are intentionally kept in English across all locales to preserve
+    // standard domain terminology used in logs, legends, and cross-team datasets.
     public var label: String {
         switch self {
-        case .clay: return localized("grainSize.clay", fallback: "Clay")
-        case .silt: return localized("grainSize.silt", fallback: "Silt")
-        case .sand: return localized("grainSize.sand", fallback: "Sand")
-        case .granule: return localized("grainSize.granule", fallback: "Granule")
-        case .pebble: return localized("grainSize.pebble", fallback: "Pebble")
-        case .cobble: return localized("grainSize.cobble", fallback: "Cobble")
-        case .boulder: return localized("grainSize.boulder", fallback: "Boulder")
+        case .clay: return "Clay"
+        case .silt: return "Silt"
+        case .sand: return "Sand"
+        case .granule: return "Granule"
+        case .pebble: return "Pebble"
+        case .cobble: return "Cobble"
+        case .boulder: return "Boulder"
         }
     }
 }
@@ -44,8 +47,8 @@ public enum PointFeatureConcentration: String, Codable, CaseIterable, Identifiab
 
     public var label: String {
         switch self {
-        case .low: return localized("concentration.low", fallback: "Low")
-        case .high: return localized("concentration.high", fallback: "High")
+        case .low: return "Low"
+        case .high: return "High"
         }
     }
 }
@@ -60,9 +63,9 @@ public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable, Sendabl
 
     public var label: String {
         switch self {
-        case .meter: return localized("depthUnit.meters", fallback: "Meters")
-        case .centimeter: return localized("depthUnit.centimeters", fallback: "Centimeters")
-        case .millimeter: return localized("depthUnit.millimeters", fallback: "Millimeters")
+        case .meter: return "Meters"
+        case .centimeter: return "Centimeters"
+        case .millimeter: return "Millimeters"
         }
     }
 
@@ -83,14 +86,6 @@ public enum DepthScaleUnit: String, Codable, CaseIterable, Identifiable, Sendabl
     }
 }
 
-private func localized(_ key: String, fallback: String) -> String {
-    LocalizationService(
-        defaults: .standard,
-        bundle: EasyLogKitBundle.resources,
-        fallback: [key: fallback]
-    ).text(key)
-}
-
 /// Grouping taxonomy for unit point features.
 public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, Sendable {
     case biological
@@ -102,6 +97,7 @@ public enum PointFeatureCategory: String, CaseIterable, Identifiable, Hashable, 
 
     public var id: String { rawValue }
 
+    // GEOLOGY POLICY: keep category labels in English.
     public var label: String {
         switch self {
         case .biological: return "Biological / Paleoenvironmental"
@@ -181,6 +177,7 @@ public enum PointFeatureType: String, Codable, CaseIterable, Identifiable, Senda
         category.label
     }
 
+    // GEOLOGY POLICY: keep point-feature labels in English.
     public var label: String {
         switch self {
         case .paleoMacroFossils: return "Macrofossils"

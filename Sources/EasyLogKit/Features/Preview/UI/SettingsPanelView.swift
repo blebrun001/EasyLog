@@ -99,5 +99,4 @@ public struct SettingsPanelView: View {
         let clamped = min(max(value, range.lowerBound), range.upperBound)
         let stepped = (clamped / step).rounded() * step
         return min(max(stepped, range.lowerBound), range.upperBound)
-    }
-}
+    }}

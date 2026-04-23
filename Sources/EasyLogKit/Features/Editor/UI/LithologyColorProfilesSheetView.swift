@@ -251,8 +251,7 @@ public struct LithologyColorProfilesSheetView: View {
             content()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
+    }}
 
 private struct LithologyColorPresetRowView: View {
     @ObservedObject var viewModel: ProjectViewModel
@@ -337,5 +336,4 @@ private struct LithologyColorPresetRowView: View {
             pickerColor = .clear
         }
         hexText = ""
-    }
-}
+    }}

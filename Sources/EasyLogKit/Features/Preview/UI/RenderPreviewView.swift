@@ -132,6 +132,4 @@ public struct RenderPreviewView: View {
                 }
             }
         }
-    }
-
-}
+    }}

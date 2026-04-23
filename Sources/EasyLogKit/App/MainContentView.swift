@@ -140,7 +140,7 @@ public struct MainContentView: View {
     private func tabTitle(for log: Project, index: Int) -> String {
         let title = log.metadata.title.trimmingCharacters(in: .whitespacesAndNewlines)
         if title.isEmpty {
-            return "Log \(index + 1)"
+            return String(format: "Log %d", index + 1)
         }
         return title
     }
@@ -233,6 +233,7 @@ private struct PreviewContextBar: View {
         .padding(.vertical, 8)
         .background(.bar)
     }
+
 }
 
 private struct VisualizationToolbar: View {
@@ -291,4 +292,5 @@ private struct VisualizationToolbar: View {
             Divider()
         }
     }
+
 }

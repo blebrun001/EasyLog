@@ -1,30 +1,5 @@
 import Foundation
 
-private enum ValidationL10n {
-    private static let localizer = LocalizationService(
-        defaults: .standard,
-        bundle: EasyLogKitBundle.resources,
-        fallback: fallback
-    )
-
-    static func text(_ key: String) -> String {
-        localizer.text(key)
-    }
-
-    static func format(_ key: String, _ args: CVarArg...) -> String {
-        localizer.format(key, args)
-    }
-
-    private static let fallback: [String: String] = [
-        "validation.project.empty": "Project has no units.",
-        "validation.settings.verticalScale": "Vertical scale must be greater than 0.",
-        "validation.settings.baseFontSize": "Base font size must be greater than 0.",
-        "validation.unit.noName": "A unit has no name.",
-        "validation.unit.thickness": "Unit %1$@ must have thickness > 0.",
-        "validation.unit.unsupportedUSGS": "Unit %1$@ uses unsupported USGS lithology code '%2$d'."
-    ]
-}
-
 public enum ValidationSeverity: String, Codable, Sendable, Hashable {
     case warning
     case error
@@ -97,7 +72,7 @@ public enum ProjectValidator {
                 ValidationReport.Entry(
                     severity: .warning,
                     code: "PROJECT_EMPTY",
-                    message: ValidationL10n.text("validation.project.empty"),
+                    message: "Project has no units.",
                     scope: .project
                 )
             )
@@ -108,7 +83,7 @@ public enum ProjectValidator {
                 ValidationReport.Entry(
                     severity: .error,
                     code: "SETTINGS_VERTICAL_SCALE_NON_POSITIVE",
-                    message: ValidationL10n.text("validation.settings.verticalScale"),
+                    message: "Vertical scale must be greater than 0.",
                     scope: .settings
                 )
             )
@@ -119,7 +94,7 @@ public enum ProjectValidator {
                 ValidationReport.Entry(
                     severity: .error,
                     code: "SETTINGS_FONT_SIZE_NON_POSITIVE",
-                    message: ValidationL10n.text("validation.settings.baseFontSize"),
+                    message: "Base font size must be greater than 0.",
                     scope: .settings
                 )
             )
@@ -131,7 +106,7 @@ public enum ProjectValidator {
                     ValidationReport.Entry(
                         severity: .warning,
                         code: "UNIT_NAME_EMPTY",
-                        message: ValidationL10n.text("validation.unit.noName"),
+                        message: "A unit has no name.",
                         scope: .unit,
                         unitID: unit.id
                     )
@@ -143,7 +118,7 @@ public enum ProjectValidator {
                     ValidationReport.Entry(
                         severity: .error,
                         code: "UNIT_THICKNESS_NON_POSITIVE",
-                        message: ValidationL10n.format("validation.unit.thickness", label),
+                        message: String(format: "Unit %1$@ must have thickness > 0.", label),
                         scope: .unit,
                         unitID: unit.id
                     )
@@ -155,7 +130,7 @@ public enum ProjectValidator {
                     ValidationReport.Entry(
                         severity: .error,
                         code: "UNIT_UNSUPPORTED_USGS_CODE",
-                        message: ValidationL10n.format("validation.unit.unsupportedUSGS", label, unit.usgsLithologyCode),
+                        message: String(format: "Unit %1$@ uses unsupported USGS lithology code '%2$d'.", label, unit.usgsLithologyCode),
                         scope: .unit,
                         unitID: unit.id
                     )

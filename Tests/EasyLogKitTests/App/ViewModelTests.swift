@@ -139,7 +139,7 @@ func exportViaPanelCSVWritesCurrentLogAsTableRows() throws {
 
     #expect(exporter.requests.isEmpty)
     let contents = try String(contentsOf: exportURL, encoding: .utf8)
-    #expect(contents.contains("log_title;us_index;us_name;thickness_m;lithology_code;lithology_label;grain_size;point_features_count;point_features_labels"))
+    #expect(contents.contains("project_title;project_author;project_created_at_utc;project_updated_at_utc;unit_uuid;unit_index_1_based;unit_name;thickness_m;depth_top_m;depth_base_m;lithology_code;lithology_label;lithology_color_hex;grain_size_code;grain_size_label;point_features_count;point_features_type_codes;point_features_labels;point_features_category_codes;point_features_category_labels;point_features_densities;point_features_color_hexes"))
 }
 
 @MainActor
@@ -427,7 +427,7 @@ func exportAllProjectsCSVEmitsOneFilePerLogAndResolvesFilenameCollisions() throw
     #expect(Set(csvFiles.map { $0.lastPathComponent.lowercased() }).count == 2)
 
     let firstFile = try String(contentsOf: csvFiles[0], encoding: .utf8)
-    #expect(firstFile.contains("log_title;us_index;us_name;thickness_m;lithology_code;lithology_label;grain_size;point_features_count;point_features_labels"))
+    #expect(firstFile.contains("project_title;project_author;project_created_at_utc;project_updated_at_utc;unit_uuid;unit_index_1_based;unit_name;thickness_m;depth_top_m;depth_base_m;lithology_code;lithology_label;lithology_color_hex;grain_size_code;grain_size_label;point_features_count;point_features_type_codes;point_features_labels;point_features_category_codes;point_features_category_labels;point_features_densities;point_features_color_hexes"))
 }
 
 @MainActor

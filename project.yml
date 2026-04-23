@@ -26,8 +26,6 @@ targets:
       - path: Sources/EasyLogKit/Resources/USGSRuntime
         buildPhase: resources
         type: folder
-      - path: Sources/EasyLogKit/Resources/Localizable.xcstrings
-        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.iphes.easylogkit
@@ -41,7 +39,6 @@ targets:
     resources:
       - Sources/EasyLogApp/Resources/Assets.xcassets
       - Sources/EasyLogApp/Resources/EasyLog.icns
-      - Sources/EasyLogApp/Resources/Localizable.xcstrings
     dependencies:
       - target: EasyLogKit
     settings:

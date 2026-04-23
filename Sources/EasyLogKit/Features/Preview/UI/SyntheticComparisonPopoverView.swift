@@ -78,5 +78,4 @@ public struct SyntheticComparisonPopoverView: View {
                 }
             }
         }
-    }
-}
+    }}
